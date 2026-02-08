@@ -1236,7 +1236,8 @@
   <script>
     // ====== Widget Demo EderCreaWebs ======
     (function(){
-      const WA_LINK = "https://wa.link/eah465"; // tu link actual
+      const WEBHOOK_URL = "https://n8n.edercreawebs.com/webhook/webchat";
+      const CHAT_ID_KEY = "ew_chat_id";
 
       const panel = document.getElementById("ewPanel");
       const openBtn = document.getElementById("ewOpen");
@@ -1245,7 +1246,22 @@
       const input = document.getElementById("ewInput");
       const send = document.getElementById("ewSend");
 
-      let context = { intent: null, notes: [] };
+      function generateChatId(){
+        const bytes = new Uint8Array(16);
+        window.crypto.getRandomValues(bytes);
+        return Array.from(bytes, b => b.toString(16).padStart(2, "0")).join("");
+      }
+
+      function getChatId(){
+        let id = localStorage.getItem(CHAT_ID_KEY);
+        if (!id){
+          id = generateChatId();
+          localStorage.setItem(CHAT_ID_KEY, id);
+        }
+        return id;
+      }
+
+      const chatId = getChatId();
 
       function addMessage(role, text, chips){
         const row = document.createElement("div");
@@ -1266,38 +1282,50 @@
             b.className = "ew-chip";
             b.type = "button";
             b.textContent = c.label;
-            b.addEventListener("click", () => c.onClick());
+            b.addEventListener("click", () => c.onClick(c.label));
             wrap.appendChild(b);
           });
           body.appendChild(wrap);
         }
 
         body.scrollTop = body.scrollHeight;
+        return row;
       }
 
-      function goWhatsApp(summary){
-        // No podemos prellenar texto con wa.link fácilmente sin conocer tu redirect,
-        // así que mandamos directo a tu link (rápido y ya lo estás usando).
-        // Si quieres wa.me con texto, lo cambiamos después.
-        if (typeof fbq !== "undefined") {
-          fbq("trackCustom", "WidgetDemo_HandoffWhatsApp", { summary: (summary || "").slice(0, 60) });
+      async function sendToWebhook(message){
+        const typingRow = addMessage("bot", "Escribiendo...");
+        try {
+          const response = await fetch(WEBHOOK_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              chat_id: chatId,
+              message
+            })
+          });
+          const data = await response.json();
+          const reply = data?.data?.reply || "No recibí respuesta. ¿Puedes intentar de nuevo?";
+          typingRow.remove();
+          addMessage("bot", reply);
+        } catch (error) {
+          typingRow.remove();
+          addMessage("bot", "Ups, hubo un problema al conectar. Intenta otra vez.");
+          console.error("Webhook error:", error);
         }
-        window.open(WA_LINK, "_blank", "noopener");
       }
 
       function botStart(){
         body.innerHTML = "";
-        context = { intent: null, notes: [] };
 
         addMessage("bot",
 `👋 Hola, soy el asistente demo.
 Esto es un ejemplo de cómo queda un chatbot dentro del sitio (sin mandar a WhatsApp a la primera).
 
 ¿En qué te ayudo?`, [
-          { label:"Quiero una web que convierta", onClick: () => pickIntent("web") },
-          { label:"Quiero automatizar agenda", onClick: () => pickIntent("automation") },
-          { label:"Quiero ver precios", onClick: () => pickIntent("pricing") },
-          { label:"Solo tengo una duda", onClick: () => pickIntent("question") },
+          { label:"Quiero una web que convierta", onClick: handleChip },
+          { label:"Quiero automatizar agenda", onClick: handleChip },
+          { label:"Quiero ver precios", onClick: handleChip },
+          { label:"Solo tengo una duda", onClick: handleChip },
         ]);
 
         const note = document.createElement("div");
@@ -1311,100 +1339,17 @@ Esto es un ejemplo de cómo queda un chatbot dentro del sitio (sin mandar a What
         }
       }
 
-      function pickIntent(intent){
-        context.intent = intent;
-
-        const map = {
-          web: "Quiero una web que convierta",
-          automation: "Quiero automatizar agenda",
-          pricing: "Quiero ver precios",
-          question: "Solo tengo una duda"
-        };
-        addMessage("user", map[intent]);
-
-        if(intent === "web"){
-          addMessage("bot",
-`Perfecto. Dime rápido:
-¿tu negocio es servicio (consultas), producto, o ambos?`, [
-            { label:"Servicio (consultas)", onClick: () => quickAnswer("Servicio") },
-            { label:"Producto", onClick: () => quickAnswer("Producto") },
-            { label:"Ambos", onClick: () => quickAnswer("Ambos") },
-          ]);
-        }
-
-        if(intent === "automation"){
-          addMessage("bot",
-`Va. ¿Qué quieres automatizar primero?`, [
-            { label:"Agendar citas", onClick: () => quickAnswer("Agendar citas") },
-            { label:"Recordatorios", onClick: () => quickAnswer("Recordatorios") },
-            { label:"Calificar leads", onClick: () => quickAnswer("Calificar leads") },
-          ]);
-        }
-
-        if(intent === "pricing"){
-          addMessage("bot",
-`Te doy una guía rápida (depende del alcance):
-• Landing que vende: $5k–$8k
-• Sitio + integración: $10k–$15k
-¿Quieres hablar con Eder para cotizar tu caso?`, [
-            { label:"Sí, cotización rápida", onClick: () => goWhatsApp("Cotización rápida") },
-            { label:"Quiero ver ejemplos", onClick: () => goWhatsApp("Ver ejemplos") },
-          ]);
-        }
-
-        if(intent === "question"){
-          addMessage("bot",
-`Dale, suéltala aquí. Y si se complica, te paso con Eder.`);
-        }
-      }
-
-      function quickAnswer(text){
-        context.notes.push(text);
-        addMessage("user", text);
-
-        addMessage("bot",
-`Perfecto. Si quieres, lo cerramos por WhatsApp (Eder te atiende directo).
-¿Te paso?`, [
-          { label:"Continuar en WhatsApp", onClick: () => goWhatsApp(text) },
-          { label:"Seguir aquí (demo)", onClick: () => addMessage("bot", "Va. ¿Qué te urge resolver hoy?") },
-        ]);
+      function handleChip(label){
+        addMessage("user", label);
+        sendToWebhook(label);
       }
 
       function handleUserText(){
         const txt = (input.value || "").trim();
         if(!txt) return;
         input.value = "";
-        context.notes.push(txt);
         addMessage("user", txt);
-
-        const lower = txt.toLowerCase();
-
-        if(lower.includes("precio") || lower.includes("cuanto")){
-          addMessage("bot",
-`En corto:
-• Landing: $5k–$8k
-• Sitio + automatización: $10k–$15k
-¿Quieres que Eder te cotice por WhatsApp?`, [
-            { label:"Sí, WhatsApp", onClick: () => goWhatsApp("Pregunta precio") }
-          ]);
-          return;
-        }
-
-        if(lower.includes("agenda") || lower.includes("citas") || lower.includes("calend")){
-          addMessage("bot",
-`Se puede automatizar agenda: confirmaciones, recordatorios y re-agendado.
-¿Lo vemos por WhatsApp?`, [
-            { label:"Sí, WhatsApp", onClick: () => goWhatsApp("Quiere agenda") }
-          ]);
-          return;
-        }
-
-        addMessage("bot",
-`Te entendí. Para avanzar rápido:
-¿prefieres seguir aquí o hablamos por WhatsApp?`, [
-          { label:"WhatsApp", onClick: () => goWhatsApp("Duda general") },
-          { label:"Seguir aquí", onClick: () => addMessage("bot", "Va. Dame 1 detalle más (qué vendes y a quién), y te digo el siguiente paso.") }
-        ]);
+        sendToWebhook(txt);
       }
 
       // Events
