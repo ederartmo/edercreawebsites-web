@@ -970,7 +970,7 @@
       <a class="btn btnGreen btnWide" href="https://wa.link/eah465" target="_blank">Lo entiendo, hablemos.</a>
     </div>
 
-    </section>
+  
 
     <section class="logos-credibilidad">
       <div class="wrap">
@@ -1269,7 +1269,9 @@
 
         const bubble = document.createElement("div");
         bubble.className = "ew-bubble";
-        bubble.innerHTML = String(text || "").replace(/\n/g,"<br>");
+        bubble.textContent = String(text || "");
+        bubble.style.whiteSpace = "pre-wrap";
+
 
         row.appendChild(bubble);
         body.appendChild(row);
@@ -1303,8 +1305,14 @@
               message
             })
           });
-          const data = await response.json();
-          const reply = data?.data?.reply || "No recibí respuesta. ¿Puedes intentar de nuevo?";
+          let data = null;
+try { data = await response.json(); } catch(e) {}
+          
+        const reply =
+        data?.reply ??
+         data?.data?.reply ??
+        "No recibí respuesta. ¿Puedes intentar de nuevo?";
+
           typingRow.remove();
           addMessage("bot", reply);
         } catch (error) {
