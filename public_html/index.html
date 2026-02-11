@@ -1362,10 +1362,16 @@ Esto es un ejemplo de cómo queda un chatbot dentro del sitio (sin mandar a What
 
       // Events
       openBtn.addEventListener("click", () => {
-        panel.classList.add("open");
+      panel.classList.add("open");
+    
+      // Solo inicia el bot una vez (no borres el chat al reabrir)
+      if (!body.dataset.started) {
+        body.dataset.started = "1";
         botStart();
-        setTimeout(() => input.focus(), 50);
-      });
+      }
+    
+      setTimeout(() => input.focus(), 50);
+    });
 
       closeBtn.addEventListener("click", () => panel.classList.remove("open"));
 
