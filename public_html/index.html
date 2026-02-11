@@ -1238,6 +1238,10 @@
     (function(){
       const WEBHOOK_URL = "https://n8n.edercreawebs.com/webhook/webchat";
       const CHAT_ID_KEY = "ew_chat_id";
+      const STATE_KEY = "ew_state";
+      const MESSAGES_KEY = "ew_messages";
+      const PRICE_KEYWORDS = ["precio", "precios", "cuánto", "cuanto", "costo", "costos", "$", "mxn", "mensual", "mantenimiento", "paquete"];
+      const IS_DEV = new URLSearchParams(location.search).has("dev");
 
       const panel = document.getElementById("ewPanel");
       const openBtn = document.getElementById("ewOpen");
@@ -1245,6 +1249,19 @@
       const body = document.getElementById("ewBody");
       const input = document.getElementById("ewInput");
       const send = document.getElementById("ewSend");
+
+      const defaultState = {
+        currentState: "idle",
+        intent: "",
+        business_type: "",
+        lead_source: "",
+        goal: "",
+        has_website: "",
+        interest: ""
+      };
+
+      let flowState = loadState();
+      let messages = loadMessages();
 
       function generateChatId(){
         const bytes = new Uint8Array(16);
@@ -1261,9 +1278,48 @@
         return id;
       }
 
+      function loadState(){
+        try {
+          const parsed = JSON.parse(localStorage.getItem(STATE_KEY) || "null");
+          return { ...defaultState, ...(parsed || {}) };
+        } catch (_err) {
+          return { ...defaultState };
+        }
+      }
+
+      function loadMessages(){
+        try {
+          const parsed = JSON.parse(localStorage.getItem(MESSAGES_KEY) || "[]");
+          return Array.isArray(parsed) ? parsed : [];
+        } catch (_err) {
+          return [];
+        }
+      }
+
+      function saveState(){
+        localStorage.setItem(STATE_KEY, JSON.stringify(flowState));
+      }
+
+      function saveMessages(){
+        localStorage.setItem(MESSAGES_KEY, JSON.stringify(messages));
+      }
+
+      function resetChat(){
+        try{
+          localStorage.removeItem(STATE_KEY);
+          localStorage.removeItem(MESSAGES_KEY);
+          localStorage.removeItem(CHAT_ID_KEY);
+        }catch(_err){}
+        flowState = { ...defaultState };
+        messages = [];
+        body.dataset.started = "";
+        body.innerHTML = "";
+        botStart();
+      }
+
       const chatId = getChatId();
 
-      function addMessage(role, text, chips){
+      function renderMessage(role, text, chips){
         const row = document.createElement("div");
         row.className = "ew-row " + (role === "user" ? "user" : "bot");
 
@@ -1271,7 +1327,6 @@
         bubble.className = "ew-bubble";
         bubble.textContent = String(text || "");
         bubble.style.whiteSpace = "pre-wrap";
-
 
         row.appendChild(bubble);
         body.appendChild(row);
@@ -1284,7 +1339,10 @@
             b.className = "ew-chip";
             b.type = "button";
             b.textContent = c.label;
-            b.addEventListener("click", () => c.onClick(c.label));
+            b.addEventListener("click", () => {
+              wrap.querySelectorAll("button").forEach(btn => btn.disabled = true);
+              c.onClick(c.label);
+            });
             wrap.appendChild(b);
           });
           body.appendChild(wrap);
@@ -1294,25 +1352,58 @@
         return row;
       }
 
+      function addMessage(role, text, chips, opts){
+        const options = opts || {};
+        const row = renderMessage(role, text, chips);
+        if (options.persist !== false){
+          messages.push({ role, text: String(text || ""), timestamp: Date.now() });
+          saveMessages();
+        }
+        return row;
+      }
+
+      function containsPricingKeywords(txt){
+        const lower = String(txt || "").toLowerCase();
+        return PRICE_KEYWORDS.some(k => lower.includes(k));
+      }
+
+      function getStatePayload(){
+        return {
+          intent: flowState.intent,
+          business_type: flowState.business_type,
+          lead_source: flowState.lead_source,
+          goal: flowState.goal,
+          has_website: flowState.has_website,
+          interest: flowState.interest
+        };
+      }
+
+      function getHistoryPayload(){
+        return messages.slice(-6).map(m => ({
+          role: m.role,
+          text: m.text,
+          timestamp: m.timestamp
+        }));
+      }
+
       async function sendToWebhook(message){
-        const typingRow = addMessage("bot", "Escribiendo...");
+        const typingRow = addMessage("bot", "Escribiendo...", null, { persist: false });
         try {
           const response = await fetch(WEBHOOK_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               chat_id: chatId,
-              message
+              message,
+              state: getStatePayload(),
+              history: getHistoryPayload()
             })
           });
-          let data = null;
-try { data = await response.json(); } catch(e) {}
-          
-        const reply =
-        data?.reply ??
-         data?.data?.reply ??
-        "No recibí respuesta. ¿Puedes intentar de nuevo?";
 
+          let data = null;
+          try { data = await response.json(); } catch (_err) {}
+
+          const reply = data?.reply ?? data?.data?.reply ?? "No recibí respuesta. ¿Puedes intentar de nuevo?";
           typingRow.remove();
           addMessage("bot", reply);
         } catch (error) {
@@ -1322,25 +1413,174 @@ try { data = await response.json(); } catch(e) {}
         }
       }
 
+      function enterQuickFlow(){
+        flowState.currentState = "start";
+        saveState();
+        addMessage("bot", "Hola 👋 Antes de mostrarte cómo funciona, 2 preguntas rápidas.");
+        addMessage("bot", "¿Qué tipo de negocio tienes?");
+      }
+
+      function askLeadSource(){
+        flowState.currentState = "lead_source";
+        saveState();
+        addMessage("bot", "Perfecto. ¿Actualmente tus clientes te llegan por…?", [
+          { label: "Redes", onClick: handleChip },
+          { label: "Recomendaciones", onClick: handleChip },
+          { label: "Anuncios", onClick: handleChip }
+        ]);
+      }
+
+      function askGoal(){
+        flowState.currentState = "goal";
+        saveState();
+        addMessage("bot", "¿Qué quieres lograr primero?", [
+          { label: "Agendar citas", onClick: handleChip },
+          { label: "Vender", onClick: handleChip },
+          { label: "Más mensajes (leads)", onClick: handleChip }
+        ]);
+      }
+
+      function askHasWebsite(){
+        flowState.currentState = "has_website";
+        saveState();
+        addMessage("bot", "¿Ya tienes sitio web?", [
+          { label: "Sí", onClick: handleChip },
+          { label: "No", onClick: handleChip }
+        ]);
+      }
+
+      function askOffer(showPricing = true){
+        flowState.currentState = "offer";
+        saveState();
+        if (showPricing){
+          addMessage("bot", "Te doy rangos base (depende del alcance):\n• Landing: $5,000 a $8,000 MXN\n• Tienda: $8,000 a $15,000 MXN\n• Sitio Web + Chatbot AI que agenda: $10,000 a $15,000 MXN\nPago: 50% inicio / 50% al finalizar.\n\nHosting y dominio:\n$1,200 MXN anual (pagado a Hostinger).");
+        }
+        addMessage("bot", "¿Cuál opción te interesa más ahorita?", [
+          { label: "Landing", onClick: handleChip },
+          { label: "Tienda", onClick: handleChip },
+          { label: "Sistema con agenda", onClick: handleChip },
+          { label: "Solo tengo una duda", onClick: handleChip }
+        ]);
+      }
+
+      function startDoubtMode(){
+        flowState.currentState = "ia_doubt";
+        saveState();
+        addMessage("bot", "Dime tu duda en una frase.");
+      }
+
+      function openIaAfterOffer(){
+        flowState.currentState = "offer_next";
+        saveState();
+        addMessage("bot", "Perfecto. Escribe en una frase qué quieres lograr y te digo el siguiente paso.");
+      }
+
+      function resumeState(){
+        if (flowState.currentState === "lead_source"){
+          addMessage("bot", "Perfecto. ¿Actualmente tus clientes te llegan por…?", [
+            { label: "Redes", onClick: handleChip },
+            { label: "Recomendaciones", onClick: handleChip },
+            { label: "Anuncios", onClick: handleChip }
+          ], { persist: false });
+          return;
+        }
+
+        if (flowState.currentState === "goal"){
+          addMessage("bot", "¿Qué quieres lograr primero?", [
+            { label: "Agendar citas", onClick: handleChip },
+            { label: "Vender", onClick: handleChip },
+            { label: "Más mensajes (leads)", onClick: handleChip }
+          ], { persist: false });
+          return;
+        }
+
+        if (flowState.currentState === "has_website"){
+          addMessage("bot", "¿Ya tienes sitio web?", [
+            { label: "Sí", onClick: handleChip },
+            { label: "No", onClick: handleChip }
+          ], { persist: false });
+          return;
+        }
+
+        if (flowState.currentState === "offer"){
+          addMessage("bot", "¿Cuál opción te interesa más ahorita?", [
+            { label: "Landing", onClick: handleChip },
+            { label: "Tienda", onClick: handleChip },
+            { label: "Sistema con agenda", onClick: handleChip },
+            { label: "Solo tengo una duda", onClick: handleChip }
+          ], { persist: false });
+          return;
+        }
+
+        if (flowState.currentState === "ia_doubt"){
+          addMessage("bot", "Dime tu duda en una frase.", null, { persist: false });
+          return;
+        }
+
+        if (flowState.currentState === "offer_next"){
+          addMessage("bot", "Perfecto. Escribe en una frase qué quieres lograr y te digo el siguiente paso.", null, { persist: false });
+        }
+      }
+
+      function sendTextByState(txt){
+        if (flowState.currentState === "start"){
+          if (containsPricingKeywords(txt)){
+            askOffer();
+            return;
+          }
+          flowState.business_type = txt;
+          saveState();
+          askLeadSource();
+          return;
+        }
+
+        if (flowState.currentState === "offer_next"){
+          flowState.currentState = "ia_active";
+          saveState();
+          sendToWebhook(txt);
+          return;
+        }
+
+        if (flowState.currentState === "ia_doubt"){
+          flowState.currentState = "ia_active";
+          saveState();
+          sendToWebhook(txt);
+          return;
+        }
+
+        flowState.currentState = "ia_active";
+        saveState();
+        sendToWebhook(txt);
+      }
+
       function botStart(){
         body.innerHTML = "";
 
-        addMessage("bot",
-`👋 Hola, soy el asistente demo.
-Esto es un ejemplo de cómo queda un chatbot dentro del sitio (sin mandar a WhatsApp a la primera).
+        if (messages.length){
+          messages.forEach(m => renderMessage(m.role, m.text));
+          resumeState();
+          body.scrollTop = body.scrollHeight;
+          return;
+        }
 
-¿En qué te ayudo?`, [
-          { label:"Quiero una web que convierta", onClick: handleChip },
-          { label:"Quiero automatizar agenda", onClick: handleChip },
-          { label:"Quiero ver precios", onClick: handleChip },
-          { label:"Solo tengo una duda", onClick: handleChip },
-        ]);
+        const startChips = [
+          { label: "Ver precios", onClick: handleChip },
+          { label: "Quiero más clientes", onClick: handleChip },
+          { label: "Automatizar agenda", onClick: handleChip },
+          { label: "Solo tengo una duda", onClick: handleChip }
+        ];
+        if (IS_DEV) startChips.push({ label: "Reiniciar chat", onClick: handleChip });
+
+        addMessage("bot", "👋 Hola, soy el asistente demo.\n¿Cómo quieres empezar?", startChips);
 
         const note = document.createElement("div");
         note.className = "ew-note";
         note.textContent = "Tip: Si ya vienes decidido, usa el botón verde “Hablar conmigo”.";
         body.appendChild(note);
         body.scrollTop = body.scrollHeight;
+
+        flowState.currentState = "idle";
+        saveState();
 
         if (typeof fbq !== "undefined") {
           fbq("trackCustom", "WidgetDemo_Open");
@@ -1349,6 +1589,60 @@ Esto es un ejemplo de cómo queda un chatbot dentro del sitio (sin mandar a What
 
       function handleChip(label){
         addMessage("user", label);
+
+        if (label === "Reiniciar chat"){
+          resetChat();
+          return;
+        }
+
+        if (flowState.currentState === "lead_source"){
+          flowState.lead_source = label;
+          saveState();
+          askGoal();
+          return;
+        }
+
+        if (flowState.currentState === "goal"){
+          flowState.goal = label;
+          saveState();
+          askHasWebsite();
+          return;
+        }
+
+        if (flowState.currentState === "has_website"){
+          flowState.has_website = label;
+          saveState();
+          askOffer();
+          return;
+        }
+
+        if (flowState.currentState === "offer"){
+          if (label === "Solo tengo una duda"){
+            flowState.interest = "";
+            saveState();
+            startDoubtMode();
+            return;
+          }
+          flowState.interest = label;
+          saveState();
+          openIaAfterOffer();
+          return;
+        }
+
+        if (["Ver precios", "Quiero más clientes", "Automatizar agenda"].includes(label)){
+          flowState.intent = label;
+          saveState();
+          enterQuickFlow();
+          return;
+        }
+
+        if (label === "Solo tengo una duda"){
+          startDoubtMode();
+          return;
+        }
+
+        flowState.currentState = "ia_active";
+        saveState();
         sendToWebhook(label);
       }
 
@@ -1357,24 +1651,21 @@ Esto es un ejemplo de cómo queda un chatbot dentro del sitio (sin mandar a What
         if(!txt) return;
         input.value = "";
         addMessage("user", txt);
-        sendToWebhook(txt);
+        sendTextByState(txt);
       }
 
-      // Events
       openBtn.addEventListener("click", () => {
-      panel.classList.add("open");
-    
-      // Solo inicia el bot una vez (no borres el chat al reabrir)
-      if (!body.dataset.started) {
-        body.dataset.started = "1";
-        botStart();
-      }
-    
-      setTimeout(() => input.focus(), 50);
-    });
+        panel.classList.add("open");
+
+        if (!body.dataset.started) {
+          body.dataset.started = "1";
+          botStart();
+        }
+
+        setTimeout(() => input.focus(), 50);
+      });
 
       closeBtn.addEventListener("click", () => panel.classList.remove("open"));
-
       send.addEventListener("click", handleUserText);
 
       input.addEventListener("keydown", (e) => {
