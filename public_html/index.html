@@ -1,11 +1,7 @@
 <!doctype html>
-
 <html lang="es">
-
 <head>
-
   <meta charset="utf-8" />
-
   <meta name="viewport" content="width=device-width,initial-scale=1" />
 
   <meta property="og:type" content="website">
@@ -15,7 +11,6 @@
   <meta property="og:url" content="https://edercreawebs.com">
 
   <title>EderCreaWebs — Sitios que solucionan problemas</title>
-
   <link rel="icon" href="https://assets.zyrosite.com/l8smzuTPzPP1MFNh/fabicon_edercreawebs-hv3KZhmnzCA6lAiK.png" type="image/png">
 
   <script type="text/javascript">
@@ -39,7 +34,6 @@
     fbq('init', '1641466280624093'); 
     fbq('track', 'PageView');
   </script>
-
   <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=1641466280624093&ev=PageView&noscript=1"
   /></noscript>
@@ -80,63 +74,11 @@
       --font: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
 
-    /* --- SECCIÓN LOGOS DE CREDIBILIDAD --- */
-    .logos-credibilidad {
-      padding: 40px 0;
-      text-align: center;
-    }
-    .logos-credibilidad h4 {
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--muted);
-      margin-bottom: 25px;
-      font-weight: 800;
-    }
-    .logos-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      gap: 30px;
-      opacity: 0.7;
-    }
-    .logos-container img {
-      height: 40px;
-      width: auto;
-      filter: grayscale(100%);
-      transition: all 0.3s ease;
-    }
-    .logos-container1 {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      gap: 30px;
-      opacity: 0.7;
-    }
-    .logos-container1 img {
-      height: 80px;
-      width: auto;
-      filter: grayscale(100%);
-      transition: all 0.3s ease;
-    }
-    .logos-container img:hover {
-      filter: grayscale(0%);
-      opacity: 1;
-      transform: scale(1.05);
-    }
-
-    @media (max-width: 600px) {
-      .logos-container { gap: 20px; }
-      .logos-container img { height: 22px; }
-    }
-
+    /* --- BASIC RESET --- */
     *{ box-sizing:border-box; }
-    html,body{ height:100%; }
+    html,body{ height:100%; margin:0; }
 
     body{
-      margin:0;
       font-family:var(--font);
       background:var(--bg);
       color:var(--text);
@@ -151,7 +93,7 @@
       margin:0 auto;
     }
 
-    /* Top bar */
+    /* --- TOP BAR --- */
     .topbar{
       background: linear-gradient(180deg, var(--wine2), var(--wine));
       color:#fff;
@@ -164,10 +106,9 @@
       justify-content:center; 
       padding:16px 0;
     }
-
     .navLogo { height: 32px; width: auto; display: block; }
 
-    /* Hero */
+    /* --- HERO --- */
     .hero{ padding:22px 0 8px; }
     .heroGrid{
       display:grid;
@@ -183,7 +124,6 @@
       text-align: center;  
     }
 
-    /* ✅ CAMBIO: ahora SÍ es clicable como botón */
     .pretag {
       display: inline-flex;
       align-items: center;
@@ -237,15 +177,25 @@
       justify-content: center;
     }
 
-    .stars {
-      background: var(--tag-bad-bg);
-      color: var(--tag-bad-text);
+    .stars, .credTag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-weight: 1000;
+      font-size: 13px;
+      cursor: pointer !important;
+      box-shadow: none !important;
+      border: 1px solid transparent;
+      user-select: none;
+      pointer-events: auto !important;
+      transition: transform .08s ease, filter .12s ease;
     }
-
-    .credTag {
-      background: var(--tag-good-bg);
-      color: var(--tag-good-text);
-    }
+    .stars { background: var(--tag-bad-bg); color: var(--tag-bad-text); }
+    .credTag { background: var(--tag-good-bg); color: var(--tag-good-text); }
+    .stars:hover, .credTag:hover{ transform: translateY(-1px); filter: brightness(.99); }
+    .stars:active, .credTag:active{ transform: translateY(1px); }
 
     .tiktokIcon{ width: 16px; height: 16px; object-fit: contain; display: block; }
 
@@ -256,6 +206,7 @@
       font-size:15px;
     }
 
+    /* --- BUTTONS --- */
     .btn{
       display:inline-flex;
       align-items:center;
@@ -279,19 +230,16 @@
       color:#1a1a1a;
       box-shadow: 0 14px 30px rgba(245,191,36,.25);
     }
-
     .btnRed{
       background: linear-gradient(180deg, var(--btn-red-1), var(--btn-red-2));
       color:#fff;
       box-shadow: 0 14px 30px rgba(220, 38, 38, .35);
     }
-
     .btnGreen{
       background: linear-gradient(180deg, var(--btn-green-1), var(--btn-green-2));
       color:#fff;
       box-shadow: 0 14px 30px rgba(22, 163, 74, .35);
     }
-
     .btnWhatsapp{
       background: linear-gradient(90deg, var(--wa-teal), var(--wa-teal-dark));
       color:#fff;
@@ -301,58 +249,10 @@
       box-shadow: 0 14px 30px rgba(82,175,140,.3);
     }
     .btnWhatsapp img { width: 32px; height: 32px; display: block; }
-
     .btnWide{ width:100%; }
 
-    /* --- NUEVA SECCIÓN TESTIMONIOS ESTILO GOOGLE --- */
-    .testimonios-section { padding: 40px 0 20px; }
-
-    .reviews-grid { 
-      display: grid; 
-      grid-template-columns: 1fr; 
-      gap: 20px; 
-      margin-top: 20px;
-    }
-
-    .review-card { 
-      padding: 25px; 
-      border-radius: 25px; 
-      background: #fff; 
-      position: relative; 
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
-      border: 1px solid rgba(0,0,0,0.05); 
-    }
-
-    .review-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-
-    .review-avatar { 
-      width: 45px; 
-      height: 45px; 
-      border-radius: 50%; 
-      background: var(--pink); 
-      display: grid; 
-      place-items: center; 
-      color: white; 
-      font-weight: bold; 
-      font-size: 18px;
-    }
-
-    .review-info b { display: block; font-size: 17px; color: var(--text); }
-    .review-info small { color: #AAA; font-size: 12px; }
-
-    .review-stars { color: #F5BF24; font-size: 18px; margin: 5px 0; }
-
-    .review-card p { font-size: 15px; line-height: 1.5; color: var(--muted); margin: 10px 0 0; }
-
-    .g-icon { width: 22px; position: absolute; top: 20px; right: 20px; opacity: 0.9; }
-
-    @media (min-width: 880px) {
-      .reviews-grid { grid-template-columns: repeat(3, 1fr); }
-    }
-
-    /* ---------- VSL ---------- */
+    /* --- VSL VIDEO --- */
     .vsl-wrap{ width: 100%; max-width:490px; margin:0 auto; }
-
     .vsl-videoBox{
       position:relative;
       width:100%;
@@ -365,7 +265,6 @@
       box-shadow:0 10px 30px rgba(0,0,0,.25);
       border: 1px solid rgba(255,255,255,.10);
     }
-
     .vsl-videoBox video{ width:100%; height:100%; object-fit:cover; cursor:pointer; }
 
     .vsl-overlay{
@@ -377,7 +276,6 @@
       z-index:5;
       cursor: pointer;
     }
-
     .vsl-overlayPill{
       pointer-events:auto;
       width:calc(100% - 32px);
@@ -387,7 +285,6 @@
       backdrop-filter:blur(6px);
       box-shadow:0 18px 40px rgba(0,0,0,.25);
     }
-
     .vsl-overlayCard{
       background:rgba(205,76,107,.92);
       border-radius:16px;
@@ -396,10 +293,8 @@
       color:#fff;
       border: 1px solid rgba(255,255,255,.18);
     }
-
     .vsl-title{font-size:18px;font-weight:1000;margin-bottom:4px;}
     .vsl-sub{font-size:13px;opacity:.90;margin-bottom:12px;}
-
     .vsl-overlayCard button{
       padding:10px 16px;
       border-radius:12px;
@@ -409,7 +304,6 @@
       background: #fff;
       color:#1a1a1a;
     }
-
     .vsl-controls{
       position:absolute;
       left:14px;
@@ -418,7 +312,6 @@
       gap:10px;
       z-index:4;
     }
-
     .vsl-controls button{
       width:44px;
       height:44px;
@@ -430,7 +323,6 @@
       cursor:pointer;
       backdrop-filter: blur(6px);
     }
-
     .vsl-progress{
       position:absolute;
       left:10px;
@@ -442,7 +334,6 @@
       overflow:hidden;
       z-index:3;
     }
-
     .vsl-progress-fill{
       height:100%;
       width:0%;
@@ -450,7 +341,38 @@
       transition:width .1s linear;
     }
 
-    /* Problems */
+    /* --- LOGOS & CREDIBILIDAD --- */
+    .logos-credibilidad {
+      padding: 40px 0;
+      text-align: center;
+    }
+    .logos-credibilidad h4 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 25px;
+      font-weight: 800;
+    }
+    .logos-container, .logos-container1 {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      opacity: 0.7;
+    }
+    .logos-container img { height: 40px; width: auto; filter: grayscale(100%); transition: all 0.3s ease; }
+    .logos-container1 img { height: 80px; width: auto; filter: grayscale(100%); transition: all 0.3s ease; }
+    .logos-container img:hover { filter: grayscale(0%); opacity: 1; transform: scale(1.05); }
+
+    @media (max-width: 600px) {
+      .logos-container { gap: 20px; }
+      .logos-container img { height: 22px; }
+    }
+
+    /* --- RESULTADOS --- */
+    .results{ padding: 6px 0 22px; }
     .sectionTitle{
       text-align:center;
       font-weight:1000;
@@ -458,245 +380,29 @@
       letter-spacing:-.2px;
       margin: 32px 0 14px;
     }
-
-    .problemGrid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:12px;
+    .resultCard{ 
+        display:grid; grid-template-columns: 1fr; gap:24px; 
+        background: var(--card); border-radius: var(--radius); border: var(--border);
+        box-shadow: 0 10px 26px rgba(0,0,0,.06); padding:16px;
     }
-
-    .card{
-      background: var(--card);
-      border-radius: var(--radius);
-      border: var(--border);
-      box-shadow: 0 10px 26px rgba(0,0,0,.06);
-      padding:16px;
-    }
-
-    .problemHead{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      margin-bottom:10px;
-    }
-
-    .pill{
-      background: var(--yellow);
-      color:#191919;
-      font-weight:1000;
-      border-radius: 18px;
-      padding:10px 12px;
-      min-width:56px;
-      text-align:center;
-    }
-
-    .problemHead h3{ margin:0; font-size:16px; font-weight:1000; }
-
-    .list{
-      margin:0; padding:0; list-style:none;
-      display:grid; gap:8px; font-size:14px;
-    }
-
-    .list li{ display:flex; gap:10px; align-items:flex-start; }
-
-    .check{
-      width:18px;height:18px;border-radius:9px;
-      background: rgba(31,143,76,.12);
-      border: 1px solid rgba(31,143,76,.28);
-      display:grid; place-items:center;
-      flex: 0 0 18px; margin-top:1px;
-    }
-
-    .check:before{
-      content:""; width:8px;height:4px;
-      border-left:2px solid var(--green);
-      border-bottom:2px solid var(--green);
-      transform: rotate(-45deg);
-    }
-
-    .ctaRow { margin-top: 32px; display: flex; justify-content: center; width: 100%; }
-
-    .important{
-      margin: 32px 0;
-      background: linear-gradient(180deg, var(--wine2), var(--wine));
-      color:#fff;
-      border-radius: 28px;
-      padding: 24px;
-    }
-
-    .important h3{ margin:0 0 10px; text-align:center; font-size:22px; color: var(--yellow); }
-    .important p{ margin:0; text-align:center; font-size:15px; }
-    .important .hl{ color: var(--yellow); font-weight:1000; }
-
-    .important .btnWrap{ 
-      margin-top:18px; 
-      display: flex;
-      justify-content: center;
-    }
-
-    /* --- ESTILOS DE RESULTADOS CORREGIDOS --- */
-    .results{ padding: 6px 0 22px; }
-    .resultCard{ display:grid; grid-template-columns: 1fr; gap:24px; }
-
     .resultTextContent {
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
     }
-
     .resultCard h3{ margin:0 0 6px; font-size:22px; font-weight:1000; color: var(--pink2); }
-
-    .tagLine{ 
-      display:flex; gap:8px; flex-wrap:wrap; font-size:14px; margin: 10px 0; 
-      justify-content: center;
-    }
-
+    .resultMeta{ margin: 0 0 10px; font-size: 13px; font-weight: 900; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; opacity: .9; }
+    .quote{ padding:14px; border-radius:18px; border: 1px solid rgba(0,0,0,.08); background: rgba(255,255,255,.75); font-size:14px; }
+    
     .tag{ 
-        padding:8px 12px; 
-        border-radius:14px; 
-        font-weight:900; 
-        font-size:13px;
-        border: 1px solid transparent; 
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
+        padding:8px 12px; border-radius:14px; font-weight:900; font-size:13px;
+        border: 1px solid transparent; display: inline-flex; align-items: center; gap: 6px;
+        margin: 10px 0;
     }
-    .tagBad { background: var(--tag-bad-bg); color: var(--tag-bad-text); border-color: rgba(153, 27, 27, 0.2); }
     .tagGood { background: var(--tag-good-bg); color: var(--tag-good-text); border-color: rgba(22, 101, 52, 0.2); }
 
-    .quote{ padding:14px; border-radius:18px; border: 1px solid rgba(0,0,0,.08); background: rgba(255,255,255,.75); font-size:14px; }
-
-    /* NUEVO: Contenedor de Mockup con Scroll */
-    .mockup-container {
-      width: 100%;
-      height: 480px;
-      background: #1a1a1a;
-      border-radius: 18px;
-      overflow-y: auto;
-      overflow-x: hidden;
-      border: 6px solid #222;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-      position: relative;
-    }
-    .mockup-container img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .mockup-container::-webkit-scrollbar { width: 5px; }
-    .mockup-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
-
-    .questions{ padding: 0 0 24px; }
-    .qList{ display:grid; gap:10px; margin-top:10px; }
-    .qItem{ display:flex; gap:10px; padding:12px; border-radius:18px; border: 1px solid rgba(0,0,0,.08); }
-    .qNum{ font-weight:1000; color: var(--pink2); }
-
-    footer{ padding: 32px 0; text-align:center; font-size:13px; color: var(--muted); }
-    .footLinks{ display:flex; justify-content:center; gap:12px; margin: 12px 0; font-weight:900; flex-wrap: wrap; }
-
-    /* MEDIA QUERIES PARA PC */
-    @media (min-width: 880px){
-      .heroGrid{ grid-template-columns: 1.1fr 0.9fr; gap:40px; align-items: center; }
-      .heroContent { align-items: flex-start; text-align: left; }
-      .credRow { justify-content: flex-start; }
-      .h1{ font-size:48px; }
-      .problemGrid{ grid-template-columns: repeat(3, 1fr); }
-      .resultCard{ grid-template-columns: 1fr 1fr; align-items:center; }
-      .resultTextContent { align-items: flex-start; text-align: left; }
-      .tagLine { justify-content: flex-start; }
-      .btnWide{ width:auto; }
-    }
-
-    /* ✅ CAMBIO: ahora estos tags también son clicables como botón */
-    .stars, .credTag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 12px;
-      border-radius: 999px;
-      font-weight: 1000;
-      font-size: 13px;
-      cursor: pointer !important;
-      box-shadow: none !important;
-      border: 1px solid transparent;
-      user-select: none;
-      pointer-events: auto !important;
-      transition: transform .08s ease, filter .12s ease;
-    }
-    .stars:hover, .credTag:hover{ transform: translateY(-1px); filter: brightness(.99); }
-    .stars:active, .credTag:active{ transform: translateY(1px); }
-
-    /* Acordeón de Soluciones */
-    .solucion-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease-out, padding 0.3s ease;
-      background: #fff;
-    }
-
-    .solucion-content.active {
-      max-height: 1000px; 
-      padding: 30px 20px;
-      border-top: 1px solid rgba(0,0,0,0.05);
-    }
-
-    .problem-item {
-      margin-bottom: 15px;
-      border: var(--border);
-      border-radius: var(--radius);
-      background: var(--card);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-
-    .problem-trigger {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px;
-      cursor: pointer;
-    }
-
-    .btn-solucion {
-      background: var(--yellow);
-      color: var(--text);
-      border: none;
-      padding: 10px 20px;
-      border-radius: 99px;
-      font-weight: 1000;
-      font-size: 14px;
-    }
-
-    .solucion-grid {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .solucion-grid img {
-      max-width: 180px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-
-    .plus-sign {
-      font-size: 32px;
-      font-weight: bold;
-      color: var(--pink);
-    }
-
-    .sol-footer-text {
-      text-align: center;
-      margin-top: 20px;
-      font-weight: 700;
-      color: var(--muted);
-    }
-
-    /* --- ESTILOS SISTEMA VISUAL --- */
+    /* Sistema Visual (Flechas) */
     .sistema-visual {
       background: #ffffff;
       border: 1px solid rgba(0,0,0,0.08);
@@ -706,63 +412,128 @@
       text-align: center;
       box-shadow: 0 4px 15px rgba(0,0,0,0.03);
     }
-
-    .sistema-title {
-      font-weight: 1000;
-      font-size: 18px;
-      margin-bottom: 15px;
-      color: var(--text);
-    }
-
-    .flow-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    .flow-step {
-      padding: 10px 15px;
-      border-radius: 12px;
-      font-weight: 800;
-      font-size: 14px;
-      color: #191919;
-      min-width: 85px;
-    }
-
+    .flow-container { display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .flow-step { padding: 10px 15px; border-radius: 12px; font-weight: 800; font-size: 14px; color: #191919; min-width: 85px; }
     .step-red { background-color: #f89494; }
     .step-yellow { background-color: #ffd45b; }
     .step-green { background-color: #a3e5bb; }
-
-    .flow-arrow {
-      font-size: 20px;
-      color: var(--muted);
-      font-weight: bold;
-    }
-
-    .sistema-check {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      font-size: 14px;
-    }
-
-    .check-icon {
-      font-size: 22px;
-    }
+    .flow-arrow { font-size: 20px; color: var(--muted); font-weight: bold; }
 
     @media (max-width: 600px) {
-      .flow-step {
-        font-size: 12px;
-        padding: 8px 10px;
-        min-width: 70px;
-      }
+      .flow-step { font-size: 12px; padding: 8px 10px; min-width: 70px; }
+    }
+
+    /* Mockup Container Scroll */
+    .mockup-container {
+      width: 100%; height: 480px;
+      background: #1a1a1a; border-radius: 18px;
+      overflow-y: auto; overflow-x: hidden;
+      border: 6px solid #222;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      position: relative;
+    }
+    .mockup-container img { width: 100%; height: auto; display: block; }
+    .mockup-container::-webkit-scrollbar { width: 5px; }
+    .mockup-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+
+    /* --- PROBLEMAS (ACORDEÓN) --- */
+    .problem-item {
+      margin-bottom: 15px;
+      border: var(--border); border-radius: var(--radius);
+      background: var(--card); overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .problem-trigger {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px; cursor: pointer;
+    }
+    .problemHead{ display:flex; align-items:center; gap:12px; }
+    .pill{
+      background: var(--yellow); color:#191919; font-weight:1000;
+      border-radius: 18px; padding:10px 12px; min-width:56px; text-align:center;
+    }
+    .problemHead h3{ margin:0; font-size:16px; font-weight:1000; }
+    .btn-solucion {
+      background: var(--yellow); color: var(--text); border: none;
+      padding: 10px 20px; border-radius: 99px; font-weight: 1000; font-size: 14px;
+    }
+    
+    /* ESTILOS CRÍTICOS DEL ACORDEÓN QUE FALTABAN EN LA VERSIÓN ROTA */
+    .solucion-content {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease-out, padding 0.3s ease;
+      background: #fff;
+    }
+    .solucion-content.active {
+      max-height: 1000px; 
+      padding: 30px 20px;
+      border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .solucion-grid {
+      display: flex; align-items: center; gap: 20px; justify-content: center; flex-wrap: wrap;
+    }
+    .solucion-grid img { max-width: 180px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .plus-sign { font-size: 32px; font-weight: bold; color: var(--pink); }
+    .sol-footer-text { text-align: center; margin-top: 20px; font-weight: 700; color: var(--muted); }
+
+    /* --- TESTIMONIOS --- */
+    .testimonios-section { padding: 40px 0 20px; }
+    .reviews-grid { 
+      display: grid; grid-template-columns: 1fr; gap: 20px; margin-top: 20px;
+    }
+    .review-card { 
+      padding: 25px; border-radius: 25px; background: #fff; 
+      position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+      border: 1px solid rgba(0,0,0,0.05); 
+    }
+    .review-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .review-avatar { 
+      width: 45px; height: 45px; border-radius: 50%; background: var(--pink); 
+      display: grid; place-items: center; color: white; font-weight: bold; font-size: 18px;
+    }
+    .review-info b { display: block; font-size: 17px; color: var(--text); }
+    .review-info small { color: #AAA; font-size: 12px; }
+    .review-stars { color: #F5BF24; font-size: 18px; margin: 5px 0; }
+    .review-card p { font-size: 15px; line-height: 1.5; color: var(--muted); margin: 10px 0 0; }
+    .g-icon { width: 22px; position: absolute; top: 20px; right: 20px; opacity: 0.9; }
+
+    /* --- IMPORTANT SECTION --- */
+    .important{
+      margin: 32px 0;
+      background: linear-gradient(180deg, var(--wine2), var(--wine));
+      color:#fff; border-radius: 28px; padding: 24px;
+    }
+    .important h3{ margin:0 0 10px; text-align:center; font-size:22px; color: var(--yellow); }
+    .important p{ margin:0; text-align:center; font-size:15px; }
+    .important .hl{ color: var(--yellow); font-weight:1000; }
+    .btnWrap{ margin-top:18px; display: flex; justify-content: center; }
+
+    /* --- QUESTIONS / FOOTER --- */
+    .questions{ padding: 0 0 24px; }
+    .qList{ display:grid; gap:10px; margin-top:10px; }
+    .qItem{ display:flex; gap:10px; padding:12px; border-radius:18px; border: 1px solid rgba(0,0,0,.08); }
+    .qNum{ font-weight:1000; color: var(--pink2); }
+    .ctaRow { margin-top: 32px; display: flex; justify-content: center; width: 100%; }
+
+    footer{ padding: 32px 0; text-align:center; font-size:13px; color: var(--muted); }
+    .footLinks{ display:flex; justify-content:center; gap:12px; margin: 12px 0; font-weight:900; flex-wrap: wrap; }
+
+    /* --- MEDIA QUERIES PC --- */
+    @media (min-width: 880px){
+      .heroGrid{ grid-template-columns: 1.1fr 0.9fr; gap:40px; align-items: center; }
+      .heroContent { align-items: flex-start; text-align: left; }
+      .credRow { justify-content: flex-start; }
+      .h1{ font-size:48px; }
+      .problemGrid{ grid-template-columns: repeat(3, 1fr); }
+      .resultCard{ grid-template-columns: 1fr 1fr; align-items:center; }
+      .resultTextContent { align-items: flex-start; text-align: left; }
+      .btnWide{ width:auto; }
+      .reviews-grid { grid-template-columns: repeat(3, 1fr); }
     }
 
     /* =========================================================
-       ✅ EDER WIDGET DEMO + BOTÓN PARALELO (NO ROMPE TU DISEÑO)
+       ✅ EDER WIDGET DEMO CSS
        ========================================================= */
     .ew-fabWrap{
       position:fixed; right:18px; bottom:18px; z-index:9999;
@@ -1198,13 +969,10 @@
 
   </main>
 
-  <!-- =========================================================
-       ✅ WIDGET DEMO + BOTÓN PARALELO (SE PEGA AQUÍ)
-       ========================================================= -->
-  <div class="ew-fabWrap" aria-label="Chat widgets">
+ <div class="ew-fabWrap" aria-label="Chat widgets">
     <button class="ew-fab ew-fabDemo" id="ewOpen" type="button">
       <span class="ew-fabIcon">🤖</span>
-      <span>Asistente (demo)</span>
+      <span>Asistente (Agendar)</span>
     </button>
 
     <a class="ew-fab ew-fabWA" id="ewWA" href="https://wa.link/eah465" target="_blank" rel="noopener">
@@ -1219,7 +987,7 @@
         <div class="ew-badge">🤖</div>
         <div class="ew-title">
           <b>Asistente de Eder</b>
-          <span>Demo de automatización (ejemplo real)</span>
+          <span>Agenda tu Estrategia</span>
         </div>
       </div>
       <button class="ew-x" id="ewClose" aria-label="Cerrar" type="button">✕</button>
@@ -1228,21 +996,20 @@
     <div class="ew-body" id="ewBody"></div>
 
     <div class="ew-foot">
-      <input class="ew-input" id="ewInput" placeholder="Escribe aquí… (o usa botones)" />
+      <input class="ew-input" id="ewInput" placeholder="Escribe aquí..." />
       <button class="ew-send" id="ewSend" type="button">Enviar</button>
     </div>
   </div>
 
   <script>
-    // ====== Widget Demo EderCreaWebs ======
     (function(){
+      // ⚠️ TU WEBHOOK DE N8N AQUÍ
       const WEBHOOK_URL = "https://n8n.edercreawebs.com/webhook/webchat";
-      const CHAT_ID_KEY = "ew_chat_id";
-      const STATE_KEY = "ew_state";
-      const MESSAGES_KEY = "ew_messages";
-      const PRICE_KEYWORDS = ["precio", "precios", "cuánto", "cuanto", "costo", "costos", "$", "mxn", "mensual", "mantenimiento", "paquete"];
-      const IS_DEV = new URLSearchParams(location.search).has("dev");
-
+      
+      const CHAT_ID_KEY = "ew_chat_id_v3";
+      const STATE_KEY = "ew_state_v3";
+      const MESSAGES_KEY = "ew_messages_v3";
+      
       const panel = document.getElementById("ewPanel");
       const openBtn = document.getElementById("ewOpen");
       const closeBtn = document.getElementById("ewClose");
@@ -1252,82 +1019,47 @@
 
       const defaultState = {
         currentState: "idle",
-        intent: "",
-        business_type: "",
-        lead_source: "",
-        goal: "",
-        has_website: "",
-        interest: ""
+        interest: "",
+        user_phone: ""
       };
 
       let flowState = loadState();
       let messages = loadMessages();
 
-      function generateChatId(){
-        const bytes = new Uint8Array(16);
-        window.crypto.getRandomValues(bytes);
-        return Array.from(bytes, b => b.toString(16).padStart(2, "0")).join("");
-      }
-
+      // --- UTILIDADES ---
+      function generateChatId(){ return Date.now().toString(36) + Math.random().toString(36).substr(2); }
       function getChatId(){
         let id = localStorage.getItem(CHAT_ID_KEY);
-        if (!id){
-          id = generateChatId();
-          localStorage.setItem(CHAT_ID_KEY, id);
-        }
+        if (!id){ id = generateChatId(); localStorage.setItem(CHAT_ID_KEY, id); }
         return id;
       }
-
       function loadState(){
-        try {
-          const parsed = JSON.parse(localStorage.getItem(STATE_KEY) || "null");
-          return { ...defaultState, ...(parsed || {}) };
-        } catch (_err) {
-          return { ...defaultState };
-        }
+        try { return { ...defaultState, ...JSON.parse(localStorage.getItem(STATE_KEY) || "{}") }; } 
+        catch { return { ...defaultState }; }
       }
-
       function loadMessages(){
-        try {
-          const parsed = JSON.parse(localStorage.getItem(MESSAGES_KEY) || "[]");
-          return Array.isArray(parsed) ? parsed : [];
-        } catch (_err) {
-          return [];
-        }
+        try { return JSON.parse(localStorage.getItem(MESSAGES_KEY) || "[]"); } 
+        catch { return []; }
       }
-
-      function saveState(){
-        localStorage.setItem(STATE_KEY, JSON.stringify(flowState));
-      }
-
-      function saveMessages(){
-        localStorage.setItem(MESSAGES_KEY, JSON.stringify(messages));
-      }
-
+      function saveState(){ localStorage.setItem(STATE_KEY, JSON.stringify(flowState)); }
+      function saveMessages(){ localStorage.setItem(MESSAGES_KEY, JSON.stringify(messages)); }
       function resetChat(){
-        try{
-          localStorage.removeItem(STATE_KEY);
-          localStorage.removeItem(MESSAGES_KEY);
-          localStorage.removeItem(CHAT_ID_KEY);
-        }catch(_err){}
+        localStorage.removeItem(STATE_KEY);
+        localStorage.removeItem(MESSAGES_KEY);
+        localStorage.removeItem(CHAT_ID_KEY);
         flowState = { ...defaultState };
         messages = [];
-        body.dataset.started = "";
         body.innerHTML = "";
         botStart();
       }
 
-      const chatId = getChatId();
-
+      // --- RENDERIZADO ---
       function renderMessage(role, text, chips){
         const row = document.createElement("div");
         row.className = "ew-row " + (role === "user" ? "user" : "bot");
-
         const bubble = document.createElement("div");
         bubble.className = "ew-bubble";
-        bubble.textContent = String(text || "");
-        bubble.style.whiteSpace = "pre-wrap";
-
+        bubble.innerHTML = String(text || "").replace(/\n/g, "<br>");
         row.appendChild(bubble);
         body.appendChild(row);
 
@@ -1340,342 +1072,190 @@
             b.type = "button";
             b.textContent = c.label;
             b.addEventListener("click", () => {
-              wrap.querySelectorAll("button").forEach(btn => btn.disabled = true);
+              wrap.querySelectorAll("button").forEach(btn => {
+                btn.disabled = true;
+                btn.style.opacity = 0.6; 
+                btn.style.cursor = "default";
+              });
               c.onClick(c.label);
             });
             wrap.appendChild(b);
           });
           body.appendChild(wrap);
         }
-
         body.scrollTop = body.scrollHeight;
         return row;
       }
 
-      function addMessage(role, text, chips, opts){
-        const options = opts || {};
-        const row = renderMessage(role, text, chips);
-        if (options.persist !== false){
-          messages.push({ role, text: String(text || ""), timestamp: Date.now() });
-          saveMessages();
+      function addMessage(role, text, chips){
+        renderMessage(role, text, chips);
+        messages.push({ role, text, timestamp: Date.now() });
+        saveMessages();
+      }
+
+      // =========================================================
+      // 🧠 LÓGICA DE NEGOCIO (EL CEREBRO DEL BOT)
+      // =========================================================
+
+      // 1. INICIO
+      function botStart(){
+        body.innerHTML = "";
+        if (messages.length > 0){
+          messages.forEach(m => renderMessage(m.role, m.text));
+          body.scrollTop = body.scrollHeight;
+          return;
         }
-        return row;
+
+        addMessage("bot", 
+          "👋 Hola. Ayudo a psicólogos a llenar su agenda y reducir ausencias.<br><br>¿Qué te interesa solucionar hoy?", 
+          [
+            { label: "Sistema con Agenda", onClick: handleInterestDirectly },
+            { label: "Landing Page", onClick: handleInterestDirectly },
+            { label: "Tienda Online", onClick: handleInterestDirectly },
+            { label: "Ver Precios primero", onClick: handlePriceSeeker }
+          ]
+        );
       }
 
-      function containsPricingKeywords(txt){
-        const lower = String(txt || "").toLowerCase();
-        return PRICE_KEYWORDS.some(k => lower.includes(k));
+      // 2. FILTRO DE PRECIO (OPCIONAL)
+      function handlePriceSeeker(){
+        addMessage("user", "Ver Precios primero");
+        addMessage("bot", 
+          "Claro. Mis proyectos van desde <b>$5,000 MXN</b> (Landing) hasta <b>$15,000 MXN</b> (Sistema completo).<br><br>¿Está dentro de tu presupuesto?",
+          [
+            { label: "Sí, me interesa", onClick: () => handleInterestDirectly("Sistema con Agenda") }, // Asumimos interés si dice sí
+            { label: "Se sale de mi presupuesto", onClick: handleDisqualified }
+          ]
+        );
       }
 
-      function getStatePayload(){
-        return {
-          intent: flowState.intent,
-          business_type: flowState.business_type,
-          lead_source: flowState.lead_source,
-          goal: flowState.goal,
-          has_website: flowState.has_website,
-          interest: flowState.interest
-        };
+      function handleDisqualified(){
+        addMessage("user", "Se sale de mi presupuesto");
+        addMessage("bot", "Entiendo, gracias por avisarme. Si en el futuro deseas invertir en tu consulta, aquí estaré. ¡Éxito! 👋");
+        flowState.currentState = "finished";
+        saveState();
       }
 
-      function getHistoryPayload(){
-        return messages.slice(-6).map(m => ({
-          role: m.role,
-          text: m.text,
-          timestamp: m.timestamp
-        }));
+      // 3. CIERRE DIRECTO (AQUÍ ESTÁ EL CAMBIO)
+      function handleInterestDirectly(label){
+        if(label !== "Sí, me interesa") addMessage("user", label);
+        
+        flowState.interest = label;
+        
+        // MENSAJE DE CIERRE AGRESIVO PERO AMABLE
+        setTimeout(() => {
+          addMessage("bot", 
+            `Excelente. El <b>${label}</b> es lo que más resultados da a mis clientes.<br><br>` +
+            "Para no hacerte perder tiempo escribiendo, agendemos una llamada rápida (15 min) y te explico cómo implementarlo."
+          );
+          
+          setTimeout(() => {
+            addMessage("bot", "¿Te gustaría agendar ahora?", [
+              { label: "Sí, agendar llamada", onClick: askPhoneForBooking },
+              { label: "No por ahora", onClick: handleReject }
+            ]);
+          }, 600);
+        }, 400);
       }
 
-      async function sendToWebhook(message){
-        const typingRow = addMessage("bot", "Escribiendo...", null, { persist: false });
+      function handleReject(){
+        addMessage("user", "No por ahora");
+        addMessage("bot", "Entendido. Si cambias de opinión, el botón verde de WhatsApp siempre está disponible. ¡Saludos!");
+        flowState.currentState = "finished";
+        saveState();
+      }
+
+      // 4. CAPTURA DE TELÉFONO
+      function askPhoneForBooking(){
+        addMessage("user", "Sí, agendar llamada");
+        flowState.currentState = "waiting_phone";
+        saveState();
+        addMessage("bot", "Perfecto. Escribe tu <b>número de WhatsApp</b> (con lada) para enviarte la confirmación y el recordatorio.");
+      }
+
+      // 5. PROCESAR TEXTO DEL USUARIO
+      async function handleUserText(){
+        const txt = input.value.trim();
+        if(!txt) return;
+        input.value = "";
+        addMessage("user", txt);
+
+        // Si estamos esperando el teléfono
+        if (flowState.currentState === "waiting_phone"){
+           // Validación simple
+           if (txt.length < 8 || !/^[0-9+\s-]*$/.test(txt)){
+             addMessage("bot", "Por favor escribe un número válido para poder enviarte la info.");
+             return;
+           }
+
+           flowState.user_phone = txt;
+           flowState.currentState = "booking_in_progress";
+           saveState();
+           
+           await triggerN8NBooking();
+           return;
+        }
+
+        // Si escribe algo fuera del flujo y ya terminó
+        if (flowState.currentState === "finished"){
+           addMessage("bot", "Para reiniciar el chat, presiona el botón de abajo.", [{label: "Reiniciar Chat", onClick: resetChat}]);
+        } 
+        // Si escribe algo al inicio sin dar click a botones
+        else if (flowState.currentState === "idle") {
+           addMessage("bot", "Por favor selecciona una opción para poder ayudarte mejor 👇");
+        }
+      }
+
+      // 6. CONEXIÓN CON N8N
+      async function triggerN8NBooking(){
+        const loadingRow = renderMessage("bot", "⏳ Conectando con la agenda...");
+        
         try {
           const response = await fetch(WEBHOOK_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              chat_id: chatId,
-              message,
-              state: getStatePayload(),
-              history: getHistoryPayload()
+              action: "request_booking",
+              phone: flowState.user_phone,
+              interest: flowState.interest,
+              chat_id: getChatId()
             })
           });
 
-          let data = null;
-          try { data = await response.json(); } catch (_err) {}
+          // N8N DEBE RESPONDER JSON: { "reply": "Aquí tu link: https://..." }
+          let data = await response.json();
+          loadingRow.remove();
 
-          const reply = data?.reply ?? data?.data?.reply ?? "No recibí respuesta. ¿Puedes intentar de nuevo?";
-          typingRow.remove();
-          addMessage("bot", reply);
+          const finalText = data.reply || data.data?.reply || "Listo. Te he enviado los detalles a tu WhatsApp.";
+          
+          addMessage("bot", finalText);
+          addMessage("bot", "¡Hablamos pronto!");
+          
+          flowState.currentState = "finished";
+          saveState();
+
         } catch (error) {
-          typingRow.remove();
-          addMessage("bot", "Ups, hubo un problema al conectar. Intenta otra vez.");
-          console.error("Webhook error:", error);
+          loadingRow.remove();
+          addMessage("bot", "Tuve un error de conexión, pero ya guardé tu número. Te escribiré manualmente por WhatsApp en unos minutos.");
+          console.error(error);
         }
       }
 
-      function enterQuickFlow(){
-        flowState.currentState = "start";
-        saveState();
-        addMessage("bot", "Hola 👋 Antes de mostrarte cómo funciona, 2 preguntas rápidas.");
-        addMessage("bot", "¿Qué tipo de negocio tienes?");
-      }
-
-      function askLeadSource(){
-        flowState.currentState = "lead_source";
-        saveState();
-        addMessage("bot", "Perfecto. ¿Actualmente tus clientes te llegan por…?", [
-          { label: "Redes", onClick: handleChip },
-          { label: "Recomendaciones", onClick: handleChip },
-          { label: "Anuncios", onClick: handleChip }
-        ]);
-      }
-
-      function askGoal(){
-        flowState.currentState = "goal";
-        saveState();
-        addMessage("bot", "¿Qué quieres lograr primero?", [
-          { label: "Agendar citas", onClick: handleChip },
-          { label: "Vender", onClick: handleChip },
-          { label: "Más mensajes (leads)", onClick: handleChip }
-        ]);
-      }
-
-      function askHasWebsite(){
-        flowState.currentState = "has_website";
-        saveState();
-        addMessage("bot", "¿Ya tienes sitio web?", [
-          { label: "Sí", onClick: handleChip },
-          { label: "No", onClick: handleChip }
-        ]);
-      }
-
-      function askOffer(showPricing = true){
-        flowState.currentState = "offer";
-        saveState();
-        if (showPricing){
-          addMessage("bot", "Te doy rangos base (depende del alcance):\n• Landing: $5,000 a $8,000 MXN\n• Tienda: $8,000 a $15,000 MXN\n• Sitio Web + Chatbot AI que agenda: $10,000 a $15,000 MXN\nPago: 50% inicio / 50% al finalizar.\n\nHosting y dominio:\n$1,200 MXN anual (pagado a Hostinger).");
-        }
-        addMessage("bot", "¿Cuál opción te interesa más ahorita?", [
-          { label: "Landing", onClick: handleChip },
-          { label: "Tienda", onClick: handleChip },
-          { label: "Sistema con agenda", onClick: handleChip },
-          { label: "Solo tengo una duda", onClick: handleChip }
-        ]);
-      }
-
-      function startDoubtMode(){
-        flowState.currentState = "ia_doubt";
-        saveState();
-        addMessage("bot", "Dime tu duda en una frase.");
-      }
-
-      function openIaAfterOffer(){
-        flowState.currentState = "offer_next";
-        saveState();
-        addMessage("bot", "Perfecto. Escribe en una frase qué quieres lograr y te digo el siguiente paso.");
-      }
-
-      function resumeState(){
-        if (flowState.currentState === "lead_source"){
-          addMessage("bot", "Perfecto. ¿Actualmente tus clientes te llegan por…?", [
-            { label: "Redes", onClick: handleChip },
-            { label: "Recomendaciones", onClick: handleChip },
-            { label: "Anuncios", onClick: handleChip }
-          ], { persist: false });
-          return;
-        }
-
-        if (flowState.currentState === "goal"){
-          addMessage("bot", "¿Qué quieres lograr primero?", [
-            { label: "Agendar citas", onClick: handleChip },
-            { label: "Vender", onClick: handleChip },
-            { label: "Más mensajes (leads)", onClick: handleChip }
-          ], { persist: false });
-          return;
-        }
-
-        if (flowState.currentState === "has_website"){
-          addMessage("bot", "¿Ya tienes sitio web?", [
-            { label: "Sí", onClick: handleChip },
-            { label: "No", onClick: handleChip }
-          ], { persist: false });
-          return;
-        }
-
-        if (flowState.currentState === "offer"){
-          addMessage("bot", "¿Cuál opción te interesa más ahorita?", [
-            { label: "Landing", onClick: handleChip },
-            { label: "Tienda", onClick: handleChip },
-            { label: "Sistema con agenda", onClick: handleChip },
-            { label: "Solo tengo una duda", onClick: handleChip }
-          ], { persist: false });
-          return;
-        }
-
-        if (flowState.currentState === "ia_doubt"){
-          addMessage("bot", "Dime tu duda en una frase.", null, { persist: false });
-          return;
-        }
-
-        if (flowState.currentState === "offer_next"){
-          addMessage("bot", "Perfecto. Escribe en una frase qué quieres lograr y te digo el siguiente paso.", null, { persist: false });
-        }
-      }
-
-      function sendTextByState(txt){
-        if (flowState.currentState === "start"){
-          if (containsPricingKeywords(txt)){
-            askOffer();
-            return;
-          }
-          flowState.business_type = txt;
-          saveState();
-          askLeadSource();
-          return;
-        }
-
-        if (flowState.currentState === "offer_next"){
-          flowState.currentState = "ia_active";
-          saveState();
-          sendToWebhook(txt);
-          return;
-        }
-
-        if (flowState.currentState === "ia_doubt"){
-          flowState.currentState = "ia_active";
-          saveState();
-          sendToWebhook(txt);
-          return;
-        }
-
-        flowState.currentState = "ia_active";
-        saveState();
-        sendToWebhook(txt);
-      }
-
-      function botStart(){
-        body.innerHTML = "";
-
-        if (messages.length){
-          messages.forEach(m => renderMessage(m.role, m.text));
-          resumeState();
-          body.scrollTop = body.scrollHeight;
-          return;
-        }
-
-        const startChips = [
-          { label: "Ver precios", onClick: handleChip },
-          { label: "Quiero más clientes", onClick: handleChip },
-          { label: "Automatizar agenda", onClick: handleChip },
-          { label: "Solo tengo una duda", onClick: handleChip }
-        ];
-        if (IS_DEV) startChips.push({ label: "Reiniciar chat", onClick: handleChip });
-
-        addMessage("bot", "👋 Hola, soy el asistente demo.\n¿Cómo quieres empezar?", startChips);
-
-        const note = document.createElement("div");
-        note.className = "ew-note";
-        note.textContent = "Tip: Si ya vienes decidido, usa el botón verde “Hablar conmigo”.";
-        body.appendChild(note);
-        body.scrollTop = body.scrollHeight;
-
-        flowState.currentState = "idle";
-        saveState();
-
-        if (typeof fbq !== "undefined") {
-          fbq("trackCustom", "WidgetDemo_Open");
-        }
-      }
-
-      function handleChip(label){
-        addMessage("user", label);
-
-        if (label === "Reiniciar chat"){
-          resetChat();
-          return;
-        }
-
-        if (flowState.currentState === "lead_source"){
-          flowState.lead_source = label;
-          saveState();
-          askGoal();
-          return;
-        }
-
-        if (flowState.currentState === "goal"){
-          flowState.goal = label;
-          saveState();
-          askHasWebsite();
-          return;
-        }
-
-        if (flowState.currentState === "has_website"){
-          flowState.has_website = label;
-          saveState();
-          askOffer();
-          return;
-        }
-
-        if (flowState.currentState === "offer"){
-          if (label === "Solo tengo una duda"){
-            flowState.interest = "";
-            saveState();
-            startDoubtMode();
-            return;
-          }
-          flowState.interest = label;
-          saveState();
-          openIaAfterOffer();
-          return;
-        }
-
-        if (["Ver precios", "Quiero más clientes", "Automatizar agenda"].includes(label)){
-          flowState.intent = label;
-          saveState();
-          enterQuickFlow();
-          return;
-        }
-
-        if (label === "Solo tengo una duda"){
-          startDoubtMode();
-          return;
-        }
-
-        flowState.currentState = "ia_active";
-        saveState();
-        sendToWebhook(label);
-      }
-
-      function handleUserText(){
-        const txt = (input.value || "").trim();
-        if(!txt) return;
-        input.value = "";
-        addMessage("user", txt);
-        sendTextByState(txt);
-      }
-
+      // LISTENERS
       openBtn.addEventListener("click", () => {
         panel.classList.add("open");
-
-        if (!body.dataset.started) {
-          body.dataset.started = "1";
-          botStart();
-        }
-
+        if (!body.innerText.trim()) botStart();
         setTimeout(() => input.focus(), 50);
       });
-
       closeBtn.addEventListener("click", () => panel.classList.remove("open"));
       send.addEventListener("click", handleUserText);
+      input.addEventListener("keydown", (e) => { if(e.key==="Enter") handleUserText(); });
 
-      input.addEventListener("keydown", (e) => {
-        if(e.key === "Enter") handleUserText();
-        if(e.key === "Escape") panel.classList.remove("open");
-      });
+      // Init
+      getChatId();
+
     })();
   </script>
-  <!-- ====================== /WIDGET ====================== -->
-
   <script>
     (() => {
       const video = document.getElementById('vslVideo');
@@ -1735,7 +1315,7 @@
 
         // (Opcional) tracking para saber qué tag convierte mejor
         if (typeof fbq !== 'undefined') {
-          fbq('trackCustom', 'HeroTagClick', {
+          fbq('trackCustom', 'HeroTagClick', { 
             tag: e?.currentTarget?.dataset?.tag || e?.currentTarget?.className || 'unknown'
           });
         }
@@ -1798,7 +1378,7 @@
     // Evento para rastrear cuando ven tu video
     if (btnVSL) {
       btnVSL.addEventListener('click', function() {
-        fbq('track', 'ViewContent', {
+        fbq('track', 'ViewContent', { 
           content_name: 'VSL - Caso de Estudio',
           content_type: 'video' 
         });
@@ -1833,14 +1413,14 @@
     const content = document.getElementById('sol-' + id);
     const btn = document.getElementById('btn-sol-' + id);
     const isOpen = content.classList.contains('active');
-
+    
     document.querySelectorAll('.solucion-content').forEach(c => c.classList.remove('active'));
     document.querySelectorAll('.btn-solucion').forEach(b => b.textContent = 'Ver Solución');
 
     if (!isOpen) {
       content.classList.add('active');
       btn.textContent = 'Cerrar';
-
+      
       if (typeof fbq !== 'undefined') {
         fbq('trackCustom', 'ExplorarSolucion', { problema_id: id });
       }
