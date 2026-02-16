@@ -137,6 +137,34 @@
   }
 
   function handleFlow(targetBody, step){
+     if (step === "show_package") {
+    renderMessage(targetBody, "bot", 
+      "Claro, el Paquete incluye:\n" +
+      "- **Sitio Web o Landing Page**\n" +
+      "- **Hosting y Dominio** por 1 año\n" +
+      "- **Mantenimiento** de 3 meses\n" +
+      "- **ChatBot Ai + Agenda**\n\n" +
+      "Por **$12,000 MXN**. ¿Este monto se ajusta a tu presupuesto actual?",
+      [
+        // Si confirma, lo mandamos al paso que ya tenías de los nichos
+        { label: "✅ Sí, es viable", onClick: () => { chatState.data.budget_ok = "Si"; handleFlow(targetBody, "ask_niche"); } },
+        { label: "⏳ Quizás luego", onClick: () => renderMessage(targetBody, "bot", "¡Sin problema! Te espero cuando estés listo. 👋") }
+      ]
+    );
+  }
+  // TU PASO EXISTENTE: Se mantiene igual, pero ahora se llega aquí tras confirmar el presupuesto
+  if(step === "ask_niche"){
+    chatState.currentState = "qualifying";
+    renderMessage(targetBody, "bot", 
+      "Perfecto. Para darte ejemplos reales, ¿en qué nicho está tu negocio?",
+      [
+        { label: "Salud / Clínicas", onClick: () => { chatState.data.niche = "Salud"; handleFlow(targetBody, "ask_ads"); } },
+        { label: "Servicios / Consultoría", onClick: () => { chatState.data.niche = "Servicios"; handleFlow(targetBody, "ask_ads"); } },
+        { label: "Otro (Escribir)", onClick: () => { chatState.currentState = "waiting_niche"; renderMessage(targetBody, "bot", "¿A qué te dedicas?"); } }
+      ]
+    );
+  }
+    
     if(step === "show_price"){
       renderMessage(targetBody, "bot", 
         "El sistema completo tiene una inversión de **$12,000 MXN**.\n\n¿Este monto se ajusta a tu presupuesto actual?",
@@ -154,34 +182,8 @@
       );
     }
 
-   if (step === "show_package") {
-    renderMessage(targetBody, "bot", 
-      "Claro, el Paquete incluye:\n" +
-      "- **Sitio Web o Landing Page**\n" +
-      "- **Hosting y Dominio** por 1 año\n" +
-      "- **Mantenimiento** de 3 meses\n" +
-      "- **ChatBot Ai + Agenda**\n\n" +
-      "Por **$12,000 MXN**. ¿Este monto se ajusta a tu presupuesto actual?",
-      [
-        // Si confirma, lo mandamos al paso que ya tenías de los nichos
-        { label: "✅ Sí, es viable", onClick: () => { chatState.data.budget_ok = "Si"; handleFlow(targetBody, "ask_niche"); } },
-        { label: "⏳ Quizás luego", onClick: () => renderMessage(targetBody, "bot", "¡Sin problema! Te espero cuando estés listo. 👋") }
-      ]
-    );
-  }
-
-  // TU PASO EXISTENTE: Se mantiene igual, pero ahora se llega aquí tras confirmar el presupuesto
-  if(step === "ask_niche"){
-    chatState.currentState = "qualifying";
-    renderMessage(targetBody, "bot", 
-      "Perfecto. Para darte ejemplos reales, ¿en qué nicho está tu negocio?",
-      [
-        { label: "Salud / Clínicas", onClick: () => { chatState.data.niche = "Salud"; handleFlow(targetBody, "ask_ads"); } },
-        { label: "Servicios / Consultoría", onClick: () => { chatState.data.niche = "Servicios"; handleFlow(targetBody, "ask_ads"); } },
-        { label: "Otro (Escribir)", onClick: () => { chatState.currentState = "waiting_niche"; renderMessage(targetBody, "bot", "¿A qué te dedicas?"); } }
-      ]
-    );
-  }
+  
+  
 
     if(step === "ask_ads"){
       renderMessage(targetBody, "bot", 
