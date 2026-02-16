@@ -176,14 +176,32 @@
     }
 
     if(step === "faq"){
-      renderMessage(targetBody, "bot", 
-        "El sistema reduce ausencias confirmando por WhatsApp y liberando espacios no pagados. ¿Te gustaría ver si aplica a tu negocio?",
-        [{ label: "Sí, cuéntame", onClick: () => handleFlow(targetBody, "ask_niche") }]
-      );
+      // Definimos las opciones que quieres mostrar
+  const faqSuggestions = [
+    { 
+      label: "💳 ¿Cómo son los pagos?", 
+      onClick: () => handleUserText({ value: "¿Cómo funcionan los pagos?" }, targetBody) 
+    },
+    { 
+      label: "🛠️ ¿Qué mantenimiento manejas?", 
+      onClick: () => handleUserText({ value: "¿Qué incluye el mantenimiento mensual?" }, targetBody) 
+    },
+    { 
+      label: "🗓️ Agendar llamada", 
+      onClick: () => showCalendly(targetBody) 
     }
+  ];
 
-  
-  
+  // Cambiamos el estado a ai_chat para que la IA responda a lo que escriban o clickeen
+  chatState.currentState = "ai_chat"; 
+
+  renderMessage(
+    targetBody, 
+    "bot", 
+    "Elige de las Preguntas Frecuentes, si no ves tu duda puedes escribirla, mi IA te responderá.",
+    faqSuggestions // <--- Aquí pasamos los botones
+  );
+}
 
     if(step === "ask_ads"){
       renderMessage(targetBody, "bot", 
@@ -261,10 +279,10 @@ async function sendToN8N(targetBody, msg){
       const faqSuggestions = [
         { 
           label: "💳 ¿Cómo son los pagos?", 
-          onClick: () => handleUserText({ value: "¿Cómo funcionan los pagos y reembolsos?" }, targetBody) 
+          onClick: () => handleUserText({ value: "¿Cómo funcionan los pagos?" }, targetBody) 
         },
         { 
-          label: "🛠️ ¿Qué mantenimiento tiene?", 
+          label: "🛠️ ¿Qué mantenimiento manejas?", 
           onClick: () => handleUserText({ value: "¿Qué incluye el mantenimiento mensual?" }, targetBody) 
         },
         { 
