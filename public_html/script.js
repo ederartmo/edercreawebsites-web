@@ -8,6 +8,22 @@
   const WEBHOOK_URL = "https://n8n.edercreawebs.com/webhook/webchat";
   const CHAT_ID_KEY = "ew_chat_id_v5";
   const SESSION_ID_KEY = "ew_session_id_v1";
+  
+  // --- NUEVO: Saca la definición aquí arriba para que sea global ---
+  const faqSuggestions = [
+    { 
+      label: "💳 ¿Cómo son los pagos?", 
+      onClick: () => handleUserText({ value: "¿Cómo funcionan los pagos?" }, document.querySelector('.ew-body')) 
+    },
+    { 
+      label: "🛠️ ¿Qué mantenimiento manejas?", 
+      onClick: () => handleUserText({ value: "¿Qué incluye el mantenimiento mensual?" }, document.querySelector('.ew-body')) 
+    },
+    { 
+      label: "🗓️ Agendar llamada", 
+      onClick: () => showCalendly(document.querySelector('.ew-body')) 
+    }
+  ];
 
   // --- 1. REFERENCIAS AL DOM (VIDEO VSL) ---
   const video = document.getElementById('vslVideo');
@@ -175,22 +191,17 @@
       );
     }
 
-    if(step === "faq"){
-      // Definimos las opciones que quieres mostrar
-  const faqSuggestions = [
-    { 
-      label: "💳 ¿Cómo son los pagos?", 
-      onClick: () => handleUserText({ value: "¿Cómo funcionan los pagos?" }, targetBody) 
-    },
-    { 
-      label: "🛠️ ¿Qué mantenimiento manejas?", 
-      onClick: () => handleUserText({ value: "¿Qué incluye el mantenimiento mensual?" }, targetBody) 
-    },
-    { 
-      label: "🗓️ Agendar llamada", 
-      onClick: () => showCalendly(targetBody) 
+if(step === "faq"){
+      chatState.currentState = "ai_chat"; 
+      // Aquí simplemente la usas, ya no la defines
+      renderMessage(
+        targetBody, 
+        "bot", 
+        "Elige de las Preguntas Frecuentes, si no ves tu duda puedes escribirla, mi IA te responderá.",
+        faqSuggestions 
+      );
     }
-  ];
+  }
 
   // Cambiamos el estado a ai_chat para que la IA responda a lo que escriban o clickeen
   chatState.currentState = "ai_chat"; 
@@ -274,22 +285,6 @@ async function sendToN8N(targetBody, msg){
       }
 
       const botReply = rawText || "No pude procesar eso.";
-
-      // 3. Definición de las 3 opciones de preguntas frecuentes (Sugerencias)
-      const faqSuggestions = [
-        { 
-          label: "💳 ¿Cómo son los pagos?", 
-          onClick: () => handleUserText({ value: "¿Cómo funcionan los pagos?" }, targetBody) 
-        },
-        { 
-          label: "🛠️ ¿Qué mantenimiento manejas?", 
-          onClick: () => handleUserText({ value: "¿Qué incluye el mantenimiento mensual?" }, targetBody) 
-        },
-        { 
-          label: "🗓️ Agendar llamada", 
-          onClick: () => showCalendly(targetBody) 
-        }
-      ];
 
       // 4. Renderizar el mensaje con los botones de sugerencia integrados
       renderMessage(targetBody, "bot", botReply, faqSuggestions);
