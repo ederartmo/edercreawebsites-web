@@ -108,7 +108,7 @@ let answeredFAQs = new Set();
     return id;
   }
 
- function renderMessage(targetBody, role, text, chips){
+function renderMessage(targetBody, role, text, chips){
     const row = document.createElement("div");
     row.className = "ew-row " + (role === "user" ? "user" : "bot");
     const bubble = document.createElement("div");
@@ -121,7 +121,7 @@ let answeredFAQs = new Set();
       const wrap = document.createElement("div");
       wrap.className = "ew-chips";
       
-      // FILTRO: Solo mostramos botones que NO han sido respondidos
+      // Mantenemos el filtro solo para las sugerencias de FAQ respondidas
       const filteredChips = chips.filter(c => !c.id || !answeredFAQs.has(c.id));
 
       filteredChips.forEach(c => {
@@ -130,7 +130,9 @@ let answeredFAQs = new Set();
         b.textContent = c.label;
         b.onclick = () => {
           wrap.remove();
-          // Pasamos el targetBody al onClick
+          // IMPORTANTE: Esta línea es la que hace que tu elección 
+          // se vea del lado derecho antes de ejecutar la acción
+          renderMessage(targetBody, "user", c.label); 
           c.onClick(targetBody);
         };
         wrap.appendChild(b);
