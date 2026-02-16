@@ -264,13 +264,20 @@ async function sendToN8N(targetBody, msg){
     }
   }
 
-  function showCalendly(targetBody){
-    if(chatState.activeInstance === 'embedded'){
-      panelEmbedded.classList.add('show-calendly');
+function showCalendly(targetBody) {
+    if (chatState.activeInstance === 'embedded') {
+        panelEmbedded.classList.add('show-calendly');
     } else {
-      renderMessage(targetBody, "bot", "Agenda aquí: [Link a Calendly]");
+        // En lugar de texto plano, enviamos un mensaje con un "chip" que funciona como botón
+        const calendlyButton = [
+            { 
+                label: "🗓️ Abrir Agenda de Eder", 
+                onClick: () => window.open("https://calendly.com/ederarmo/30min", "_blank") 
+            }
+        ];
+        renderMessage(targetBody, "bot", "Excelente. Elige el mejor horario para nuestra llamada de 15 min aquí:", calendlyButton);
     }
-  }
+}
 
   btnFloatOpen?.addEventListener("click", () => {
     panelFloat.classList.add("open");
