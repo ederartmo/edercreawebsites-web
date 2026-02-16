@@ -228,7 +228,8 @@
       });
       const data = await res.json();
       loading.remove();
-      renderMessage(targetBody, "bot", data.reply || data.output || "No pude procesar eso.");
+      const botReply = data.output || data.reply || (data.kwargs ? data.kwargs.content : null) || "No pude procesar eso.";
+renderMessage(targetBody, "bot", botReply);
     } catch (e) {
       loading.remove();
       renderMessage(targetBody, "bot", "Error de conexión.");
