@@ -202,7 +202,7 @@
     await sendToN8N(targetBody, txt);
   }
 
-  async function sendToN8N(targetBody, msg){
+async function sendToN8N(targetBody, msg){
     const loading = document.createElement("div");
     loading.className = "ew-row bot";
     loading.innerHTML = '<div class="ew-bubble">...</div>';
@@ -220,24 +220,42 @@
       });
 
       const data = await res.json();
-      console.log("DEPURACIÓN: Datos recibidos de n8n:", data); // <-- AQUÍ ESTÁ EL LOG
+      console.log("DEPURACIÓN: Datos recibidos de n8n:", data);
       loading.remove();
 
-      // Lógica de extracción multi-formato
-      let botReply = "";
-      
+      // 1. Extraer el texto de la respuesta (maneja todos los formatos de n8n/LangChain)
+      let rawText = "";
       if (Array.isArray(data)) {
-        botReply = data[0]?.output || (data[0]?.kwargs ? data[0].kwargs.content : "");
+        rawText = data[0]?.output || (data[0]?.kwargs ? data[0].kwargs.content : "");
       } else {
-        botReply = data.output || data.reply || (data.kwargs ? data.kwargs.content : "");
+        rawText = data.output || data.reply || (data.kwargs ? data.kwargs.content : "");
       }
 
-      // Si n8n devolvió el mensaje genérico de "Workflow was started"
-      if (!botReply && data.message === "Workflow was started") {
-        botReply = "La IA está pensando... por favor revisa la configuración del Webhook en n8n (Response: When execution finishes).";
+      // 2. Manejo de error si n8n responde con mensaje genérico
+      if (!rawText && data.message === "Workflow was started") {
+        rawText = "La IA está pensando... por favor revisa que en el nodo Webhook de n8n la opción 'Respond' sea 'When Last Node Finishes'.";
       }
 
-      renderMessage(targetBody, "bot", botReply || "No pude procesar eso.");
+      const botReply = rawText || "No pude procesar eso.";
+
+      // 3. Definición de las 3 opciones de preguntas frecuentes (Sugerencias)
+      const faqSuggestions = [
+        { 
+          label: "💳 ¿Cómo son los pagos?", 
+          onClick: () => handleUserText({ value: "¿Cómo funcionan los pagos y reembolsos?" }, targetBody) 
+        },
+        { 
+          label: "🛠️ ¿Qué mantenimiento tiene?", 
+          onClick: () => handleUserText({ value: "¿Qué incluye el mantenimiento mensual?" }, targetBody) 
+        },
+        { 
+          label: "🗓️ Agendar llamada", 
+          onClick: () => showCalendly(targetBody) 
+        }
+      ];
+
+      // 4. Renderizar el mensaje con los botones de sugerencia integrados
+      renderMessage(targetBody, "bot", botReply, faqSuggestions);
 
     } catch (e) {
       console.error("ERROR DE CONEXIÓN:", e);
