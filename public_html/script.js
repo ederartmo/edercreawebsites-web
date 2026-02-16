@@ -50,9 +50,6 @@
     }
   };
 
-  // =========================================================
-  // MÓDULO 1: VIDEO VSL & EFECTO FLIP 3D
-  // =========================================================
   if(video) {
     let hasShownButton = false;
     video.muted = true;
@@ -90,10 +87,6 @@
     btnFlipBack?.addEventListener('click', () => flipCard.classList.remove('is-flipped'));
   }
 
-  // =========================================================
-  // MÓDULO 2: LÓGICA DEL CHATBOT
-  // =========================================================
-  
   function getChatId(){
     let id = localStorage.getItem(CHAT_ID_KEY);
     if (!id){ id = Math.random().toString(36).substring(7); localStorage.setItem(CHAT_ID_KEY, id); }
@@ -117,7 +110,7 @@
         b.className = "ew-chip";
         b.textContent = c.label;
         b.onclick = () => {
-          wrap.remove(); // Quita los botones tras click
+          wrap.remove();
           renderMessage(targetBody, "user", c.label);
           c.onClick();
         };
@@ -206,7 +199,6 @@
       return;
     }
 
-    // Si ya pasamos a la IA
     await sendToN8N(targetBody, txt);
   }
 
@@ -226,11 +218,29 @@
           data: chatState.data
         })
       });
+
       const data = await res.json();
+      console.log("DEPURACIÓN: Datos recibidos de n8n:", data); // <-- AQUÍ ESTÁ EL LOG
       loading.remove();
-      const botReply = data.output || data.reply || (data.kwargs ? data.kwargs.content : null) || "No pude procesar eso.";
-renderMessage(targetBody, "bot", botReply);
+
+      // Lógica de extracción multi-formato
+      let botReply = "";
+      
+      if (Array.isArray(data)) {
+        botReply = data[0]?.output || (data[0]?.kwargs ? data[0].kwargs.content : "");
+      } else {
+        botReply = data.output || data.reply || (data.kwargs ? data.kwargs.content : "");
+      }
+
+      // Si n8n devolvió el mensaje genérico de "Workflow was started"
+      if (!botReply && data.message === "Workflow was started") {
+        botReply = "La IA está pensando... por favor revisa la configuración del Webhook en n8n (Response: When execution finishes).";
+      }
+
+      renderMessage(targetBody, "bot", botReply || "No pude procesar eso.");
+
     } catch (e) {
+      console.error("ERROR DE CONEXIÓN:", e);
       loading.remove();
       renderMessage(targetBody, "bot", "Error de conexión.");
     }
@@ -244,7 +254,6 @@ renderMessage(targetBody, "bot", botReply);
     }
   }
 
-  // Listeners
   btnFloatOpen?.addEventListener("click", () => {
     panelFloat.classList.add("open");
     if (!bodyFloat.hasChildNodes()) initChatbot(bodyFloat, 'floating');
