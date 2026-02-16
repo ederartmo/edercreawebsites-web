@@ -8,24 +8,32 @@
   const WEBHOOK_URL = "https://n8n.edercreawebs.com/webhook/webchat";
   const CHAT_ID_KEY = "ew_chat_id_v5";
   const SESSION_ID_KEY = "ew_session_id_v1";
-  
-  // --- NUEVO: Saca la definición aquí arriba para que sea global ---
-  const faqSuggestions = [
-    { 
-      label: "💳 ¿Cómo son los pagos?", 
-      onClick: () => handleUserText({ value: "¿Cómo funcionan los pagos?" }, document.querySelector('.ew-body')) 
-    },
-    { 
-      label: "🛠️ ¿Qué mantenimiento manejas?", 
-      onClick: () => handleUserText({ value: "¿Qué incluye el mantenimiento mensual?" }, document.querySelector('.ew-body')) 
-    },
-    { 
-      label: "🗓️ Agendar llamada", 
-      onClick: () => showCalendly(document.querySelector('.ew-body')) 
-    }
-  ];
 
-  // --- 1. REFERENCIAS AL DOM (VIDEO VSL) ---
+  // --- 1. DEFINICIÓN GLOBAL DE SUGERENCIAS (FAQ) ---
+  // Se define aquí afuera para que sea accesible por todas las funciones
+  // Al inicio de tu script.js
+const faqSuggestions = [
+  { 
+    id: "pagos", // ID para identificar la duda
+    label: "💳 ¿Cómo son los pagos?", 
+    onClick: (targetBody) => handleUserText({ value: "¿Cómo funcionan los pagos?" }, targetBody, "pagos") 
+  },
+  { 
+    id: "mantenimiento",
+    label: "🛠️ ¿Qué mantenimiento manejas?", 
+    onClick: (targetBody) => handleUserText({ value: "¿Qué incluye el mantenimiento mensual?" }, targetBody, "mantenimiento") 
+  },
+  { 
+    id: "agenda",
+    label: "🗓️ Agendar llamada", 
+    onClick: (targetBody) => showCalendly(targetBody) 
+  }
+];
+
+// Creamos un Set para guardar las dudas ya respondidas
+let answeredFAQs = new Set();
+
+  // --- 2. REFERENCIAS AL DOM ---
   const video = document.getElementById('vslVideo');
   const overlay = document.getElementById('vslOverlay');
   const btnPlay = document.getElementById('vslStartAudio');
@@ -33,13 +41,9 @@
   const flipCard = document.getElementById('flipCard');
   const btnFlipBack = document.getElementById('btnFlipBack');
   const progress = document.getElementById('vslProgress');
-  const playPause = document.getElementById('vslPlayPause');
-  const restart = document.getElementById('vslRestart');
-  const mute = document.getElementById('vslMute');
   const btnWatchCase = document.getElementById('btnWatchCase');
   const vslSection = document.getElementById('vslSection');
 
-  // --- 2. REFERENCIAS AL DOM (CHATBOT) ---
   const panelFloat = document.getElementById('ewPanel');
   const btnFloatOpen = document.getElementById('ewOpen');
   const btnFloatClose = document.getElementById('ewClose');
@@ -51,21 +55,15 @@
   const bodyEmbedded = document.getElementById('ewBodyEmbedded');
   const inputEmbedded = document.getElementById('ewInputEmbedded');
   const sendEmbedded = document.getElementById('ewSendEmbedded');
-  const calendlyContainer = document.getElementById('calendlyContainer');
 
-  // --- ESTADO ---
+  // --- 3. ESTADO ---
   let chatState = {
-    currentState: "idle", // idle | qualifying | ai_chat | waiting_phone | finished
+    currentState: "idle", 
     activeInstance: "none",
-    data: {
-      interest: "",
-      ads: "",
-      niche: "",
-      phone: "",
-      budget_ok: ""
-    }
+    data: { interest: "", ads: "", niche: "", phone: "", budget_ok: "" }
   };
 
+  // --- 4. LÓGICA VSL (VIDEO) ---
   if(video) {
     let hasShownButton = false;
     video.muted = true;
@@ -103,13 +101,14 @@
     btnFlipBack?.addEventListener('click', () => flipCard.classList.remove('is-flipped'));
   }
 
+  // --- 5. FUNCIONES CORE DEL CHATBOT ---
   function getChatId(){
     let id = localStorage.getItem(CHAT_ID_KEY);
     if (!id){ id = Math.random().toString(36).substring(7); localStorage.setItem(CHAT_ID_KEY, id); }
     return id;
   }
 
-  function renderMessage(targetBody, role, text, chips){
+ function renderMessage(targetBody, role, text, chips){
     const row = document.createElement("div");
     row.className = "ew-row " + (role === "user" ? "user" : "bot");
     const bubble = document.createElement("div");
@@ -121,21 +120,26 @@
     if (chips && chips.length){
       const wrap = document.createElement("div");
       wrap.className = "ew-chips";
-      chips.forEach(c => {
+      
+      // FILTRO: Solo mostramos botones que NO han sido respondidos
+      const filteredChips = chips.filter(c => !c.id || !answeredFAQs.has(c.id));
+
+      filteredChips.forEach(c => {
         const b = document.createElement("button");
         b.className = "ew-chip";
         b.textContent = c.label;
         b.onclick = () => {
           wrap.remove();
-          renderMessage(targetBody, "user", c.label);
-          c.onClick();
+          // Pasamos el targetBody al onClick
+          c.onClick(targetBody);
         };
         wrap.appendChild(b);
       });
-      targetBody.appendChild(wrap);
+      
+      if(filteredChips.length > 0) targetBody.appendChild(wrap);
     }
     targetBody.scrollTop = targetBody.scrollHeight;
-  }
+}
 
   function initChatbot(targetBody, instanceType){
     targetBody.innerHTML = "";
@@ -153,37 +157,15 @@
   }
 
   function handleFlow(targetBody, step){
-     if (step === "show_package") {
-    renderMessage(targetBody, "bot", 
-      "Claro, el Paquete incluye:\n" +
-      "- **Sitio Web o Landing Page**\n" +
-      "- **Hosting y Dominio** por 1 año\n" +
-      "- **Mantenimiento** de 3 meses\n" +
-      "- **ChatBot Ai + Agenda**\n\n" +
-      "Por **$12,000 MXN**. ¿Este monto se ajusta a tu presupuesto actual?",
-      [
-        // Si confirma, lo mandamos al paso que ya tenías de los nichos
-        { label: "✅ Sí, es viable", onClick: () => { chatState.data.budget_ok = "Si"; handleFlow(targetBody, "ask_niche"); } },
-        { label: "⏳ Quizás luego", onClick: () => renderMessage(targetBody, "bot", "¡Sin problema! Te espero cuando estés listo. 👋") }
-      ]
-    );
-  }
-  // TU PASO EXISTENTE: Se mantiene igual, pero ahora se llega aquí tras confirmar el presupuesto
-  if(step === "ask_niche"){
-    chatState.currentState = "qualifying";
-    renderMessage(targetBody, "bot", 
-      "Perfecto. Para darte ejemplos reales, ¿en qué nicho está tu negocio?",
-      [
-        { label: "Salud / Clínicas", onClick: () => { chatState.data.niche = "Salud"; handleFlow(targetBody, "ask_ads"); } },
-        { label: "Servicios / Consultoría", onClick: () => { chatState.data.niche = "Servicios"; handleFlow(targetBody, "ask_ads"); } },
-        { label: "Otro (Escribir)", onClick: () => { chatState.currentState = "waiting_niche"; renderMessage(targetBody, "bot", "¿A qué te dedicas?"); } }
-      ]
-    );
-  }
-    
-    if(step === "show_price"){
+    // PASO: Detalle del Paquete y Filtro de Presupuesto
+    if (step === "show_package") {
       renderMessage(targetBody, "bot", 
-        "El sistema completo tiene una inversión de **$12,000 MXN**.\n\n¿Este monto se ajusta a tu presupuesto actual?",
+        "Claro, el Paquete incluye:\n" +
+        "- **Sitio Web o Landing Page**\n" +
+        "- **Hosting y Dominio** por 1 año\n" +
+        "- **Mantenimiento** de 3 meses\n" +
+        "- **ChatBot Ai + Agenda**\n\n" +
+        "Por **$12,000 MXN**. ¿Este monto se ajusta a tu presupuesto actual?",
         [
           { label: "✅ Sí, es viable", onClick: () => { chatState.data.budget_ok = "Si"; handleFlow(targetBody, "ask_niche"); } },
           { label: "⏳ Quizás luego", onClick: () => renderMessage(targetBody, "bot", "¡Sin problema! Te espero cuando estés listo. 👋") }
@@ -191,29 +173,29 @@
       );
     }
 
-if(step === "faq"){
+    // PASO: Pregunta de Nicho
+    if(step === "ask_niche"){
+      chatState.currentState = "qualifying";
+      renderMessage(targetBody, "bot", 
+        "Perfecto. Para darte ejemplos reales, ¿en qué nicho está tu negocio?",
+        [
+          { label: "Salud / Clínicas", onClick: () => { chatState.data.niche = "Salud"; handleFlow(targetBody, "ask_ads"); } },
+          { label: "Servicios / Consultoría", onClick: () => { chatState.data.niche = "Servicios"; handleFlow(targetBody, "ask_ads"); } },
+          { label: "Otro (Escribir)", onClick: () => { chatState.currentState = "waiting_niche"; renderMessage(targetBody, "bot", "¿A qué te dedicas?"); } }
+        ]
+      );
+    }
+
+    // PASO: Dudas Frecuentes (FAQ)
+    if(step === "faq"){
       chatState.currentState = "ai_chat"; 
-      // Aquí simplemente la usas, ya no la defines
-      renderMessage(
-        targetBody, 
-        "bot", 
+      renderMessage(targetBody, "bot", 
         "Elige de las Preguntas Frecuentes, si no ves tu duda puedes escribirla, mi IA te responderá.",
         faqSuggestions 
       );
     }
-  }
 
-  // Cambiamos el estado a ai_chat para que la IA responda a lo que escriban o clickeen
-  chatState.currentState = "ai_chat"; 
-
-  renderMessage(
-    targetBody, 
-    "bot", 
-    "Elige de las Preguntas Frecuentes, si no ves tu duda puedes escribirla, mi IA te responderá.",
-    faqSuggestions // <--- Aquí pasamos los botones
-  );
-}
-
+    // PASO: Inversión en Publicidad
     if(step === "ask_ads"){
       renderMessage(targetBody, "bot", 
         "¿Actualmente ya inviertes en publicidad (Ads) o dependes de recomendaciones?",
@@ -224,33 +206,36 @@ if(step === "faq"){
       );
     }
 
+    // PASO: Cierre / Conversión
     if(step === "final"){
       renderMessage(targetBody, "bot", 
         "¡Excelente! Parece que encaja perfecto contigo. ¿Quieres ver mi agenda para una llamada de 15 min o tienes dudas?",
         [
           { label: "🗓️ Ver Agenda", onClick: () => showCalendly(targetBody) },
-          { label: "✍️ Tengo dudas", onClick: () => { chatState.currentState = "ai_chat"; renderMessage(targetBody, "bot", "Dime, ¿qué duda tienes? Mi IA te responde:"); } }
+          { label: "✍️ Tengo dudas", onClick: () => { chatState.currentState = "ai_chat"; renderMessage(targetBody, "bot", "Dime, ¿qué duda tienes? Elige una opción o escribe tu pregunta y mi IA te responde:", 
+                faqSuggestions 
+              ); } }
         ]
       );
     }
   }
 
-  async function handleUserText(inputEl, targetBody){
-    const txt = inputEl.value.trim();
+// Agregamos faqId como tercer parámetro
+async function handleUserText(inputEl, targetBody, faqId = null){
+    const txt = inputEl.value?.trim() || inputEl.trim();
     if(!txt) return;
-    inputEl.value = "";
+    
+    if(faqId) answeredFAQs.add(faqId); // Guardamos que esta duda ya se respondió
+
+    if(typeof inputEl !== 'string') inputEl.value = "";
     renderMessage(targetBody, "user", txt);
 
-    if(chatState.currentState === "waiting_niche"){
-      chatState.data.niche = txt;
-      handleFlow(targetBody, "ask_ads");
-      return;
-    }
+    // ... (resto de tu lógica de nichos)
 
     await sendToN8N(targetBody, txt);
-  }
+}
 
-async function sendToN8N(targetBody, msg){
+  async function sendToN8N(targetBody, msg){
     const loading = document.createElement("div");
     loading.className = "ew-row bot";
     loading.innerHTML = '<div class="ew-bubble">...</div>';
@@ -268,10 +253,8 @@ async function sendToN8N(targetBody, msg){
       });
 
       const data = await res.json();
-      console.log("DEPURACIÓN: Datos recibidos de n8n:", data);
       loading.remove();
 
-      // 1. Extraer el texto de la respuesta (maneja todos los formatos de n8n/LangChain)
       let rawText = "";
       if (Array.isArray(data)) {
         rawText = data[0]?.output || (data[0]?.kwargs ? data[0].kwargs.content : "");
@@ -279,14 +262,11 @@ async function sendToN8N(targetBody, msg){
         rawText = data.output || data.reply || (data.kwargs ? data.kwargs.content : "");
       }
 
-      // 2. Manejo de error si n8n responde con mensaje genérico
       if (!rawText && data.message === "Workflow was started") {
-        rawText = "La IA está pensando... por favor revisa que en el nodo Webhook de n8n la opción 'Respond' sea 'When Last Node Finishes'.";
+        rawText = "La IA está pensando... por favor revisa la configuración del nodo Webhook en n8n.";
       }
 
       const botReply = rawText || "No pude procesar eso.";
-
-      // 4. Renderizar el mensaje con los botones de sugerencia integrados
       renderMessage(targetBody, "bot", botReply, faqSuggestions);
 
     } catch (e) {
@@ -296,11 +276,10 @@ async function sendToN8N(targetBody, msg){
     }
   }
 
-function showCalendly(targetBody) {
+  function showCalendly(targetBody) {
     if (chatState.activeInstance === 'embedded') {
         panelEmbedded.classList.add('show-calendly');
     } else {
-        // En lugar de texto plano, enviamos un mensaje con un "chip" que funciona como botón
         const calendlyButton = [
             { 
                 label: "🗓️ Abrir Agenda de Eder", 
@@ -309,8 +288,9 @@ function showCalendly(targetBody) {
         ];
         renderMessage(targetBody, "bot", "Excelente. Elige el mejor horario para nuestra llamada de 15 min aquí:", calendlyButton);
     }
-}
+  }
 
+  // --- 6. EVENT LISTENERS ---
   btnFloatOpen?.addEventListener("click", () => {
     panelFloat.classList.add("open");
     if (!bodyFloat.hasChildNodes()) initChatbot(bodyFloat, 'floating');
