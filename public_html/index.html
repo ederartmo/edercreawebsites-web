@@ -84,8 +84,9 @@
             <div class="flip-card-inner" id="flipCard">
               
               <div class="flip-card-front">
-                <video id="vslVideo" playsinline preload="metadata">
+                <video id="vslVideo" playsinline preload="metadata" poster="hero1.gif">
                   <source src="v1_1.mp4" type="video/mp4">
+                  Tu navegador no soporta video HTML5.
                 </video>
 
                 <div class="vsl-overlay" id="vslOverlay">
@@ -164,35 +165,105 @@
     <section class="results" id="resultados">
       <h2 class="sectionTitle">Resultados de Mis Clientes</h2>
 
-      <div class="card resultCard">
-        <div class="resultTextContent">
-          <h3>Dra. Miriam Y. — Psicóloga Clínica</h3>
-          <p class="resultMeta">Caso real</p>
+      <div class="resultsTabs" role="tablist" aria-label="Clientes">
+        <button class="clientTab is-active" type="button" role="tab" aria-selected="true" data-client="miriam">Psicóloga Miriam</button>
+        <button class="clientTab" type="button" role="tab" aria-selected="false" data-client="javier">Psicólogo Javier</button>
+        <button class="clientTab" type="button" role="tab" aria-selected="false" data-client="andre">Psicóloga Andrea</button>
+      </div>
 
-          <p class="quote">
-            "Antes perdía pacientes por no poder contestar el celular mientras estaba en sesión. Eder me creó un sitio que funciona como mi asistente virtual: los pacientes ven mis horarios, reservan y pagan solos. Ahora mi consulta se ve profesional y tengo paz mental."
-          </p>
+      <div class="resultDeck">
+        <article class="card resultCard clientPanel is-active" data-client-panel="miriam">
+          <div class="resultTextContent">
+            <h3>Dra. Miriam Y. — Psicóloga Clínica</h3>
+            <p class="resultMeta">Caso real</p>
 
-          <span class="tag tagGood">✅  Sistema de reservas automático 24/7</span>
+            <p class="quote">
+              "Antes perdía pacientes por no poder contestar el celular mientras estaba en sesión. Eder me creó un sitio que funciona como mi asistente virtual: los pacientes ven mis horarios, reservan y pagan solos. Ahora mi consulta se ve profesional y tengo paz mental."
+            </p>
 
-          <div class="sistema-visual">
-            <p class="resultMeta">Embudo Entregado</p>
-            <div class="flow-container">
-              <div class="flow-step step-red">Anuncio</div>
-              <div class="flow-arrow">➜</div>
-              <div class="flow-step step-yellow">Website</div>
-              <div class="flow-arrow">➜</div>
-              <div class="flow-step step-green">WhatsApp</div>
+            <span class="tag tagGood">✅  Sistema de reservas automático 24/7</span>
+
+            <div class="sistema-visual">
+              <p class="resultMeta">Embudo Entregado</p>
+              <div class="flow-container">
+                <div class="flow-step step-red">Anuncio</div>
+                <div class="flow-arrow">➜</div>
+                <div class="flow-step step-yellow">Website</div>
+                <div class="flow-arrow">➜</div>
+                <div class="flow-step step-green">WhatsApp</div>
+              </div>
             </div>
+
+            <div style="height:12px"></div>
+            <a class="btn btnGreen" href="https://wa.link/eah465" target="_blank">Estoy listo, hablemos.</a>
           </div>
 
-          <div style="height:12px"></div>
-          <a class="btn btnGreen" href="https://wa.link/eah465" target="_blank">Estoy listo, hablemos.</a>
-        </div>
+          <div class="mockup-container">
+            <img src="hero2.gif" alt="Sitio Web Dra Miriam">
+          </div>
+        </article>
 
-        <div class="mockup-container">
-          <img src="hero4.gif" alt="Sitio Web Dra Miriam">
-        </div>
+        <article class="card resultCard clientPanel" data-client-panel="javier">
+          <div class="resultTextContent">
+            <h3>Dr. Javier R. — Psicólogo de Pareja</h3>
+            <p class="resultMeta">Caso real</p>
+
+            <p class="quote">
+              "Mi principal problema era que me llegaban mensajes sin contexto. Con el sitio nuevo mis pacientes llegan precalificados, reservan en menos pasos y el WhatsApp se volvió ordenado. Ahora cierro más sesiones en menos tiempo."
+            </p>
+
+            <span class="tag tagGood">✅  Más citas confirmadas y menos mensajes sueltos</span>
+
+            <div class="sistema-visual">
+              <p class="resultMeta">Embudo Entregado</p>
+              <div class="flow-container">
+                <div class="flow-step step-red">Instagram</div>
+                <div class="flow-arrow">➜</div>
+                <div class="flow-step step-yellow">Landing</div>
+                <div class="flow-arrow">➜</div>
+                <div class="flow-step step-green">Agenda</div>
+              </div>
+            </div>
+
+            <div style="height:12px"></div>
+            <a class="btn btnGreen" href="https://wa.link/eah465" target="_blank">Quiero algo así</a>
+          </div>
+
+          <div class="mockup-container">
+            <img src="hero1.gif" alt="Sitio Web Dr Javier">
+          </div>
+        </article>
+
+        <article class="card resultCard clientPanel" data-client-panel="andre">
+          <div class="resultTextContent">
+            <h3>Dra. Andrea M. — Psicóloga Infantil</h3>
+            <p class="resultMeta">Caso real</p>
+
+            <p class="quote">
+              "Antes explicaba lo mismo una y otra vez por chat. El nuevo sitio responde dudas clave, muestra mi proceso y filtra a los padres listos para agendar. Eso me dio más claridad y menos desgaste diario."
+            </p>
+
+            <span class="tag tagGood">✅  Menos fricción para agendar la primera sesión</span>
+
+            <div class="sistema-visual">
+              <p class="resultMeta">Embudo Entregado</p>
+              <div class="flow-container">
+                <div class="flow-step step-red">Recomendación</div>
+                <div class="flow-arrow">➜</div>
+                <div class="flow-step step-yellow">Website</div>
+                <div class="flow-arrow">➜</div>
+                <div class="flow-step step-green">WhatsApp</div>
+              </div>
+            </div>
+
+            <div style="height:12px"></div>
+            <a class="btn btnGreen" href="https://wa.link/eah465" target="_blank">Hablemos de mi caso</a>
+          </div>
+
+          <div class="mockup-container">
+            <img src="hero2.gif" alt="Sitio Web Dra Andrea">
+          </div>
+        </article>
       </div>
     </section>
 
@@ -376,12 +447,7 @@
 
   </main>
 
-  <div class="ew-fabWrap" aria-label="Chat widgets">
-    <button class="ew-fab ew-fabDemo" id="ewOpen" type="button">
-      <span class="ew-fabIcon">🤖</span>
-      <span>Asistente (Agendar)</span>
-    </button>
-
+  <div class="ew-fabWrap" aria-label="Widgets de contacto">
     <a class="ew-fab ew-fabWA" id="ewWA" href="https://wa.link/eah465" target="_blank" rel="noopener">
       <span class="ew-fabIcon">💬</span>
       <span>Hablar conmigo</span>

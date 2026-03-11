@@ -43,6 +43,14 @@ let answeredFAQs = new Set();
   const progress = document.getElementById('vslProgress');
   const btnWatchCase = document.getElementById('btnWatchCase');
   const vslSection = document.getElementById('vslSection');
+  const heroPretag = document.querySelector('.pretag');
+  const heroStars = document.querySelector('.stars');
+  const heroCredTag = document.querySelector('.credTag');
+  const btnVideoPlayPause = document.getElementById('vslPlayPause');
+  const btnVideoRestart = document.getElementById('vslRestart');
+  const btnVideoMute = document.getElementById('vslMute');
+  const clientTabs = Array.from(document.querySelectorAll('.clientTab'));
+  const clientPanels = Array.from(document.querySelectorAll('.clientPanel'));
 
   const panelFloat = document.getElementById('ewPanel');
   const btnFloatOpen = document.getElementById('ewOpen');
@@ -63,10 +71,63 @@ let answeredFAQs = new Set();
     data: { interest: "", ads: "", niche: "", phone: "", budget_ok: "" }
   };
 
+  function toggleSolution(solutionNumber){
+    const targetId = `sol-${solutionNumber}`;
+    const allSolutions = Array.from(document.querySelectorAll('.solucion-content'));
+
+    allSolutions.forEach((solution) => {
+      const isTarget = solution.id === targetId;
+      solution.classList.toggle('active', isTarget ? !solution.classList.contains('active') : false);
+    });
+
+    const allButtons = Array.from(document.querySelectorAll('.btn-solucion'));
+    allButtons.forEach((button, index) => {
+      const btnNumber = index + 1;
+      const currentSolution = document.getElementById(`sol-${btnNumber}`);
+      const isOpen = currentSolution?.classList.contains('active');
+      button.textContent = isOpen ? `Ocultar Solución #${btnNumber}` : `Ver Solución #${btnNumber}`;
+    });
+  }
+
+  window.toggleSolution = toggleSolution;
+
+  function initClientTabs(){
+    if (!clientTabs.length || !clientPanels.length) return;
+
+    function activateClient(clientId){
+      clientTabs.forEach((tab) => {
+        const isActive = tab.dataset.client === clientId;
+        tab.classList.toggle('is-active', isActive);
+        tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      clientPanels.forEach((panel) => {
+        panel.classList.toggle('is-active', panel.dataset.clientPanel === clientId);
+      });
+    }
+
+    clientTabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => activateClient(tab.dataset.client));
+
+      tab.addEventListener('keydown', (e) => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        const step = e.key === 'ArrowRight' ? 1 : -1;
+        const nextIndex = (index + step + clientTabs.length) % clientTabs.length;
+        const nextTab = clientTabs[nextIndex];
+        nextTab.focus();
+        activateClient(nextTab.dataset.client);
+      });
+    });
+  }
+
+  initClientTabs();
+
   // --- 4. LÓGICA VSL (VIDEO) ---
   if(video) {
     let hasShownButton = false;
     video.muted = true;
+    if (btnVideoMute) btnVideoMute.textContent = '🔇';
     video.play().catch(()=>{});
 
     function startVideo(){
@@ -76,11 +137,19 @@ let answeredFAQs = new Set();
       if(overlay) overlay.style.display = 'none';
     }
 
-    btnPlay?.addEventListener('click', startVideo);
-    btnWatchCase?.addEventListener('click', () => {
-      vslSection?.scrollIntoView({ behavior: 'smooth' });
+    function openCaseVideo(){
+      const isMobile = window.matchMedia('(max-width: 900px)').matches;
+      if (isMobile) {
+        vslSection?.scrollIntoView({ behavior: 'smooth' });
+      }
       setTimeout(startVideo, 500);
-    });
+    }
+
+    btnPlay?.addEventListener('click', startVideo);
+    btnWatchCase?.addEventListener('click', openCaseVideo);
+    heroPretag?.addEventListener('click', openCaseVideo);
+    heroStars?.addEventListener('click', openCaseVideo);
+    heroCredTag?.addEventListener('click', openCaseVideo);
 
     video.addEventListener('timeupdate', () => {
       const pct = (video.currentTime / video.duration) * 100;
@@ -99,6 +168,39 @@ let answeredFAQs = new Set();
     });
 
     btnFlipBack?.addEventListener('click', () => flipCard.classList.remove('is-flipped'));
+
+    btnVideoPlayPause?.addEventListener('click', async () => {
+      if (video.paused) {
+        try {
+          await video.play();
+          btnVideoPlayPause.textContent = '⏸';
+        } catch (_) {}
+      } else {
+        video.pause();
+        btnVideoPlayPause.textContent = '▶';
+      }
+    });
+
+    btnVideoRestart?.addEventListener('click', async () => {
+      video.currentTime = 0;
+      try {
+        await video.play();
+        btnVideoPlayPause && (btnVideoPlayPause.textContent = '⏸');
+      } catch (_) {}
+    });
+
+    btnVideoMute?.addEventListener('click', () => {
+      video.muted = !video.muted;
+      btnVideoMute.textContent = video.muted ? '🔇' : '🔊';
+    });
+
+    video.addEventListener('play', () => {
+      btnVideoPlayPause && (btnVideoPlayPause.textContent = '⏸');
+    });
+
+    video.addEventListener('pause', () => {
+      btnVideoPlayPause && (btnVideoPlayPause.textContent = '▶');
+    });
   }
 
   // --- 5. FUNCIONES CORE DEL CHATBOT ---

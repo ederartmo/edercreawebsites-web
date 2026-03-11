@@ -662,6 +662,39 @@
 
     .results{ padding: 6px 0 22px; }
 
+    .resultsTabs{
+      display:flex;
+      justify-content:center;
+      gap:8px;
+      flex-wrap:wrap;
+      margin: 8px 0 0;
+    }
+
+    .clientTab{
+      border: 1px solid rgba(15,23,42,.16);
+      background: #d9ebf9;
+      color: #10243a;
+      font-weight: 900;
+      border-radius: 14px;
+      padding: 9px 14px;
+      cursor: pointer;
+      transition: transform .15s ease, background .15s ease;
+    }
+
+    .clientTab:hover{ transform: translateY(-1px); }
+
+    .clientTab.is-active{
+      background: linear-gradient(180deg, #9fc3e3, #7da9cf);
+      color:#0b1d30;
+      border-color: rgba(15,23,42,.25);
+    }
+
+    .resultDeck{ margin-top: 8px; }
+
+    .resultDeck .clientPanel{ display:none; }
+
+    .resultDeck .clientPanel.is-active{ display:grid; }
+
     .sectionTitle{
 
       text-align:center;
@@ -758,6 +791,27 @@
 
       .flow-step { font-size: 12px; padding: 8px 10px; min-width: 70px; }
 
+    }
+
+    @media (min-width: 880px){
+      .resultsTabs{
+        justify-content:flex-start;
+        gap:4px;
+        margin: 12px 0 -1px;
+        padding-left: 10px;
+      }
+
+      .clientTab{
+        border-radius: 18px 18px 0 0;
+        background: linear-gradient(180deg, #abd0ef, #8db8dc);
+        box-shadow: 0 -1px 0 rgba(255,255,255,.55) inset;
+        border-bottom-color: transparent;
+      }
+
+      .clientTab.is-active{
+        transform: translateY(1px);
+        background: linear-gradient(180deg, #bfdcf4, #9ec6e6);
+      }
     }
 
 
