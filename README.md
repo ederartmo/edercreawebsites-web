@@ -13,6 +13,16 @@ npm install
 npm start
 ```
 
+## Publicar ruta /cursos
+
+Para generar y actualizar la seccion de cursos en `https://edercreawebs.com/cursos`:
+
+```bash
+npm run build:cursos
+```
+
+Ese comando construye la app Next.js ubicada en `courses/` y copia el export estatico a `public_html/cursos/`.
+
 La app inicia en `http://localhost:3000` (o en el puerto definido por `PORT`).
 
 ## Despliegue en Hostinger (Node.js)

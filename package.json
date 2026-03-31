@@ -6,7 +6,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "NODE_ENV=development node server.js"
+    "dev": "NODE_ENV=development node server.js",
+    "build:cursos": "cd courses && npm run build && rm -rf ../public_html/cursos && mkdir -p ../public_html/cursos && cp -R out/* ../public_html/cursos/",
+    "build:all": "npm run build:cursos"
   },
   "engines": {
     "node": ">=18"
