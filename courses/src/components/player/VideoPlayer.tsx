@@ -61,7 +61,6 @@ export default function VideoPlayer({
 				ref={videoRef}
 				className="w-full h-full object-contain"
 				playsInline
-				onClick={togglePlay}
 			/>
 
 			{/* Buffering spinner */}
@@ -75,6 +74,15 @@ export default function VideoPlayer({
 			{!isPlaying && pauseMessage && (
 				<PauseMessage message={pauseMessage} onDismiss={togglePlay} />
 			)}
+
+			{/* Clickable pause/play zone (upper 70% of video) */}
+			<div
+				className="absolute inset-0 top-0 bottom-[30%] cursor-pointer"
+				onClick={togglePlay}
+				role="button"
+				tabIndex={0}
+				aria-label="Pausar/Continuar"
+			/>
 
 			{/* Controls overlay */}
 			<div
