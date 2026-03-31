@@ -48,11 +48,18 @@ export default function VideoPlayer({
 		seek(percent * duration);
 	};
 
+	const handlePlayerClick = (e: React.MouseEvent<HTMLDivElement>) => {
+		const target = e.target as HTMLElement;
+		if (target.closest("[data-player-control='true']")) return;
+		togglePlay();
+	};
+
 	return (
 		<div
 			ref={containerRef}
 			className="relative bg-black w-full select-none"
 			style={!isFullscreen ? { aspectRatio: "16/9" } : { height: "100vh" }}
+			onClick={handlePlayerClick}
 			onMouseMove={handleMouseActivity}
 			onMouseEnter={handleMouseActivity}
 		>
@@ -75,18 +82,9 @@ export default function VideoPlayer({
 				<PauseMessage message={pauseMessage} onDismiss={togglePlay} />
 			)}
 
-			{/* Clickable pause/play zone (upper 70% of video) */}
-			<div
-				className="absolute inset-0 top-0 bottom-[30%] cursor-pointer"
-				onClick={togglePlay}
-				role="button"
-				tabIndex={0}
-				aria-label="Pausar/Continuar"
-			/>
-
 			{/* Controls overlay */}
 			<div
-				className={`absolute inset-0 flex flex-col justify-end transition-opacity duration-300 ${
+				className={`absolute inset-0 flex flex-col justify-end pointer-events-none transition-opacity duration-300 ${
 					showControls || !isPlaying ? "opacity-100" : "opacity-0 pointer-events-none"
 				}`}
 			>
@@ -103,15 +101,19 @@ export default function VideoPlayer({
 				{/* Centre play button (only when paused) */}
 				{!isPlaying && !pauseMessage && (
 					<button
+						data-player-control="true"
 						onClick={togglePlay}
-						className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 rounded-full p-4 transition-all backdrop-blur-sm"
+						className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-auto bg-black/40 hover:bg-black/60 rounded-full p-4 transition-all backdrop-blur-sm"
 					>
 						<Play className="w-8 h-8 text-white fill-white" />
 					</button>
 				)}
 
 				{/* Bottom controls */}
-				<div className="relative z-10 px-3 pb-3 flex flex-col gap-1.5">
+				<div
+					data-player-control="true"
+					className="pointer-events-auto relative z-10 px-3 pb-3 flex flex-col gap-1.5"
+				>
 					{/* Seekbar */}
 					<div
 						className="relative h-5 flex items-center cursor-pointer group/seek"

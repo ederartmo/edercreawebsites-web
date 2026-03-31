@@ -6,6 +6,7 @@ interface PauseMessageProps {
 export default function PauseMessage({ message, onDismiss }: PauseMessageProps) {
 	return (
 		<div
+			data-player-control="true"
 			className="absolute inset-0 z-10 flex items-center justify-center bg-black/65 backdrop-blur-sm cursor-pointer"
 			onClick={onDismiss}
 		>
