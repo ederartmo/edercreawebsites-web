@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { getSupabase } from '@/lib/supabase';
 import type { User } from '@supabase/supabase-js';
 
-const STRIPE_LINK = 'https://buy.stripe.com/4gMbJ00x39P62me0u1ak005';
+const STRIPE_LINK = 'https://buy.stripe.com/test_dRm6oG6Vr0ewd0S5Olak000';
 const THUMBNAIL =
 	'https://customer-hwj8nccxmfdfhkme.cloudflarestream.com/d4fd5bfcdc82df502201185e303e7b62/thumbnails/thumbnail.jpg';
 
