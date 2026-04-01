@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useRef, useState } from "react";
 import { Play, Pause, Volume2, VolumeX, Maximize, Minimize, Loader2 } from "lucide-react";
 import type { Chapter } from "@/types";
 import { formatTime, calcPercent } from "@/lib/utils";
@@ -38,14 +39,45 @@ export default function VideoPlayer({
 	toggleFullscreen,
 	handleMouseActivity,
 }: VideoPlayerProps) {
+	const seekbarRef = useRef<HTMLDivElement>(null);
+	const [isSeeking, setIsSeeking] = useState(false);
 	const progressPercent = calcPercent(currentTime, duration);
 	const bufferedPercent = calcPercent(bufferedEnd, duration);
 
-	const handleSeekClick = (e: React.MouseEvent<HTMLDivElement>) => {
+	const updateSeekFromClientX = useCallback(
+		(clientX: number) => {
+			if (duration === 0 || !seekbarRef.current) return;
+			const rect = seekbarRef.current.getBoundingClientRect();
+			const percent = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+			seek(percent * duration);
+		},
+		[duration, seek],
+	);
+
+	const handleSeekPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
 		if (duration === 0) return;
-		const rect = e.currentTarget.getBoundingClientRect();
-		const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-		seek(percent * duration);
+		e.preventDefault();
+		e.stopPropagation();
+		setIsSeeking(true);
+		handleMouseActivity();
+		updateSeekFromClientX(e.clientX);
+		e.currentTarget.setPointerCapture(e.pointerId);
+	};
+
+	const handleSeekPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+		if (!isSeeking) return;
+		e.preventDefault();
+		updateSeekFromClientX(e.clientX);
+	};
+
+	const handleSeekPointerEnd = (e: React.PointerEvent<HTMLDivElement>) => {
+		if (!isSeeking) return;
+		e.preventDefault();
+		updateSeekFromClientX(e.clientX);
+		setIsSeeking(false);
+		if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+			e.currentTarget.releasePointerCapture(e.pointerId);
+		}
 	};
 
 	const handlePlayerClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -116,8 +148,13 @@ export default function VideoPlayer({
 				>
 					{/* Seekbar */}
 					<div
+						ref={seekbarRef}
 						className="relative h-5 flex items-center cursor-pointer group/seek"
-						onClick={handleSeekClick}
+						onPointerDown={handleSeekPointerDown}
+						onPointerMove={handleSeekPointerMove}
+						onPointerUp={handleSeekPointerEnd}
+						onPointerCancel={handleSeekPointerEnd}
+						style={{ touchAction: "none" }}
 					>
 						<div className="relative w-full h-1 group-hover/seek:h-1.5 transition-all duration-150 rounded-full overflow-hidden bg-white/20">
 							{/* Buffered */}
@@ -143,7 +180,9 @@ export default function VideoPlayer({
 
 						{/* Thumb */}
 						<div
-							className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-orange-500 opacity-0 group-hover/seek:opacity-100 transition-opacity pointer-events-none shadow-md"
+							className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-orange-500 transition-opacity pointer-events-none shadow-md ${
+								isSeeking ? "opacity-100 scale-110" : "opacity-0 group-hover/seek:opacity-100"
+							}`}
 							style={{ left: `${progressPercent}%` }}
 						/>
 					</div>

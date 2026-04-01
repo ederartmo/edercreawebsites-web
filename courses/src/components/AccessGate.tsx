@@ -1,8 +1,10 @@
 'use client';
 
 import { Suspense, useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { getSupabase } from '@/lib/supabase';
+import { COURSE_CATALOG } from '@/data/courses';
+import CourseSalesPage from '@/components/course/CourseSalesPage';
 import type { User } from '@supabase/supabase-js';
 
 const STRIPE_LINK = 'https://buy.stripe.com/test_dRm6oG6Vr0ewd0S5Olak000';
@@ -72,7 +74,9 @@ function GateInner({ children }: { children: React.ReactNode }) {
 	const [user, setUser] = useState<User | null>(null);
 	const [isAdmin, setIsAdmin] = useState(false);
 	const [signingIn, setSigningIn] = useState(false);
+	const pathname = usePathname();
 	const params = useSearchParams();
+	const currentCourse = COURSE_CATALOG.find((course) => pathname === `/${course.slug}`) ?? null;
 
 	useEffect(() => {
 		// Solo se ejecuta en el browser; aquí es seguro inicializar Supabase
@@ -174,6 +178,20 @@ function GateInner({ children }: { children: React.ReactNode }) {
 
 	// Pantalla unificada: login o compra
 	const needsLogin = state === 'login';
+
+	if (currentCourse) {
+		return (
+			<CourseSalesPage
+				course={currentCourse}
+				stripeLink={STRIPE_LINK}
+				needsLogin={needsLogin}
+				signingIn={signingIn}
+				userEmail={user?.email}
+				onGoogleLogin={handleGoogleLogin}
+				onLogout={handleLogout}
+			/>
+		);
+	}
 
 	return (
 		<main className="min-h-screen bg-zinc-950 text-white flex flex-col items-center justify-center px-6 py-14">
