@@ -14,18 +14,54 @@ const PAID_KEY = 'cursos_paid';
 
 type State = 'loading' | 'open' | 'login' | 'unpaid';
 
+const ADMIN_EMAILS = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? '')
+	.split(',')
+	.map((value) => value.trim().toLowerCase())
+	.filter(Boolean);
+
 // Función para verificar si un email es admin/autorizado
 async function checkIfAuthorized(email: string): Promise<boolean> {
 	try {
+		const normalizedEmail = email.trim().toLowerCase();
+		if (!normalizedEmail) return false;
+
+		if (ADMIN_EMAILS.includes(normalizedEmail)) {
+			return true;
+		}
+
 		const supabase = getSupabase();
-		const { data, error } = await supabase
+
+		// Flujo principal: tabla user_roles (la usada para roles)
+		const { data: roleData, error: roleError } = await supabase
+			.from('user_roles')
+			.select('id, is_admin')
+			.ilike('email', normalizedEmail)
+			.maybeSingle();
+
+		if (!roleError && roleData) {
+			return roleData.is_admin === true;
+		}
+
+		// Compatibilidad con instalaciones anteriores
+		const { data: authorizedData, error: authorizedError } = await supabase
 			.from('authorized_users')
 			.select('id, is_admin')
-			.eq('email', email)
-			.single();
+			.ilike('email', normalizedEmail)
+			.maybeSingle();
 
-		if (error || !data) return false;
-		return data.is_admin === true;
+		if (!authorizedError && authorizedData) {
+			return authorizedData.is_admin === true;
+		}
+
+		if (roleError && roleError.code !== 'PGRST116') {
+			console.warn('No se pudo validar admin en user_roles:', roleError.message);
+		}
+
+		if (authorizedError && authorizedError.code !== 'PGRST116') {
+			console.warn('No se pudo validar admin en authorized_users:', authorizedError.message);
+		}
+
+		return false;
 	} catch {
 		return false;
 	}
