@@ -14,9 +14,27 @@ const PAID_KEY = 'cursos_paid';
 
 type State = 'loading' | 'open' | 'login' | 'unpaid';
 
+// Función para verificar si un email es admin/autorizado
+async function checkIfAuthorized(email: string): Promise<boolean> {
+	try {
+		const supabase = getSupabase();
+		const { data, error } = await supabase
+			.from('authorized_users')
+			.select('id, is_admin')
+			.eq('email', email)
+			.single();
+
+		if (error || !data) return false;
+		return data.is_admin === true;
+	} catch {
+		return false;
+	}
+}
+
 function GateInner({ children }: { children: React.ReactNode }) {
 	const [state, setState] = useState<State>('loading');
 	const [user, setUser] = useState<User | null>(null);
+	const [isAdmin, setIsAdmin] = useState(false);
 	const [signingIn, setSigningIn] = useState(false);
 	const params = useSearchParams();
 
@@ -31,6 +49,16 @@ function GateInner({ children }: { children: React.ReactNode }) {
 
 			if (!u) {
 				setState('login');
+				return;
+			}
+
+			// Verificar si es admin
+			const isAdminUser = await checkIfAuthorized(u.email || '');
+			setIsAdmin(isAdminUser);
+
+			// Si es admin, darle acceso directo
+			if (isAdminUser) {
+				setState('open');
 				return;
 			}
 
@@ -58,8 +86,15 @@ function GateInner({ children }: { children: React.ReactNode }) {
 				setState('login');
 				return;
 			}
-			const paid = u.user_metadata?.[PAID_KEY] === true;
-			setState(paid ? 'open' : 'unpaid');
+			checkIfAuthorized(u.email || '').then((isAdminUser) => {
+				setIsAdmin(isAdminUser);
+				if (isAdminUser) {
+					setState('open');
+					return;
+				}
+				const paid = u.user_metadata?.[PAID_KEY] === true;
+				setState(paid ? 'open' : 'unpaid');
+			});
 		});
 
 		return () => subscription.unsubscribe();
@@ -166,27 +201,42 @@ function GateInner({ children }: { children: React.ReactNode }) {
 								</button>
 							</>
 						) : (
-							/* ---- Estado: sesión activa pero sin compra ---- */
+							/* ---- Estado: sesión activa (admin o necesita compra) ---- */
 							<>
-								<p className="mt-5 text-sm text-zinc-400 text-center">
-									Hola <span className="text-white font-medium">{user?.email}</span> —
-									adquiere el curso para obtener acceso.
-								</p>
-								<a
-									href={STRIPE_LINK}
-									className="mt-4 flex items-center justify-center w-full rounded-xl bg-orange-500 hover:bg-orange-400 text-black font-bold text-base py-4 transition-colors"
-								>
-									Comprar acceso
-								</a>
-								<p className="mt-2 text-center text-xs text-zinc-500">
-									Pago seguro con Stripe · Acceso inmediato al completar
-								</p>
-								<button
-									onClick={handleLogout}
-									className="mt-4 w-full text-xs text-zinc-600 hover:text-zinc-400 transition-colors"
-								>
-									Usar otra cuenta
-								</button>
+								{isAdmin ? (
+									/* Usuario es admin - acceso automático */
+									<>
+										<p className="mt-5 text-sm text-zinc-300 text-center">
+											👋 Bienvenido <span className="text-white font-medium">{user?.email}</span>
+										</p>
+										<p className="mt-2 text-xs text-orange-400 text-center font-medium">
+											✓ Acceso de administrador activado
+										</p>
+									</>
+								) : (
+									/* Usuario normal - necesita comprar */
+									<>
+										<p className="mt-5 text-sm text-zinc-400 text-center">
+											Hola <span className="text-white font-medium">{user?.email}</span> —
+											adquiere el curso para obtener acceso.
+										</p>
+										<a
+											href={STRIPE_LINK}
+											className="mt-4 flex items-center justify-center w-full rounded-xl bg-orange-500 hover:bg-orange-400 text-black font-bold text-base py-4 transition-colors"
+										>
+											Comprar acceso
+										</a>
+										<p className="mt-2 text-center text-xs text-zinc-500">
+											Pago seguro con Stripe · Acceso inmediato al completar
+										</p>
+										<button
+											onClick={handleLogout}
+											className="mt-4 w-full text-xs text-zinc-600 hover:text-zinc-400 transition-colors"
+										>
+											Usar otra cuenta
+										</button>
+									</>
+								)}
 							</>
 						)}
 					</div>
