@@ -151,7 +151,7 @@ const WEB_DESDE_CERO_TIMELINE: ChapterTimelineItem[] = [
 const SAMPLE_COURSE: Course = {
 	id: "curso-web-desde-cero",
 	slug: "web-desde-cero",
-	title: "Disena tu primer sitio web desde cero",
+		title: "Diseña tu primer sitio web desde cero",
 	subtitle: "HTML · CSS · JavaScript - sin frameworks, con identidad propia",
 	description:
 		"Aprende a construir un sitio web profesional desde cero, con codigo limpio, diseno moderno y enfocado en convertir visitas en clientes.",

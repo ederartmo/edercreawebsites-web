@@ -21,11 +21,15 @@ export default function CatalogoPage() {
 							<div className="p-4">
 								<h2 className="font-semibold leading-snug">{course.title}</h2>
 								<p className="mt-2 text-sm text-zinc-400 line-clamp-2">{course.subtitle}</p>
+								<div className="mt-3 flex items-center gap-2 text-sm">
+									<span className="text-zinc-500 line-through">$2000</span>
+									<span className="font-semibold text-emerald-300">$1200 MXN</span>
+								</div>
 								<Link
 									href={`/${course.slug}`}
 									className="mt-4 inline-flex rounded-lg bg-orange-500 hover:bg-orange-400 text-black font-semibold px-4 py-2 text-sm transition-colors"
 								>
-									Entrar
+									Ver detalles
 								</Link>
 							</div>
 						</article>

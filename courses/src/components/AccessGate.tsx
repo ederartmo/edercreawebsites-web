@@ -76,7 +76,14 @@ function GateInner({ children }: { children: React.ReactNode }) {
 	const [signingIn, setSigningIn] = useState(false);
 	const pathname = usePathname();
 	const params = useSearchParams();
-	const currentCourse = COURSE_CATALOG.find((course) => pathname === `/${course.slug}`) ?? null;
+	const normalizedPath = (() => {
+		const withoutBasePath = pathname.replace(/^\/cursos(?=\/|$)/, '') || '/';
+		if (withoutBasePath !== '/' && withoutBasePath.endsWith('/')) {
+			return withoutBasePath.slice(0, -1);
+		}
+		return withoutBasePath;
+	})();
+	const currentCourse = COURSE_CATALOG.find((course) => normalizedPath === `/${course.slug}`) ?? null;
 
 	useEffect(() => {
 		// Solo se ejecuta en el browser; aquí es seguro inicializar Supabase
@@ -205,14 +212,14 @@ function GateInner({ children }: { children: React.ReactNode }) {
 					<div className="aspect-video w-full overflow-hidden">
 						<img
 							src={THUMBNAIL}
-							alt="Disena tu primer sitio web desde cero"
+							alt="Diseña tu primer sitio web desde cero"
 							className="w-full h-full object-cover"
 						/>
 					</div>
 
 					<div className="p-6">
 						<h1 className="text-xl font-bold leading-snug">
-							Disena tu primer sitio web desde cero
+							Diseña tu primer sitio web desde cero
 						</h1>
 						<p className="mt-2 text-sm text-zinc-400">
 							HTML · CSS · JavaScript — sin frameworks, con identidad propia.
