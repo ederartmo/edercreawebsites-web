@@ -332,6 +332,13 @@ export function useVideoPlayer({
 
 	// ── Keyboard shortcuts ─────────────────────────────────────────────────────
 	useEffect(() => {
+		const restartIfEnded = (video: HTMLVideoElement) => {
+			const videoDuration = Number.isFinite(video.duration) ? video.duration : 0;
+			if (videoDuration > 0 && video.currentTime >= videoDuration - 0.25) {
+				video.currentTime = 0;
+			}
+		};
+
 		const onKeyDown = (e: KeyboardEvent) => {
 			const tag = (e.target as HTMLElement).tagName;
 			if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
@@ -343,7 +350,12 @@ export function useVideoPlayer({
 				case " ":
 				case "k":
 					e.preventDefault();
-					video.paused ? video.play() : video.pause();
+					if (video.paused) {
+						restartIfEnded(video);
+						void video.play();
+					} else {
+						video.pause();
+					}
 					break;
 				case "ArrowLeft":
 					e.preventDefault();
@@ -383,7 +395,17 @@ export function useVideoPlayer({
 	const togglePlay = useCallback(() => {
 		const v = videoRef.current;
 		if (!v) return;
-		v.paused ? v.play() : v.pause();
+
+		if (v.paused) {
+			const videoDuration = Number.isFinite(v.duration) ? v.duration : 0;
+			if (videoDuration > 0 && v.currentTime >= videoDuration - 0.25) {
+				v.currentTime = 0;
+			}
+			void v.play();
+			return;
+		}
+
+		v.pause();
 	}, []);
 
 	const seek = useCallback((time: number) => {
