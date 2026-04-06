@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import CourseSalesPage from "@/components/course/CourseSalesPage";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import { getSupabase } from "@/lib/supabase";
 import { hasCourseAccess, resolvePurchasedSlugs } from "@/lib/courseAccess";
 import type { Course } from "@/types";
@@ -73,16 +74,25 @@ export default function CourseDetailClient({ course }: Props) {
 	if (loading) return null;
 
 	return (
-		<CourseSalesPage
-			course={course}
-			stripeLink={STRIPE_LINK}
-			needsLogin={needsLogin}
-			hasAccess={hasAccess}
-			playerHref={`/${course.slug}/`}
-			signingIn={signingIn}
-			userEmail={user?.email}
-			onGoogleLogin={handleGoogleLogin}
-			onLogout={handleLogout}
-		/>
+		<>
+			<header className="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/90 backdrop-blur-sm px-4 py-3">
+				<Breadcrumb items={[
+					{ label: "inicio", href: "/", external: true },
+					{ label: "cursos", href: "/" },
+					{ label: course.title },
+				]} />
+			</header>
+			<CourseSalesPage
+				course={course}
+				stripeLink={STRIPE_LINK}
+				needsLogin={needsLogin}
+				hasAccess={hasAccess}
+				playerHref={`/${course.slug}/`}
+				signingIn={signingIn}
+				userEmail={user?.email}
+				onGoogleLogin={handleGoogleLogin}
+				onLogout={handleLogout}
+			/>
+		</>
 	);
 }

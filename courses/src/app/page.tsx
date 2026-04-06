@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { LayoutGrid, List } from "lucide-react";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import type { User } from "@supabase/supabase-js";
 import { COURSE_CATALOG } from "@/data/courses";
 import { getSupabase } from "@/lib/supabase";
@@ -164,10 +165,10 @@ export default function HomePage() {
 							alt="Eder Crea Webs"
 							className="h-8 w-8 rounded-full object-cover"
 						/>
-						<div>
-							<p className="text-[11px] uppercase tracking-[0.18em] text-zinc-400">Eder Crea Webs</p>
-							<p className="text-sm font-semibold text-zinc-100">Cursos</p>
-						</div>
+						<Breadcrumb items={[
+							{ label: "inicio", href: "/", external: true },
+							{ label: "cursos" },
+						]} />
 					</div>
 
 					<Link href="/perfil" className="group flex items-center gap-2" aria-label="Ir a perfil">
