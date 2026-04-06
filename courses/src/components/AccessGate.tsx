@@ -243,6 +243,13 @@ function GateInner({ children }: { children: React.ReactNode }) {
 							Catalogo
 						</Link>
 						<Link
+							href="/mis-cursos"
+							onClick={() => setMenuOpen(false)}
+							className="block px-3 py-2 text-zinc-200 hover:bg-zinc-800"
+						>
+							Mis cursos
+						</Link>
+						<Link
 							href="/"
 							onClick={() => setMenuOpen(false)}
 							className="block px-3 py-2 text-zinc-200 hover:bg-zinc-800"

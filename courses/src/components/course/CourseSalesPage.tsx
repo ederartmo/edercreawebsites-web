@@ -222,6 +222,13 @@ export default function CourseSalesPage({
 						<div className="overflow-hidden rounded-[28px] border border-emerald-500/20 bg-zinc-950/90 shadow-[0_18px_70px_rgba(0,0,0,0.35)] backdrop-blur-sm">
 							<div className="p-5">
 								<p className="text-[11px] uppercase tracking-[0.22em] text-emerald-300">Acceso al curso</p>
+								<div className="mt-2">
+									{needsLogin ? (
+										<span className="inline-flex rounded-full bg-amber-500/15 px-2.5 py-1 text-xs font-semibold text-amber-300">Estado: inicia sesion</span>
+									) : (
+										<span className="inline-flex rounded-full bg-rose-500/15 px-2.5 py-1 text-xs font-semibold text-rose-300">Estado: no comprado</span>
+									)}
+								</div>
 								<h3 className="mt-3 text-xl font-semibold text-white">Diseña y vende mejor tu trabajo web</h3>
 								<p className="mt-2 text-sm leading-6 text-zinc-400">
 									Accede al curso completo con indice navegable, video en alta calidad y seguimiento de progreso.

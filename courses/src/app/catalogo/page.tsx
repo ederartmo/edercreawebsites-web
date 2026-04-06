@@ -1,14 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { LayoutGrid, List } from "lucide-react";
 import { COURSE_CATALOG } from "@/data/courses";
+import { getSupabase } from "@/lib/supabase";
 
 type ViewMode = "grid" | "list";
+const PAID_KEY = "cursos_paid";
 
 export default function CatalogoPage() {
 	const [view, setView] = useState<ViewMode>("grid");
+	const [hasPaid, setHasPaid] = useState(false);
+
+	useEffect(() => {
+		const supabase = getSupabase();
+		supabase.auth.getSession().then(({ data: { session } }) => {
+			const paid = session?.user?.user_metadata?.[PAID_KEY] === true;
+			setHasPaid(paid);
+		});
+	}, []);
 
 	return (
 		<main className="min-h-screen bg-zinc-950 text-white px-6 py-12">
@@ -41,11 +52,21 @@ export default function CatalogoPage() {
 				{view === "grid" && (
 					<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
 						{COURSE_CATALOG.map((course) => (
+							// Estado de compra visible en cada detalle/listado
 							<article key={course.id} className="rounded-xl border border-zinc-800 bg-zinc-900 overflow-hidden">
 								<div className="aspect-video bg-zinc-800">
 									<img src={course.thumbnail} alt={course.title} className="w-full h-full object-cover" loading="lazy" />
 								</div>
 								<div className="p-4">
+									<div className="mb-2">
+										{course.isFree ? (
+											<span className="inline-flex rounded-full bg-emerald-500/15 px-2.5 py-1 text-xs font-semibold text-emerald-300">Gratis</span>
+										) : hasPaid ? (
+											<span className="inline-flex rounded-full bg-emerald-500/15 px-2.5 py-1 text-xs font-semibold text-emerald-300">Comprado</span>
+										) : (
+											<span className="inline-flex rounded-full bg-rose-500/15 px-2.5 py-1 text-xs font-semibold text-rose-300">No comprado</span>
+										)}
+									</div>
 									<h2 className="font-semibold leading-snug">{course.title}</h2>
 									<p className="mt-2 text-sm text-zinc-400 line-clamp-2">{course.subtitle}</p>
 									<div className="mt-3 flex items-center gap-2 text-sm">
@@ -93,6 +114,15 @@ export default function CatalogoPage() {
 									loading="lazy"
 								/>
 								<div className="flex-1 min-w-0">
+									<div className="mb-1">
+										{course.isFree ? (
+											<span className="inline-flex rounded-full bg-emerald-500/15 px-2.5 py-1 text-xs font-semibold text-emerald-300">Gratis</span>
+										) : hasPaid ? (
+											<span className="inline-flex rounded-full bg-emerald-500/15 px-2.5 py-1 text-xs font-semibold text-emerald-300">Comprado</span>
+										) : (
+											<span className="inline-flex rounded-full bg-rose-500/15 px-2.5 py-1 text-xs font-semibold text-rose-300">No comprado</span>
+										)}
+									</div>
 									<h2 className="font-semibold leading-snug">{course.title}</h2>
 									<p className="mt-1 text-sm text-zinc-400 line-clamp-2">{course.subtitle}</p>
 									<div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
