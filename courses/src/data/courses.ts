@@ -160,7 +160,7 @@ const SAMPLE_COURSE: Course = {
 	description:
 		"Aprende a construir un sitio web profesional desde cero, con codigo limpio, diseno moderno y enfocado en convertir visitas en clientes.",
 	instructor: "Eder",
-	instructorAvatar: "https://assets.zyrosite.com/l8smzuTPzPP1MFNh/edercreawebs-logo-blanco-nlCPPvl0vspWoe1g.png",
+	instructorAvatar: "/edercreawebs_logo.png",
 	thumbnail: "https://customer-hwj8nccxmfdfhkme.cloudflarestream.com/d4fd5bfcdc82df502201185e303e7b62/thumbnails/thumbnail.jpg",
 	videoUrl: "https://customer-hwj8nccxmfdfhkme.cloudflarestream.com/d4fd5bfcdc82df502201185e303e7b62/manifest/video.m3u8",
 	subtitleUrl: "/subtitles/web-desde-cero.vtt",
@@ -182,7 +182,7 @@ const VERDADERO_MOTIVO_COURSE: Course = {
 	description:
 		"Me di cuenta de que no era falta de equipo, ni de ideas, ni de conocimiento. Era miedo disfrazado de quiero que se vea mejor. En este video hablo de perfeccionismo, creacion de contenido y de como a veces lo que mas te frena no es la tecnica, eres tu.",
 	instructor: "Eder",
-	instructorAvatar: "https://assets.zyrosite.com/l8smzuTPzPP1MFNh/edercreawebs-logo-blanco-nlCPPvl0vspWoe1g.png",
+	instructorAvatar: "/edercreawebs_logo.png",
 	thumbnail: "https://customer-hwj8nccxmfdfhkme.cloudflarestream.com/5aed83e916cea6f306bbf02e82557986/thumbnails/thumbnail.jpg",
 	videoUrl: "https://customer-hwj8nccxmfdfhkme.cloudflarestream.com/5aed83e916cea6f306bbf02e82557986/manifest/video.m3u8",
 	subtitleUrl: "/cursos/subtitles/verdadero-motivo-posponer-grabarme.vtt",

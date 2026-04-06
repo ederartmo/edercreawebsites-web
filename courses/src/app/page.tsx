@@ -160,7 +160,7 @@ export default function HomePage() {
 				<header className="mb-10 flex items-center justify-between rounded-2xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 sm:px-5">
 					<div className="flex items-center gap-3">
 						<img
-							src="https://assets.zyrosite.com/l8smzuTPzPP1MFNh/edercreawebs-logo-blanco-nlCPPvl0vspWoe1g.png"
+							src="/edercreawebs_logo.png"
 							alt="Eder Crea Webs"
 							className="h-8 w-8 rounded-full object-cover"
 						/>
