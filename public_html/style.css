@@ -1564,6 +1564,8 @@
       overflow: hidden;
       box-shadow: var(--shadow);
       align-self: start;
+      width: min(100%, 560px);
+      justify-self: center;
     }
 
     .herr-player-top {
@@ -1592,7 +1594,7 @@
 
     .herr-player-body {
       position: relative;
-      aspect-ratio: 4/5;
+      aspect-ratio: 16/10;
       background: #0e0509;
     }
 
