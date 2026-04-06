@@ -148,10 +148,14 @@ const WEB_DESDE_CERO_TIMELINE: ChapterTimelineItem[] = [
 	{ timestamp: "55:30", title: "Cierre del tutorial" }
 ];
 
+const VERDADERO_MOTIVO_TIMELINE: ChapterTimelineItem[] = [
+	{ timestamp: "00:00", title: "Video completo: perfeccionismo, miedo y creacion de contenido" }
+];
+
 const SAMPLE_COURSE: Course = {
 	id: "curso-web-desde-cero",
 	slug: "web-desde-cero",
-		title: "Diseña tu primer sitio web desde cero",
+	title: "Diseña tu primer sitio web desde cero",
 	subtitle: "HTML · CSS · JavaScript - sin frameworks, con identidad propia",
 	description:
 		"Aprende a construir un sitio web profesional desde cero, con codigo limpio, diseno moderno y enfocado en convertir visitas en clientes.",
@@ -170,5 +174,25 @@ const SAMPLE_COURSE: Course = {
 	chapters: buildChaptersFromTimeline("curso-web-desde-cero", WEB_DESDE_CERO_TIMELINE, 3330)
 };
 
-export const COURSE_CATALOG: Course[] = [SAMPLE_COURSE];
+const VERDADERO_MOTIVO_COURSE: Course = {
+	id: "curso-verdadero-motivo-posponer-grabarme",
+	slug: "verdadero-motivo-posponer-grabarme",
+	title: "El verdadero motivo por el que he pospuesto grabarme",
+	subtitle: "Perfeccionismo, creacion de contenido y el miedo que nadie ve",
+	description:
+		"Me di cuenta de que no era falta de equipo, ni de ideas, ni de conocimiento. Era miedo disfrazado de quiero que se vea mejor. En este video hablo de perfeccionismo, creacion de contenido y de como a veces lo que mas te frena no es la tecnica, eres tu.",
+	instructor: "Eder",
+	instructorAvatar: "https://assets.zyrosite.com/l8smzuTPzPP1MFNh/edercreawebs-logo-blanco-nlCPPvl0vspWoe1g.png",
+	thumbnail: "https://customer-hwj8nccxmfdfhkme.cloudflarestream.com/5aed83e916cea6f306bbf02e82557986/thumbnails/thumbnail.jpg",
+	videoUrl: "https://customer-hwj8nccxmfdfhkme.cloudflarestream.com/5aed83e916cea6f306bbf02e82557986/manifest/video.m3u8",
+	totalDurationSeconds: 172,
+	level: "principiante",
+	tags: ["Mentalidad", "Perfeccionismo", "Creacion de contenido"],
+	xpTotal: 120,
+	publishedAt: "2026-04-06",
+	isFree: false,
+	chapters: buildChaptersFromTimeline("curso-verdadero-motivo-posponer-grabarme", VERDADERO_MOTIVO_TIMELINE, 172)
+};
+
+export const COURSE_CATALOG: Course[] = [SAMPLE_COURSE, VERDADERO_MOTIVO_COURSE];
 

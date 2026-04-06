@@ -28,6 +28,10 @@ export default function VideoPlayer({
 	isMuted,
 	isFullscreen,
 	playbackRate,
+	qualityOptions,
+	selectedQuality,
+	activeQualityLabel,
+	canSelectQuality,
 	isBuffering,
 	bufferedEnd,
 	showControls,
@@ -36,6 +40,7 @@ export default function VideoPlayer({
 	setVolume,
 	toggleMute,
 	setPlaybackRate,
+	setQualityLevel,
 	toggleFullscreen,
 	handleMouseActivity,
 }: VideoPlayerProps) {
@@ -247,6 +252,24 @@ export default function VideoPlayer({
 								</option>
 							))}
 						</select>
+
+						{/* Quality selector */}
+						{canSelectQuality ? (
+							<select
+								value={selectedQuality}
+								onChange={(e) => setQualityLevel(Number(e.target.value))}
+								className="bg-transparent text-white text-xs cursor-pointer outline-none hover:text-orange-400 transition-colors"
+								aria-label="Calidad de video"
+							>
+								{qualityOptions.map((option) => (
+									<option key={option.value} value={option.value} className="bg-zinc-900 text-white">
+										{option.label}
+									</option>
+								))}
+							</select>
+						) : (
+							<span className="text-xs text-white/70">{activeQualityLabel}</span>
+						)}
 
 						{/* Fullscreen */}
 						<button

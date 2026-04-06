@@ -27,6 +27,10 @@ export interface PlayerState {
 	currentChapterIndex: number;
 	xp: number;
 	completedChapterIds: string[];
+	qualityOptions: { value: number; label: string }[];
+	selectedQuality: number;
+	activeQualityLabel: string;
+	canSelectQuality: boolean;
 }
 
 export interface PlayerControls {
@@ -35,6 +39,7 @@ export interface PlayerControls {
 	setVolume: (volume: number) => void;
 	toggleMute: () => void;
 	setPlaybackRate: (rate: number) => void;
+	setQualityLevel: (level: number) => void;
 	toggleFullscreen: () => void;
 	handleMouseActivity: () => void;
 }
@@ -62,6 +67,7 @@ export function useVideoPlayer({
 	const hlsRef = useRef<HlsType | null>(null);
 	const controlsTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const completedRef = useRef<Set<string>>(new Set());
+	const selectedQualityRef = useRef(-1);
 
 	// Keep latest copies in refs to avoid stale closures in event handlers
 	const chaptersRef = useRef(chapters);
@@ -84,6 +90,19 @@ export function useVideoPlayer({
 	const [currentChapterIndex, setCurrentChapterIndex] = useState(0);
 	const [xp, setXp] = useState(0);
 	const [completedChapterIds, setCompletedChapterIds] = useState<string[]>([]);
+	const [qualityOptions, setQualityOptions] = useState<{ value: number; label: string }[]>([
+		{ value: -1, label: "Auto" },
+	]);
+	const [selectedQuality, setSelectedQuality] = useState(-1);
+	const [activeQualityLabel, setActiveQualityLabel] = useState("Auto");
+	const [canSelectQuality, setCanSelectQuality] = useState(false);
+
+	const isMobileDevice = useCallback(() => {
+		if (typeof window === "undefined") return false;
+		const mobileUA = /Android|iPhone|iPad|iPod|Mobile/i.test(window.navigator.userAgent);
+		const smallViewport = window.matchMedia("(max-width: 768px)").matches;
+		return mobileUA || smallViewport;
+	}, []);
 
 	// ── HLS initialization ─────────────────────────────────────────────────────
 	useEffect(() => {
@@ -105,15 +124,79 @@ export function useVideoPlayer({
 				// Safari – native HLS support
 				video.src = hlsUrl;
 				if (savedTime > 5) video.currentTime = savedTime;
+				setCanSelectQuality(false);
+				setQualityOptions([{ value: -1, label: "Auto" }]);
+				setSelectedQuality(-1);
+				selectedQualityRef.current = -1;
+				setActiveQualityLabel("Auto (nativo)");
 			} else {
 				const { default: Hls } = await import("hls.js");
 				if (!Hls.isSupported()) return;
-				instance = new Hls({ enableWorker: true });
+				instance = new Hls({
+					enableWorker: true,
+					// Buffer mas amplio para reducir micro-cortes y cambios frecuentes de nivel.
+					maxBufferLength: 45,
+					maxMaxBufferLength: 90,
+					backBufferLength: 30,
+					// ABR mas estable y conservador para evitar oscilaciones bruscas.
+					abrBandWidthFactor: 0.8,
+					abrBandWidthUpFactor: 0.6,
+					abrEwmaFastVoD: 4,
+					abrEwmaSlowVoD: 12,
+					capLevelToPlayerSize: true,
+					abrMaxWithRealBitrate: true,
+				});
 				hlsRef.current = instance;
 				instance.loadSource(hlsUrl);
 				instance.attachMedia(video);
 				instance.on(Hls.Events.MANIFEST_PARSED, () => {
 					if (savedTime > 5) video.currentTime = savedTime;
+
+					const levelMap = new Map<number, { value: number; label: string }>();
+					instance?.levels.forEach((level, index) => {
+						const height = level.height ?? 0;
+						const bitrateKbps = Math.round((level.bitrate ?? 0) / 1000);
+						const label = height > 0 ? `${height}p${bitrateKbps > 0 ? ` (${bitrateKbps} kbps)` : ""}` : `Nivel ${index + 1}`;
+						const existing = levelMap.get(height);
+						if (!existing || (level.bitrate ?? 0) > (instance?.levels[existing.value]?.bitrate ?? 0)) {
+							levelMap.set(height, { value: index, label });
+						}
+					});
+
+					const manualOptions = Array.from(levelMap.values()).sort((a, b) => {
+						const aHeight = instance?.levels[a.value]?.height ?? 0;
+						const bHeight = instance?.levels[b.value]?.height ?? 0;
+						return bHeight - aHeight;
+					});
+
+					setCanSelectQuality(manualOptions.length > 0);
+					setQualityOptions([{ value: -1, label: "Auto" }, ...manualOptions]);
+
+					const preferAuto = isMobileDevice();
+					if (preferAuto || manualOptions.length === 0) {
+						setSelectedQuality(-1);
+						selectedQualityRef.current = -1;
+						instance!.currentLevel = -1;
+						instance!.nextLevel = -1;
+						setActiveQualityLabel("Auto");
+						return;
+					}
+
+					const target1080 = manualOptions.find((opt) => (instance?.levels[opt.value]?.height ?? 0) === 1080);
+					const desktopDefault = target1080 ?? manualOptions[0];
+					setSelectedQuality(desktopDefault.value);
+					selectedQualityRef.current = desktopDefault.value;
+					instance!.currentLevel = desktopDefault.value;
+					instance!.nextLevel = desktopDefault.value;
+					const height = instance?.levels[desktopDefault.value]?.height;
+					setActiveQualityLabel(height ? `${height}p` : desktopDefault.label);
+				});
+				instance.on(Hls.Events.LEVEL_SWITCHED, (_event: unknown, data: { level: number }) => {
+					const levelIndex = data.level;
+					const level = instance?.levels[levelIndex];
+					if (!level) return;
+					const label = level.height ? `${level.height}p` : `Nivel ${levelIndex + 1}`;
+					setActiveQualityLabel(selectedQualityRef.current === -1 ? `${label} (Auto)` : label);
 				});
 				instance.on(Hls.Events.ERROR, (_e: unknown, data: { fatal: boolean }) => {
 					if (data.fatal) instance?.destroy();
@@ -317,6 +400,30 @@ export function useVideoPlayer({
 		if (v) v.playbackRate = rate;
 	}, []);
 
+	const setQualityLevel = useCallback((level: number) => {
+		const hls = hlsRef.current;
+		setSelectedQuality(level);
+		selectedQualityRef.current = level;
+
+		if (!hls) {
+			setActiveQualityLabel(level === -1 ? "Auto" : "Manual");
+			return;
+		}
+
+		if (level === -1) {
+			hls.currentLevel = -1;
+			hls.nextLevel = -1;
+			setActiveQualityLabel("Auto");
+			return;
+		}
+
+		hls.currentLevel = level;
+		hls.nextLevel = level;
+		const target = hls.levels[level];
+		const manualLabel = target?.height ? `${target.height}p` : `Nivel ${level + 1}`;
+		setActiveQualityLabel(manualLabel);
+	}, []);
+
 	const toggleFullscreen = useCallback(() => {
 		if (!document.fullscreenElement) {
 			containerRef.current?.requestFullscreen();
@@ -349,11 +456,16 @@ export function useVideoPlayer({
 		currentChapterIndex,
 		xp,
 		completedChapterIds,
+		qualityOptions,
+		selectedQuality,
+		activeQualityLabel,
+		canSelectQuality,
 		togglePlay,
 		seek,
 		setVolume,
 		toggleMute,
 		setPlaybackRate,
+		setQualityLevel,
 		toggleFullscreen,
 		handleMouseActivity,
 	};

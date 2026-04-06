@@ -96,6 +96,10 @@ export default function LearningPlayer({ course }: LearningPlayerProps) {
 						isMuted={player.isMuted}
 						isFullscreen={player.isFullscreen}
 						playbackRate={player.playbackRate}
+						qualityOptions={player.qualityOptions}
+						selectedQuality={player.selectedQuality}
+						activeQualityLabel={player.activeQualityLabel}
+						canSelectQuality={player.canSelectQuality}
 						isBuffering={player.isBuffering}
 						bufferedEnd={player.bufferedEnd}
 						showControls={player.showControls}
@@ -107,6 +111,7 @@ export default function LearningPlayer({ course }: LearningPlayerProps) {
 						setVolume={player.setVolume}
 						toggleMute={player.toggleMute}
 						setPlaybackRate={player.setPlaybackRate}
+						setQualityLevel={player.setQualityLevel}
 						toggleFullscreen={player.toggleFullscreen}
 						handleMouseActivity={player.handleMouseActivity}
 					/>
