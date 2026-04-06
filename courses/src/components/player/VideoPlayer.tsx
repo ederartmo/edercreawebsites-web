@@ -98,6 +98,32 @@ export default function VideoPlayer({
 		}
 	}, [showSubtitles, subtitleUrl, videoRef]);
 
+	// Native fullscreen: request/exit when viewMode changes
+	useEffect(() => {
+		const container = containerRef.current;
+		if (!container) return;
+		if (viewMode === "fullscreen") {
+			if (!document.fullscreenElement) {
+				container.requestFullscreen().catch(() => {});
+			}
+		} else {
+			if (document.fullscreenElement) {
+				document.exitFullscreen().catch(() => {});
+			}
+		}
+	}, [viewMode, containerRef]);
+
+	// Sync viewMode when user exits fullscreen via Escape
+	useEffect(() => {
+		const handleFullscreenChange = () => {
+			if (!document.fullscreenElement && viewMode === "fullscreen") {
+				onViewModeChange("normal");
+			}
+		};
+		document.addEventListener("fullscreenchange", handleFullscreenChange);
+		return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+	}, [viewMode, onViewModeChange]);
+
 	// Close menu when clicking outside
 	useEffect(() => {
 		const handleClickOutside = (e: MouseEvent) => {
@@ -152,8 +178,8 @@ export default function VideoPlayer({
 	};
 
 	const getContainerStyle = () => {
-		if (viewMode === "fullscreen") return { height: "100vh" };
 		if (viewMode === "theater") return { aspectRatio: "16/9", maxHeight: "72vh" };
+		if (viewMode === "fullscreen") return { aspectRatio: "16/9", maxHeight: "72vh" };
 		return { aspectRatio: "16/9", maxHeight: "46vh" };
 	};
 
@@ -192,7 +218,7 @@ export default function VideoPlayer({
 			{/* Controls overlay */}
 			<div
 				className={`absolute inset-0 flex flex-col justify-end pointer-events-none transition-opacity duration-300 ${
-					viewMode === "fullscreen" || showControls || !isPlaying ? "opacity-100" : "opacity-0 pointer-events-none"
+					showControls || !isPlaying ? "opacity-100" : "opacity-0 pointer-events-none"
 				}`}
 			>
 				{/* Bottom gradient */}
@@ -418,22 +444,6 @@ export default function VideoPlayer({
 					</div>
 				</div>
 			</div>
-
-			{/* Floating view mode button (always accessible, especially in fullscreen) */}
-			{viewMode === "fullscreen" && (
-				<button
-					onClick={handleViewModeClick}
-					onContextMenu={(e) => {
-						e.preventDefault();
-						setShowViewMenu(!showViewMenu);
-					}}
-					className="absolute bottom-4 right-4 bg-black/70 hover:bg-black/90 text-white p-2 rounded-lg transition-colors z-50 pointer-events-auto shadow-lg"
-					aria-label="Cambiar tamaño de video"
-					title="Click izquierdo: ciclar modos | Click derecho: menú"
-				>
-					<Minimize className="w-5 h-5" />
-				</button>
-			)}
 		</div>
 	);
 }
