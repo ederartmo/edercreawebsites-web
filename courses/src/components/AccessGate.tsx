@@ -205,6 +205,7 @@ function GateInner({ children }: { children: React.ReactNode }) {
 
 	function UserMenu() {
 		if (!user) return null;
+		if (normalizedPath === '/') return null;
 
 		return (
 			<div ref={menuRef} className="fixed top-3 right-4 z-50">

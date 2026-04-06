@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LayoutGrid, List } from "lucide-react";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import type { User } from "@supabase/supabase-js";
@@ -65,6 +65,10 @@ export default function HomePage() {
 	const [nameSavedPulse, setNameSavedPulse] = useState(false);
 	const [view, setView] = useState<ViewMode>("grid");
 	const [purchasedSlugs, setPurchasedSlugs] = useState<Set<string>>(new Set());
+	const [isAdmin, setIsAdmin] = useState(false);
+	const [menuOpen, setMenuOpen] = useState(false);
+	const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+	const menuRef = useRef<HTMLDivElement>(null);
 	const [avatarLoadError, setAvatarLoadError] = useState(false);
 	const avatarUrl =
 		(user?.user_metadata?.avatar_url as string | undefined) ||
@@ -86,10 +90,12 @@ export default function HomePage() {
 
 			if (!nextUser) {
 				setPurchasedSlugs(new Set());
+				setIsAdmin(false);
 				return;
 			}
 
 			const isAdminUser = await checkIfAuthorized(nextUser.email ?? "");
+			setIsAdmin(isAdminUser);
 			if (isAdminUser) {
 				const allPaidSlugs = new Set(
 					COURSE_CATALOG.filter((course) => !course.isFree).map((course) => course.slug.toLowerCase()),
@@ -118,6 +124,38 @@ export default function HomePage() {
 	useEffect(() => {
 		setAvatarLoadError(false);
 	}, [avatarUrl]);
+
+	useEffect(() => {
+		const savedTheme = window.localStorage.getItem('cursos_theme');
+		const initial: 'dark' | 'light' = savedTheme === 'light' ? 'light' : 'dark';
+		setTheme(initial);
+		document.documentElement.classList.toggle('theme-light', initial === 'light');
+	}, []);
+
+	useEffect(() => {
+		const onClickOutside = (event: MouseEvent) => {
+			if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+				setMenuOpen(false);
+			}
+		};
+		document.addEventListener('mousedown', onClickOutside);
+		return () => document.removeEventListener('mousedown', onClickOutside);
+	}, []);
+
+	async function handleLogout() {
+		await getSupabase().auth.signOut();
+		setUser(null);
+		setIsAdmin(false);
+		setMenuOpen(false);
+	}
+
+	function handleThemeToggle() {
+		const nextTheme = theme === 'dark' ? 'light' : 'dark';
+		setTheme(nextTheme);
+		document.documentElement.classList.toggle('theme-light', nextTheme === 'light');
+		window.localStorage.setItem('cursos_theme', nextTheme);
+		setMenuOpen(false);
+	}
 
 	function startNameEdit() {
 		setIsEditingName(true);
@@ -171,8 +209,13 @@ export default function HomePage() {
 						]} />
 					</div>
 
-					<Link href="/perfil" className="group flex items-center gap-2" aria-label="Ir a perfil">
-						<div className="h-10 w-10 overflow-hidden rounded-full border border-zinc-700 bg-zinc-800">
+				{user && (
+					<div ref={menuRef} className="relative">
+						<button
+							onClick={() => setMenuOpen((open) => !open)}
+							className="h-10 w-10 overflow-hidden rounded-full border border-zinc-700 bg-zinc-800"
+							aria-label="Abrir menu de usuario"
+						>
 							{avatarUrl && !avatarLoadError ? (
 								<img
 									src={avatarUrl}
@@ -186,8 +229,58 @@ export default function HomePage() {
 									{displayName.slice(0, 1).toUpperCase()}
 								</span>
 							)}
-						</div>
-					</Link>
+						</button>
+						{menuOpen && (
+							<div className="absolute right-0 mt-2 w-56 overflow-hidden rounded-xl border border-zinc-700 bg-zinc-900 text-sm shadow-2xl z-50">
+								<div className="border-b border-zinc-800 px-3 py-2 text-xs text-zinc-400">
+									Sesion activa: <span className="text-zinc-200">{user.email}</span>
+								</div>
+								<Link
+									href="/perfil"
+									onClick={() => setMenuOpen(false)}
+									className="block px-3 py-2 text-zinc-200 hover:bg-zinc-800"
+								>
+									Mi perfil
+								</Link>
+								{isAdmin && (
+									<Link
+										href="/admin"
+										onClick={() => setMenuOpen(false)}
+										className="block px-3 py-2 text-zinc-200 hover:bg-zinc-800"
+									>
+										Panel admin
+									</Link>
+								)}
+								<button
+									onClick={handleThemeToggle}
+									className="block w-full px-3 py-2 text-left text-zinc-200 hover:bg-zinc-800"
+								>
+									Estilo: {theme === 'dark' ? 'Dark mode' : 'White mode'}
+								</button>
+								<Link
+									href="/"
+									onClick={() => setMenuOpen(false)}
+									className="block px-3 py-2 text-zinc-200 hover:bg-zinc-800"
+								>
+									Cursos
+								</Link>
+								<a
+									href="/"
+									onClick={() => setMenuOpen(false)}
+									className="block px-3 py-2 text-zinc-200 hover:bg-zinc-800"
+								>
+									Inicio
+								</a>
+								<button
+									onClick={handleLogout}
+									className="block w-full border-t border-zinc-800 px-3 py-2 text-left text-rose-300 hover:bg-zinc-800"
+								>
+									Cerrar sesion
+								</button>
+							</div>
+						)}
+					</div>
+				)}
 				</header>
 
 				<div className={`text-xs uppercase tracking-[0.2em] font-semibold transition-all duration-500 ${nameSavedPulse ? "text-emerald-300 drop-shadow-[0_0_10px_rgba(52,211,153,0.35)]" : "text-orange-400"}`}>
