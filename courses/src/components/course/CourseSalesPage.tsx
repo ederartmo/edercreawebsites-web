@@ -255,7 +255,10 @@ export default function CourseSalesPage({
 									) : (
 										<>
 											<p className="text-xs text-zinc-500">Precio unico</p>
-											<p className="mt-1 text-4xl font-semibold text-white">$1200</p>
+											<div className="mt-1 flex flex-wrap items-center gap-2">
+												<span className="text-lg text-zinc-500 line-through">$2000 MXN</span>
+												<span className="text-4xl font-semibold text-white">$1200</span>
+											</div>
 											<p className="mt-1 text-xs text-zinc-500">MXN - acceso de por vida</p>
 										</>
 									)}
@@ -267,7 +270,7 @@ export default function CourseSalesPage({
 											href={playerHref ?? `/${course.slug}`}
 											className="flex w-full items-center justify-center rounded-2xl bg-emerald-400 px-4 py-3.5 text-sm font-bold text-zinc-950 transition hover:bg-emerald-300"
 										>
-											{isFreeCourse ? "VER VIDEO" : "Entrar al curso de nuevo"}
+											{isFreeCourse ? "VER VIDEO" : "Ver curso"}
 										</Link>
 									) : needsLogin ? (
 										<button

@@ -10,6 +10,35 @@ import type { Course } from "@/types";
 
 const STRIPE_LINK = "https://buy.stripe.com/test_dRm6oG6Vr0ewd0S5Olak000";
 
+const ADMIN_EMAILS = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? "")
+	.split(",")
+	.map((v) => v.trim().toLowerCase())
+	.filter(Boolean);
+
+async function checkIfAuthorized(email: string): Promise<boolean> {
+	try {
+		const normalizedEmail = email.trim().toLowerCase();
+		if (!normalizedEmail) return false;
+		if (ADMIN_EMAILS.includes(normalizedEmail)) return true;
+		const { getSupabase: _gs } = await import("@/lib/supabase");
+		const supabase = _gs();
+		const { data: roleData } = await supabase
+			.from("user_roles")
+			.select("is_admin")
+			.ilike("email", normalizedEmail)
+			.maybeSingle();
+		if (roleData?.is_admin === true) return true;
+		const { data: authData } = await supabase
+			.from("authorized_users")
+			.select("is_admin")
+			.ilike("email", normalizedEmail)
+			.maybeSingle();
+		return authData?.is_admin === true;
+	} catch {
+		return false;
+	}
+}
+
 interface Props {
 	course: Course;
 }
@@ -34,6 +63,13 @@ export default function CourseDetailClient({ course }: Props) {
 				return;
 			}
 
+			const isAdmin = await checkIfAuthorized(nextUser.email ?? "");
+			if (isAdmin) {
+				setNeedsLogin(false);
+				setHasAccess(true);
+				setLoading(false);
+				return;
+			}
 			const slugs = await resolvePurchasedSlugs(supabase, nextUser);
 			const canOpen = hasCourseAccess(nextUser, course.slug, course.isFree, slugs);
 			setNeedsLogin(false);
