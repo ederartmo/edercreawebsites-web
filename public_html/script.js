@@ -136,11 +136,27 @@ let answeredFAQs = new Set();
       return firstCard.getBoundingClientRect().width + gap;
     };
 
+    const getMaxScrollLeft = () => Math.max(0, track.scrollWidth - track.clientWidth);
+    const edgeTolerance = 12;
+
     prev.addEventListener('click', () => {
+      const current = track.scrollLeft;
+      if (current <= edgeTolerance) {
+        track.scrollTo({ left: getMaxScrollLeft(), behavior: 'smooth' });
+        return;
+      }
+
       track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
     });
 
     next.addEventListener('click', () => {
+      const current = track.scrollLeft;
+      const maxScrollLeft = getMaxScrollLeft();
+      if (current + getScrollAmount() >= maxScrollLeft - edgeTolerance) {
+        track.scrollTo({ left: 0, behavior: 'smooth' });
+        return;
+      }
+
       track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
     });
   }

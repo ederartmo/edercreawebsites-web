@@ -1346,29 +1346,33 @@
 
     .reviews-carousel-head {
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
-      gap: 12px;
       margin-bottom: 14px;
     }
 
     .reviews-carousel-head .sectionTitle {
       margin: 0;
       text-align: center;
-      flex: initial;
+    }
+
+    .reviews-carousel-shell {
+      position: relative;
+      padding: 0 54px;
     }
 
     .reviews-controls {
-      display: inline-flex;
-      justify-content: center;
-      gap: 8px;
-      flex-shrink: 0;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
     }
 
     .reviews-controls button {
-      width: 42px;
-      height: 42px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
       border-radius: 999px;
       border: 1px solid rgba(59,15,24,.14);
       background: #fff;
@@ -1376,14 +1380,20 @@
       font-size: 20px;
       font-weight: 900;
       cursor: pointer;
-      box-shadow: 0 8px 18px rgba(0,0,0,.06);
-      transition: transform .15s ease, box-shadow .15s ease;
+      box-shadow: 0 8px 18px rgba(0,0,0,.10);
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+      pointer-events: auto;
     }
 
     .reviews-controls button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 12px 22px rgba(0,0,0,.10);
+      transform: translateY(-50%) scale(1.03);
+      box-shadow: 0 12px 22px rgba(0,0,0,.14);
+      background: #fff7fa;
     }
+
+    #reviewsPrev { left: 0; }
+
+    #reviewsNext { right: 0; }
 
     .reviews-grid {
       display: grid;
@@ -1394,11 +1404,23 @@
       padding: 4px 2px 12px;
       margin-top: 6px;
       scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
       scrollbar-width: none;
       -ms-overflow-style: none;
     }
 
     .reviews-grid::-webkit-scrollbar { display: none; }
+
+    @media (max-width: 640px) {
+      .reviews-carousel-shell {
+        padding: 0 42px;
+      }
+
+      .reviews-controls button {
+        width: 38px;
+        height: 38px;
+      }
+    }
 
     .review-card { 
 
