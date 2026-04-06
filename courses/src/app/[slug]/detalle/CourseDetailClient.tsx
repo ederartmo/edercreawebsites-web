@@ -78,7 +78,7 @@ export default function CourseDetailClient({ course }: Props) {
 			stripeLink={STRIPE_LINK}
 			needsLogin={needsLogin}
 			hasAccess={hasAccess}
-			playerHref={`/${course.slug}`}
+			playerHref={`/cursos/${course.slug}/`}
 			signingIn={signingIn}
 			userEmail={user?.email}
 			onGoogleLogin={handleGoogleLogin}
