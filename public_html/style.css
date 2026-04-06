@@ -1637,6 +1637,24 @@
       font-family: var(--font);
     }
 
+    .herr-tile.priority-high {
+      background: linear-gradient(180deg, #fff6f9 0%, #ffffff 55%);
+      border-color: rgba(181,63,91,.34);
+      box-shadow: 0 2px 10px rgba(181,63,91,.10);
+    }
+
+    .herr-tile.priority-medium {
+      background: linear-gradient(180deg, #fffaf0 0%, #ffffff 58%);
+      border-color: rgba(245,191,36,.36);
+      box-shadow: 0 2px 10px rgba(245,191,36,.12);
+    }
+
+    .herr-tile.priority-base {
+      background: linear-gradient(180deg, #f6fbff 0%, #ffffff 58%);
+      border-color: rgba(104,148,184,.30);
+      box-shadow: 0 2px 10px rgba(104,148,184,.10);
+    }
+
     .herr-tile:hover {
       border-color: var(--pink);
       box-shadow: 0 4px 14px rgba(200,75,104,.15);
