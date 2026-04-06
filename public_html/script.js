@@ -165,32 +165,91 @@ let answeredFAQs = new Set();
     initHerramientas();
 
   function initSocialVideos() {
-    const socialVideos = Array.from(document.querySelectorAll('.social-video'));
-    if (!socialVideos.length) return;
+    const nativeVideos = Array.from(document.querySelectorAll('.social-video'));
+    const iframeVideos = Array.from(document.querySelectorAll('.social-video-iframe'));
 
-    socialVideos.forEach((clip) => {
+    nativeVideos.forEach((clip) => {
       const shell = clip.closest('.social-video-shell');
       if (!shell) return;
 
       clip.muted = true;
       clip.playsInline = true;
+    });
 
-      const playClip = () => {
-        const playAttempt = clip.play();
-        if (playAttempt && typeof playAttempt.catch === 'function') {
-          playAttempt.catch(() => {});
-        }
+    if (!iframeVideos.length || typeof window.Stream !== 'function') return;
+
+    const playerEntries = iframeVideos.map((iframe) => {
+      const shell = iframe.closest('.social-video-shell');
+      if (!shell) return null;
+
+      const player = window.Stream(iframe);
+      shell.setAttribute('role', 'button');
+      shell.setAttribute('tabindex', '0');
+      shell.setAttribute('aria-label', 'Reproducir o pausar video');
+
+      const ignoreClick = (target) => Boolean(
+        target.closest('.social-watermark-link') ||
+        target.closest('.social-video-details') ||
+        target.closest('summary') ||
+        target.closest('.social-video-copy')
+      );
+
+      return { iframe, shell, player, ignoreClick };
+    }).filter(Boolean);
+
+    const pauseOthers = (activeEntry) => {
+      playerEntries.forEach((entry) => {
+        if (entry === activeEntry) return;
+        try {
+          entry.player.pause();
+          entry.shell.classList.remove('is-playing');
+        } catch (_) {}
+      });
+    };
+
+    playerEntries.forEach((entry) => {
+      const { shell, player, ignoreClick } = entry;
+
+      const togglePlayback = async () => {
+        try {
+          const isPaused = player.paused;
+
+          if (isPaused) {
+            pauseOthers(entry);
+            player.muted = false;
+            player.currentTime = 0;
+            await player.play();
+            shell.classList.add('is-playing');
+          } else {
+            player.pause();
+            shell.classList.remove('is-playing');
+          }
+        } catch (_) {}
       };
 
-      const resetClip = () => {
-        clip.pause();
-        clip.currentTime = 0;
-      };
+      shell.addEventListener('click', (event) => {
+        if (ignoreClick(event.target)) return;
+        togglePlayback();
+      });
 
-      shell.addEventListener('mouseenter', playClip);
-      shell.addEventListener('mouseleave', resetClip);
-      shell.addEventListener('focusin', playClip);
-      shell.addEventListener('focusout', resetClip);
+      shell.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        if (ignoreClick(event.target)) return;
+        event.preventDefault();
+        togglePlayback();
+      });
+
+      player.addEventListener('play', () => {
+        shell.classList.add('is-playing');
+      });
+
+      player.addEventListener('pause', () => {
+        shell.classList.remove('is-playing');
+      });
+
+      player.addEventListener('ended', () => {
+        shell.classList.remove('is-playing');
+      });
     });
   }
 
