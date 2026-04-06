@@ -64,7 +64,11 @@ export default function HomePage() {
 	const [nameSavedPulse, setNameSavedPulse] = useState(false);
 	const [view, setView] = useState<ViewMode>("grid");
 	const [purchasedSlugs, setPurchasedSlugs] = useState<Set<string>>(new Set());
-	const avatarUrl = user?.user_metadata?.avatar_url as string | undefined;
+	const [avatarLoadError, setAvatarLoadError] = useState(false);
+	const avatarUrl =
+		(user?.user_metadata?.avatar_url as string | undefined) ||
+		(user?.user_metadata?.picture as string | undefined) ||
+		(user?.user_metadata?.photo_url as string | undefined);
 	const displayName = profileName || user?.email || "Cuenta";
 
 	useEffect(() => {
@@ -109,6 +113,10 @@ export default function HomePage() {
 
 		return () => subscription.unsubscribe();
 	}, []);
+
+	useEffect(() => {
+		setAvatarLoadError(false);
+	}, [avatarUrl]);
 
 	function startNameEdit() {
 		setIsEditingName(true);
@@ -164,8 +172,14 @@ export default function HomePage() {
 
 					<Link href="/perfil" className="group flex items-center gap-2" aria-label="Ir a perfil">
 						<div className="h-10 w-10 overflow-hidden rounded-full border border-zinc-700 bg-zinc-800">
-							{avatarUrl ? (
-								<img src={avatarUrl} alt={displayName} referrerPolicy="no-referrer" className="h-full w-full object-cover" />
+							{avatarUrl && !avatarLoadError ? (
+								<img
+									src={avatarUrl}
+									alt={displayName}
+									referrerPolicy="no-referrer"
+									onError={() => setAvatarLoadError(true)}
+									className="h-full w-full object-cover"
+								/>
 							) : (
 								<span className="flex h-full w-full items-center justify-center text-sm font-semibold text-zinc-200">
 									{displayName.slice(0, 1).toUpperCase()}

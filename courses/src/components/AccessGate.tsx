@@ -73,6 +73,7 @@ function GateInner({ children }: { children: React.ReactNode }) {
 	const [signingIn, setSigningIn] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+	const [avatarLoadError, setAvatarLoadError] = useState(false);
 	const menuRef = useRef<HTMLDivElement>(null);
 	const pathname = usePathname();
 	const params = useSearchParams();
@@ -84,7 +85,10 @@ function GateInner({ children }: { children: React.ReactNode }) {
 		return withoutBasePath;
 	})();
 	const currentCourse = COURSE_CATALOG.find((course) => normalizedPath === `/${course.slug}`) ?? null;
-	const avatarUrl = user?.user_metadata?.avatar_url as string | undefined;
+	const avatarUrl =
+		(user?.user_metadata?.avatar_url as string | undefined) ||
+		(user?.user_metadata?.picture as string | undefined) ||
+		(user?.user_metadata?.photo_url as string | undefined);
 	const displayName =
 		(user?.user_metadata?.full_name as string | undefined) ||
 		(user?.user_metadata?.name as string | undefined) ||
@@ -107,6 +111,10 @@ function GateInner({ children }: { children: React.ReactNode }) {
 		document.addEventListener('mousedown', onClickOutside);
 		return () => document.removeEventListener('mousedown', onClickOutside);
 	}, []);
+
+	useEffect(() => {
+		setAvatarLoadError(false);
+	}, [avatarUrl]);
 
 	useEffect(() => {
 		const supabase = getSupabase();
@@ -189,8 +197,14 @@ function GateInner({ children }: { children: React.ReactNode }) {
 					className="h-10 w-10 overflow-hidden rounded-full border border-zinc-700 bg-zinc-800 shadow-lg"
 					aria-label="Abrir menu de usuario"
 				>
-					{avatarUrl ? (
-						<img src={avatarUrl} alt={displayName} referrerPolicy="no-referrer" className="h-full w-full object-cover" />
+					{avatarUrl && !avatarLoadError ? (
+						<img
+							src={avatarUrl}
+							alt={displayName}
+							referrerPolicy="no-referrer"
+							onError={() => setAvatarLoadError(true)}
+							className="h-full w-full object-cover"
+						/>
 					) : (
 						<span className="flex h-full w-full items-center justify-center text-sm font-semibold text-zinc-200">
 							{displayName.slice(0, 1).toUpperCase()}
