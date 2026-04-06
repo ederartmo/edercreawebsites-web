@@ -160,7 +160,7 @@ export default function HomePage() {
 				<header className="mb-10 flex items-center justify-between rounded-2xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 sm:px-5">
 					<div className="flex items-center gap-3">
 						<img
-							src="/edercreawebs_logo.png"
+							src="/eder_favicon.png"
 							alt="Eder Crea Webs"
 							className="h-8 w-8 rounded-full object-cover"
 						/>
