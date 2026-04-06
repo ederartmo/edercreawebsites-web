@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { Play, Pause, Volume2, VolumeX, Maximize, Minimize, Loader2 } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, Maximize, Minimize, Loader2, RectangleHorizontal, SquarePlay } from "lucide-react";
 import type { Chapter } from "@/types";
 import { formatTime, calcPercent } from "@/lib/utils";
 import PauseMessage from "@/components/ui/PauseMessage";
@@ -9,11 +9,15 @@ import type { PlayerState, PlayerControls } from "@/hooks/useVideoPlayer";
 
 const RATES = [0.5, 0.75, 1, 1.25, 1.5, 2] as const;
 
+export type ViewMode = "normal" | "theater";
+
 interface VideoPlayerProps extends PlayerState, PlayerControls {
 	videoRef: React.RefObject<HTMLVideoElement>;
 	containerRef: React.RefObject<HTMLDivElement>;
 	chapters: Chapter[];
 	pauseMessage?: string;
+	viewMode: ViewMode;
+	onViewModeChange: (mode: ViewMode) => void;
 }
 
 export default function VideoPlayer({
@@ -35,6 +39,8 @@ export default function VideoPlayer({
 	isBuffering,
 	bufferedEnd,
 	showControls,
+	viewMode,
+	onViewModeChange,
 	togglePlay,
 	seek,
 	setVolume,
@@ -91,11 +97,17 @@ export default function VideoPlayer({
 		togglePlay();
 	};
 
+	const containerStyle = isFullscreen
+		? { height: "100vh" }
+		: viewMode === "theater"
+			? { aspectRatio: "16/9", maxHeight: "72vh" }
+			: { aspectRatio: "16/9", maxHeight: "46vh" };
+
 	return (
 		<div
 			ref={containerRef}
 			className="relative bg-black w-full select-none"
-			style={!isFullscreen ? { aspectRatio: "16/9" } : { height: "100vh" }}
+			style={containerStyle}
 			onClick={handlePlayerClick}
 			onMouseMove={handleMouseActivity}
 			onMouseEnter={handleMouseActivity}
@@ -269,6 +281,21 @@ export default function VideoPlayer({
 							</select>
 						) : (
 							<span className="text-xs text-white/70">{activeQualityLabel}</span>
+						)}
+
+						{/* Theater toggle */}
+						{!isFullscreen && (
+							<button
+								onClick={() => onViewModeChange(viewMode === "theater" ? "normal" : "theater")}
+								className="p-1.5 hover:text-orange-400 transition-colors"
+								aria-label={viewMode === "theater" ? "Modo normal" : "Modo teatro"}
+							>
+								{viewMode === "theater" ? (
+									<SquarePlay className="w-5 h-5" />
+								) : (
+									<RectangleHorizontal className="w-5 h-5" />
+								)}
+							</button>
 						)}
 
 						{/* Fullscreen */}
