@@ -123,6 +123,47 @@ let answeredFAQs = new Set();
 
   initClientTabs();
 
+
+    // --- HERRAMIENTAS GRID ---
+    function initHerramientas() {
+      const tiles = document.querySelectorAll('.herr-tile');
+      const iframe = document.getElementById('herrIframe');
+      const placeholder = document.getElementById('herrPlaceholder');
+      const titleEl = document.getElementById('herrTitle');
+      const playerCard = document.querySelector('.herr-player-card');
+
+      if (!tiles.length) return;
+
+      tiles.forEach(function(tile) {
+        tile.addEventListener('click', function() {
+          tiles.forEach(function(t) { t.classList.remove('is-active'); });
+          tile.classList.add('is-active');
+
+          var label = tile.dataset.label;
+          var videoId = tile.dataset.video;
+
+          if (titleEl) titleEl.textContent = label;
+
+          if (playerCard) {
+            playerCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+
+          if (videoId) {
+            iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0';
+            iframe.style.display = 'block';
+            placeholder.style.display = 'none';
+          } else {
+            iframe.src = '';
+            iframe.style.display = 'none';
+            placeholder.style.display = 'flex';
+            placeholder.innerHTML = '<div class="herr-placeholder-play">🔜</div><p>Video próximamente</p>';
+          }
+        });
+      });
+    }
+
+    initHerramientas();
+
   // --- 4. LÓGICA VSL (VIDEO) ---
   if(video) {
     let hasShownButton = false;

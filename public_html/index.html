@@ -163,107 +163,103 @@
     </section>
 
     <section class="results" id="resultados">
-      <h2 class="sectionTitle">Resultados de Mis Clientes</h2>
+    <section class="herramientas" id="herramientas">
+      <div class="wrap">
+        <h2 class="sectionTitle">Lo que puedo integrar en tu web</h2>
+        <p class="herr-sub">Haz clic en cualquier herramienta para ver el demo.</p>
 
-      <div class="resultsTabs" role="tablist" aria-label="Clientes">
-        <button class="clientTab is-active" type="button" role="tab" aria-selected="true" data-client="miriam">Psicóloga Miriam</button>
-        <button class="clientTab" type="button" role="tab" aria-selected="false" data-client="javier">Psicólogo Javier</button>
-        <button class="clientTab" type="button" role="tab" aria-selected="false" data-client="andre">Psicóloga Andrea</button>
-      </div>
-
-      <div class="resultDeck">
-        <article class="card resultCard clientPanel is-active" data-client-panel="miriam">
-          <div class="resultTextContent">
-            <h3>Dra. Miriam Y. — Psicóloga Clínica</h3>
-            <p class="resultMeta">Caso real</p>
-
-            <p class="quote">
-              "Antes perdía pacientes por no poder contestar el celular mientras estaba en sesión. Eder me creó un sitio que funciona como mi asistente virtual: los pacientes ven mis horarios, reservan y pagan solos. Ahora mi consulta se ve profesional y tengo paz mental."
-            </p>
-
-            <span class="tag tagGood">✅  Sistema de reservas automático 24/7</span>
-
-            <div class="sistema-visual">
-              <p class="resultMeta">Embudo Entregado</p>
-              <div class="flow-container">
-                <div class="flow-step step-red">Anuncio</div>
-                <div class="flow-arrow">➜</div>
-                <div class="flow-step step-yellow">Website</div>
-                <div class="flow-arrow">➜</div>
-                <div class="flow-step step-green">WhatsApp</div>
-              </div>
+        <!-- Reproductor central -->
+        <div class="herr-player-card">
+          <div class="herr-player-top">
+            <span class="herr-player-dot"></span>
+            <span class="herr-player-dot"></span>
+            <span class="herr-player-dot"></span>
+            <span class="herr-player-title" id="herrTitle">← Elige una herramienta del grid</span>
+          </div>
+          <div class="herr-player-body" id="herrPlayerBody">
+            <div class="herr-placeholder" id="herrPlaceholder">
+              <div class="herr-placeholder-play">▶</div>
+              <p>Selecciona una herramienta abajo</p>
             </div>
-
-            <div style="height:12px"></div>
-            <a class="btn btnGreen" href="https://wa.link/eah465" target="_blank">Estoy listo, hablemos.</a>
+            <iframe id="herrIframe" title="Demo de herramienta" frameborder="0"
+              allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"
+              style="display:none; width:100%; height:100%; border-radius:0 0 var(--radius) var(--radius);"></iframe>
           </div>
+        </div>
 
-          <div class="mockup-container">
-            <img src="hero2.gif" alt="Sitio Web Dra Miriam">
-          </div>
-        </article>
-
-        <article class="card resultCard clientPanel" data-client-panel="javier">
-          <div class="resultTextContent">
-            <h3>Dr. Javier R. — Psicólogo de Pareja</h3>
-            <p class="resultMeta">Caso real</p>
-
-            <p class="quote">
-              "Mi principal problema era que me llegaban mensajes sin contexto. Con el sitio nuevo mis pacientes llegan precalificados, reservan en menos pasos y el WhatsApp se volvió ordenado. Ahora cierro más sesiones en menos tiempo."
-            </p>
-
-            <span class="tag tagGood">✅  Más citas confirmadas y menos mensajes sueltos</span>
-
-            <div class="sistema-visual">
-              <p class="resultMeta">Embudo Entregado</p>
-              <div class="flow-container">
-                <div class="flow-step step-red">Instagram</div>
-                <div class="flow-arrow">➜</div>
-                <div class="flow-step step-yellow">Landing</div>
-                <div class="flow-arrow">➜</div>
-                <div class="flow-step step-green">Agenda</div>
-              </div>
-            </div>
-
-            <div style="height:12px"></div>
-            <a class="btn btnGreen" href="https://wa.link/eah465" target="_blank">Quiero algo así</a>
-          </div>
-
-          <div class="mockup-container">
-            <img src="hero1.gif" alt="Sitio Web Dr Javier">
-          </div>
-        </article>
-
-        <article class="card resultCard clientPanel" data-client-panel="andre">
-          <div class="resultTextContent">
-            <h3>Dra. Andrea M. — Psicóloga Infantil</h3>
-            <p class="resultMeta">Caso real</p>
-
-            <p class="quote">
-              "Antes explicaba lo mismo una y otra vez por chat. El nuevo sitio responde dudas clave, muestra mi proceso y filtra a los padres listos para agendar. Eso me dio más claridad y menos desgaste diario."
-            </p>
-
-            <span class="tag tagGood">✅  Menos fricción para agendar la primera sesión</span>
-
-            <div class="sistema-visual">
-              <p class="resultMeta">Embudo Entregado</p>
-              <div class="flow-container">
-                <div class="flow-step step-red">Recomendación</div>
-                <div class="flow-arrow">➜</div>
-                <div class="flow-step step-yellow">Website</div>
-                <div class="flow-arrow">➜</div>
-                <div class="flow-step step-green">WhatsApp</div>
-              </div>
-            </div>
-
-            <div style="height:12px"></div>
-            <a class="btn btnGreen" href="https://wa.link/eah465" target="_blank">Hablemos de mi caso</a>
-          </div>
-
-          <div class="mockup-container">
-            <img src="hero2.gif" alt="Sitio Web Dra Andrea">
-          </div>
-        </article>
+        <!-- Grid de herramientas -->
+        <div class="herr-grid">
+          <button class="herr-tile" data-label="Banner de promoción" data-video="">
+            <span class="herr-emoji">📢</span>
+            <span class="herr-name">Banner de<br>promoción</span>
+            <span class="herr-tag">+10% en ventas</span>
+          </button>
+          <button class="herr-tile" data-label="Calendario / Agenda" data-video="">
+            <span class="herr-emoji">📅</span>
+            <span class="herr-name">Calendario<br>/ Agenda</span>
+            <span class="herr-tag">Reservas 24/7</span>
+          </button>
+          <button class="herr-tile" data-label="Login de usuarios" data-video="">
+            <span class="herr-emoji">🔐</span>
+            <span class="herr-name">Login de<br>usuarios</span>
+            <span class="herr-tag">Auth seguro</span>
+          </button>
+          <button class="herr-tile" data-label="Área de administrador" data-video="">
+            <span class="herr-emoji">⚙️</span>
+            <span class="herr-name">Área de<br>administrador</span>
+            <span class="herr-tag">Panel privado</span>
+          </button>
+          <button class="herr-tile" data-label="Formularios personalizados" data-video="">
+            <span class="herr-emoji">📝</span>
+            <span class="herr-name">Formularios<br>personalizados</span>
+            <span class="herr-tag">Captura leads</span>
+          </button>
+          <button class="herr-tile" data-label="Reproductor de video" data-video="">
+            <span class="herr-emoji">🎬</span>
+            <span class="herr-name">Reproductor<br>de video</span>
+            <span class="herr-tag">Player propio</span>
+          </button>
+          <button class="herr-tile" data-label="Base de datos · Supabase" data-video="">
+            <span class="herr-emoji">🗄️</span>
+            <span class="herr-name">Base de datos<br>· Supabase</span>
+            <span class="herr-tag">Tiempo real</span>
+          </button>
+          <button class="herr-tile" data-label="Video en la nube · Cloudflare" data-video="">
+            <span class="herr-emoji">☁️</span>
+            <span class="herr-name">Video en la nube<br>· Cloudflare</span>
+            <span class="herr-tag">Streaming seguro</span>
+          </button>
+          <button class="herr-tile" data-label="Botón de llamada" data-video="">
+            <span class="herr-emoji">📞</span>
+            <span class="herr-name">Botón de<br>llamada</span>
+            <span class="herr-tag">1 clic = llamada</span>
+          </button>
+          <button class="herr-tile" data-label="Botón de WhatsApp" data-video="">
+            <span class="herr-emoji">💬</span>
+            <span class="herr-name">Botón de<br>WhatsApp</span>
+            <span class="herr-tag">Contacto directo</span>
+          </button>
+          <button class="herr-tile" data-label="Pago con tarjeta" data-video="">
+            <span class="herr-emoji">💳</span>
+            <span class="herr-name">Pago con<br>tarjeta</span>
+            <span class="herr-tag">Stripe / MP</span>
+          </button>
+          <button class="herr-tile" data-label="Correo profesional" data-video="">
+            <span class="herr-emoji">📧</span>
+            <span class="herr-name">Correo<br>profesional</span>
+            <span class="herr-tag">tu@dominio.com</span>
+          </button>
+          <button class="herr-tile" data-label="Hosting" data-video="">
+            <span class="herr-emoji">🌐</span>
+            <span class="herr-name">Hosting</span>
+            <span class="herr-tag">Siempre online</span>
+          </button>
+          <button class="herr-tile" data-label="Dominio" data-video="">
+            <span class="herr-emoji">🔗</span>
+            <span class="herr-name">Dominio</span>
+            <span class="herr-tag">tudominio.com</span>
+          </button>
+        </div>
       </div>
     </section>
 
