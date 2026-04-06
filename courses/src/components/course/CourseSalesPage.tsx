@@ -8,6 +8,8 @@ interface CourseSalesPageProps {
 	course: Course;
 	stripeLink: string;
 	needsLogin: boolean;
+	hasAccess?: boolean;
+	playerHref?: string;
 	signingIn: boolean;
 	userEmail?: string;
 	onGoogleLogin: () => void;
@@ -52,6 +54,8 @@ export default function CourseSalesPage({
 	course,
 	stripeLink,
 	needsLogin,
+	hasAccess = false,
+	playerHref,
 	signingIn,
 	userEmail,
 	onGoogleLogin,
@@ -223,7 +227,9 @@ export default function CourseSalesPage({
 							<div className="p-5">
 								<p className="text-[11px] uppercase tracking-[0.22em] text-emerald-300">Acceso al curso</p>
 								<div className="mt-2">
-									{needsLogin ? (
+									{hasAccess ? (
+										<span className="inline-flex rounded-full bg-emerald-500/15 px-2.5 py-1 text-xs font-semibold text-emerald-300">Estado: comprado</span>
+									) : needsLogin ? (
 										<span className="inline-flex rounded-full bg-amber-500/15 px-2.5 py-1 text-xs font-semibold text-amber-300">Estado: inicia sesion</span>
 									) : (
 										<span className="inline-flex rounded-full bg-rose-500/15 px-2.5 py-1 text-xs font-semibold text-rose-300">Estado: no comprado</span>
@@ -241,7 +247,14 @@ export default function CourseSalesPage({
 								</div>
 
 								<div className="mt-5 space-y-3">
-									{needsLogin ? (
+									{hasAccess ? (
+										<a
+											href={playerHref ?? `/${course.slug}`}
+											className="flex w-full items-center justify-center rounded-2xl bg-emerald-400 px-4 py-3.5 text-sm font-bold text-zinc-950 transition hover:bg-emerald-300"
+										>
+											Entrar al curso de nuevo
+										</a>
+									) : needsLogin ? (
 										<button
 											onClick={onGoogleLogin}
 											disabled={signingIn}

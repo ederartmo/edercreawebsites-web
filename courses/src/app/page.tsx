@@ -9,25 +9,10 @@ export default function HomePage() {
 		<main className="min-h-screen bg-zinc-950 text-white px-6 py-14">
 			<div className="max-w-5xl mx-auto">
 				<p className="text-xs uppercase tracking-[0.2em] text-orange-400 font-semibold">Eder Crea Webs</p>
-				<h1 className="mt-3 text-3xl sm:text-5xl font-bold leading-tight">Area de Cursos</h1>
+				<h1 className="mt-3 text-3xl sm:text-5xl font-bold leading-tight">🎓 Area de Cursos</h1>
 				<p className="mt-4 text-zinc-300 max-w-2xl">
 					Aprende diseno y desarrollo web con clases practicas. Mira el temario y las caracteristicas del curso antes de comprar.
 				</p>
-
-				<div className="mt-8 flex flex-wrap gap-3">
-					<Link
-						href={`/${featured.slug}`}
-						className="inline-flex items-center rounded-lg bg-orange-500 hover:bg-orange-400 text-black font-semibold px-5 py-3 transition-colors"
-					>
-						Ver detalles
-					</Link>
-					<Link
-						href={`/${featured.slug}`}
-						className="inline-flex items-center rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-semibold px-5 py-3 transition-colors"
-					>
-						Entrar al curso
-					</Link>
-				</div>
 				<p className="mt-3 text-sm text-zinc-400">
 					Primero revisas detalles y temario. El acceso final al reproductor se habilita al comprar con tu cuenta.
 				</p>
@@ -40,7 +25,7 @@ export default function HomePage() {
 							alt={featured.title}
 							className="w-full sm:w-40 shrink-0 rounded-lg object-cover aspect-video bg-zinc-800"
 						/>
-						<div className="min-w-0">
+						<div className="min-w-0 flex-1">
 							<span className="inline-block mb-2 text-xs font-semibold rounded-full bg-orange-500/15 text-orange-300 px-3 py-0.5">
 								Sitio web desde cero en Canva
 							</span>
@@ -58,16 +43,29 @@ export default function HomePage() {
 								))}
 							</div>
 						</div>
+						<div className="sm:w-44 shrink-0 flex sm:flex-col gap-2 sm:gap-3">
+							<Link
+								href={`/${featured.slug}/detalle`}
+								className="flex-1 sm:flex-none inline-flex items-center justify-center rounded-lg bg-orange-500 hover:bg-orange-400 text-black font-semibold px-4 py-2.5 transition-colors"
+							>
+								Ver detalles
+							</Link>
+							<Link
+								href={`/${featured.slug}`}
+								className="flex-1 sm:flex-none inline-flex items-center justify-center rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-semibold px-4 py-2.5 transition-colors"
+							>
+								Entrar al curso
+							</Link>
+						</div>
 					</div>
 				</section>
 
 				{extras.length > 0 && (
 					<section className="mt-6 flex flex-col gap-4">
 						{extras.map((course) => (
-							<Link
+							<article
 								key={course.id}
-								href={`/${course.slug}`}
-								className="group flex items-start gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/50 hover:border-zinc-600 p-4 sm:p-5 transition-colors"
+								className="group flex flex-col sm:flex-row items-start gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/50 hover:border-zinc-600 p-4 sm:p-5 transition-colors"
 							>
 								<img
 									src={course.thumbnail}
@@ -83,7 +81,21 @@ export default function HomePage() {
 									</h2>
 									<p className="mt-1 text-xs sm:text-sm text-zinc-400 line-clamp-2">{course.description}</p>
 								</div>
-							</Link>
+								<div className="sm:w-44 shrink-0 flex sm:flex-col gap-2 sm:gap-3 w-full sm:w-auto">
+									<Link
+										href={`/${course.slug}/detalle`}
+										className="flex-1 sm:flex-none inline-flex items-center justify-center rounded-lg bg-orange-500 hover:bg-orange-400 text-black font-semibold px-4 py-2.5 transition-colors"
+									>
+										Ver detalles
+									</Link>
+									<Link
+										href={`/${course.slug}`}
+										className="flex-1 sm:flex-none inline-flex items-center justify-center rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-semibold px-4 py-2.5 transition-colors"
+									>
+										Entrar al curso
+									</Link>
+								</div>
+							</article>
 						))}
 					</section>
 				)}
