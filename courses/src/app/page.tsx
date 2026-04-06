@@ -64,6 +64,8 @@ export default function HomePage() {
 	const [nameSavedPulse, setNameSavedPulse] = useState(false);
 	const [view, setView] = useState<ViewMode>("grid");
 	const [purchasedSlugs, setPurchasedSlugs] = useState<Set<string>>(new Set());
+	const avatarUrl = user?.user_metadata?.avatar_url as string | undefined;
+	const displayName = profileName || user?.email || "Cuenta";
 
 	useEffect(() => {
 		const supabase = getSupabase();
@@ -147,6 +149,32 @@ export default function HomePage() {
 	return (
 		<main className="min-h-screen bg-zinc-950 text-white px-6 py-14">
 			<div className="max-w-5xl mx-auto">
+				<header className="mb-10 flex items-center justify-between rounded-2xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 sm:px-5">
+					<div className="flex items-center gap-3">
+						<img
+							src="https://assets.zyrosite.com/l8smzuTPzPP1MFNh/edercreawebs-logo-blanco-nlCPPvl0vspWoe1g.png"
+							alt="Eder Crea Webs"
+							className="h-8 w-8 rounded-full object-cover"
+						/>
+						<div>
+							<p className="text-[11px] uppercase tracking-[0.18em] text-zinc-400">Eder Crea Webs</p>
+							<p className="text-sm font-semibold text-zinc-100">Cursos</p>
+						</div>
+					</div>
+
+					<Link href="/perfil" className="group flex items-center gap-2" aria-label="Ir a perfil">
+						<div className="h-10 w-10 overflow-hidden rounded-full border border-zinc-700 bg-zinc-800">
+							{avatarUrl ? (
+								<img src={avatarUrl} alt={displayName} referrerPolicy="no-referrer" className="h-full w-full object-cover" />
+							) : (
+								<span className="flex h-full w-full items-center justify-center text-sm font-semibold text-zinc-200">
+									{displayName.slice(0, 1).toUpperCase()}
+								</span>
+							)}
+						</div>
+					</Link>
+				</header>
+
 				<div className={`text-xs uppercase tracking-[0.2em] font-semibold transition-all duration-500 ${nameSavedPulse ? "text-emerald-300 drop-shadow-[0_0_10px_rgba(52,211,153,0.35)]" : "text-orange-400"}`}>
 					{isEditingName ? (
 						<div className="flex flex-wrap items-center gap-2">
