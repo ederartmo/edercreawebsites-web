@@ -187,21 +187,30 @@ let answeredFAQs = new Set();
       shell.setAttribute('tabindex', '0');
       shell.setAttribute('aria-label', 'Reproducir o pausar video');
 
-      const ignoreClick = (target) => Boolean(
-        target.closest('.social-watermark-link') ||
-        target.closest('.social-video-details') ||
-        target.closest('summary') ||
-        target.closest('.social-video-copy')
-      );
+      const entry = {
+        iframe,
+        shell,
+        player,
+        hasStartedWithAudio: false,
+        ignoreClick: (target) => Boolean(
+          target.closest('.social-watermark-link') ||
+          target.closest('.social-video-details') ||
+          target.closest('summary') ||
+          target.closest('.social-video-copy')
+        )
+      };
 
-      return { iframe, shell, player, ignoreClick };
+      return entry;
     }).filter(Boolean);
 
-    const pauseOthers = (activeEntry) => {
+    const pauseOtherAudioPlayers = (activeEntry) => {
       playerEntries.forEach((entry) => {
         if (entry === activeEntry) return;
         try {
-          entry.player.pause();
+          entry.player.muted = true;
+          if (entry.hasStartedWithAudio && !entry.player.paused) {
+            entry.player.pause();
+          }
           entry.shell.classList.remove('is-playing');
         } catch (_) {}
       });
@@ -212,18 +221,28 @@ let answeredFAQs = new Set();
 
       const togglePlayback = async () => {
         try {
-          const isPaused = player.paused;
+          const isPaused = Boolean(player.paused);
+
+          if (!entry.hasStartedWithAudio) {
+            pauseOtherAudioPlayers(entry);
+            player.currentTime = 0;
+            player.muted = false;
+            await player.play();
+            entry.hasStartedWithAudio = true;
+            shell.classList.add('is-playing');
+            return;
+          }
 
           if (isPaused) {
-            pauseOthers(entry);
+            pauseOtherAudioPlayers(entry);
             player.muted = false;
-            player.currentTime = 0;
             await player.play();
             shell.classList.add('is-playing');
-          } else {
-            player.pause();
-            shell.classList.remove('is-playing');
+            return;
           }
+
+          player.pause();
+          shell.classList.remove('is-playing');
         } catch (_) {}
       };
 
