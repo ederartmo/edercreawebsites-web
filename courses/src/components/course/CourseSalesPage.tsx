@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { BookOpen, Clock3, Layers3, PlayCircle, Star, Trophy, Video } from 'lucide-react';
 import type { Course, Chapter } from '@/types';
 import { formatTime } from '@/lib/utils';
@@ -262,12 +263,12 @@ export default function CourseSalesPage({
 
 								<div className="mt-5 space-y-3">
 									{hasAccess ? (
-										<a
+										<Link
 											href={playerHref ?? `/${course.slug}`}
 											className="flex w-full items-center justify-center rounded-2xl bg-emerald-400 px-4 py-3.5 text-sm font-bold text-zinc-950 transition hover:bg-emerald-300"
 										>
 											{isFreeCourse ? "VER VIDEO" : "Entrar al curso de nuevo"}
-										</a>
+										</Link>
 									) : needsLogin ? (
 										<button
 											onClick={onGoogleLogin}
