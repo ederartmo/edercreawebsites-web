@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState, useEffect } from "react";
-import { Play, Pause, Volume2, VolumeX, Maximize, Minimize, Loader2, RectangleHorizontal, SquarePlay } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, Maximize, Minimize, Loader2, RectangleHorizontal, SquarePlay, Captions } from "lucide-react";
 import type { Chapter } from "@/types";
 import { formatTime, calcPercent } from "@/lib/utils";
 import PauseMessage from "@/components/ui/PauseMessage";
@@ -18,6 +18,7 @@ interface VideoPlayerProps extends PlayerState, PlayerControls {
 	pauseMessage?: string;
 	viewMode: ViewMode;
 	onViewModeChange: (mode: ViewMode) => void;
+	subtitleUrl?: string;
 }
 
 export default function VideoPlayer({
@@ -49,6 +50,10 @@ export default function VideoPlayer({
 	setQualityLevel,
 	toggleFullscreen,
 	handleMouseActivity,
+	toggleSubtitles,
+	showSubtitles,
+	subtitlesAvailable,
+	subtitleUrl,
 }: VideoPlayerProps) {
 	const seekbarRef = useRef<HTMLDivElement>(null);
 	const [isSeeking, setIsSeeking] = useState(false);
@@ -74,6 +79,24 @@ export default function VideoPlayer({
 			cycleViewMode();
 		}
 	};
+
+	// Toggle subtitle track via TextTrack API
+	useEffect(() => {
+		const video = videoRef.current;
+		if (!video || !subtitleUrl) return;
+		const update = () => {
+			const track = Array.from(video.textTracks).find((t) => t.language === "es");
+			if (track) {
+				track.mode = showSubtitles ? "showing" : "hidden";
+			}
+		};
+		// Wait for textTracks to be populated
+		if (video.textTracks.length > 0) {
+			update();
+		} else {
+			video.addEventListener("loadedmetadata", update, { once: true });
+		}
+	}, [showSubtitles, subtitleUrl, videoRef]);
 
 	// Close menu when clicking outside
 	useEffect(() => {
@@ -150,14 +173,16 @@ export default function VideoPlayer({
 				ref={videoRef}
 				className="w-full h-full object-contain"
 				playsInline
-			/>
-
-			{/* Buffering spinner */}
-			{isBuffering && (
-				<div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-					<Loader2 className="w-10 h-10 text-white/80 animate-spin" />
-				</div>
-			)}
+			>
+				{subtitleUrl && (
+					<track
+						kind="subtitles"
+						src={subtitleUrl}
+						srcLang="es"
+						label="Español"
+					/>
+				)}
+			</video>
 
 			{/* Pause message overlay */}
 			{!isPlaying && pauseMessage && (
@@ -276,6 +301,21 @@ export default function VideoPlayer({
 								aria-label="Volumen"
 							/>
 						</div>
+
+						{/* Subtitles toggle */}
+						{subtitlesAvailable && (
+							<button
+								onClick={toggleSubtitles}
+								className={`p-1.5 transition-colors ${
+									showSubtitles
+										? "text-orange-400"
+										: "text-white hover:text-orange-400"
+								}`}
+								aria-label={showSubtitles ? "Ocultar subtítulos" : "Mostrar subtítulos"}
+							>
+								<Captions className="w-5 h-5" />
+							</button>
+						)}
 
 						{/* Time */}
 						<span className="text-xs tabular-nums text-white/90 ml-1">

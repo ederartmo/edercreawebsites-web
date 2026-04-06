@@ -35,6 +35,7 @@ export default function LearningPlayer({ course }: LearningPlayerProps) {
 		chapters: course.chapters,
 		courseId: course.id,
 		onChapterComplete: handleChapterComplete,
+		subtitleUrl: course.subtitleUrl,
 	});
 
 	const currentChapter = course.chapters[player.currentChapterIndex];
@@ -117,9 +118,13 @@ export default function LearningPlayer({ course }: LearningPlayerProps) {
 						setQualityLevel={player.setQualityLevel}
 						toggleFullscreen={player.toggleFullscreen}
 						handleMouseActivity={player.handleMouseActivity}
-					/>
+					toggleSubtitles={player.toggleSubtitles}
+					showSubtitles={player.showSubtitles}
+					subtitlesAvailable={player.subtitlesAvailable}
+					subtitleUrl={course.subtitleUrl}
+				/>
 
-					{/* Tab navigation */}
+				{/* Tab navigation */}
 					<div className="flex border-b border-zinc-800 shrink-0 bg-zinc-950">
 						{(["notas", "tareas"] as Tab[]).map((tab) => (
 							<button

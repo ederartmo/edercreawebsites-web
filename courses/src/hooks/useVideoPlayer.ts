@@ -31,6 +31,8 @@ export interface PlayerState {
 	selectedQuality: number;
 	activeQualityLabel: string;
 	canSelectQuality: boolean;
+	showSubtitles: boolean;
+	subtitlesAvailable: boolean;
 }
 
 export interface PlayerControls {
@@ -42,6 +44,7 @@ export interface PlayerControls {
 	setQualityLevel: (level: number) => void;
 	toggleFullscreen: () => void;
 	handleMouseActivity: () => void;
+	toggleSubtitles: () => void;
 }
 
 export interface UseVideoPlayerReturn extends PlayerState, PlayerControls {
@@ -54,12 +57,14 @@ interface UseVideoPlayerOptions {
 	chapters: Chapter[];
 	courseId: string;
 	onChapterComplete?: (chapter: Chapter, xpEarned: number) => void;
+	subtitleUrl?: string;
 }
 
 export function useVideoPlayer({
 	hlsUrl,
 	chapters,
 	courseId,
+	subtitleUrl,
 	onChapterComplete,
 }: UseVideoPlayerOptions): UseVideoPlayerReturn {
 	const videoRef = useRef<HTMLVideoElement>(null);
@@ -96,6 +101,8 @@ export function useVideoPlayer({
 	const [selectedQuality, setSelectedQuality] = useState(-1);
 	const [activeQualityLabel, setActiveQualityLabel] = useState("Auto");
 	const [canSelectQuality, setCanSelectQuality] = useState(false);
+	const [showSubtitles, setShowSubtitles] = useState(false);
+	const [subtitlesAvailable, setSubtitlesAvailable] = useState(false);
 
 	const isMobileDevice = useCallback(() => {
 		if (typeof window === "undefined") return false;
@@ -116,6 +123,11 @@ export function useVideoPlayer({
 		setXp(savedXP);
 		setCompletedChapterIds(savedCompleted);
 		completedRef.current = new Set(savedCompleted);
+
+		// Check if subtitles are available
+		if (subtitleUrl) {
+			setSubtitlesAvailable(true);
+		}
 
 		let instance: HlsType | null = null;
 
@@ -440,6 +452,10 @@ export function useVideoPlayer({
 		}, 3000);
 	}, []);
 
+	const toggleSubtitles = useCallback(() => {
+		setShowSubtitles((prev) => !prev);
+	}, []);
+
 	return {
 		videoRef,
 		containerRef,
@@ -468,5 +484,8 @@ export function useVideoPlayer({
 		setQualityLevel,
 		toggleFullscreen,
 		handleMouseActivity,
+		toggleSubtitles,
+		showSubtitles,
+		subtitlesAvailable,
 	};
 }

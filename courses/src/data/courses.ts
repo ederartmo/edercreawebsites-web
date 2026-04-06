@@ -185,6 +185,7 @@ const VERDADERO_MOTIVO_COURSE: Course = {
 	instructorAvatar: "https://assets.zyrosite.com/l8smzuTPzPP1MFNh/edercreawebs-logo-blanco-nlCPPvl0vspWoe1g.png",
 	thumbnail: "https://customer-hwj8nccxmfdfhkme.cloudflarestream.com/5aed83e916cea6f306bbf02e82557986/thumbnails/thumbnail.jpg",
 	videoUrl: "https://customer-hwj8nccxmfdfhkme.cloudflarestream.com/5aed83e916cea6f306bbf02e82557986/manifest/video.m3u8",
+	subtitleUrl: "/cursos/subtitles/verdadero-motivo-posponer-grabarme.vtt",
 	totalDurationSeconds: 172,
 	level: "principiante",
 	tags: ["Mentalidad", "Perfeccionismo", "Creacion de contenido"],
