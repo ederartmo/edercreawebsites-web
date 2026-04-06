@@ -777,6 +777,10 @@
 
     .sectionTitle{
 
+      display: block;
+
+      width: 100%;
+
       text-align:center;
 
       font-weight:1000;
@@ -794,10 +798,10 @@
     }
 
     .sectionAccent{
-      color: #7a4b2b;
-      text-decoration: underline;
-      text-decoration-thickness: 3px;
-      text-underline-offset: 5px;
+      color: var(--pink);
+      text-decoration: none;
+      border-bottom: 0;
+      box-shadow: none;
     }
 
     .resultCard{ 
@@ -1026,17 +1030,7 @@
     }
 
     .social-proof-kicker {
-      display: inline-flex;
-      align-items: center;
-      padding: 7px 12px;
-      border-radius: 999px;
-      background: rgba(200,75,104,.1);
-      color: var(--pink2);
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
+      display: none;
     }
 
     .social-proof-title {
@@ -1352,19 +1346,22 @@
 
     .reviews-carousel-head {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+      justify-content: center;
+      gap: 12px;
       margin-bottom: 14px;
     }
 
     .reviews-carousel-head .sectionTitle {
       margin: 0;
-      text-align: left;
+      text-align: center;
+      flex: initial;
     }
 
     .reviews-controls {
       display: inline-flex;
+      justify-content: center;
       gap: 8px;
       flex-shrink: 0;
     }
