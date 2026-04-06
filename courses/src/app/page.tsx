@@ -206,7 +206,7 @@ export default function HomePage() {
 												href={`/${course.slug}`}
 												className="inline-flex rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-semibold px-4 py-2 text-sm transition-colors"
 											>
-												Entrar al curso
+												{course.isFree ? "VER VIDEO" : "Entrar al curso"}
 											</Link>
 										</div>
 									</div>
@@ -269,7 +269,7 @@ export default function HomePage() {
 											href={`/${course.slug}`}
 											className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-semibold px-4 py-2 text-sm transition-colors text-center"
 										>
-											Entrar
+											{course.isFree ? "VER VIDEO" : "Entrar"}
 										</Link>
 									</div>
 								</article>

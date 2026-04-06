@@ -63,6 +63,7 @@ export default function CourseSalesPage({
 }: CourseSalesPageProps) {
 	const groups = buildGroups(course.chapters);
 	const featuredChapters = course.chapters.slice(0, 5);
+	const isFreeCourse = course.isFree;
 
 	return (
 		<main className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(249,115,22,0.16),_transparent_28%),linear-gradient(180deg,_#09090b_0%,_#09090b_42%,_#111827_100%)] text-white">
@@ -241,9 +242,22 @@ export default function CourseSalesPage({
 								</p>
 
 								<div className="mt-5 rounded-2xl border border-white/8 bg-white/[0.03] p-4">
-									<p className="text-xs text-zinc-500">Precio unico</p>
-									<p className="mt-1 text-4xl font-semibold text-white">$1200</p>
-									<p className="mt-1 text-xs text-zinc-500">MXN - acceso de por vida</p>
+									{isFreeCourse ? (
+										<>
+											<p className="text-xs text-zinc-500">Precio especial</p>
+											<div className="mt-1 flex flex-wrap items-center gap-2">
+												<span className="text-lg text-zinc-500 line-through">$50 MXN</span>
+												<span className="rounded-full bg-emerald-500/15 px-3 py-1 text-xl font-semibold text-emerald-300">GRATIS</span>
+											</div>
+											<p className="mt-1 text-xs text-zinc-500">Video disponible sin costo</p>
+										</>
+									) : (
+										<>
+											<p className="text-xs text-zinc-500">Precio unico</p>
+											<p className="mt-1 text-4xl font-semibold text-white">$1200</p>
+											<p className="mt-1 text-xs text-zinc-500">MXN - acceso de por vida</p>
+										</>
+									)}
 								</div>
 
 								<div className="mt-5 space-y-3">
@@ -252,7 +266,7 @@ export default function CourseSalesPage({
 											href={playerHref ?? `/${course.slug}`}
 											className="flex w-full items-center justify-center rounded-2xl bg-emerald-400 px-4 py-3.5 text-sm font-bold text-zinc-950 transition hover:bg-emerald-300"
 										>
-											Entrar al curso de nuevo
+											{isFreeCourse ? "VER VIDEO" : "Entrar al curso de nuevo"}
 										</a>
 									) : needsLogin ? (
 										<button
