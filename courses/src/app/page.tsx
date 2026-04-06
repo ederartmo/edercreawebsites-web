@@ -1,15 +1,123 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import type { User } from "@supabase/supabase-js";
 import { COURSE_CATALOG } from "@/data/courses";
+import { getSupabase } from "@/lib/supabase";
 
 export default function HomePage() {
 	const featured = COURSE_CATALOG[0];
 	const extras = COURSE_CATALOG.slice(1);
+	const [user, setUser] = useState<User | null>(null);
+	const [profileName, setProfileName] = useState("");
+	const [draftName, setDraftName] = useState("");
+	const [isEditingName, setIsEditingName] = useState(false);
+	const [savingName, setSavingName] = useState(false);
+	const [nameMessage, setNameMessage] = useState("");
+
+	useEffect(() => {
+		const supabase = getSupabase();
+
+		const syncUser = (nextUser: User | null) => {
+			setUser(nextUser);
+			const nextName =
+				(nextUser?.user_metadata?.full_name as string | undefined) ||
+				(nextUser?.user_metadata?.name as string | undefined) ||
+				"";
+			setProfileName(nextName);
+			setDraftName(nextName);
+		};
+
+		supabase.auth.getSession().then(({ data: { session } }) => {
+			syncUser(session?.user ?? null);
+		});
+
+		const {
+			data: { subscription },
+		} = supabase.auth.onAuthStateChange((_event, session) => {
+			syncUser(session?.user ?? null);
+		});
+
+		return () => subscription.unsubscribe();
+	}, []);
+
+	function startNameEdit() {
+		setIsEditingName(true);
+		setNameMessage("");
+		setDraftName(profileName);
+	}
+
+	async function saveName() {
+		if (!user) {
+			setNameMessage("Inicia sesion para guardar tu nombre.");
+			setIsEditingName(false);
+			return;
+		}
+
+		const cleanName = draftName.trim();
+		setSavingName(true);
+		setNameMessage("");
+
+		const { error } = await getSupabase().auth.updateUser({
+			data: {
+				full_name: cleanName,
+			},
+		});
+
+		if (error) {
+			setNameMessage("No se pudo guardar el nombre.");
+		} else {
+			setProfileName(cleanName);
+			setNameMessage(cleanName ? "Bienvenido, que bueno que esta aqui." : "Escribe tu nombre.");
+		}
+
+		setSavingName(false);
+		setIsEditingName(false);
+	}
 
 	return (
 		<main className="min-h-screen bg-zinc-950 text-white px-6 py-14">
 			<div className="max-w-5xl mx-auto">
-				<p className="text-xs uppercase tracking-[0.2em] text-orange-400 font-semibold">Eder Crea Webs</p>
+				<div className="text-xs uppercase tracking-[0.2em] text-orange-400 font-semibold">
+					{isEditingName ? (
+						<div className="flex flex-wrap items-center gap-2">
+							<span>Hola,</span>
+							<input
+								autoFocus
+								type="text"
+								value={draftName}
+								onChange={(e) => setDraftName(e.target.value)}
+								onBlur={saveName}
+								onKeyDown={(e) => {
+									if (e.key === "Enter") {
+										e.preventDefault();
+										void saveName();
+									}
+									if (e.key === "Escape") {
+										setDraftName(profileName);
+										setIsEditingName(false);
+									}
+								}}
+								placeholder="Escribe tu nombre"
+								className="w-52 rounded-md border border-orange-400/50 bg-zinc-900 px-2 py-1 text-[11px] normal-case tracking-normal text-zinc-100 outline-none focus:border-orange-300"
+							/>
+							{savingName ? <span className="normal-case tracking-normal text-zinc-500">Guardando...</span> : null}
+						</div>
+					) : (
+						<button
+							type="button"
+							onDoubleClick={startNameEdit}
+							className="cursor-text"
+							title="Doble clic para editar tu nombre"
+						>
+							{profileName ? `Hola, ${profileName}` : "Hola, escribe tu nombre"}
+						</button>
+					)}
+				</div>
 				<h1 className="mt-3 text-3xl sm:text-5xl font-bold leading-tight">🎓 Area de Cursos</h1>
+				<p className="mt-2 text-sm text-zinc-400">{profileName ? "Bienvenido, que bueno que esta aqui." : "Escribe tu nombre con doble clic aqui arriba."}</p>
+				{nameMessage ? <p className="mt-1 text-xs text-emerald-300">{nameMessage}</p> : null}
 				<p className="mt-4 text-zinc-300 max-w-2xl">
 					Aprende diseno y desarrollo web con clases practicas. Mira el temario y las caracteristicas del curso antes de comprar.
 				</p>
