@@ -189,7 +189,7 @@ function GateInner({ children }: { children: React.ReactNode }) {
 					aria-label="Abrir menu de usuario"
 				>
 					{avatarUrl ? (
-						<img src={avatarUrl} alt={displayName} className="h-full w-full object-cover" />
+						<img src={avatarUrl} alt={displayName} referrerPolicy="no-referrer" className="h-full w-full object-cover" />
 					) : (
 						<span className="flex h-full w-full items-center justify-center text-sm font-semibold text-zinc-200">
 							{displayName.slice(0, 1).toUpperCase()}
