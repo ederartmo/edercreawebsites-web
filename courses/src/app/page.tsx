@@ -34,18 +34,30 @@ export default function HomePage() {
 
 				<section className="mt-12 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-5 sm:p-6">
 					<p className="text-xs text-zinc-400">Curso destacado</p>
-					<h2 className="mt-1 text-xl font-semibold">{featured.title}</h2>
-					<p className="mt-2 text-zinc-300">{featured.subtitle}</p>
-					<div className="mt-4 flex flex-wrap items-center gap-3 text-sm">
-						<span className="rounded-full border border-zinc-700 px-3 py-1 text-zinc-500 line-through">$2000 MXN</span>
-						<span className="rounded-full bg-emerald-500/15 px-3 py-1 font-semibold text-emerald-300">$1200 MXN despues de la promo</span>
-					</div>
-					<div className="mt-4 flex flex-wrap gap-2">
-						{featured.tags.map((tag) => (
-							<span key={tag} className="text-xs bg-zinc-800 text-zinc-300 rounded-full px-3 py-1">
-								{tag}
+					<div className="mt-3 flex flex-col gap-4 sm:flex-row sm:items-start">
+						<img
+							src={featured.thumbnail}
+							alt={featured.title}
+							className="w-full sm:w-40 shrink-0 rounded-lg object-cover aspect-video bg-zinc-800"
+						/>
+						<div className="min-w-0">
+							<span className="inline-block mb-2 text-xs font-semibold rounded-full bg-orange-500/15 text-orange-300 px-3 py-0.5">
+								Sitio web desde cero en Canva
 							</span>
-						))}
+							<h2 className="text-xl font-semibold">{featured.title}</h2>
+							<p className="mt-2 text-zinc-300">{featured.subtitle}</p>
+							<div className="mt-4 flex flex-wrap items-center gap-3 text-sm">
+								<span className="rounded-full border border-zinc-700 px-3 py-1 text-zinc-500 line-through">$2000 MXN</span>
+								<span className="rounded-full bg-emerald-500/15 px-3 py-1 font-semibold text-emerald-300">$1200 MXN despues de la promo</span>
+							</div>
+							<div className="mt-4 flex flex-wrap gap-2">
+								{featured.tags.map((tag) => (
+									<span key={tag} className="text-xs bg-zinc-800 text-zinc-300 rounded-full px-3 py-1">
+										{tag}
+									</span>
+								))}
+							</div>
+						</div>
 					</div>
 				</section>
 
