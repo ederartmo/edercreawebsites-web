@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import type { Course, Chapter } from "@/types";
 import { useVideoPlayer } from "@/hooks/useVideoPlayer";
 import { loadNotes, addNote as storageAddNote, deleteNote as storageDeleteNote } from "@/lib/storage";
@@ -13,6 +13,7 @@ import XPBar from "@/components/ui/XPBar";
 import XPToast from "@/components/ui/XPToast";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { BookOpen, ClipboardList, Menu, X } from "lucide-react";
+import { getSupabase } from "@/lib/supabase";
 
 type Tab = "notas" | "tareas";
 
@@ -41,6 +42,18 @@ export default function LearningPlayer({ course }: LearningPlayerProps) {
 
 	const currentChapter = course.chapters[player.currentChapterIndex];
 	const pauseMessage = !player.isPlaying ? currentChapter?.pauseMessage : undefined;
+
+	// Registrar visualización una sola vez al abrir el reproductor
+	useEffect(() => {
+		const supabase = getSupabase();
+		supabase.auth.getSession().then(({ data: { session } }) => {
+			void supabase.from("video_views").insert({
+				course_slug: course.slug,
+				user_id: session?.user?.id ?? null,
+			});
+		});
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [course.slug]);
 
 	const handleAddNote = useCallback(
 		(timestamp: number, text: string) => {

@@ -240,6 +240,15 @@ function GateInner({ children }: { children: React.ReactNode }) {
 						>
 							Mi perfil
 						</Link>
+						{isAdmin && (
+							<Link
+								href="/admin"
+								onClick={() => setMenuOpen(false)}
+								className="block px-3 py-2 text-zinc-200 hover:bg-zinc-800"
+							>
+								Panel admin
+							</Link>
+						)}
 						<button
 							onClick={handleThemeToggle}
 							className="block w-full px-3 py-2 text-left text-zinc-200 hover:bg-zinc-800"
