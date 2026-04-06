@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState, useEffect } from "react";
 import { Play, Pause, Volume2, VolumeX, Maximize, Minimize, Loader2, RectangleHorizontal, SquarePlay } from "lucide-react";
 import type { Chapter } from "@/types";
 import { formatTime, calcPercent } from "@/lib/utils";
@@ -9,7 +9,7 @@ import type { PlayerState, PlayerControls } from "@/hooks/useVideoPlayer";
 
 const RATES = [0.5, 0.75, 1, 1.25, 1.5, 2] as const;
 
-export type ViewMode = "normal" | "theater";
+export type ViewMode = "normal" | "theater" | "fullscreen";
 
 interface VideoPlayerProps extends PlayerState, PlayerControls {
 	videoRef: React.RefObject<HTMLVideoElement>;
@@ -52,8 +52,39 @@ export default function VideoPlayer({
 }: VideoPlayerProps) {
 	const seekbarRef = useRef<HTMLDivElement>(null);
 	const [isSeeking, setIsSeeking] = useState(false);
+	const [showViewMenu, setShowViewMenu] = useState(false);
+	const menuRef = useRef<HTMLDivElement>(null);
 	const progressPercent = calcPercent(currentTime, duration);
 	const bufferedPercent = calcPercent(bufferedEnd, duration);
+
+	const handleViewModeChange = (mode: ViewMode) => {
+		onViewModeChange(mode);
+		setShowViewMenu(false);
+	};
+
+	const cycleViewMode = () => {
+		const modes: ViewMode[] = ["normal", "theater", "fullscreen"];
+		const currentIndex = modes.indexOf(viewMode);
+		const nextIndex = (currentIndex + 1) % modes.length;
+		handleViewModeChange(modes[nextIndex]);
+	};
+
+	const handleViewModeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+		if (e.button === 0) {
+			cycleViewMode();
+		}
+	};
+
+	// Close menu when clicking outside
+	useEffect(() => {
+		const handleClickOutside = (e: MouseEvent) => {
+			if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+				setShowViewMenu(false);
+			}
+		};
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => document.removeEventListener("mousedown", handleClickOutside);
+	}, []);
 
 	const updateSeekFromClientX = useCallback(
 		(clientX: number) => {
@@ -97,11 +128,13 @@ export default function VideoPlayer({
 		togglePlay();
 	};
 
-	const containerStyle = isFullscreen
-		? { height: "100vh" }
-		: viewMode === "theater"
-			? { aspectRatio: "16/9", maxHeight: "72vh" }
-			: { aspectRatio: "16/9", maxHeight: "46vh" };
+	const getContainerStyle = () => {
+		if (viewMode === "fullscreen") return { height: "100vh" };
+		if (viewMode === "theater") return { aspectRatio: "16/9", maxHeight: "72vh" };
+		return { aspectRatio: "16/9", maxHeight: "46vh" };
+	};
+
+	const containerStyle = getContainerStyle();
 
 	return (
 		<div
@@ -283,33 +316,65 @@ export default function VideoPlayer({
 							<span className="text-xs text-white/70">{activeQualityLabel}</span>
 						)}
 
-						{/* Theater toggle */}
-						{!isFullscreen && (
+						{/* View mode button (left-click cycles, right-click menu) */}
+						<div className="relative inline-block">
 							<button
-								onClick={() => onViewModeChange(viewMode === "theater" ? "normal" : "theater")}
+								onClick={handleViewModeClick}
+								onContextMenu={(e) => {
+									e.preventDefault();
+									setShowViewMenu(!showViewMenu);
+								}}
 								className="p-1.5 hover:text-orange-400 transition-colors"
-								aria-label={viewMode === "theater" ? "Modo normal" : "Modo teatro"}
+								aria-label="Cambiar tamaño de video"
 							>
-								{viewMode === "theater" ? (
+								{viewMode === "fullscreen" ? (
+									<Minimize className="w-5 h-5" />
+								) : viewMode === "theater" ? (
 									<SquarePlay className="w-5 h-5" />
 								) : (
 									<RectangleHorizontal className="w-5 h-5" />
 								)}
 							</button>
-						)}
 
-						{/* Fullscreen */}
-						<button
-							onClick={toggleFullscreen}
-							className="p-1.5 hover:text-orange-400 transition-colors"
-							aria-label={isFullscreen ? "Salir de pantalla completa" : "Pantalla completa"}
-						>
-							{isFullscreen ? (
-								<Minimize className="w-5 h-5" />
-							) : (
-								<Maximize className="w-5 h-5" />
+							{showViewMenu && (
+								<div
+									ref={menuRef}
+									className="absolute bottom-full right-0 mb-2 bg-zinc-800 border border-zinc-700 rounded-lg shadow-lg overflow-hidden z-50"
+									onMouseDown={(e) => e.stopPropagation()}
+								>
+									<button
+										className={`w-full text-left px-4 py-2 text-sm transition-colors ${
+											viewMode === "normal"
+												? "bg-orange-500 text-black font-semibold"
+												: "text-zinc-300 hover:bg-zinc-700 hover:text-white"
+										}`}
+										onClick={() => handleViewModeChange("normal")}
+									>
+										📺 Normal
+									</button>
+									<button
+										className={`w-full text-left px-4 py-2 text-sm transition-colors ${
+											viewMode === "theater"
+												? "bg-orange-500 text-black font-semibold"
+												: "text-zinc-300 hover:bg-zinc-700 hover:text-white"
+										}`}
+										onClick={() => handleViewModeChange("theater")}
+									>
+										🎬 Teatro
+									</button>
+									<button
+										className={`w-full text-left px-4 py-2 text-sm transition-colors ${
+											viewMode === "fullscreen"
+												? "bg-orange-500 text-black font-semibold"
+												: "text-zinc-300 hover:bg-zinc-700 hover:text-white"
+										}`}
+										onClick={() => handleViewModeChange("fullscreen")}
+									>
+										⛶ Pantalla completa
+									</button>
+								</div>
 							)}
-						</button>
+						</div>
 					</div>
 				</div>
 			</div>

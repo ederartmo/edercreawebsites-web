@@ -5,8 +5,7 @@ import type { Course, Chapter } from "@/types";
 import { useVideoPlayer } from "@/hooks/useVideoPlayer";
 import { loadNotes, addNote as storageAddNote, deleteNote as storageDeleteNote } from "@/lib/storage";
 import type { Note } from "@/lib/storage";
-import VideoPlayer from "@/components/player/VideoPlayer";
-import type { ViewMode } from "@/components/player/VideoPlayer";
+	import VideoPlayer, { type ViewMode } from "@/components/player/VideoPlayer";
 import ChapterSidebar from "@/components/player/ChapterSidebar";
 import NotePanel from "@/components/player/NotePanel";
 import SubmissionPanel from "@/components/player/SubmissionPanel";
@@ -157,11 +156,11 @@ export default function LearningPlayer({ course }: LearningPlayerProps) {
 					</div>
 				</div>
 
-				{/* Right: chapter sidebar — hidden in theater mode on desktop */}
+				{/* Right: chapter sidebar — hidden in theater/fullscreen modes on desktop */}
 				<aside
 					className={`w-72 xl:w-80 shrink-0 flex flex-col border-l border-zinc-800 bg-zinc-900
 						md:relative
-						${viewMode === "theater" ? "md:hidden" : "md:flex"}
+						${viewMode === "theater" || viewMode === "fullscreen" ? "md:hidden" : "md:flex"}
 						${sidebarOpen ? "absolute inset-y-0 right-0 z-20 flex" : "hidden"}`}
 				>
 					<ChapterSidebar
