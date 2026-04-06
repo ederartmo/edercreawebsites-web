@@ -1522,19 +1522,43 @@
 
     .herr-showcase {
       display: grid;
-      grid-template-columns: minmax(170px, 1fr) minmax(320px, 1.42fr) minmax(170px, 1fr);
+      grid-template-columns: minmax(180px, 1fr) minmax(320px, 1.36fr) minmax(180px, 1fr);
+      grid-template-areas:
+        "top top top"
+        "left player right"
+        "bottom bottom bottom";
       gap: 14px;
       align-items: start;
     }
 
+    .herr-row,
     .herr-column {
       display: grid;
       gap: 10px;
       align-content: start;
     }
 
+    .herr-row-top {
+      grid-area: top;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .herr-row-bottom {
+      grid-area: bottom;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .herr-column-left {
+      grid-area: left;
+    }
+
+    .herr-column-right {
+      grid-area: right;
+    }
+
     /* Player card */
     .herr-player-card {
+      grid-area: player;
       background: var(--wine);
       border-radius: var(--radius);
       overflow: hidden;
@@ -1659,6 +1683,12 @@
     @media (max-width: 980px) {
       .herr-showcase {
         grid-template-columns: 1fr;
+        grid-template-areas:
+          "player"
+          "top"
+          "left"
+          "right"
+          "bottom";
       }
 
       .herr-player-card {
@@ -1669,6 +1699,7 @@
         aspect-ratio: 16/9;
       }
 
+      .herr-row,
       .herr-column {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -1699,6 +1730,7 @@
         gap: 10px;
       }
 
+      .herr-row,
       .herr-column {
         grid-template-columns: 1fr 1fr;
         gap: 8px;
