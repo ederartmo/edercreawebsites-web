@@ -3,6 +3,7 @@ import { COURSE_CATALOG } from "@/data/courses";
 
 export default function HomePage() {
 	const featured = COURSE_CATALOG[0];
+	const extras = COURSE_CATALOG.slice(1);
 
 	return (
 		<main className="min-h-screen bg-zinc-950 text-white px-6 py-14">
@@ -47,6 +48,33 @@ export default function HomePage() {
 						))}
 					</div>
 				</section>
+
+				{extras.length > 0 && (
+					<section className="mt-6 flex flex-col gap-4">
+						{extras.map((course) => (
+							<Link
+								key={course.id}
+								href={`/${course.slug}`}
+								className="group flex items-start gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/50 hover:border-zinc-600 p-4 sm:p-5 transition-colors"
+							>
+								<img
+									src={course.thumbnail}
+									alt={course.title}
+									className="w-28 sm:w-36 shrink-0 rounded-lg object-cover aspect-video bg-zinc-800"
+								/>
+								<div className="flex-1 min-w-0">
+									<span className="inline-block mb-2 text-xs font-semibold rounded-full bg-orange-500/15 text-orange-300 px-3 py-0.5">
+										Video extra gratis
+									</span>
+									<h2 className="text-sm sm:text-base font-semibold leading-snug group-hover:text-orange-400 transition-colors">
+										{course.title}
+									</h2>
+									<p className="mt-1 text-xs sm:text-sm text-zinc-400 line-clamp-2">{course.description}</p>
+								</div>
+							</Link>
+						))}
+					</section>
+				)}
 			</div>
 		</main>
 	);
