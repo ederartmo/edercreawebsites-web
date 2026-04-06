@@ -2,9 +2,13 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { LayoutGrid, List } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 import { COURSE_CATALOG } from "@/data/courses";
 import { getSupabase } from "@/lib/supabase";
+import { resolvePurchasedSlugs } from "@/lib/courseAccess";
+
+type ViewMode = "grid" | "list";
 
 export default function HomePage() {
 	const featured = COURSE_CATALOG[0];
@@ -16,11 +20,13 @@ export default function HomePage() {
 	const [savingName, setSavingName] = useState(false);
 	const [nameMessage, setNameMessage] = useState("");
 	const [nameSavedPulse, setNameSavedPulse] = useState(false);
+	const [view, setView] = useState<ViewMode>("grid");
+	const [purchasedSlugs, setPurchasedSlugs] = useState<Set<string>>(new Set());
 
 	useEffect(() => {
 		const supabase = getSupabase();
 
-		const syncUser = (nextUser: User | null) => {
+		const syncUser = async (nextUser: User | null) => {
 			setUser(nextUser);
 			const nextName =
 				(nextUser?.user_metadata?.full_name as string | undefined) ||
@@ -28,16 +34,24 @@ export default function HomePage() {
 				"";
 			setProfileName(nextName);
 			setDraftName(nextName);
+
+			if (!nextUser) {
+				setPurchasedSlugs(new Set());
+				return;
+			}
+
+			const slugs = await resolvePurchasedSlugs(supabase, nextUser);
+			setPurchasedSlugs(slugs);
 		};
 
 		supabase.auth.getSession().then(({ data: { session } }) => {
-			syncUser(session?.user ?? null);
+			void syncUser(session?.user ?? null);
 		});
 
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange((_event, session) => {
-			syncUser(session?.user ?? null);
+			void syncUser(session?.user ?? null);
 		});
 
 		return () => subscription.unsubscribe();
@@ -122,93 +136,146 @@ export default function HomePage() {
 				<p className="mt-2 text-sm text-zinc-400">{profileName ? "Bienvenido, que bueno que esta aqui." : "Escribe tu nombre con doble clic aqui arriba."}</p>
 				{nameMessage ? <p className={`mt-1 text-xs text-emerald-300 transition-opacity duration-500 ${nameSavedPulse ? "animate-pulse" : ""}`}>{nameMessage}</p> : null}
 				<p className="mt-4 text-zinc-300 max-w-2xl">
-					Aprende diseno y desarrollo web con clases practicas. Mira el temario y las caracteristicas del curso antes de comprar.
+					Todo en un solo lugar: revisa catalogo en cuadricula o lista, entra al detalle y accede al curso.
 				</p>
-				<p className="mt-3 text-sm text-zinc-400">
-					Primero revisas detalles y temario. El acceso final al reproductor se habilita al comprar con tu cuenta.
-				</p>
-
-				<section className="mt-12 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-5 sm:p-6">
-					<p className="text-xs text-zinc-400">Curso destacado</p>
-					<div className="mt-3 flex flex-col gap-4 sm:flex-row sm:items-start">
-						<img
-							src={featured.thumbnail}
-							alt={featured.title}
-							className="w-full sm:w-40 shrink-0 rounded-lg object-cover aspect-video bg-zinc-800"
-						/>
-						<div className="min-w-0 flex-1">
-							<span className="inline-block mb-2 text-xs font-semibold rounded-full bg-orange-500/15 text-orange-300 px-3 py-0.5">
-								Sitio web desde cero en Canva
-							</span>
-							<h2 className="text-xl font-semibold">{featured.title}</h2>
-							<p className="mt-2 text-zinc-300">{featured.subtitle}</p>
-							<div className="mt-4 flex flex-wrap items-center gap-3 text-sm">
-								<span className="rounded-full border border-zinc-700 px-3 py-1 text-zinc-500 line-through">$2000 MXN</span>
-								<span className="rounded-full bg-emerald-500/15 px-3 py-1 font-semibold text-emerald-300">$1200 MXN despues de la promo</span>
-							</div>
-							<div className="mt-4 flex flex-wrap gap-2">
-								{featured.tags.map((tag) => (
-									<span key={tag} className="text-xs bg-zinc-800 text-zinc-300 rounded-full px-3 py-1">
-										{tag}
-									</span>
-								))}
-							</div>
-						</div>
-						<div className="sm:w-44 shrink-0 flex sm:flex-col gap-2 sm:gap-3">
-							<Link
-								href={`/${featured.slug}/detalle`}
-								className="flex-1 sm:flex-none inline-flex items-center justify-center rounded-lg bg-orange-500 hover:bg-orange-400 text-black font-semibold px-4 py-2.5 transition-colors"
-							>
-								Ver detalles
-							</Link>
-							<Link
-								href={`/${featured.slug}`}
-								className="flex-1 sm:flex-none inline-flex items-center justify-center rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-semibold px-4 py-2.5 transition-colors"
-							>
-								Entrar al curso
-							</Link>
-						</div>
+				<div className="mt-8 flex items-center justify-between gap-4">
+					<h2 className="text-2xl font-semibold">Catalogo de cursos</h2>
+					<div className="flex items-center rounded-lg border border-zinc-700 overflow-hidden">
+						<button
+							onClick={() => setView("grid")}
+							className={`p-2 transition-colors ${view === "grid" ? "bg-zinc-700 text-white" : "text-zinc-400 hover:text-white"}`}
+							aria-label="Vista cuadricula"
+						>
+							<LayoutGrid className="w-4 h-4" />
+						</button>
+						<button
+							onClick={() => setView("list")}
+							className={`p-2 transition-colors ${view === "list" ? "bg-zinc-700 text-white" : "text-zinc-400 hover:text-white"}`}
+							aria-label="Vista lista"
+						>
+							<List className="w-4 h-4" />
+						</button>
 					</div>
-				</section>
+				</div>
 
-				{extras.length > 0 && (
-					<section className="mt-6 flex flex-col gap-4">
-						{extras.map((course) => (
-							<article
-								key={course.id}
-								className="group flex flex-col sm:flex-row items-start gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/50 hover:border-zinc-600 p-4 sm:p-5 transition-colors"
-							>
-								<img
-									src={course.thumbnail}
-									alt={course.title}
-									className="w-28 sm:w-36 shrink-0 rounded-lg object-cover aspect-video bg-zinc-800"
-								/>
-								<div className="flex-1 min-w-0">
-									<span className="inline-block mb-2 text-xs font-semibold rounded-full bg-orange-500/15 text-orange-300 px-3 py-0.5">
-										Video extra gratis
-									</span>
-									<h2 className="text-sm sm:text-base font-semibold leading-snug group-hover:text-orange-400 transition-colors">
-										{course.title}
-									</h2>
-									<p className="mt-1 text-xs sm:text-sm text-zinc-400 line-clamp-2">{course.description}</p>
-								</div>
-								<div className="sm:w-44 shrink-0 flex sm:flex-col gap-2 sm:gap-3 w-full sm:w-auto">
-									<Link
-										href={`/${course.slug}/detalle`}
-										className="flex-1 sm:flex-none inline-flex items-center justify-center rounded-lg bg-orange-500 hover:bg-orange-400 text-black font-semibold px-4 py-2.5 transition-colors"
-									>
-										Ver detalles
-									</Link>
-									<Link
-										href={`/${course.slug}`}
-										className="flex-1 sm:flex-none inline-flex items-center justify-center rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-semibold px-4 py-2.5 transition-colors"
-									>
-										Entrar al curso
-									</Link>
-								</div>
-							</article>
-						))}
-					</section>
+				{view === "grid" ? (
+					<div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+						{COURSE_CATALOG.map((course) => {
+							const isPurchased = purchasedSlugs.has(course.slug.toLowerCase());
+							return (
+								<article key={course.id} className="rounded-xl border border-zinc-800 bg-zinc-900 overflow-hidden">
+									<div className="aspect-video bg-zinc-800">
+										<img src={course.thumbnail} alt={course.title} className="w-full h-full object-cover" loading="lazy" />
+									</div>
+									<div className="p-4">
+										<div className="mb-2 flex items-center gap-2 flex-wrap">
+											{course.isFree ? (
+												<span className="inline-flex rounded-full bg-emerald-500/15 px-2.5 py-1 text-xs font-semibold text-emerald-300">Gratis</span>
+											) : isPurchased ? (
+												<span className="inline-flex rounded-full bg-emerald-500/15 px-2.5 py-1 text-xs font-semibold text-emerald-300">Comprado</span>
+											) : (
+												<span className="inline-flex rounded-full bg-rose-500/15 px-2.5 py-1 text-xs font-semibold text-rose-300">No comprado</span>
+											)}
+											{course.id === featured.id ? (
+												<span className="inline-flex rounded-full bg-orange-500/15 px-2.5 py-1 text-xs font-semibold text-orange-300">Sitio web desde cero en Canva</span>
+											) : null}
+										</div>
+										<h3 className="font-semibold leading-snug">{course.title}</h3>
+										<p className="mt-2 text-sm text-zinc-400 line-clamp-2">{course.subtitle}</p>
+										<div className="mt-3 flex items-center gap-2 text-sm">
+											{course.isFree ? (
+												<>
+													<span className="text-zinc-500 line-through">$50</span>
+													<span className="font-semibold text-orange-300">Video Extra Gratis</span>
+												</>
+											) : (
+												<>
+													<span className="text-zinc-500 line-through">$2000</span>
+													<span className="font-semibold text-emerald-300">$1200 MXN</span>
+												</>
+											)}
+										</div>
+										<div className="mt-4 flex flex-wrap gap-2">
+											<Link
+												href={`/${course.slug}/detalle`}
+												className="inline-flex rounded-lg bg-orange-500 hover:bg-orange-400 text-black font-semibold px-4 py-2 text-sm transition-colors"
+											>
+												Ver detalles
+											</Link>
+											<Link
+												href={`/${course.slug}`}
+												className="inline-flex rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-semibold px-4 py-2 text-sm transition-colors"
+											>
+												Entrar al curso
+											</Link>
+										</div>
+									</div>
+								</article>
+							);
+						})}
+					</div>
+				) : (
+					<div className="mt-6 flex flex-col gap-3">
+						{COURSE_CATALOG.map((course) => {
+							const isPurchased = purchasedSlugs.has(course.slug.toLowerCase());
+							return (
+								<article key={course.id} className="flex items-center gap-4 rounded-xl border border-zinc-800 bg-zinc-900 p-3 sm:p-4">
+									<img
+										src={course.thumbnail}
+										alt={course.title}
+										className="w-28 sm:w-40 shrink-0 rounded-lg aspect-video object-cover bg-zinc-800"
+										loading="lazy"
+									/>
+									<div className="flex-1 min-w-0">
+										<div className="mb-1 flex items-center gap-2 flex-wrap">
+											{course.isFree ? (
+												<span className="inline-flex rounded-full bg-emerald-500/15 px-2.5 py-1 text-xs font-semibold text-emerald-300">Gratis</span>
+											) : isPurchased ? (
+												<span className="inline-flex rounded-full bg-emerald-500/15 px-2.5 py-1 text-xs font-semibold text-emerald-300">Comprado</span>
+											) : (
+												<span className="inline-flex rounded-full bg-rose-500/15 px-2.5 py-1 text-xs font-semibold text-rose-300">No comprado</span>
+											)}
+											{course.id === featured.id ? (
+												<span className="inline-flex rounded-full bg-orange-500/15 px-2.5 py-1 text-xs font-semibold text-orange-300">Sitio web desde cero en Canva</span>
+											) : null}
+										</div>
+										<h3 className="font-semibold leading-snug">{course.title}</h3>
+										<p className="mt-1 text-sm text-zinc-400 line-clamp-2">{course.subtitle}</p>
+										<div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
+											{course.isFree ? (
+												<>
+													<span className="text-zinc-500 line-through">$50</span>
+													<span className="font-semibold text-orange-300">Video Extra Gratis</span>
+												</>
+											) : (
+												<>
+													<span className="text-zinc-500 line-through">$2000</span>
+													<span className="font-semibold text-emerald-300">$1200 MXN</span>
+												</>
+											)}
+											{course.tags.slice(0, 3).map((tag) => (
+												<span key={tag} className="text-xs bg-zinc-800 text-zinc-300 rounded-full px-2 py-0.5">{tag}</span>
+											))}
+										</div>
+									</div>
+									<div className="shrink-0 flex flex-col gap-2">
+										<Link
+											href={`/${course.slug}/detalle`}
+											className="rounded-lg bg-orange-500 hover:bg-orange-400 text-black font-semibold px-4 py-2 text-sm transition-colors text-center"
+										>
+											Ver detalles
+										</Link>
+										<Link
+											href={`/${course.slug}`}
+											className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-semibold px-4 py-2 text-sm transition-colors text-center"
+										>
+											Entrar
+										</Link>
+									</div>
+								</article>
+							);
+						})}
+					</div>
 				)}
 			</div>
 		</main>

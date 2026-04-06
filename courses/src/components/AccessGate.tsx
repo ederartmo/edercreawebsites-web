@@ -216,18 +216,11 @@ function GateInner({ children }: { children: React.ReactNode }) {
 							Estilo: {theme === 'dark' ? 'Dark mode' : 'White mode'}
 						</button>
 						<Link
-							href="/catalogo"
+							href="/"
 							onClick={() => setMenuOpen(false)}
 							className="block px-3 py-2 text-zinc-200 hover:bg-zinc-800"
 						>
-							Catalogo
-						</Link>
-						<Link
-							href="/mis-cursos"
-							onClick={() => setMenuOpen(false)}
-							className="block px-3 py-2 text-zinc-200 hover:bg-zinc-800"
-						>
-							Mis cursos
+							Cursos
 						</Link>
 						<Link
 							href="/"
