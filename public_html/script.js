@@ -123,6 +123,29 @@ let answeredFAQs = new Set();
 
   initClientTabs();
 
+  function initReviewsCarousel(){
+    const track = document.getElementById('reviewsTrack');
+    const prev = document.getElementById('reviewsPrev');
+    const next = document.getElementById('reviewsNext');
+    if (!track || !prev || !next) return;
+
+    const getScrollAmount = () => {
+      const firstCard = track.querySelector('.review-card');
+      if (!firstCard) return track.clientWidth * 0.9;
+      const gap = 18;
+      return firstCard.getBoundingClientRect().width + gap;
+    };
+
+    prev.addEventListener('click', () => {
+      track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+    });
+
+    next.addEventListener('click', () => {
+      track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+    });
+  }
+
+  initReviewsCarousel();
 
     // --- HERRAMIENTAS GRID ---
     function initHerramientas() {

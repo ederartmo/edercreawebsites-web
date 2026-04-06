@@ -36,7 +36,7 @@
   </script>
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1641466280624093&ev=PageView&noscript=1"/></noscript>
   
-  <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="style.css?v=7">
 
 </head>
 
@@ -169,7 +169,7 @@
     <section class="results" id="resultados">
     <section class="herramientas" id="herramientas">
       <div class="wrap">
-        <h2 class="sectionTitle">Lo que puedo integrar en tu web</h2>
+        <h2 class="sectionTitle">Lo que puedo integrar en tu <span class="sectionAccent">web</span></h2>
         <p class="herr-sub">Haz clic en cualquier herramienta para ver el demo.</p>
 
         <div class="herr-showcase">
@@ -287,7 +287,7 @@
     </section>
 
     <section class="problems" id="problemas">
-      <h2 class="sectionTitle">Los problemas que YO resuelvo</h2>
+      <h2 class="sectionTitle">Los problemas que YO <span class="sectionAccent">resuelvo</span></h2>
 
       <div class="problem-container">
 
@@ -358,7 +358,7 @@
       <div class="wrap">
         <div class="social-proof-head">
           <span class="social-proof-kicker">Prueba social</span>
-          <h2 class="sectionTitle social-proof-title">+44 mil personas siguen mis videos</h2>
+          <h2 class="sectionTitle social-proof-title">+44 mil personas siguen mis <span class="sectionAccent">videos</span></h2>
           <p class="social-proof-copy">Te invito a verlos. Aquí tienes tres ejemplos rápidos del tipo de contenido con el que explico sistemas, herramientas y decisiones web que sí mueven negocio.</p>
         </div>
 
@@ -508,8 +508,15 @@
     </section>
 
     <section class="testimonios-section">
-      <h2 class="sectionTitle">Lo que dicen mis clientes</h2>
-      <div class="reviews-grid">
+      <div class="reviews-carousel-head">
+        <h2 class="sectionTitle"><span class="sectionAccent">Testimonios</span></h2>
+        <div class="reviews-controls" aria-label="Navegar testimonios">
+          <button type="button" id="reviewsPrev" aria-label="Ver testimonios anteriores">←</button>
+          <button type="button" id="reviewsNext" aria-label="Ver más testimonios">→</button>
+        </div>
+      </div>
+
+      <div class="reviews-grid" id="reviewsTrack">
 
         <div class="review-card">
           <img src="g.png" class="g-icon" alt="Google">
@@ -547,7 +554,33 @@
             </div>
           </div>
           <div class="review-stars">★★★★★</div>
-          <p>Como Eder ya hace contenido, entiende muy bien el area digital 10/10 🧡</p>
+          <p>Como Eder ya hace contenido, entiende muy bien el área digital 10/10 🧡</p>
+        </div>
+
+        <div class="review-card">
+          <img src="g.png" class="g-icon" alt="Google">
+          <div class="review-header">
+            <img class="review-avatar" src="https://randomuser.me/api/portraits/women/52.jpg" alt="Mariana López">
+            <div class="review-info">
+              <b>Mariana López</b>
+              <small>08/11/2024</small>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <p>Me ayudó a aterrizar mi idea y el sitio quedó mucho más claro para que la gente sí me escriba.</p>
+        </div>
+
+        <div class="review-card">
+          <img src="g.png" class="g-icon" alt="Google">
+          <div class="review-header">
+            <img class="review-avatar" src="https://randomuser.me/api/portraits/men/54.jpg" alt="Luis Gutiérrez">
+            <div class="review-info">
+              <b>Luis Gutiérrez</b>
+              <small>02/02/2025</small>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <p>Responde rápido, propone mejoras y te dice directo qué funciona y qué no para vender mejor.</p>
         </div>
 
       </div>
@@ -564,7 +597,7 @@
     </section>
 
     <section class="questions" id="contacto">
-      <h2 class="sectionTitle">Para cotizarte, te preguntaré:</h2>
+      <h2 class="sectionTitle">Para cotizarte, te <span class="sectionAccent">preguntaré</span>:</h2>
       <div class="qList">
         <div class="qItem">
           <span class="qNum">#1</span>
@@ -644,7 +677,7 @@
   </div>
 
   <script src="https://embed.cloudflarestream.com/embed/sdk.latest.js"></script>
-  <script src="script.js?v=1.8"></script>
+  <script src="script.js?v=1.9"></script>
 
 </body>
 </html>
