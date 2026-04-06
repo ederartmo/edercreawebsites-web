@@ -15,6 +15,7 @@ export default function HomePage() {
 	const [isEditingName, setIsEditingName] = useState(false);
 	const [savingName, setSavingName] = useState(false);
 	const [nameMessage, setNameMessage] = useState("");
+	const [nameSavedPulse, setNameSavedPulse] = useState(false);
 
 	useEffect(() => {
 		const supabase = getSupabase();
@@ -70,6 +71,8 @@ export default function HomePage() {
 		} else {
 			setProfileName(cleanName);
 			setNameMessage(cleanName ? "Bienvenido, que bueno que esta aqui." : "Escribe tu nombre.");
+			setNameSavedPulse(true);
+			window.setTimeout(() => setNameSavedPulse(false), 900);
 		}
 
 		setSavingName(false);
@@ -79,7 +82,7 @@ export default function HomePage() {
 	return (
 		<main className="min-h-screen bg-zinc-950 text-white px-6 py-14">
 			<div className="max-w-5xl mx-auto">
-				<div className="text-xs uppercase tracking-[0.2em] text-orange-400 font-semibold">
+				<div className={`text-xs uppercase tracking-[0.2em] font-semibold transition-all duration-500 ${nameSavedPulse ? "text-emerald-300 drop-shadow-[0_0_10px_rgba(52,211,153,0.35)]" : "text-orange-400"}`}>
 					{isEditingName ? (
 						<div className="flex flex-wrap items-center gap-2">
 							<span>Hola,</span>
@@ -117,7 +120,7 @@ export default function HomePage() {
 				</div>
 				<h1 className="mt-3 text-3xl sm:text-5xl font-bold leading-tight">🎓 Area de Cursos</h1>
 				<p className="mt-2 text-sm text-zinc-400">{profileName ? "Bienvenido, que bueno que esta aqui." : "Escribe tu nombre con doble clic aqui arriba."}</p>
-				{nameMessage ? <p className="mt-1 text-xs text-emerald-300">{nameMessage}</p> : null}
+				{nameMessage ? <p className={`mt-1 text-xs text-emerald-300 transition-opacity duration-500 ${nameSavedPulse ? "animate-pulse" : ""}`}>{nameMessage}</p> : null}
 				<p className="mt-4 text-zinc-300 max-w-2xl">
 					Aprende diseno y desarrollo web con clases practicas. Mira el temario y las caracteristicas del curso antes de comprar.
 				</p>
