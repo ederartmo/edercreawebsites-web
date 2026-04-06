@@ -6,12 +6,10 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { getSupabase } from '@/lib/supabase';
 import { COURSE_CATALOG } from '@/data/courses';
 import CourseSalesPage from '@/components/course/CourseSalesPage';
+import { grantCourseAccess, hasCourseAccess, resolvePurchasedSlugs } from '@/lib/courseAccess';
 import type { User } from '@supabase/supabase-js';
 
 const STRIPE_LINK = 'https://buy.stripe.com/test_dRm6oG6Vr0ewd0S5Olak000';
-
-// La clave que guardamos en user_metadata para marcar la compra
-const PAID_KEY = 'cursos_paid';
 
 type State = 'loading' | 'open' | 'login' | 'unpaid';
 
@@ -111,67 +109,49 @@ function GateInner({ children }: { children: React.ReactNode }) {
 	}, []);
 
 	useEffect(() => {
-		// Solo se ejecuta en el browser; aquí es seguro inicializar Supabase
 		const supabase = getSupabase();
 
-		// Al montar: revisar sesión activa
-		supabase.auth.getSession().then(async ({ data: { session } }) => {
-			const u = session?.user ?? null;
+		const evaluateAccess = async (u: User | null) => {
 			setUser(u);
-
 			if (!u) {
 				setState('login');
 				return;
 			}
 
-			// Verificar si es admin
 			const isAdminUser = await checkIfAuthorized(u.email || '');
 			setIsAdmin(isAdminUser);
-
-			// Si es admin, darle acceso directo
 			if (isAdminUser) {
 				setState('open');
 				return;
 			}
 
-			// Stripe redirigió con ?acceso=1 → marcar compra en metadata
-			if (params.get('acceso') === '1') {
-				await supabase.auth.updateUser({
-					data: { [PAID_KEY]: true },
-				});
-				// Limpiar param de URL
+			let slugs = await resolvePurchasedSlugs(supabase, u);
+
+			if (params.get('acceso') === '1' && currentCourse) {
+				slugs = await grantCourseAccess(supabase, u, currentCourse.slug);
 				window.history.replaceState(null, '', window.location.pathname);
+			}
+
+			if (!currentCourse) {
 				setState('open');
 				return;
 			}
 
-			// Verificar si ya pagó
-			const paid = u.user_metadata?.[PAID_KEY] === true;
-			setState(paid ? 'open' : 'unpaid');
+			const canOpen = hasCourseAccess(u, currentCourse.slug, currentCourse.isFree, slugs);
+			setState(canOpen ? 'open' : 'unpaid');
+		};
+
+		supabase.auth.getSession().then(({ data: { session } }) => {
+			void evaluateAccess(session?.user ?? null);
 		});
 
-		// Escuchar cambios de sesión (regreso del OAuth callback)
 		const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-			const u = session?.user ?? null;
-			setUser(u);
-			if (!u) {
-				setState('login');
-				return;
-			}
-			checkIfAuthorized(u.email || '').then((isAdminUser) => {
-				setIsAdmin(isAdminUser);
-				if (isAdminUser) {
-					setState('open');
-					return;
-				}
-				const paid = u.user_metadata?.[PAID_KEY] === true;
-				setState(paid ? 'open' : 'unpaid');
-			});
+			void evaluateAccess(session?.user ?? null);
 		});
 
 		return () => subscription.unsubscribe();
 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [currentCourse?.slug, params]);
 
 	async function handleGoogleLogin() {
 		setSigningIn(true);
@@ -268,7 +248,9 @@ function GateInner({ children }: { children: React.ReactNode }) {
 		);
 	}
 
-	// Rutas publicas: home y catalogo siempre visibles, incluso sin login.
+	if (state === 'loading') return null;
+
+	// Rutas publicas y cursos gratis: visibles para todos.
 	if (!currentCourse || currentCourse.isFree) {
 		return (
 			<>
@@ -276,10 +258,7 @@ function GateInner({ children }: { children: React.ReactNode }) {
 				{children}
 			</>
 		);
-	}
-
-	// Spinner mientras valida acceso al curso de pago
-	if (state === 'loading') return null;
+		}
 
 	// Acceso concedido
 	if (state === 'open') {

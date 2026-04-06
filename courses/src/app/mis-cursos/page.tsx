@@ -4,31 +4,30 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { COURSE_CATALOG } from "@/data/courses";
 import { getSupabase } from "@/lib/supabase";
+import { resolvePurchasedSlugs } from "@/lib/courseAccess";
 
 type AccessState = {
 	isLoggedIn: boolean;
-	hasPaid: boolean;
+	purchasedSlugs: Set<string>;
 	userEmail?: string;
 };
 
-const PAID_KEY = "cursos_paid";
-
 export default function MisCursosPage() {
-	const [access, setAccess] = useState<AccessState>({ isLoggedIn: false, hasPaid: false });
+	const [access, setAccess] = useState<AccessState>({ isLoggedIn: false, purchasedSlugs: new Set() });
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const supabase = getSupabase();
-		supabase.auth.getSession().then(({ data: { session } }) => {
+		supabase.auth.getSession().then(async ({ data: { session } }) => {
 			const user = session?.user;
 			if (!user) {
-				setAccess({ isLoggedIn: false, hasPaid: false });
+				setAccess({ isLoggedIn: false, purchasedSlugs: new Set() });
 				setLoading(false);
 				return;
 			}
 
-			const hasPaid = user.user_metadata?.[PAID_KEY] === true;
-			setAccess({ isLoggedIn: true, hasPaid, userEmail: user.email });
+			const purchasedSlugs = await resolvePurchasedSlugs(supabase, user);
+			setAccess({ isLoggedIn: true, purchasedSlugs, userEmail: user.email });
 			setLoading(false);
 		});
 	}, []);
@@ -37,7 +36,9 @@ export default function MisCursosPage() {
 		return <main className="min-h-screen bg-zinc-950 text-white px-6 py-12">Cargando tus cursos...</main>;
 	}
 
-	const availableCourses = COURSE_CATALOG.filter((course) => course.isFree || access.hasPaid);
+	const availableCourses = COURSE_CATALOG.filter(
+		(course) => course.isFree || access.purchasedSlugs.has(course.slug.toLowerCase()),
+	);
 
 	return (
 		<main className="min-h-screen bg-zinc-950 text-white px-6 py-12">
