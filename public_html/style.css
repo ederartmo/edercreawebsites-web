@@ -1520,13 +1520,26 @@
       margin: -8px 0 28px;
     }
 
+    .herr-showcase {
+      display: grid;
+      grid-template-columns: minmax(170px, 1fr) minmax(320px, 1.42fr) minmax(170px, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .herr-column {
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
     /* Player card */
     .herr-player-card {
       background: var(--wine);
       border-radius: var(--radius);
       overflow: hidden;
-      margin-bottom: 20px;
       box-shadow: var(--shadow);
+      align-self: start;
     }
 
     .herr-player-top {
@@ -1555,7 +1568,7 @@
 
     .herr-player-body {
       position: relative;
-      aspect-ratio: 16/9;
+      aspect-ratio: 4/5;
       background: #0e0509;
     }
 
@@ -1582,19 +1595,13 @@
       font-size: 24px;
     }
 
-    /* Tiles grid */
-    .herr-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      gap: 10px;
-    }
-
     .herr-tile {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 6px;
-      padding: 16px 8px 13px;
+      min-height: 98px;
+      padding: 16px 10px 13px;
       border-radius: 14px;
       border: var(--border);
       background: var(--card);
@@ -1635,6 +1642,7 @@
       font-size: 12px;
       font-weight: 700;
       display: block;
+      text-wrap: balance;
     }
 
     .herr-tag {
@@ -1646,6 +1654,24 @@
       padding: 2px 8px;
       display: block;
       white-space: nowrap;
+    }
+
+    @media (max-width: 980px) {
+      .herr-showcase {
+        grid-template-columns: 1fr;
+      }
+
+      .herr-player-card {
+        order: -1;
+      }
+
+      .herr-player-body {
+        aspect-ratio: 16/9;
+      }
+
+      .herr-column {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
     @media (max-width: 600px) {
@@ -1669,13 +1695,20 @@
         font-size: 34px;
       }
 
-      .herr-grid {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      .herr-showcase {
+        gap: 10px;
+      }
+
+      .herr-column {
+        grid-template-columns: 1fr 1fr;
         gap: 8px;
       }
+
       .herr-tile {
         padding: 13px 6px 11px;
+        min-height: 92px;
       }
+
       .herr-emoji { font-size: 24px; }
       .herr-name { font-size: 11px; }
     }
