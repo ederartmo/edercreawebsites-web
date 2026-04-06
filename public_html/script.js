@@ -164,6 +164,38 @@ let answeredFAQs = new Set();
 
     initHerramientas();
 
+  function initSocialVideos() {
+    const socialVideos = Array.from(document.querySelectorAll('.social-video'));
+    if (!socialVideos.length) return;
+
+    socialVideos.forEach((clip) => {
+      const shell = clip.closest('.social-video-shell');
+      if (!shell) return;
+
+      clip.muted = true;
+      clip.playsInline = true;
+
+      const playClip = () => {
+        const playAttempt = clip.play();
+        if (playAttempt && typeof playAttempt.catch === 'function') {
+          playAttempt.catch(() => {});
+        }
+      };
+
+      const resetClip = () => {
+        clip.pause();
+        clip.currentTime = 0;
+      };
+
+      shell.addEventListener('mouseenter', playClip);
+      shell.addEventListener('mouseleave', resetClip);
+      shell.addEventListener('focusin', playClip);
+      shell.addEventListener('focusout', resetClip);
+    });
+  }
+
+  initSocialVideos();
+
   // --- 4. LÓGICA VSL (VIDEO) ---
   if(video) {
     let hasShownButton = false;
