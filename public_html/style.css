@@ -998,7 +998,46 @@
 
     .ctaRow { margin-top: 32px; display: flex; justify-content: center; width: 100%; }
 
+    /* --- CURSOS BANNER --- */
 
+    .cursos-banner{ padding: 28px 0; }
+
+    .cursos-banner-inner{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: linear-gradient(135deg, #1c0a0f 0%, #3b0f18 100%);
+      border: 1px solid rgba(200,75,104,.35);
+      border-radius: var(--radius);
+      padding: 22px 28px;
+    }
+
+    .cursos-banner-label{
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin: 0 0 4px;
+    }
+
+    .cursos-banner-title{
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      margin: 0 0 4px;
+    }
+
+    .cursos-banner-sub{
+      font-size: 13px;
+      color: rgba(255,255,255,.6);
+      margin: 0;
+    }
+
+    @media (max-width: 600px){
+      .cursos-banner-inner{ flex-direction: column; align-items: flex-start; }
+    }
 
     footer{ padding: 32px 0; text-align:center; font-size:13px; color: var(--muted); }
 
