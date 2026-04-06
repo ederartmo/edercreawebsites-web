@@ -53,8 +53,17 @@ export default function CatalogoPage() {
 									<h2 className="font-semibold leading-snug">{course.title}</h2>
 									<p className="mt-2 text-sm text-zinc-400 line-clamp-2">{course.subtitle}</p>
 									<div className="mt-3 flex items-center gap-2 text-sm">
-										<span className="text-zinc-500 line-through">$2000</span>
-										<span className="font-semibold text-emerald-300">$1200 MXN</span>
+										{course.isFree ? (
+											<>
+												<span className="text-zinc-500 line-through">$50</span>
+												<span className="font-semibold text-orange-300">Video Extra Gratis</span>
+											</>
+										) : (
+											<>
+												<span className="text-zinc-500 line-through">$2000</span>
+												<span className="font-semibold text-emerald-300">$1200 MXN</span>
+											</>
+										)}
 									</div>
 									<Link
 										href={`/${course.slug}`}
@@ -83,8 +92,17 @@ export default function CatalogoPage() {
 									<h2 className="font-semibold leading-snug">{course.title}</h2>
 									<p className="mt-1 text-sm text-zinc-400 line-clamp-2">{course.subtitle}</p>
 									<div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
-										<span className="text-zinc-500 line-through">$2000</span>
-										<span className="font-semibold text-emerald-300">$1200 MXN</span>
+										{course.isFree ? (
+											<>
+												<span className="text-zinc-500 line-through">$50</span>
+												<span className="font-semibold text-orange-300">Video Extra Gratis</span>
+											</>
+										) : (
+											<>
+												<span className="text-zinc-500 line-through">$2000</span>
+												<span className="font-semibold text-emerald-300">$1200 MXN</span>
+											</>
+										)}
 										{course.tags.slice(0, 3).map((tag) => (
 											<span key={tag} className="text-xs bg-zinc-800 text-zinc-300 rounded-full px-2 py-0.5">{tag}</span>
 										))}

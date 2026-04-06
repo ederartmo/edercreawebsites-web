@@ -190,7 +190,7 @@ const VERDADERO_MOTIVO_COURSE: Course = {
 	tags: ["Mentalidad", "Perfeccionismo", "Creacion de contenido"],
 	xpTotal: 120,
 	publishedAt: "2026-04-06",
-	isFree: false,
+	isFree: true,
 	chapters: buildChaptersFromTimeline("curso-verdadero-motivo-posponer-grabarme", VERDADERO_MOTIVO_TIMELINE, 172)
 };
 
