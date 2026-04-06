@@ -10,6 +10,48 @@ import { resolvePurchasedSlugs } from "@/lib/courseAccess";
 
 type ViewMode = "grid" | "list";
 
+const ADMIN_EMAILS = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? "")
+	.split(",")
+	.map((value) => value.trim().toLowerCase())
+	.filter(Boolean);
+
+async function checkIfAuthorized(email: string): Promise<boolean> {
+	try {
+		const normalizedEmail = email.trim().toLowerCase();
+		if (!normalizedEmail) return false;
+
+		if (ADMIN_EMAILS.includes(normalizedEmail)) {
+			return true;
+		}
+
+		const supabase = getSupabase();
+
+		const { data: roleData, error: roleError } = await supabase
+			.from("user_roles")
+			.select("id, is_admin")
+			.ilike("email", normalizedEmail)
+			.maybeSingle();
+
+		if (!roleError && roleData) {
+			return roleData.is_admin === true;
+		}
+
+		const { data: authorizedData, error: authorizedError } = await supabase
+			.from("authorized_users")
+			.select("id, is_admin")
+			.ilike("email", normalizedEmail)
+			.maybeSingle();
+
+		if (!authorizedError && authorizedData) {
+			return authorizedData.is_admin === true;
+		}
+
+		return false;
+	} catch {
+		return false;
+	}
+}
+
 export default function HomePage() {
 	const featured = COURSE_CATALOG[0];
 	const extras = COURSE_CATALOG.slice(1);
@@ -37,6 +79,15 @@ export default function HomePage() {
 
 			if (!nextUser) {
 				setPurchasedSlugs(new Set());
+				return;
+			}
+
+			const isAdminUser = await checkIfAuthorized(nextUser.email ?? "");
+			if (isAdminUser) {
+				const allPaidSlugs = new Set(
+					COURSE_CATALOG.filter((course) => !course.isFree).map((course) => course.slug.toLowerCase()),
+				);
+				setPurchasedSlugs(allPaidSlugs);
 				return;
 			}
 
