@@ -167,7 +167,7 @@ export default function VideoPlayer({
 			{/* Controls overlay */}
 			<div
 				className={`absolute inset-0 flex flex-col justify-end pointer-events-none transition-opacity duration-300 ${
-					showControls || !isPlaying ? "opacity-100" : "opacity-0 pointer-events-none"
+					viewMode === "fullscreen" || showControls || !isPlaying ? "opacity-100" : "opacity-0 pointer-events-none"
 				}`}
 			>
 				{/* Bottom gradient */}
@@ -378,6 +378,22 @@ export default function VideoPlayer({
 					</div>
 				</div>
 			</div>
+
+			{/* Floating view mode button (always accessible, especially in fullscreen) */}
+			{viewMode === "fullscreen" && (
+				<button
+					onClick={handleViewModeClick}
+					onContextMenu={(e) => {
+						e.preventDefault();
+						setShowViewMenu(!showViewMenu);
+					}}
+					className="absolute bottom-4 right-4 bg-black/70 hover:bg-black/90 text-white p-2 rounded-lg transition-colors z-50 pointer-events-auto shadow-lg"
+					aria-label="Cambiar tamaño de video"
+					title="Click izquierdo: ciclar modos | Click derecho: menú"
+				>
+					<Minimize className="w-5 h-5" />
+				</button>
+			)}
 		</div>
 	);
 }
