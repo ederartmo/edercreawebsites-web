@@ -15,6 +15,43 @@ body {
 	color: white;
 }
 
+html.theme-light,
+html.theme-light body {
+	background-color: #f8fafc;
+	color: #0f172a;
+}
+
+html.theme-light .bg-zinc-950 {
+	background-color: #f8fafc !important;
+}
+
+html.theme-light .bg-zinc-900,
+html.theme-light .bg-zinc-900\/50,
+html.theme-light .bg-zinc-900\/70,
+html.theme-light .bg-zinc-900\/80,
+html.theme-light .bg-zinc-900\/90 {
+	background-color: #ffffff !important;
+}
+
+html.theme-light .bg-zinc-800,
+html.theme-light .bg-zinc-800\/60 {
+	background-color: #e2e8f0 !important;
+}
+
+html.theme-light .border-zinc-800,
+html.theme-light .border-zinc-700 {
+	border-color: #cbd5e1 !important;
+}
+
+html.theme-light .text-white,
+html.theme-light .text-zinc-100,
+html.theme-light .text-zinc-200,
+html.theme-light .text-zinc-300,
+html.theme-light .text-zinc-400,
+html.theme-light .text-zinc-500 {
+	color: #1e293b !important;
+}
+
 /* Custom scrollbar for dark theme */
 ::-webkit-scrollbar {
 	width: 6px;

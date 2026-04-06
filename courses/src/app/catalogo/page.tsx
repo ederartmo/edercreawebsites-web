@@ -34,10 +34,6 @@ export default function CatalogoPage() {
 								<List className="w-4 h-4" />
 							</button>
 						</div>
-
-						<Link href="/" className="text-sm text-zinc-300 hover:text-white underline underline-offset-4">
-							Volver al inicio
-						</Link>
 					</div>
 				</div>
 

@@ -27,12 +27,6 @@ export default function HomePage() {
 					>
 						Entrar al curso
 					</Link>
-					<Link
-						href="/catalogo"
-						className="inline-flex items-center rounded-lg border border-zinc-700 hover:border-zinc-500 text-zinc-100 px-5 py-3 transition-colors"
-					>
-						Ver catalogo
-					</Link>
 				</div>
 				<p className="mt-3 text-sm text-zinc-400">
 					Primero revisas detalles y temario. El acceso final al reproductor se habilita al comprar con tu cuenta.
