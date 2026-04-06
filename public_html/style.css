@@ -415,6 +415,14 @@
 
     .btnWhatsapp{
 
+      display:inline-flex;
+
+      align-items:center;
+
+      justify-content:center;
+
+      gap:12px;
+
       background: linear-gradient(90deg, var(--wa-teal), var(--wa-teal-dark));
 
       color:#fff;
@@ -429,7 +437,13 @@
 
     }
 
-    .btnWhatsapp img { width: 32px; height: 32px; display: block; }
+    .btnWhatsapp img {
+      width: 32px;
+      height: 32px;
+      display: block;
+      object-fit: contain;
+      flex: 0 0 auto;
+    }
 
     .btnWide{ width:100%; }
 
@@ -659,17 +673,66 @@
 
     .logos-container img { height: 40px; width: auto; filter: grayscale(100%); transition: all 0.3s ease; }
 
-    .logos-container1 img { height: 80px; width: auto; filter: grayscale(100%); transition: all 0.3s ease; }
+    .logos-container1 {
+      gap: 42px;
+      opacity: 1;
+    }
 
-    .logos-container img:hover { filter: grayscale(0%); opacity: 1; transform: scale(1.05); }
+    .logos-container1 > img,
+    .logos-container1 > a img {
+      height: 80px;
+      width: auto;
+      filter: grayscale(100%);
+      opacity: .92;
+      transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+    }
 
+    .logos-container img:hover,
+    .logos-container1 > img:hover,
+    .logos-container1 > a:hover img,
+    .logos-container1 > a:focus-visible img {
+      filter: grayscale(0%);
+      opacity: 1;
+      transform: scale(1.05);
+    }
 
+    .footer-photo-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      text-decoration: none;
+      outline: none;
+    }
+
+    .footer-photo {
+      width: 160px;
+      height: 160px !important;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid rgba(255,255,255,.65);
+      box-shadow: 0 18px 40px rgba(0,0,0,.14);
+      cursor: pointer;
+    }
+
+    .footer-seal {
+      max-width: 122px;
+      height: auto !important;
+      object-fit: contain;
+    }
 
     @media (max-width: 600px) {
 
-      .logos-container { gap: 20px; }
+      .logos-container, .logos-container1 { gap: 20px; }
 
       .logos-container img { height: 22px; }
+
+      .footer-photo {
+        width: 120px;
+        height: 120px !important;
+      }
+
+      .footer-seal { max-width: 84px; }
 
     }
 
@@ -1004,6 +1067,39 @@
       background: linear-gradient(180deg, rgba(7,4,5,.08) 0%, rgba(7,4,5,.28) 38%, rgba(7,4,5,.80) 100%);
       pointer-events: none;
       transition: opacity .22s ease;
+    }
+
+    .social-watermark-link {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 3;
+      width: 56px;
+      height: 56px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(10,10,14,.24);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 24px rgba(0,0,0,.20);
+      opacity: .78;
+      transition: transform .22s ease, opacity .22s ease, box-shadow .22s ease;
+    }
+
+    .social-watermark-link img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .social-watermark-link:hover,
+    .social-watermark-link:focus-visible {
+      opacity: 1;
+      transform: scale(1.08);
+      box-shadow: 0 12px 26px rgba(0,0,0,.28);
     }
 
     .social-video {
@@ -1767,6 +1863,13 @@
 
       .social-video-overlay {
         padding: 16px 14px 16px;
+      }
+
+      .social-watermark-link {
+        top: 10px;
+        right: 10px;
+        width: 46px;
+        height: 46px;
       }
 
       .social-video-overlay h3 {
