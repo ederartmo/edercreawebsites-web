@@ -1528,7 +1528,7 @@
         "left player right"
         "bottom bottom bottom";
       gap: 14px;
-      align-items: start;
+      align-items: stretch;
     }
 
     .herr-row,
@@ -1563,9 +1563,11 @@
       border-radius: var(--radius);
       overflow: hidden;
       box-shadow: var(--shadow);
-      align-self: start;
       width: min(100%, 560px);
       justify-self: center;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
     .herr-player-top {
@@ -1594,7 +1596,8 @@
 
     .herr-player-body {
       position: relative;
-      aspect-ratio: 16/10;
+      flex: 1;
+      min-height: 0;
       background: #0e0509;
     }
 
@@ -1713,9 +1716,11 @@
 
       .herr-player-card {
         order: -1;
+        height: auto;
       }
 
       .herr-player-body {
+        flex: initial;
         aspect-ratio: 16/9;
       }
 
