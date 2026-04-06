@@ -19,7 +19,13 @@ export default function HomePage() {
 						href={`/${featured.slug}`}
 						className="inline-flex items-center rounded-lg bg-orange-500 hover:bg-orange-400 text-black font-semibold px-5 py-3 transition-colors"
 					>
-						Ver curso
+						Ver detalles
+					</Link>
+					<Link
+						href={`/${featured.slug}`}
+						className="inline-flex items-center rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-semibold px-5 py-3 transition-colors"
+					>
+						Entrar al curso
 					</Link>
 					<Link
 						href="/catalogo"
@@ -29,7 +35,7 @@ export default function HomePage() {
 					</Link>
 				</div>
 				<p className="mt-3 text-sm text-zinc-400">
-					Puedes ver lo que incluye web-desde-cero sin haberlo pagado todavia.
+					Primero revisas detalles y temario. El acceso final al reproductor se habilita al comprar con tu cuenta.
 				</p>
 
 				<section className="mt-12 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-5 sm:p-6">

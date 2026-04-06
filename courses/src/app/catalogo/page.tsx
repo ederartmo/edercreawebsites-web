@@ -65,12 +65,20 @@ export default function CatalogoPage() {
 											</>
 										)}
 									</div>
-									<Link
-										href={`/${course.slug}`}
-										className="mt-4 inline-flex rounded-lg bg-orange-500 hover:bg-orange-400 text-black font-semibold px-4 py-2 text-sm transition-colors"
-									>
-										Ver detalles
-									</Link>
+									<div className="mt-4 flex flex-wrap gap-2">
+										<Link
+											href={`/${course.slug}`}
+											className="inline-flex rounded-lg bg-orange-500 hover:bg-orange-400 text-black font-semibold px-4 py-2 text-sm transition-colors"
+										>
+											Ver detalles
+										</Link>
+										<Link
+											href={`/${course.slug}`}
+											className="inline-flex rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-semibold px-4 py-2 text-sm transition-colors"
+										>
+											Entrar al curso
+										</Link>
+									</div>
 								</div>
 							</article>
 						))}
@@ -108,12 +116,20 @@ export default function CatalogoPage() {
 										))}
 									</div>
 								</div>
-								<Link
-									href={`/${course.slug}`}
-									className="shrink-0 rounded-lg bg-orange-500 hover:bg-orange-400 text-black font-semibold px-4 py-2 text-sm transition-colors"
-								>
-									Ver
-								</Link>
+								<div className="shrink-0 flex flex-col gap-2">
+									<Link
+										href={`/${course.slug}`}
+										className="rounded-lg bg-orange-500 hover:bg-orange-400 text-black font-semibold px-4 py-2 text-sm transition-colors text-center"
+									>
+										Ver detalles
+									</Link>
+									<Link
+										href={`/${course.slug}`}
+										className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-semibold px-4 py-2 text-sm transition-colors text-center"
+									>
+										Entrar
+									</Link>
+								</div>
 							</article>
 						))}
 					</div>
