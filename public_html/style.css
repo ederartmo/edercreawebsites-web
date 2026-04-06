@@ -126,13 +126,30 @@
 
       align-items:center;
 
-      justify-content:center; 
+      justify-content:space-between;
 
       padding:16px 0;
 
     }
 
-    .navLogo { height: 32px; width: auto; display: block; }
+    .navBrand { display:flex; align-items:center; gap:10px; }
+
+    .navLogo { height:32px; width:auto; display:block; border-radius:50%; }
+
+    .navName { font-size:1rem; font-weight:700; color:#fff; letter-spacing:-0.01em; }
+
+    .navLogin {
+      font-size:0.875rem;
+      font-weight:600;
+      color:#fff;
+      text-decoration:none;
+      border:1px solid rgba(255,255,255,0.35);
+      border-radius:999px;
+      padding:6px 18px;
+      transition:background 0.15s, border-color 0.15s;
+    }
+
+    .navLogin:hover { background:rgba(255,255,255,0.12); border-color:rgba(255,255,255,0.6); }
 
 
 
