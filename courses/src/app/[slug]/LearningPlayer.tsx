@@ -67,10 +67,7 @@ export default function LearningPlayer({ course }: LearningPlayerProps) {
 					{ label: "cursos", href: "/" },
 					{ label: course.title },
 				]} />
-				<div className="flex-1 min-w-0">
-					<h1 className="text-sm font-semibold text-white truncate">{course.title}</h1>
-					<span className="block text-[11px] text-zinc-500 truncate max-w-full">{course.subtitle}</span>
-				</div>
+				<div className="flex-1 min-w-0" />
 				{/* Mobile sidebar toggle */}
 				<button
 					onClick={() => setSidebarOpen((v) => !v)}
