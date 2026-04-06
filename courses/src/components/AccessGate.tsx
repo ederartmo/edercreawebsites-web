@@ -122,9 +122,26 @@ function GateInner({ children }: { children: React.ReactNode }) {
 		const evaluateAccess = async (u: User | null) => {
 			setUser(u);
 			if (!u) {
+				const autoLoginRequested = params.get('login') === '1';
+				if (autoLoginRequested && window.sessionStorage.getItem('cursos_auto_login') !== '1') {
+					window.sessionStorage.setItem('cursos_auto_login', '1');
+					setSigningIn(true);
+					await getSupabase().auth.signInWithOAuth({
+						provider: 'google',
+						options: {
+							redirectTo: `${window.location.origin}/cursos/`,
+						},
+					});
+					return;
+				}
+				if (!autoLoginRequested) {
+					window.sessionStorage.removeItem('cursos_auto_login');
+				}
 				setState('login');
 				return;
 			}
+
+			window.sessionStorage.removeItem('cursos_auto_login');
 
 			const isAdminUser = await checkIfAuthorized(u.email || '');
 			setIsAdmin(isAdminUser);
