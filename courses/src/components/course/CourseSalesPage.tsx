@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { BookOpen, Clock3, Layers3, PlayCircle, Star, Trophy, Video } from 'lucide-react';
 import type { Course, Chapter } from '@/types';
 import { formatTime } from '@/lib/utils';
@@ -9,8 +8,6 @@ interface CourseSalesPageProps {
 	course: Course;
 	stripeLink: string;
 	needsLogin: boolean;
-	hasAccess?: boolean;
-	playerHref?: string;
 	signingIn: boolean;
 	userEmail?: string;
 	onGoogleLogin: () => void;
@@ -55,8 +52,6 @@ export default function CourseSalesPage({
 	course,
 	stripeLink,
 	needsLogin,
-	hasAccess = false,
-	playerHref,
 	signingIn,
 	userEmail,
 	onGoogleLogin,
@@ -64,7 +59,6 @@ export default function CourseSalesPage({
 }: CourseSalesPageProps) {
 	const groups = buildGroups(course.chapters);
 	const featuredChapters = course.chapters.slice(0, 5);
-	const isFreeCourse = course.isFree;
 
 	return (
 		<main className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(249,115,22,0.16),_transparent_28%),linear-gradient(180deg,_#09090b_0%,_#09090b_42%,_#111827_100%)] text-white">
@@ -228,51 +222,23 @@ export default function CourseSalesPage({
 						<div className="overflow-hidden rounded-[28px] border border-emerald-500/20 bg-zinc-950/90 shadow-[0_18px_70px_rgba(0,0,0,0.35)] backdrop-blur-sm">
 							<div className="p-5">
 								<p className="text-[11px] uppercase tracking-[0.22em] text-emerald-300">Acceso al curso</p>
-								<div className="mt-2">
-									{hasAccess ? (
-										<span className="inline-flex rounded-full bg-emerald-500/15 px-2.5 py-1 text-xs font-semibold text-emerald-300">Estado: comprado</span>
-									) : needsLogin ? (
-										<span className="inline-flex rounded-full bg-amber-500/15 px-2.5 py-1 text-xs font-semibold text-amber-300">Estado: inicia sesion</span>
-									) : (
-										<span className="inline-flex rounded-full bg-rose-500/15 px-2.5 py-1 text-xs font-semibold text-rose-300">Estado: no comprado</span>
-									)}
-								</div>
 								<h3 className="mt-3 text-xl font-semibold text-white">Diseña y vende mejor tu trabajo web</h3>
 								<p className="mt-2 text-sm leading-6 text-zinc-400">
-									Accede al curso completo con indice navegable, video en alta calidad y seguimiento de progreso.
+									Revisa el temario y las caracteristicas del curso antes de comprar. Cuando quieras, puedes activar tu acceso completo.
 								</p>
 
 								<div className="mt-5 rounded-2xl border border-white/8 bg-white/[0.03] p-4">
-									{isFreeCourse ? (
-										<>
-											<p className="text-xs text-zinc-500">Precio especial</p>
-											<div className="mt-1 flex flex-wrap items-center gap-2">
-												<span className="text-lg text-zinc-500 line-through">$50 MXN</span>
-												<span className="rounded-full bg-emerald-500/15 px-3 py-1 text-xl font-semibold text-emerald-300">GRATIS</span>
-											</div>
-											<p className="mt-1 text-xs text-zinc-500">Video disponible sin costo</p>
-										</>
-									) : (
-										<>
-											<p className="text-xs text-zinc-500">Precio unico</p>
-											<div className="mt-1 flex flex-wrap items-center gap-2">
-												<span className="text-lg text-zinc-500 line-through">$2000 MXN</span>
-												<span className="text-4xl font-semibold text-white">$1200</span>
-											</div>
-											<p className="mt-1 text-xs text-zinc-500">MXN - acceso de por vida</p>
-										</>
-									)}
+									<p className="text-xs text-zinc-500">Precio promocional</p>
+									<div className="mt-2 flex items-end gap-3">
+										<span className="text-lg text-zinc-500 line-through">$2000</span>
+										<p className="text-4xl font-semibold text-white">$1200</p>
+									</div>
+									<p className="mt-1 text-xs text-emerald-300">Precio real: $1200 MXN despues de la promo</p>
+									<p className="mt-1 text-xs text-zinc-500">Acceso de por vida</p>
 								</div>
 
 								<div className="mt-5 space-y-3">
-									{hasAccess ? (
-										<Link
-											href={playerHref ?? `/${course.slug}`}
-											className="flex w-full items-center justify-center rounded-2xl bg-emerald-400 px-4 py-3.5 text-sm font-bold text-zinc-950 transition hover:bg-emerald-300"
-										>
-											{isFreeCourse ? "VER VIDEO" : "Ver curso"}
-										</Link>
-									) : needsLogin ? (
+									{needsLogin ? (
 										<button
 											onClick={onGoogleLogin}
 											disabled={signingIn}
@@ -284,7 +250,7 @@ export default function CourseSalesPage({
 												<path d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332Z" fill="#FBBC05"/>
 												<path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58Z" fill="#EA4335"/>
 											</svg>
-											{signingIn ? 'Redirigiendo...' : 'Entrar con Google para comprar'}
+											{signingIn ? 'Redirigiendo...' : 'Entrar con Google para ver el curso'}
 										</button>
 									) : (
 										<>
