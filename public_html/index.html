@@ -376,12 +376,18 @@
           <p class="social-proof-copy">Te invito a verlos. Aquí tienes tres ejemplos rápidos del tipo de contenido con el que explico sistemas, herramientas y decisiones web que sí mueven negocio.</p>
         </div>
 
-        <div class="social-video-grid">
-          <article class="social-video-card">
-            <div class="social-video-shell">
-              <a class="social-watermark-link" href="https://www.tiktok.com/@edercreawebs" target="_blank" rel="noopener noreferrer" aria-label="Ver TikTok de Eder">
-                <img src="tiktok logo.png" alt="TikTok">
-              </a>
+        <div class="social-video-carousel-shell">
+          <div class="social-video-controls" aria-label="Navegar videos">
+            <button type="button" id="videoPrev" aria-label="Ver videos anteriores">←</button>
+            <button type="button" id="videoNext" aria-label="Ver más videos">→</button>
+          </div>
+
+          <div class="social-video-grid" id="videoTrack">
+            <article class="social-video-card">
+              <div class="social-video-shell">
+                <a class="social-watermark-link" href="https://www.tiktok.com/@edercreawebs" target="_blank" rel="noopener noreferrer" aria-label="Ver TikTok de Eder">
+                  <img src="tiktok logo.png" alt="TikTok">
+                </a>
               <iframe
                 class="social-video-iframe"
                 src="https://customer-hwj8nccxmfdfhkme.cloudflarestream.com/9fe3760fc18a59d105d5004fefd2441f/iframe?muted=true&loop=true&autoplay=true&preload=true&poster=https%3A%2F%2Fcustomer-hwj8nccxmfdfhkme.cloudflarestream.com%2F9fe3760fc18a59d105d5004fefd2441f%2Fthumbnails%2Fthumbnail.jpg"
@@ -517,6 +523,7 @@
               </div>
             </div>
           </article>
+        </div>
         </div>
       </div>
     </section>

@@ -61,7 +61,66 @@
 }());
 /* ---- FIN HAMBURGER/DARK MODE ---- */
 
-(function(){
+/* ---- VIDEO CAROUSEL / SLIDER ---- */
+(function() {
+  var videoTrack = document.getElementById('videoTrack');
+  var prevBtn = document.getElementById('videoPrev');
+  var nextBtn = document.getElementById('videoNext');
+  
+  if (!videoTrack || !prevBtn || !nextBtn) return;
+
+  function scrollToCard(index) {
+    var cards = videoTrack.querySelectorAll('.social-video-card');
+    if (cards.length === 0) return;
+    
+    // Clamp index between 0 and total cards
+    index = Math.max(0, Math.min(index, cards.length - 1));
+    var card = cards[index];
+    
+    // Scroll to the card
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+
+  function getCurrentCardIndex() {
+    var cards = videoTrack.querySelectorAll('.social-video-card');
+    if (cards.length === 0) return 0;
+    
+    var scrollLeft = videoTrack.scrollLeft;
+    var scrollWidth = videoTrack.scrollWidth;
+    var cardWidth = cards[0].offsetWidth;
+    var estimatedIndex = Math.round(scrollLeft / (cardWidth + 18)); // 18 is gap
+    
+    return Math.min(estimatedIndex, cards.length - 1);
+  }
+
+  prevBtn.addEventListener('click', function() {
+    var currentIndex = getCurrentCardIndex();
+    var newIndex = currentIndex - 1;
+    
+    // Loop: if at first card, go to last card
+    if (newIndex < 0) {
+      newIndex = videoTrack.querySelectorAll('.social-video-card').length - 1;
+    }
+    
+    scrollToCard(newIndex);
+  });
+
+  nextBtn.addEventListener('click', function() {
+    var cards = videoTrack.querySelectorAll('.social-video-card');
+    var currentIndex = getCurrentCardIndex();
+    var newIndex = currentIndex + 1;
+    
+    // Loop: if at last card, go to first card
+    if (newIndex >= cards.length) {
+      newIndex = 0;
+    }
+    
+    scrollToCard(newIndex);
+  });
+}());
+/* ---- FIN VIDEO CAROUSEL ---- */
+
+
   // ⚠️ CONFIGURACIÓN
   const WEBHOOK_URL = "https://n8n.edercreawebs.com/webhook/webchat";
   const CHAT_ID_KEY = "ew_chat_id_v5";

@@ -1172,6 +1172,46 @@
       color: var(--muted);
     }
 
+    .social-video-carousel-shell {
+      position: relative;
+      padding: 0 54px;
+    }
+
+    .social-video-controls {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      display: none;
+    }
+
+    .social-video-controls button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid rgba(59,15,24,.14);
+      background: #fff;
+      color: var(--wine2);
+      font-size: 20px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(0,0,0,.10);
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+      pointer-events: auto;
+    }
+
+    .social-video-controls button:hover {
+      transform: translateY(-50%) scale(1.03);
+      box-shadow: 0 12px 22px rgba(0,0,0,.14);
+      background: #fff7fa;
+    }
+
+    #videoPrev { left: 0; }
+    #videoNext { right: 0; }
+
     .social-video-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -1180,6 +1220,40 @@
 
     .social-video-card {
       min-width: 0;
+      scroll-snap-align: start;
+    }
+
+    @media (max-width: 899px) {
+      .social-video-carousel-shell {
+        padding: 0 42px;
+      }
+
+      .social-video-controls {
+        display: block;
+      }
+
+      .social-video-controls button {
+        width: 38px;
+        height: 38px;
+      }
+
+      .social-video-grid {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(280px, 88%);
+        gap: 18px;
+        overflow-x: auto;
+        padding: 4px 2px 12px;
+        margin-top: 6px;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .social-video-grid::-webkit-scrollbar {
+        display: none;
+      }
     }
 
     .social-video-shell {
@@ -1464,7 +1538,16 @@
 
     @media (min-width: 900px) {
       .social-video-grid {
+        grid-auto-flow: unset;
         grid-template-columns: repeat(3, minmax(0, 1fr));
+        overflow-x: visible;
+        padding: 0;
+        margin-top: 0;
+        scroll-snap-type: unset;
+      }
+
+      .social-video-carousel-shell {
+        padding: 0;
       }
     }
 
