@@ -122,21 +122,21 @@
 
     .topbar .row{
 
-      display:flex;
+      display:grid;
+
+      grid-template-columns: 44px 1fr 44px;
 
       align-items:center;
-
-      justify-content:space-between;
 
       padding:16px 0;
 
     }
 
-    .navBrand { display:flex; align-items:center; gap:10px; }
+    .navBrand { display:flex; align-items:center; justify-content:flex-start; }
 
-    .navLogo { height:32px; width:auto; display:block; border-radius:50%; }
+    .navLogo { height:44px; width:44px; display:block; border-radius:50%; object-fit:cover; }
 
-    .navName { font-size:1rem; font-weight:700; color:#fff; letter-spacing:-0.01em; }
+    .navName { text-align:center; font-size:1.22rem; font-weight:800; color:#fff; letter-spacing:-0.01em; }
 
     /* ---- HAMBURGER MENU ---- */
     .navMenuWrap { position: relative; }
@@ -286,6 +286,15 @@
 
       text-align: center;  
 
+    }
+
+    .heroCtaRow {
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
 
@@ -1688,6 +1697,8 @@
       .heroGrid{ grid-template-columns: 1.1fr 0.9fr; gap:40px; align-items: center; }
 
       .heroContent { align-items: flex-start; text-align: left; }
+
+      .heroCtaRow { justify-content: flex-start; }
 
       .credRow { justify-content: flex-start; }
 
