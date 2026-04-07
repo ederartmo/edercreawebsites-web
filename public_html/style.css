@@ -1683,7 +1683,38 @@
     .old-price{ text-decoration: line-through; color: rgba(255,255,255,.78); }
     .cursos-price-now{ margin-top: 6px; font-size: 20px; }
     .new-price{ color: var(--yellow); }
-    .cursos-copy-right .btn{ margin-top: 12px; }
+    .cursos-copy-right .btn{
+      margin-top: 12px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .18s ease, box-shadow .25s ease, filter .25s ease;
+      box-shadow: 0 12px 28px rgba(245,191,36,.28);
+    }
+
+    .cursos-copy-right .btn::after{
+      content: "";
+      position: absolute;
+      top: -120%;
+      left: -35%;
+      width: 42%;
+      height: 340%;
+      background: linear-gradient(115deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.55) 50%, rgba(255,255,255,0) 100%);
+      transform: rotate(18deg);
+      opacity: 0;
+      transition: left .45s ease, opacity .22s ease;
+      pointer-events: none;
+    }
+
+    .cursos-copy-right .btn:hover{
+      transform: translateY(-1px);
+      filter: brightness(1.04);
+      box-shadow: 0 0 0 2px rgba(255,212,91,.35), 0 16px 34px rgba(245,191,36,.42);
+    }
+
+    .cursos-copy-right .btn:hover::after{
+      opacity: 1;
+      left: 108%;
+    }
 
     @media (max-width: 900px){
       .cursos-banner-inner{
