@@ -282,8 +282,8 @@ export default function CourseSalesPage({
 														{formatTime(group.totalDurationSeconds)}
 													</span>
 												</div>
-												<span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-zinc-300 transition-transform duration-200 group-open:rotate-180">
-													<ChevronDown className="h-5 w-5" />
+												<span className="flex h-8 w-8 items-center justify-center rounded-sm border border-white/70 bg-zinc-900/90 text-white shadow-[0_0_0_2px_rgba(255,255,255,0.14)] transition-transform duration-200 group-open:rotate-180 sm:h-9 sm:w-9">
+													<ChevronDown className="h-4 w-4 stroke-[2.4]" />
 												</span>
 											</div>
 										</summary>
