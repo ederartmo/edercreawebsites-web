@@ -3,6 +3,64 @@
    Lógica: Pre-calificación por botones -> IA Agent para dudas
    ========================================================= */
 
+/* ---- HAMBURGER MENU + DARK MODE ---- */
+(function () {
+  var hamburger = document.getElementById('navHamburger');
+  var menu = document.getElementById('navMenu');
+  var toggle = document.getElementById('darkToggle');
+
+  function openMenu() {
+    if (!menu) return;
+    menu.classList.add('open');
+    menu.setAttribute('aria-hidden', 'false');
+    hamburger && hamburger.setAttribute('aria-expanded', 'true');
+  }
+  function closeMenu() {
+    if (!menu) return;
+    menu.classList.remove('open');
+    menu.setAttribute('aria-hidden', 'true');
+    hamburger && hamburger.setAttribute('aria-expanded', 'false');
+  }
+
+  hamburger && hamburger.addEventListener('click', function (e) {
+    e.stopPropagation();
+    menu.classList.contains('open') ? closeMenu() : openMenu();
+  });
+
+  document.addEventListener('click', function (e) {
+    if (menu && menu.classList.contains('open')) {
+      if (!menu.contains(e.target) && e.target !== hamburger && !hamburger.contains(e.target)) {
+        closeMenu();
+      }
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeMenu();
+  });
+
+  function setDarkMode(enabled) {
+    document.body.classList.toggle('dark-mode', enabled);
+    if (toggle) toggle.setAttribute('aria-checked', enabled ? 'true' : 'false');
+    try { localStorage.setItem('ew_dark', enabled ? '1' : '0'); } catch (ex) {}
+  }
+
+  toggle && toggle.addEventListener('click', function () {
+    setDarkMode(!document.body.classList.contains('dark-mode'));
+  });
+
+  // Restaurar preferencia guardada (o preferencia del sistema)
+  try {
+    var saved = localStorage.getItem('ew_dark');
+    if (saved !== null) {
+      setDarkMode(saved === '1');
+    } else {
+      setDarkMode(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    }
+  } catch (ex) {}
+}());
+/* ---- FIN HAMBURGER/DARK MODE ---- */
+
 (function(){
   // ⚠️ CONFIGURACIÓN
   const WEBHOOK_URL = "https://n8n.edercreawebs.com/webhook/webchat";

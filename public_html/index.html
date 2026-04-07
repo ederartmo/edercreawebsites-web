@@ -49,7 +49,24 @@
           <img class="navLogo" src="eder_favicon.png" alt="Eder Crea Webs">
           <span class="navName">edercreawebs</span>
         </div>
-        <a class="navLogin" href="/cursos/?login=1">Iniciar sesión</a>
+        <div class="navMenuWrap">
+          <button class="navHamburger" id="navHamburger" type="button" aria-expanded="false" aria-controls="navMenu" aria-label="Abrir menú">
+            <span></span><span></span><span></span>
+          </button>
+          <div class="navMenu" id="navMenu" role="menu" aria-hidden="true">
+
+            <div class="navToggleRow">
+              <span class="navToggleLabel">Light &amp; Dark</span>
+              <button class="navDarkToggle" id="darkToggle" type="button" role="switch" aria-checked="false">
+                <span class="navDarkToggle-ball"></span>
+              </button>
+            </div>
+
+            <a class="navMenuItem" href="/cursos/?login=1" role="menuitem">Iniciar sesión</a>
+            <a class="navMenuItem" href="/cursos/" role="menuitem">Ver cursos</a>
+            <a class="navMenuItem" href="https://wa.link/eah465" target="_blank" rel="noopener noreferrer" role="menuitem">Hablar con Eder</a>
+          </div>
+        </div>
       </div>
     </div>
   </header>
