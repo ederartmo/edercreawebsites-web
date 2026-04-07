@@ -36,7 +36,7 @@
   </script>
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1641466280624093&ev=PageView&noscript=1"/></noscript>
   
-  <link rel="stylesheet" href="style.css?v=7">
+  <link rel="stylesheet" href="style.css?v=6">
 
 </head>
 
@@ -49,7 +49,27 @@
           <img class="navLogo" src="eder_favicon.png" alt="Eder Crea Webs">
           <span class="navName">edercreawebs</span>
         </div>
-        <a class="navLogin" href="/cursos/?login=1">Iniciar sesión</a>
+
+        <div class="navMenuWrap">
+          <button class="navHamburger" id="navHamburger" type="button" aria-expanded="false" aria-controls="navMenu" aria-label="Abrir menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <div class="navMenu" id="navMenu" role="menu" aria-hidden="true">
+            <button class="navMenuItem" id="toggleBwMode" type="button">Black and White Mode</button>
+
+            <div class="navMenuLang" role="group" aria-label="Cambiar idioma">
+              <button class="navLangBtn is-active" id="langEs" type="button">Español</button>
+              <button class="navLangBtn" id="langEn" type="button">English</button>
+            </div>
+
+            <a class="navMenuItem" href="/cursos/?login=1">Iniciar sesión</a>
+            <a class="navMenuItem" href="/cursos/">Ver cursos</a>
+            <a class="navMenuItem" href="https://wa.link/eah465" target="_blank" rel="noopener">Hablar con Eder</a>
+          </div>
+        </div>
       </div>
     </div>
   </header>
@@ -77,9 +97,12 @@
             Sitio web + Agenda automática y recordatorios por WhatsApp que <strong>reducen ausencias y cancelaciones</strong> mientras tú estás en consulta.
           </p>
 
-          <button class="btn btnPrimary btnLg" type="button" id="btnWatchCase">
-            Ver el caso real (30 seg)
-          </button>
+          <div class="heroCtaRow">
+            <button class="btn btnPrimary btnLg" type="button" id="btnWatchCase">
+              Ver el caso real (30 seg)
+            </button>
+            <a class="btn btnGreen btnLg" href="https://wa.link/eah465" target="_blank">Lo entiendo, hablar con Eder.</a>
+          </div>
         </div> 
 
         <div class="vsl-wrap">
@@ -150,11 +173,6 @@
 
       </div>
     </section>
-
-    <div class="ctaRow">
-      <a class="btn btnGreen btnWide" href="https://wa.link/eah465" target="_blank">Lo entiendo, hablemos.</a>
-    </div>
-
     <section class="logos-credibilidad">
       <div class="wrap">
         <h4>Experto en las mejores plataformas</h4>
@@ -169,7 +187,7 @@
     <section class="results" id="resultados">
     <section class="herramientas" id="herramientas">
       <div class="wrap">
-        <h2 class="sectionTitle">Lo que puedo integrar en tu <span class="sectionAccent">web</span></h2>
+        <h2 class="sectionTitle">Lo que puedo integrar en tu web</h2>
         <p class="herr-sub">Haz clic en cualquier herramienta para ver el demo.</p>
 
         <div class="herr-showcase">
@@ -287,7 +305,7 @@
     </section>
 
     <section class="problems" id="problemas">
-      <h2 class="sectionTitle">Los problemas que YO <span class="sectionAccent">resuelvo</span></h2>
+      <h2 class="sectionTitle">Los problemas que YO resuelvo</h2>
 
       <div class="problem-container">
 
@@ -337,7 +355,7 @@
           </div>
           <div id="sol-3" class="solucion-content">
             <div class="solucion-grid">
-              <img src="tu-imagen-testimonios.png" alt="Testimonios">
+              <img src="tu-imagen-testimonios.png" alt="Lo que dicen de mi">
               <span class="plus-sign">+</span>
               <img src="tu-imagen-rostro1.png" alt="Ver rostro">
             </div>
@@ -350,119 +368,57 @@
 
     <section>
       <div class="ctaRow">
-        <a class="btn btnGreen btnWide" href="https://wa.link/eah465" target="_blank">Lo entiendo, hablemos.</a>
+        <a class="btn btnGreen btnWide" href="https://wa.link/eah465" target="_blank">Lo entiendo, hablar con Eder.</a>
       </div>
     </section>
 
     <section class="social-proof-videos" id="videos-sociales">
       <div class="wrap">
         <div class="social-proof-head">
-          <h2 class="sectionTitle social-proof-title">+44 mil personas siguen mis <span class="sectionAccent">videos</span></h2>
+          <span class="social-proof-kicker">Prueba social</span>
+          <h2 class="sectionTitle social-proof-title">+44 mil personas siguen mis videos</h2>
           <p class="social-proof-copy">Te invito a verlos. Aquí tienes tres ejemplos rápidos del tipo de contenido con el que explico sistemas, herramientas y decisiones web que sí mueven negocio.</p>
         </div>
 
         <div class="social-video-grid">
           <article class="social-video-card">
             <div class="social-video-shell">
-              <a class="social-watermark-link" href="https://www.tiktok.com/@edercreawebs" target="_blank" rel="noopener noreferrer" aria-label="Ver TikTok de Eder">
-                <img src="tiktok logo.png" alt="TikTok">
-              </a>
               <iframe
                 class="social-video-iframe"
                 src="https://customer-hwj8nccxmfdfhkme.cloudflarestream.com/9fe3760fc18a59d105d5004fefd2441f/iframe?muted=true&loop=true&autoplay=true&preload=true&poster=https%3A%2F%2Fcustomer-hwj8nccxmfdfhkme.cloudflarestream.com%2F9fe3760fc18a59d105d5004fefd2441f%2Fthumbnails%2Fthumbnail.jpg"
                 allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
                 allowfullscreen
                 loading="lazy"
-                title="Clase de Canva Para Celular"
+                title="Clases de Canva Celular"
               ></iframe>
-              <div class="social-video-overlay">
-                <span class="social-overlay-pill">Clase de Canva Para Celular</span>
-                <details class="social-video-details">
-                  <summary>Ver más</summary>
-                  <div class="social-video-copy">
-                    <div class="social-video-copy-header">
-                      <img class="social-video-copy-avatar" src="eder_favicon.png" alt="edercreawebs">
-                      <div class="social-video-copy-meta">
-                        <strong>edercreawebs</strong>
-                        <span>EderCrearWebs · 2025-12-27</span>
-                      </div>
-                    </div>
-                    <p class="social-video-copy-title">Clase De Canva Para Celular #1</p>
-                    <p class="social-video-copy-subtitle">Hoy el INTERFAZ ⬇️</p>
-                    <ol>
-                      <li>Menú</li>
-                      <li>Buscador</li>
-                      <li>Noticias</li>
-                      <li>Acceso Rapido</li>
-                      <li>Herramientas AI</li>
-                      <li>Diseños Recientes</li>
-                      <li>Secciones por Formato</li>
-                      <li>Navegador</li>
-                    </ol>
-                    <p class="social-video-tags">#edercreawebs #canva #canvacelular #interfaz #tutorial</p>
-                    <p class="social-video-less">menos</p>
-                    <p class="social-video-sound">♪ sonido original - EderCrearWebs</p>
-                    <div class="social-video-location">📍 Guadalajara Centro · Guadalajara, Jalisco</div>
-                  </div>
-                </details>
-              </div>
-              <div class="social-video-stat" aria-label="205.4 mil visualizaciones">
-                <span class="social-video-play" aria-hidden="true"></span>
-                <span>205.4K</span>
+              <div class="social-video-overlay overlay-description">
+                <span class="social-overlay-pill">Contenido</span>
+                <h3>Desglose claro de una automatización real</h3>
+                <p>Explico qué problema resuelve, cómo entra el usuario y qué parte convierte mejor.</p>
               </div>
             </div>
           </article>
 
           <article class="social-video-card">
             <div class="social-video-shell">
-              <a class="social-watermark-link" href="https://www.tiktok.com/@edercreawebs" target="_blank" rel="noopener noreferrer" aria-label="Ver TikTok de Eder">
-                <img src="tiktok logo.png" alt="TikTok">
-              </a>
               <iframe
                 class="social-video-iframe"
                 src="https://customer-hwj8nccxmfdfhkme.cloudflarestream.com/a0c6d2c778b6593ee261b968919a6885/iframe?muted=true&loop=true&autoplay=true&preload=true&poster=https%3A%2F%2Fcustomer-hwj8nccxmfdfhkme.cloudflarestream.com%2Fa0c6d2c778b6593ee261b968919a6885%2Fthumbnails%2Fthumbnail.jpg"
                 allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
                 allowfullscreen
                 loading="lazy"
-                title="TRUCO DE TEXTO: CAPAS EN CANVA #2"
+                title="Canva para YouTube"
               ></iframe>
-              <div class="social-video-overlay">
-                <span class="social-overlay-pill">TRUCO DE TEXTO: CAPAS EN CANVA #2</span>
-                <details class="social-video-details">
-                  <summary>Ver más</summary>
-                  <div class="social-video-copy">
-                    <div class="social-video-copy-header">
-                      <img class="social-video-copy-avatar" src="eder_favicon.png" alt="edercreawebs">
-                      <div class="social-video-copy-meta">
-                        <strong>edercreawebs</strong>
-                        <span>EderCrearWebs · 2025-12-27</span>
-                      </div>
-                    </div>
-                    <p class="social-video-copy-title">Pon las Redes de Tu Negocio Para Darte La Plantilla</p>
-                    <ol>
-                      <li>T para Texto</li>
-                      <li>Posición -&gt; Capas</li>
-                      <li>Mueve su posición: Detrás o Adelante</li>
-                    </ol>
-                    <p class="social-video-tags">#edercreawebs #canva #texto #capas #tutorial</p>
-                    <p class="social-video-less">menos</p>
-                    <p class="social-video-sound">♪ sonido original - EderCrearWebs</p>
-                    <div class="social-video-location">📍 Guadalajara Centro · Guadalajara, Jalisco</div>
-                  </div>
-                </details>
-              </div>
-              <div class="social-video-stat" aria-label="5706 visualizaciones">
-                <span class="social-video-play" aria-hidden="true"></span>
-                <span>5706</span>
+              <div class="social-video-overlay overlay-stats">
+                <span class="social-overlay-pill">Visualizaciones</span>
+                <strong>18.4K</strong>
+                <p>Reproducciones en un formato corto explicando una solución web concreta.</p>
               </div>
             </div>
           </article>
 
           <article class="social-video-card">
             <div class="social-video-shell">
-              <a class="social-watermark-link" href="https://www.tiktok.com/@edercreawebs" target="_blank" rel="noopener noreferrer" aria-label="Ver TikTok de Eder">
-                <img src="tiktok logo.png" alt="TikTok">
-              </a>
               <iframe
                 class="social-video-iframe"
                 src="https://customer-hwj8nccxmfdfhkme.cloudflarestream.com/e05f9f3706bbf1178744b4f999576f7b/iframe?muted=true&loop=true&autoplay=true&preload=true&poster=https%3A%2F%2Fcustomer-hwj8nccxmfdfhkme.cloudflarestream.com%2Fe05f9f3706bbf1178744b4f999576f7b%2Fthumbnails%2Fthumbnail.jpg"
@@ -471,34 +427,10 @@
                 loading="lazy"
                 title="Cómo consigo clientes"
               ></iframe>
-              <div class="social-video-overlay">
-                <span class="social-overlay-pill">Cómo consigo clientes</span>
-                <details class="social-video-details">
-                  <summary>Ver más</summary>
-                  <div class="social-video-copy">
-                    <div class="social-video-copy-header">
-                      <img class="social-video-copy-avatar" src="eder_favicon.png" alt="edercreawebs">
-                      <div class="social-video-copy-meta">
-                        <strong>edercreawebs</strong>
-                        <span>EderCrearWebs · 2025-12-27</span>
-                      </div>
-                    </div>
-                    <p class="social-video-copy-title">3 Maneras en las que he conseguido clientes.</p>
-                    <ol>
-                      <li>Ir a Google Maps y comparar quién no sale o quién no tiene web.</li>
-                      <li>Marcar desde casa usando Google Maps para ver los teléfonos.</li>
-                      <li>Crear videos: grabarte ayuda a la credibilidad; en 1 min enseñas que sabes.</li>
-                    </ol>
-                    <p class="social-video-tags">#edercreawebs #hostinger #shopify #wix #sitiosweb</p>
-                    <p class="social-video-less">menos</p>
-                    <p class="social-video-sound">♪ sonido original - EderCrearWebs</p>
-                    <div class="social-video-location">📍 Guadalajara Centro · Guadalajara, Jalisco</div>
-                  </div>
-                </details>
-              </div>
-              <div class="social-video-stat" aria-label="64.8 mil visualizaciones">
-                <span class="social-video-play" aria-hidden="true"></span>
-                <span>64.8K</span>
+              <div class="social-video-overlay overlay-likes">
+                <span class="social-overlay-pill">Likes</span>
+                <strong>3.2K</strong>
+                <p>Señal rápida de interés real cuando el mensaje conecta con el problema correcto.</p>
               </div>
             </div>
           </article>
@@ -507,22 +439,13 @@
     </section>
 
     <section class="testimonios-section">
-      <div class="reviews-carousel-head">
-        <h2 class="sectionTitle"><span class="sectionAccent">Testimonios</span></h2>
-      </div>
-
-      <div class="reviews-carousel-shell">
-        <div class="reviews-controls" aria-label="Navegar testimonios">
-          <button type="button" id="reviewsPrev" aria-label="Ver testimonios anteriores">←</button>
-          <button type="button" id="reviewsNext" aria-label="Ver más testimonios">→</button>
-        </div>
-
-        <div class="reviews-grid" id="reviewsTrack">
+      <h2 class="sectionTitle">Lo que dicen mis clientes</h2>
+      <div class="reviews-grid">
 
         <div class="review-card">
           <img src="g.png" class="g-icon" alt="Google">
           <div class="review-header">
-            <img class="review-avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Edgar Razo">
+            <div class="review-avatar" style="background: #E38167;">ER</div>
             <div class="review-info">
               <b>Edgar Razo</b>
               <small>15/05/2021</small>
@@ -535,7 +458,7 @@
         <div class="review-card">
           <img src="g.png" class="g-icon" alt="Google">
           <div class="review-header">
-            <img class="review-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Carmen Ortega">
+            <div class="review-avatar" style="background: #C84B68;">CO</div>
             <div class="review-info">
               <b>Carmen Ortega</b>
               <small>21/01/2024</small>
@@ -548,58 +471,39 @@
         <div class="review-card">
           <img src="g.png" class="g-icon" alt="Google">
           <div class="review-header">
-            <img class="review-avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Julia Mercado">
+            <div class="review-avatar" style="background: #58322A;">JM</div>
             <div class="review-info">
               <b>Julia Mercado</b>
               <small>15/07/2025</small>
             </div>
           </div>
           <div class="review-stars">★★★★★</div>
-          <p>Como Eder ya hace contenido, entiende muy bien el área digital 10/10 🧡</p>
+          <p>Como Eder ya hace contenido, entiende muy bien el area digital 10/10 🧡</p>
         </div>
 
-        <div class="review-card">
-          <img src="g.png" class="g-icon" alt="Google">
-          <div class="review-header">
-            <img class="review-avatar" src="https://randomuser.me/api/portraits/women/52.jpg" alt="Mariana López">
-            <div class="review-info">
-              <b>Mariana López</b>
-              <small>08/11/2024</small>
-            </div>
-          </div>
-          <div class="review-stars">★★★★★</div>
-          <p>Me ayudó a aterrizar mi idea y el sitio quedó mucho más claro para que la gente sí me escriba.</p>
-        </div>
-
-        <div class="review-card">
-          <img src="g.png" class="g-icon" alt="Google">
-          <div class="review-header">
-            <img class="review-avatar" src="https://randomuser.me/api/portraits/men/54.jpg" alt="Luis Gutiérrez">
-            <div class="review-info">
-              <b>Luis Gutiérrez</b>
-              <small>02/02/2025</small>
-            </div>
-          </div>
-          <div class="review-stars">★★★★★</div>
-          <p>Responde rápido, propone mejoras y te dice directo qué funciona y qué no para vender mejor.</p>
-        </div>
-
-        </div>
       </div>
     </section>
 
-    <section class="important" id="importante">
-      <h3>Cursos y videos gratuitos</h3>
-      <p>
-        Aprende a tu ritmo diseno web, creacion de contenido y mentalidad creativa.
-      </p>
-      <div class="btnWrap">
-        <a class="btn btnPrimary btnWide" href="/cursos/">Ver cursos</a>
+    <section class="cursos-banner" id="importante">
+      <div class="cursos-banner-inner">
+        <div class="cursos-copy cursos-copy-left">
+          <p class="cursos-banner-label">Curso destacado</p>
+          <h3 class="cursos-banner-title">Aprende a crear una web que te consiga clientes</h3>
+          <p class="cursos-banner-sub">Entra hoy y aplica el sistema paso a paso para vender con tu web.</p>
+        </div>
+
+        <div class="cursos-banner-center" aria-hidden="true"></div>
+
+        <div class="cursos-copy cursos-copy-right">
+          <p class="cursos-price-line">De <span class="old-price">$2,000 MXN</span></p>
+          <p class="cursos-price-line cursos-price-now">Hoy <span class="new-price">$1,200 MXN</span></p>
+          <a class="btn btnPrimary" href="/cursos/">Tomar el curso</a>
+        </div>
       </div>
     </section>
 
     <section class="questions" id="contacto">
-      <h2 class="sectionTitle">Para cotizarte, te <span class="sectionAccent">preguntaré</span>:</h2>
+      <h2 class="sectionTitle">Para cotizarte, te preguntaré:</h2>
       <div class="qList">
         <div class="qItem">
           <span class="qNum">#1</span>
@@ -613,7 +517,7 @@
 
       <div class="ctaRow">
         <a class="btn btnWhatsapp" href="https://wa.link/eah465" target="_blank" rel="noopener">
-          <img src="logo%20whatsapp.png" alt="WhatsApp">
+          <img src="https://assets.zyrosite.com/l8smzuTPzPP1MFNh/logo-whatsapp-TuahOFizhCc82NIn.png" alt="WhatsApp">
           Hablar con Eder
         </a>
       </div>
@@ -624,11 +528,9 @@
       <section class="logos-credibilidad">
         <div class="wrap">
           <div class="logos-container1">
-            <img class="footer-seal" src="s1.png" alt="Garantía de 30 días">
-            <a class="footer-photo-link" href="/cursos/" aria-label="Ir al área de cursos">
-              <img class="footer-photo" src="eder_favicon.png" alt="Ir al área de cursos">
-            </a>
-            <img class="footer-seal" src="s3.png" alt="Compra segura">
+            <img src="s1.png" alt="Wix">
+            <img src="eder_favicon.png" alt="eder">
+            <img src="s3.png" alt="Hostinger">
           </div>
         </div>
       </section>
@@ -678,8 +580,7 @@
     </div>
   </div>
 
-  <script src="https://embed.cloudflarestream.com/embed/sdk.latest.js"></script>
-  <script src="script.js?v=1.9"></script>
+  <script src="script.js?v=1.7"></script>
 
 </body>
 </html>
