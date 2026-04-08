@@ -712,5 +712,3 @@ async function handleUserText(inputEl, targetBody, faqId = null){
   
   sendEmbedded?.addEventListener("click", () => handleUserText(inputEmbedded, bodyEmbedded));
   inputEmbedded?.addEventListener("keydown", (e) => e.key === "Enter" && handleUserText(inputEmbedded, bodyEmbedded));
-
-})();

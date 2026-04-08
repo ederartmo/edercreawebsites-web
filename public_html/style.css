@@ -170,6 +170,7 @@
       top: calc(100% + 10px);
       right: 0;
       min-width: 200px;
+      max-width: min(220px, calc(100vw - 24px));
       background: #fff;
       border-radius: 14px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.18);
@@ -304,10 +305,25 @@
     }
 
     @media (max-width: 600px) {
-      .heroCtaRow { gap: 8px; }
+      .navName { font-size: 1rem; }
+
+      .navMenu {
+        right: -4px;
+        min-width: min(220px, calc(100vw - 24px));
+      }
+
+      .heroCtaRow {
+        width: 100%;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
       .heroCtaRow .btn {
+        width: 100%;
         padding: 12px 14px;
         font-size: 14px;
+        white-space: normal;
+        text-align: center;
       }
     }
 
@@ -587,7 +603,7 @@
 
       width:100%;
 
-      max-width: 240px;
+      max-width: 280px;
 
       margin: 0 auto;
 
@@ -603,6 +619,12 @@
 
       border: 1px solid rgba(255,255,255,.10);
 
+    }
+
+    @media (max-width: 600px) {
+      .vsl-videoBox {
+        max-width: min(100%, 320px);
+      }
     }
 
     .vsl-videoBox video{ width:100%; height:100%; object-fit:cover; cursor:pointer; }
@@ -1878,7 +1900,20 @@
 
       .btnWide{ width:auto; }
 
-      .reviews-grid { grid-auto-columns: calc((100% - 36px) / 3); }
+      .reviews-carousel-shell {
+        padding: 0;
+      }
+
+      .reviews-controls {
+        display: none;
+      }
+
+      .reviews-grid {
+        grid-auto-flow: row;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        overflow: visible;
+        padding: 4px 0 12px;
+      }
 
     }
 
