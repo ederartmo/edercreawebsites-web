@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eder Crea Webs | Webs para Psicólogos</title>
+  <meta name="description" content="Sitios web para psicólogos que ayudan a generar confianza, explicar servicios y agendar pacientes por WhatsApp." />
+
+  <!-- Paso 2: CSS base global para acercarnos al diseño original. -->
+  <style>
+    :root {
+      --wine: #8f1438;
+      --wine-dark: #4c0618;
+      --wine-deep: #2b030d;
+      --rose: #fff4f6;
+      --rose-2: #f7e8ec;
+      --mint: #eaf8f1;
+      --green: #22c55e;
+      --text: #171417;
+      --muted: #676067;
+      --border: #eadde1;
+      --card: #ffffff;
+      --shadow: 0 20px 60px rgba(76, 6, 24, 0.08);
+      --shadow-soft: 0 12px 30px rgba(76, 6, 24, 0.07);
+      --radius: 18px;
+      --radius-lg: 26px;
+      --max-width: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(143, 20, 56, 0.09), transparent 34rem),
+        linear-gradient(180deg, #ffffff 0%, #fffafa 48%, #ffffff 100%);
+      line-height: 1.5;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    .container {
+      width: min(var(--max-width), calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(234, 221, 225, 0.7);
+    }
+
+    .header-inner {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      font-size: 18px;
+    }
+
+    .brand-avatar,
+    .avatar-placeholder {
+      width: 34px;
+      height: 34px;
+        display: block;
+      border-radius: 999px;
+        background: #fff;
+        object-fit: contain;
+        border: 1px solid rgba(234, 221, 225, 0.9);
+      box-shadow: 0 8px 18px rgba(76, 6, 24, 0.16);
+    }
+
+      .avatar-placeholder,
+      .stack-avatar,
+      .testimonial-avatar {
+        width: 34px;
+        height: 34px;
+        display: block;
+        border-radius: 999px;
+        object-fit: cover;
+        background: #fff;
+        border: 2px solid #fff;
+        box-shadow: 0 8px 18px rgba(76, 6, 24, 0.16);
+      }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .main-nav a {
+      color: #2e2930;
+      transition: color 0.2s ease;
+    }
+
+    .main-nav a:hover {
+      color: var(--wine);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 0 24px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      font-weight: 900;
+      font-size: 15px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--wine), #6e0d2b);
+      color: #fff;
+      box-shadow: 0 15px 30px rgba(143, 20, 56, 0.25);
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: #1d191d;
+      border-color: #2d252a;
+      box-shadow: 0 8px 20px rgba(23, 20, 23, 0.05);
+    }
+
+    .btn-whatsapp {
+      width: 100%;
+      background: linear-gradient(135deg, #28c66f, #18a657);
+      color: #fff;
+      box-shadow: 0 18px 35px rgba(34, 197, 94, 0.24);
+    }
+
+    .cta-whatsapp-icon {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      flex: 0 0 auto;
+    }
+
+    .icon-placeholder,
+    .icon-card,
+    .process-icon {
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+    }
+
+    .hero {
+      min-height: calc(100svh - 76px);
+      padding: 42px 0 30px;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(620px, 1.14fr) minmax(440px, 0.86fr);
+      align-items: start;
+      gap: 24px;
+    }
+
+    .hero-copy {
+      max-width: 690px;
+      padding-top: 10px;
+    }
+
+    .eyebrow {
+      width: fit-content;
+      margin-bottom: 18px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--rose-2);
+      color: var(--wine);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .hero h1 {
+      max-width: 680px;
+      font-size: clamp(42px, 4.7vw, 62px);
+      line-height: 0.98;
+      letter-spacing: -0.07em;
+      font-weight: 950;
+    }
+
+    .hero h1 span {
+      color: var(--wine);
+      white-space: nowrap;
+    }
+
+    .hero-description {
+      max-width: 590px;
+      margin-top: 18px;
+      color: #363136;
+      font-size: 17px;
+      line-height: 1.52;
+    }
+
+    .hero-features {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 16px;
+      color: #4d454d;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .mini-feature {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .feature-icon-image {
+      width: 25px;
+      height: 25px;
+      object-fit: contain;
+      flex: 0 0 auto;
+    }
+
+    .hero-actions {
+      margin-top: 26px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .social-proof {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .social-proof strong {
+      color: var(--wine);
+    }
+
+    .avatar-stack {
+      display: flex;
+    }
+
+    .avatar-stack .stack-avatar + .stack-avatar {
+      margin-left: -10px;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 2px;
+    }
+
+    .hero-banner-image {
+      width: min(100%, 720px);
+      max-width: none;
+      max-height: min(72vh, 620px);
+      object-fit: contain;
+      filter: drop-shadow(0 24px 48px rgba(23, 20, 23, 0.16));
+    }
+
+    .image-placeholder {
+      display: grid;
+      place-items: center;
+      min-height: 180px;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(143, 20, 56, 0.10), rgba(255, 255, 255, 0.5)),
+        repeating-linear-gradient(45deg, rgba(143, 20, 56, 0.08) 0 8px, rgba(255, 255, 255, 0.28) 8px 16px);
+      border: 1px dashed rgba(143, 20, 56, 0.25);
+      color: rgba(76, 6, 24, 0.68);
+      text-align: center;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 18px;
+    }
+
+    @media (max-height: 860px) and (min-width: 821px) {
+      .hero {
+        min-height: calc(100svh - 76px);
+        padding: 24px 0 16px;
+      }
+
+      .hero-grid {
+        gap: 28px;
+      }
+
+      .eyebrow {
+        margin-bottom: 14px;
+      }
+
+      .hero h1 {
+        font-size: clamp(34px, 4.1vw, 54px);
+      }
+
+      .hero-description {
+        margin-top: 14px;
+        font-size: 15px;
+        line-height: 1.45;
+      }
+
+      .hero-features {
+        margin-top: 14px;
+        gap: 10px 14px;
+        font-size: 11px;
+      }
+
+      .mini-feature .icon-placeholder {
+        width: 22px;
+        height: 22px;
+      }
+
+      .hero-actions {
+        margin-top: 18px;
+      }
+
+      .btn {
+        min-height: 48px;
+        padding: 0 20px;
+        font-size: 14px;
+      }
+
+      .social-proof {
+        margin-top: 14px;
+        font-size: 13px;
+      }
+
+      .avatar-stack .stack-avatar {
+        width: 32px;
+        height: 32px;
+      }
+
+      .hero-visual {
+        min-height: 318px;
+        align-self: end;
+      }
+
+      .hero-banner-image {
+        max-width: 540px;
+        max-height: min(54vh, 390px);
+      }
+    }
+
+    section:not(.hero) {
+      padding: 42px 0;
+    }
+
+    .section-heading {
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(30px, 3vw, 42px);
+      line-height: 1.05;
+      letter-spacing: -0.06em;
+      font-weight: 950;
+    }
+
+    .section-heading p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 26px;
+    }
+
+    .benefit-card,
+    .testimonial-card,
+    .problem-card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .benefit-card {
+      min-height: 205px;
+      padding: 26px 18px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .icon-card {
+      width: 48px;
+      height: 48px;
+      color: var(--wine);
+      font-size: 31px;
+    }
+
+    .benefit-icon-image {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+    }
+
+    .benefit-card h3 {
+      font-size: 16px;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .benefit-card p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .problems-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .problem-card {
+      overflow: hidden;
+    }
+
+    .problem-image {
+      min-height: 205px;
+      border-radius: 0;
+      border-width: 0 0 1px;
+    }
+
+    .problem-body {
+      padding: 22px;
+    }
+
+    .problem-label,
+    .case-label {
+      display: inline-block;
+      margin-bottom: 8px;
+      color: var(--wine);
+      font-size: 11px;
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .problem-body h3 {
+      font-size: 21px;
+      line-height: 1.12;
+      letter-spacing: -0.045em;
+      margin-bottom: 10px;
+    }
+
+    .problem-body > p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .solution-box {
+      padding: 16px;
+      border-radius: 14px;
+      background: var(--mint);
+      color: #24483a;
+    }
+
+    .solution-box strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #16a35a;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .solution-box p {
+      font-size: 13px;
+      color: #315544;
+    }
+
+    .process-box {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+      padding: 28px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .process-step {
+      text-align: center;
+      position: relative;
+      padding: 8px;
+    }
+
+    .process-step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 42px;
+      right: -28px;
+      width: 56px;
+      border-top: 2px dashed rgba(143, 20, 56, 0.35);
+    }
+
+    .process-icon {
+      width: 66px;
+      height: 66px;
+      margin: 0 auto 12px;
+      border-radius: 999px;
+      background: var(--rose-2);
+      color: var(--wine);
+      font-size: 30px;
+      box-shadow: inset 0 0 0 10px rgba(255, 255, 255, 0.55);
+    }
+
+    .process-step h3 {
+      font-size: 15px;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+
+    .process-step p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .case-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      border: 4px solid var(--wine-dark);
+      background: var(--wine-dark);
+      box-shadow: 0 28px 70px rgba(76, 6, 24, 0.18);
+    }
+
+    .case-metrics {
+      padding: 36px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.13), transparent 18rem),
+        linear-gradient(135deg, #7b0d2c, #3a0514);
+    }
+
+    .case-metrics h2 {
+      font-size: 25px;
+      letter-spacing: -0.05em;
+      margin-bottom: 28px;
+    }
+
+    .case-label {
+      color: #ffdce7;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .metrics-grid strong {
+      display: block;
+      color: #ff6f9a;
+      font-size: 42px;
+      line-height: 1;
+      letter-spacing: -0.06em;
+    }
+
+    .metrics-grid p,
+    .case-metrics > p {
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .case-visual {
+      min-height: 270px;
+      border-radius: 0;
+      border: 0;
+      background-color: #f8f4f5;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+    }
+
+    .testimonial-card {
+      padding: 24px;
+      min-height: 205px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .stars {
+      color: #f4b342;
+      letter-spacing: 0.12em;
+      font-size: 15px;
+    }
+
+    .testimonial-card p {
+      color: #514a51;
+      font-size: 13px;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .testimonial-avatar {
+      width: 44px;
+      height: 44px;
+      flex: 0 0 auto;
+    }
+
+    .testimonial-author strong,
+    .testimonial-author span {
+      display: block;
+    }
+
+    .testimonial-author strong {
+      font-size: 13px;
+    }
+
+    .testimonial-author span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .final-cta {
+      padding-bottom: 24px !important;
+    }
+
+    .cta-card {
+      display: grid;
+      grid-template-columns: 1.15fr 0.8fr 0.9fr;
+      align-items: center;
+      gap: 28px;
+      overflow: hidden;
+      min-height: 285px;
+      padding: 34px;
+      border-radius: var(--radius-lg);
+      background:
+        radial-gradient(circle at 70% 30%, rgba(255,255,255,0.14), transparent 20rem),
+        linear-gradient(135deg, var(--wine-deep), #6b0a28 52%, #2b030d 100%);
+      color: #fff;
+      box-shadow: 0 28px 70px rgba(76, 6, 24, 0.22);
+    }
+
+    .cta-form-copy h2 {
+      font-size: 24px;
+      letter-spacing: -0.05em;
+      margin-bottom: 20px;
+    }
+
+    .quote-list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .quote-list li {
+      display: grid;
+      grid-template-columns: 0.75fr 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: rgba(255, 255, 255, 0.06);
+      font-size: 12px;
+    }
+
+    .quote-list strong {
+      color: #fff;
+    }
+
+    .quote-list span {
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .cta-form-copy > p {
+      margin-top: 10px;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.74);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .cta-person {
+      min-height: 250px;
+      align-self: stretch;
+      border: 0;
+      border-radius: 24px;
+      background-color: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.75);
+    }
+
+    .cta-benefits {
+      display: grid;
+      gap: 16px;
+    }
+
+    .cta-benefits div {
+      padding: 13px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.11);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .site-footer {
+      padding: 18px 0 24px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .site-footer nav {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      width: 38px;
+      height: 38px;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      place-items: center;
+      gap: 5px;
+      padding: 8px;
+    }
+
+    .mobile-menu-btn span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      border-radius: 999px;
+      background: #171417;
+    }
+
+    .faq {
+      display: none;
+    }
+
+    .faq-list {
+      display: grid;
+        padding: 20px 0 14px;
+    }
+
+    .faq-item {
+        grid-template-columns: minmax(600px, 1.12fr) minmax(420px, 0.88fr);
+        gap: 20px;
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .faq-item summary {
+        max-width: 650px;
+        font-size: clamp(38px, 4.25vw, 56px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+        max-width: 570px;
+        font-size: 16px;
+        line-height: 1.48;
+      font-size: 14px;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item summary::after {
+      content: "⌄";
+      color: var(--wine);
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .faq-item[open] summary::after {
+      transform: rotate(180deg);
+    }
+
+    .faq-item p {
+      padding: 0 18px 18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .mobile-trust-row {
+      display: none;
+    }
+
+    /* Paso 3: responsive para tablet y celular */
+    @media (max-width: 1100px) {
+      .container {
+        width: min(100% - 36px, var(--max-width));
+      }
+
+      .main-nav {
+        display: none;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 44px;
+      }
+
+      .hero-copy {
+        text-align: center;
+      }
+
+      .hero-copy .eyebrow,
+      .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-features,
+      .hero-actions,
+      .social-proof {
+        justify-content: center;
+      }
+
+      .hero-visual {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      .benefits-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .process-box {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .process-step:not(:last-child)::after {
+        display: none;
+      }
+
+      .testimonials-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cta-card {
+        grid-template-columns: 1fr 0.8fr;
+      }
+
+      .cta-benefits {
+        grid-column: 1 / -1;
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 820px) {
+      body {
+        background:
+          radial-gradient(circle at top left, rgba(143, 20, 56, 0.07), transparent 22rem),
+          #fffdfd;
+      }
+
+      .container {
+        width: min(100% - 32px, 420px);
+      }
+
+      .site-header {
+        position: static;
+        background: #fff;
+        border-bottom: 0;
+        backdrop-filter: none;
+      }
+
+      .header-inner {
+        min-height: 100%;
+        align-self: start;
+
+      .brand {
+        font-size: 14px;
+        width: min(100%, 650px);
+        max-height: min(66vh, 540px);
+
+      .brand-avatar {
+      .brand-avatar {
+        width: 36px;
+        height: 36px;
+      }
+
+      .header-cta,
+      .main-nav {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: grid;
+      }
+
+      .hero {
+        padding: 28px 0 28px;
+      }
+
+      .hero-grid {
+        gap: 34px;
+      }
+
+      .hero-copy {
+        text-align: left;
+      }
+
+      .hero-copy .eyebrow,
+      .hero-description {
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      .eyebrow {
+        margin-bottom: 18px;
+        padding: 8px 13px;
+        font-size: 11px;
+        border-radius: 12px;
+      }
+
+      .hero h1 {
+        font-size: 42px;
+        line-height: 1.08;
+        letter-spacing: -0.065em;
+      }
+
+      .hero-description {
+        margin-top: 18px;
+        font-size: 16px;
+        line-height: 1.72;
+      }
+
+      .hero-features {
+        margin-top: 22px;
+        display: grid;
+        grid-template-columns: 1fr;
+        justify-content: initial;
+        gap: 10px;
+        text-align: left;
+      }
+
+      .mini-feature {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        font-size: 13px;
+        font-weight: 900;
+      }
+
+      .feature-icon-image {
+        width: 24px;
+        height: 24px;
+      }
+
+      .hero-actions {
+        margin-top: 28px;
+        align-items: stretch;
+        justify-content: initial;
+        gap: 12px;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+      }
+
+      .btn {
+        min-height: 62px;
+        border-radius: 13px;
+        font-size: 15px;
+      }
+
+      .social-proof {
+        justify-content: flex-start;
+        margin-top: 26px;
+        gap: 14px;
+        font-size: 13px;
+      }
+
+      .avatar-stack .stack-avatar {
+        width: 37px;
+        height: 37px;
+      }
+
+      .hero-visual {
+        display: none;
+      }
+
+      section:not(.hero) {
+        padding: 34px 0;
+      }
+
+      .section-heading {
+        margin-bottom: 22px;
+        text-align: center;
+      }
+
+      .section-heading h2 {
+        font-size: 30px;
+        line-height: 1.12;
+        letter-spacing: -0.055em;
+      }
+
+      .section-heading p {
+        max-width: 330px;
+        margin: 8px auto 0;
+        font-size: 15px;
+        line-height: 1.55;
+      }
+
+      .benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .benefit-card {
+        min-height: 176px;
+        padding: 20px 12px;
+        border-radius: 13px;
+      }
+
+      .icon-card {
+        width: 44px;
+        height: 44px;
+        font-size: 28px;
+      }
+
+      .benefit-card h3 {
+        font-size: 14px;
+        line-height: 1.15;
+      }
+
+      .benefit-card p {
+        font-size: 11px;
+        line-height: 1.5;
+      }
+
+      .problems-grid,
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .problem-card {
+        border-radius: 15px;
+        overflow: hidden;
+      }
+
+      .problem-image {
+        min-height: 212px;
+      }
+
+      .problem-body {
+        padding: 18px;
+      }
+
+      .problem-label,
+      .case-label {
+        font-size: 10px;
+      }
+
+      .problem-body h3 {
+        font-size: 22px;
+        line-height: 1.14;
+      }
+
+      .problem-body > p {
+        font-size: 14px;
+      }
+
+      .solution-box {
+        padding: 15px;
+        border-radius: 12px;
+      }
+
+      .process-box {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0;
+        padding: 0;
+        border: 0;
+        box-shadow: none;
+        background: transparent;
+        position: relative;
+      }
+
+      .process-box::before {
+        content: "";
+        position: absolute;
+        left: 32px;
+        top: 28px;
+        bottom: 28px;
+        width: 2px;
+        background: #ead4da;
+      }
+
+      .process-step {
+        display: grid;
+        grid-template-columns: 66px 1fr;
+        align-items: start;
+        gap: 12px;
+        text-align: left;
+        padding: 0 0 24px;
+        background: transparent;
+        border-radius: 0;
+        position: relative;
+      }
+
+      .process-step:last-child {
+        padding-bottom: 0;
+      }
+
+      .process-step:not(:last-child)::after {
+        display: none;
+      }
+
+      .process-icon {
+        width: 58px;
+        height: 58px;
+        margin: 0;
+        font-size: 25px;
+        z-index: 1;
+      }
+
+      .process-step h3 {
+        padding-top: 4px;
+        font-size: 14px;
+      }
+
+      .process-step p {
+        grid-column: 2;
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      .case-card {
+        grid-template-columns: 1fr;
+        border: 0;
+        border-radius: 16px;
+        background: transparent;
+        box-shadow: 0 24px 48px rgba(76, 6, 24, 0.18);
+      }
+
+      .case-metrics {
+        padding: 26px 24px;
+        border-radius: 16px;
+      }
+
+      .case-metrics h2 {
+        font-size: 24px;
+        line-height: 1.15;
+      }
+
+      .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+
+      .metrics-grid div:last-child {
+        grid-column: 1 / -1;
+      }
+
+      .metrics-grid strong {
+        font-size: 40px;
+      }
+
+      .case-visual {
+        display: none;
+      }
+
+      .testimonials .section-heading {
+        text-align: left;
+      }
+
+      .testimonial-card {
+        min-height: auto;
+        padding: 28px 22px;
+        text-align: center;
+        border-radius: 15px;
+      }
+
+      .stars {
+        font-size: 17px;
+      }
+
+      .testimonial-card p {
+        font-size: 15px;
+        line-height: 1.65;
+      }
+
+      .testimonial-author {
+        justify-content: center;
+        text-align: left;
+      }
+
+      .testimonial-author .avatar-placeholder {
+      .testimonial-avatar {
+        width: 46px;
+        height: 46px;
+      }
+
+      .testimonial-author strong {
+        font-size: 15px;
+      }
+
+      .testimonial-author span {
+        font-size: 13px;
+      }
+
+      .cta-card {
+        grid-template-columns: 1fr;
+        padding: 24px;
+        gap: 18px;
+        min-height: auto;
+        border-radius: 16px;
+      }
+
+      .cta-person,
+      .cta-benefits {
+        display: none;
+      }
+
+      .cta-form-copy h2 {
+        font-size: 25px;
+        line-height: 1.12;
+      }
+
+      .quote-list li {
+        grid-template-columns: 1fr;
+        gap: 3px;
+        padding: 11px 14px;
+        font-size: 12px;
+        border-radius: 12px;
+      }
+
+      .btn-whatsapp {
+        min-height: 58px;
+        background: linear-gradient(135deg, #26c766, #18a657);
+      }
+
+      .faq {
+        display: block;
+      }
+
+      .mobile-trust-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 32px;
+        text-align: center;
+      }
+
+      .mobile-trust-row span {
+        width: 58px;
+        height: 58px;
+        display: grid;
+        place-items: center;
+        margin: 0 auto 8px;
+        border-radius: 999px;
+        background: var(--rose);
+        color: var(--wine);
+        font-size: 24px;
+      }
+
+      .mobile-trust-row p {
+        color: #4d454d;
+        font-size: 12px;
+        line-height: 1.25;
+        font-weight: 800;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+      }
+
+      .site-footer nav {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        width: min(100% - 28px, 390px);
+      }
+
+      .hero h1 {
+        font-size: 38px;
+      }
+
+      .section-heading h2 {
+        font-size: 28px;
+      }
+
+      .benefits-grid {
+        gap: 10px;
+      }
+
+      .benefit-card {
+        min-height: 165px;
+        padding: 18px 10px;
+      }
+
+      .problem-image {
+        min-height: 195px;
+      }
+
+      .process-box::before {
+        left: 29px;
+      }
+
+      .process-step {
+        grid-template-columns: 60px 1fr;
+      }
+
+      .process-icon {
+        width: 52px;
+        height: 52px;
+        font-size: 22px;
+      }
+
+      .metrics-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .metrics-grid strong {
+        font-size: 34px;
+      }
+
+      .cta-card {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#" class="brand" aria-label="Eder Crea Webs">
+        <img class="brand-avatar" src="/eder_favicon.png" alt="Eder Crea Webs" />
+        <span>edercreawebs</span>
+      </a>
+
+      <nav class="main-nav" aria-label="Navegación principal">
+        <a href="#inicio">Inicio</a>
+        <a href="#ejemplos">Ejemplos</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#proceso">Proceso</a>
+        <a href="#testimonios">Testimonios</a>
+        <a href="#preguntas">Preguntas</a>
+      </nav>
+
+      <a href="#cotizar" class="btn btn-primary header-cta">
+        <img class="cta-whatsapp-icon" src="/whatsapp_white.png" alt="WhatsApp" />
+        Quiero cotizar mi web
+      </a>
+
+      <button class="mobile-menu-btn" aria-label="Abrir menú">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Sitios web para psicólogos</div>
+
+          <h1>
+            Deja de <span>perder pacientes</span><br />
+            mientras estás en consulta
+          </h1>
+
+          <p class="hero-description">
+            Te creo una web profesional que genera confianza, explica tus servicios y permite agendar o escribirte por WhatsApp <strong>sin que tengas que contestar todo el día.</strong>
+          </p>
+
+          <div class="hero-features">
+            <div class="mini-feature">
+              <img class="feature-icon-image" src="/i4.png" alt="Icono de monitor" />
+              Sitio web profesional
+            </div>
+            <div class="mini-feature">
+              <img class="feature-icon-image" src="/i3.png" alt="Icono de calendario" />
+              Agenda automática
+            </div>
+            <div class="mini-feature">
+              <img class="feature-icon-image" src="/i2.png" alt="Icono de WhatsApp" />
+              WhatsApp conectado
+            </div>
+            <div class="mini-feature">
+              <img class="feature-icon-image" src="/i1.png" alt="Icono de recordatorios" />
+              Recordatorios
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <a href="#cotizar" class="btn btn-primary">
+              <img class="cta-whatsapp-icon" src="/whatsapp_white.png" alt="WhatsApp" />
+              Quiero cotizar mi web
+            </a>
+            <a href="#ejemplos" class="btn btn-secondary">
+              <span class="icon-placeholder">▶</span>
+              Ver ejemplo real
+            </a>
+          </div>
+
+          <div class="social-proof">
+            <div class="avatar-stack">
+              <img class="stack-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Cliente satisfecha" />
+              <img class="stack-avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Cliente satisfecho" />
+              <img class="stack-avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Cliente satisfecha" />
+              <img class="stack-avatar" src="https://randomuser.me/api/portraits/men/75.jpg" alt="Cliente satisfecho" />
+            </div>
+            <p><strong>+44 mil personas</strong> siguen mis consejos en redes</p>
+          </div>
+        </div>
+
+        <div class="hero-visual" id="ejemplos">
+          <img
+            class="hero-banner-image"
+            src="/img_banner.png"
+            alt="Ejemplo de sitio web para psicólogos mostrado en laptop y celular"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- BENEFICIOS -->
+    <section class="benefits" id="servicios">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Tu web trabaja por ti 24/7</h2>
+          <p>Todo lo que necesitas para atraer, convencer y agendar más pacientes.</p>
+        </div>
+
+        <div class="benefits-grid">
+          <article class="benefit-card">
+            <img class="benefit-icon-image" src="/e0.png" alt="Icono de agenda" />
+            <h3>Agendar sin fricción</h3>
+            <p>Tus pacientes eligen día y hora sin escribirte constantemente.</p>
+          </article>
+
+          <article class="benefit-card">
+            <img class="benefit-icon-image" src="/wp.png" alt="Icono de WhatsApp" />
+            <h3>WhatsApp directo</h3>
+            <p>Botón flotante para que te escriban al instante desde cualquier página.</p>
+          </article>
+
+          <article class="benefit-card">
+            <img class="benefit-icon-image" src="/e1.png" alt="Icono de recordatorio" />
+            <h3>Menos ausencias</h3>
+            <p>Enviamos recordatorios automáticos para reducir cancelaciones.</p>
+          </article>
+
+          <article class="benefit-card">
+            <img class="benefit-icon-image" src="/e2.png" alt="Icono de mensaje" />
+            <h3>Explica y convence</h3>
+            <p>Servicios, enfoque, proceso y precios claros para generar confianza.</p>
+          </article>
+
+          <article class="benefit-card">
+            <img class="benefit-icon-image" src="/e4.png" alt="Icono de estrella" />
+            <h3>Testimonios que venden</h3>
+            <p>Opiniones reales que ayudan a que nuevos pacientes confíen en ti.</p>
+          </article>
+
+          <article class="benefit-card">
+            <img class="benefit-icon-image" src="/e3.png" alt="Icono de anuncios" />
+            <h3>Optimizada para anuncios</h3>
+            <p>Diseñada para convertir visitas de Facebook, Instagram o Google.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEMAS -->
+    <section class="problems">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Los problemas que resuelvo</h2>
+        </div>
+
+        <div class="problems-grid">
+          <article class="problem-card">
+            <div class="problem-image image-placeholder">Ilustración paciente con celular</div>
+            <div class="problem-body">
+              <span class="problem-label">Problema #1</span>
+              <h3>Me escriben, pero no siempre puedo contestar</h3>
+              <p>Pierdes pacientes porque no alcanzas a responder.</p>
+              <div class="solution-box">
+                <strong>Solución</strong>
+                <p>Tu web responde por ti, muestra tus servicios y lleva al paciente directo a agendar o escribirte.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="problem-card">
+            <div class="problem-image image-placeholder">Ilustración psicóloga saturada</div>
+            <div class="problem-body">
+              <span class="problem-label">Problema #2</span>
+              <h3>Tengo que explicar lo mismo una y otra vez</h3>
+              <p>Te desgasta y te quita tiempo de lo importante: tus sesiones.</p>
+              <div class="solution-box">
+                <strong>Solución</strong>
+                <p>Creamos una página clara con tus respuestas, proceso, precios y preguntas frecuentes.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="problem-card">
+            <div class="problem-image image-placeholder">Ilustración persona dudando</div>
+            <div class="problem-body">
+              <span class="problem-label">Problema #3</span>
+              <h3>La gente no sabe si confiar en mí</h3>
+              <p>Si no muestras tu experiencia y enfoque, no te eligen.</p>
+              <div class="solution-box">
+                <strong>Solución</strong>
+                <p>Mostramos tu formación, enfoque, testimonios y contenido para que confíen en ti.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESO -->
+    <section class="process" id="proceso">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Así es el proceso para crear tu web</h2>
+        </div>
+
+        <div class="process-box">
+          <article class="process-step">
+            <div class="process-icon">💬</div>
+            <h3>1. Me cuentas tu idea</h3>
+            <p>Hablamos de tu servicio, objetivos y lo que necesitas lograr con tu web.</p>
+          </article>
+
+          <article class="process-step">
+            <div class="process-icon">📄</div>
+            <h3>2. Te propongo estructura y precio</h3>
+            <p>Te envío una propuesta clara con tiempos y lo que incluye tu página.</p>
+          </article>
+
+          <article class="process-step">
+            <div class="process-icon">🖥</div>
+            <h3>3. Diseño tu web enfocada en resultados</h3>
+            <p>Creamos un sitio profesional, claro y pensado para convertir visitantes en pacientes.</p>
+          </article>
+
+          <article class="process-step">
+            <div class="process-icon">⚙</div>
+            <h3>4. Conectamos todo</h3>
+            <p>Integramos agenda, WhatsApp, formularios, recordatorios y lo que necesites.</p>
+          </article>
+
+          <article class="process-step">
+            <div class="process-icon">🚀</div>
+            <h3>5. Publicamos y te acompaño</h3>
+            <p>Tu web en línea y te explico cómo usarla. No te dejo solo.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CASO REAL -->
+    <section class="case-study">
+      <div class="container">
+        <div class="case-card">
+          <div class="case-metrics">
+            <span class="case-label">Caso real</span>
+            <h2>Psicóloga Clínica - Atención online</h2>
+            <div class="metrics-grid">
+              <div>
+                <strong>+73%</strong>
+                <p>más consultas agendadas</p>
+              </div>
+              <div>
+                <strong>-58%</strong>
+                <p>menos ausencias a consulta</p>
+              </div>
+              <div>
+                <strong>+2.7x</strong>
+                <p>más mensajes calificados</p>
+              </div>
+            </div>
+            <p>Resultados en los primeros 60 días con su nueva web + agenda automática.</p>
+          </div>
+
+          <div class="case-visual image-placeholder">
+            Mockup caso real / imagen terapeuta
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIOS -->
+    <section class="testimonials" id="testimonios">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Lo que dicen mis clientes</h2>
+        </div>
+
+        <div class="testimonials-grid">
+          <article class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>“Mi web me ha traído más pacientes de los que esperaba. La agenda automática cambió por completo mi consulta.”</p>
+            <div class="testimonial-author">
+              <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Carmen Ortega" />
+              <div><strong>Carmen Ortega</strong><span>Psicóloga Clínica</span></div>
+            </div>
+          </article>
+
+          <article class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>“Antes perdía muchos mensajes. Ahora todo llega por WhatsApp y la gente agenda sin tanto ir y venir.”</p>
+            <div class="testimonial-author">
+              <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Edgar Razo" />
+              <div><strong>Edgar Razo</strong><span>Terapeuta Familiar</span></div>
+            </div>
+          </article>
+
+          <article class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>“El diseño transmite confianza y profesionalismo. Mis pacientes siempre me dicen que mi web se ve increíble.”</p>
+            <div class="testimonial-author">
+              <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Julia Mercado" />
+              <div><strong>Julia Mercado</strong><span>Psicoterapeuta</span></div>
+            </div>
+          </article>
+
+          <article class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>“Menos ausencias, más orden y más tiempo para mis pacientes. 100% recomendado.”</p>
+            <div class="testimonial-author">
+              <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/women/21.jpg" alt="Mariana López" />
+              <div><strong>Mariana López</strong><span>Psicóloga</span></div>
+            </div>
+          </article>
+
+          <article class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>“Eder entendió perfecto lo que necesitaba y lo convirtió en una web que realmente vende mi servicio.”</p>
+            <div class="testimonial-author">
+              <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/men/75.jpg" alt="Luis Gutiérrez" />
+              <div><strong>Luis Gutiérrez</strong><span>Psicólogo Clínico</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="final-cta" id="cotizar">
+      <div class="container">
+        <div class="cta-card">
+          <div class="cta-form-copy">
+            <h2>Para cotizar tu web, necesito saber:</h2>
+            <ul class="quote-list">
+              <li><strong>Qué servicio ofreces</strong><span>psicología, terapia, talleres, cursos, etc.</span></li>
+              <li><strong>Qué quieres que haga tu web</strong><span>agendar, vender, informar, captar, automatizar, etc.</span></li>
+              <li><strong>Referencias que te gustan</strong><span>páginas que te gusten o se parezcan a lo que buscas.</span></li>
+            </ul>
+            <a href="https://wa.me/520000000000" class="btn btn-whatsapp">
+              <img class="cta-whatsapp-icon" src="/whatsapp_white.png" alt="WhatsApp" />
+              Quiero cotizar mi web por WhatsApp
+            </a>
+            <p>Respuesta rápida y personalizada.</p>
+          </div>
+
+          <div class="cta-person image-placeholder">
+            Imagen Eder
+          </div>
+
+          <div class="cta-benefits">
+            <div>Diseño enfocado en resultados</div>
+            <div>Comunicación clara y honesta</div>
+            <div>Entrega rápida y soporte real</div>
+            <div>Garantía de 30 días</div>
+            <div>100% Seguro</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PREGUNTAS FRECUENTES -->
+    <section class="faq" id="preguntas">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Preguntas frecuentes</h2>
+        </div>
+
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>¿En cuánto tiempo tengo mi web?</summary>
+            <p>Depende del alcance, pero una landing clara puede estar lista en pocos días si ya tenemos textos, referencias e imágenes.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>¿Incluye dominio y hosting?</summary>
+            <p>Te puedo orientar para comprarlo o ayudarte a dejarlo configurado. Así no terminas peleándote con DNS como si fuera jefe final.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>¿Puedo hacer cambios después?</summary>
+            <p>Sí. Podemos hacer ajustes puntuales o manejarlo con soporte/mantenimiento mensual.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>¿Me enseñan a usarla?</summary>
+            <p>Sí. Te explico cómo funciona y qué debes revisar para recibir mensajes, citas o formularios.</p>
+          </details>
+        </div>
+
+        <div class="mobile-trust-row">
+          <div>
+            <span>🔒</span>
+            <p>Garantía<br>de 30 días</p>
+          </div>
+          <div>
+            <span>🛡</span>
+            <p>100% Seguro</p>
+          </div>
+          <div>
+            <span>💳</span>
+            <p>Pago<br>fraccionado</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© 2025 Eder Crea Webs. Todos los derechos reservados.</p>
+      <nav aria-label="Enlaces secundarios">
+        <a href="#">Privacidad</a>
+        <a href="#">Términos</a>
+        <a href="#">Instagram</a>
+        <a href="#">TikTok</a>
+        <a href="#">YouTube</a>
+      </nav>
+    </div>
+  </footer>
+
+</body>
+</html>
