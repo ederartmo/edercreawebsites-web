@@ -721,14 +721,17 @@
 
     .problem-image-1 {
       background-image: url("car0.png");
+      background-image: image-set(url("car0.webp") type("image/webp"), url("car0.png") type("image/png"));
     }
 
     .problem-image-2 {
       background-image: url("car1.png");
+      background-image: image-set(url("car1.webp") type("image/webp"), url("car1.png") type("image/png"));
     }
 
     .problem-image-3 {
       background-image: url("car2.png");
+      background-image: image-set(url("car2.webp") type("image/webp"), url("car2.png") type("image/png"));
     }
 
     .problem-body {
@@ -952,7 +955,8 @@
       min-height: 270px;
       border-radius: 0;
       border: 0;
-      background: #f8f4f5 url("banner2.webp") center/cover no-repeat;
+      background: #f8f4f5 url("banner2.png") center/cover no-repeat;
+      background-image: image-set(url("banner2.webp") type("image/webp"), url("banner2.png") type("image/png"));
     }
 
     .case-doctora-img {
@@ -1148,7 +1152,8 @@
       align-self: stretch;
       border: 0;
       border-radius: 24px;
-      background: rgba(255,255,255,0.12) url("Thumbn.webp") center/cover no-repeat;
+      background: rgba(255,255,255,0.12) url("Thumbn.png") center/cover no-repeat;
+      background-image: image-set(url("Thumbn.webp") type("image/webp"), url("Thumbn.png") type("image/png"));
       color: transparent;
     }
 
@@ -2520,11 +2525,14 @@
         </div>
 
         <div class="hero-visual" id="ejemplos">
-          <img
-            class="hero-banner-image"
-            src="/img_banner.webp"
-            alt="Ejemplo de sitio web para psicólogos mostrado en laptop y celular"
-          />
+          <picture>
+            <source srcset="/img_banner.webp" type="image/webp" />
+            <img
+              class="hero-banner-image"
+              src="/img_banner.png"
+              alt="Ejemplo de sitio web para psicólogos mostrado en laptop y celular"
+            />
+          </picture>
         </div>
       </div>
     </section>
@@ -2539,7 +2547,7 @@
 
         <div class="benefits-grid">
           <article class="benefit-card">
-            <img class="benefit-icon-image" src="/e0.png" alt="Icono de agenda" />
+            <img class="benefit-icon-image" src="/e0.webp" alt="Icono de agenda" />
             <h3>Agendar sin fricción</h3>
             <p>Tus pacientes eligen día y hora sin escribirte constantemente.</p>
           </article>
@@ -2551,19 +2559,19 @@
           </article>
 
           <article class="benefit-card">
-            <img class="benefit-icon-image" src="/e1.png" alt="Icono de recordatorio" />
+            <img class="benefit-icon-image" src="/e1.webp" alt="Icono de recordatorio" />
             <h3>Menos ausencias</h3>
             <p>Enviamos recordatorios automáticos para reducir cancelaciones.</p>
           </article>
 
           <article class="benefit-card">
-            <img class="benefit-icon-image" src="/e2.png" alt="Icono de mensaje" />
+            <img class="benefit-icon-image" src="/e2.webp" alt="Icono de mensaje" />
             <h3>Explica y convence</h3>
             <p>Servicios, enfoque, proceso y precios claros para generar confianza.</p>
           </article>
 
           <article class="benefit-card">
-            <img class="benefit-icon-image" src="/e4.png" alt="Icono de estrella" />
+            <img class="benefit-icon-image" src="/e4.webp" alt="Icono de estrella" />
             <h3>Testimonios que venden</h3>
             <p>Opiniones reales que ayudan a que nuevos pacientes confíen en ti.</p>
           </article>
@@ -2656,31 +2664,31 @@
 
         <div class="process-box">
           <article class="process-step">
-            <div class="process-icon"><img src="l0.png" alt="" loading="lazy"></div>
+            <div class="process-icon"><img src="l0.webp" alt="" loading="lazy"></div>
             <h3>1. Me platicas tu situación</h3>
             <p>Hablamos de tu servicio, objetivos y lo que necesitas lograr con tu web.</p>
           </article>
 
           <article class="process-step">
-            <div class="process-icon"><img src="l2.png" alt="" loading="lazy"></div>
+            <div class="process-icon"><img src="l2.webp" alt="" loading="lazy"></div>
             <h3>2. Te propongo estructura y precio</h3>
             <p>Te envío una propuesta clara con tiempos y lo que incluye tu página.</p>
           </article>
 
           <article class="process-step">
-            <div class="process-icon"><img src="l3.png" alt="" loading="lazy"></div>
+            <div class="process-icon"><img src="l3.webp" alt="" loading="lazy"></div>
             <h3>3. Diseño tu web enfocada en resultados</h3>
             <p>Creamos un sitio profesional, claro y pensado para convertir visitantes en pacientes.</p>
           </article>
 
           <article class="process-step">
-            <div class="process-icon"><img src="l4.png" alt="" loading="lazy"></div>
+            <div class="process-icon"><img src="l4.webp" alt="" loading="lazy"></div>
             <h3>4. Conectamos todo</h3>
             <p>Integramos agenda, WhatsApp, formularios, recordatorios y lo que necesites.</p>
           </article>
 
           <article class="process-step">
-            <div class="process-icon"><img src="l5.png" alt="" loading="lazy"></div>
+            <div class="process-icon"><img src="l5.webp" alt="" loading="lazy"></div>
             <h3>5. Publicamos y te acompaño</h3>
             <p>Tu web en línea y te explico cómo usarla. No te dejo solo.</p>
           </article>
@@ -2693,7 +2701,10 @@
       <div class="container">
         <div class="case-card">
           <div class="case-metrics">
-            <img src="doctora_cel.webp" class="case-doctora-img" alt="" aria-hidden="true" loading="lazy">
+            <picture>
+              <source srcset="doctora_cel.webp" type="image/webp" />
+              <img src="doctora_cel.png" class="case-doctora-img" alt="" aria-hidden="true" loading="lazy">
+            </picture>
             <span class="case-label">Caso real</span>
             <h2>Psicóloga Clínica - Atención online</h2>
             <div class="metrics-grid">

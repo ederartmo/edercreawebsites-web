@@ -1744,6 +1744,9 @@
       background-image:
         linear-gradient(90deg, rgba(25,8,13,.82) 0%, rgba(25,8,13,.55) 25%, rgba(25,8,13,.08) 45%, rgba(25,8,13,.08) 55%, rgba(25,8,13,.55) 75%, rgba(25,8,13,.82) 100%),
         url('banner0.png');
+      background-image:
+        linear-gradient(90deg, rgba(25,8,13,.82) 0%, rgba(25,8,13,.55) 25%, rgba(25,8,13,.08) 45%, rgba(25,8,13,.08) 55%, rgba(25,8,13,.55) 75%, rgba(25,8,13,.82) 100%),
+        image-set(url('banner0.webp') type('image/webp'), url('banner0.png') type('image/png'));
       background-size: cover;
       background-position: center;
       min-height: 240px;
