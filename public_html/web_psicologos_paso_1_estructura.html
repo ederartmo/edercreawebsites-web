@@ -908,8 +908,8 @@
 
     .cta-card {
       display: grid;
-      grid-template-columns: 1.15fr 0.8fr 0.9fr;
-      align-items: center;
+      grid-template-columns: 1.12fr 0.88fr;
+      align-items: start;
       gap: 28px;
       overflow: hidden;
       min-height: 285px;
@@ -964,27 +964,53 @@
     }
 
     .cta-person {
-      min-height: 250px;
-      align-self: stretch;
-      border: 0;
-      border-radius: 24px;
-      background: rgba(255,255,255,0.12) url("banner0.png") center/cover no-repeat;
-      color: transparent;
+      display: none;
     }
 
     .cta-benefits {
-      display: grid;
-      gap: 16px;
+      display: none;
     }
 
-    .cta-benefits div {
-      padding: 13px 14px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.11);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      color: rgba(255, 255, 255, 0.9);
+    .cta-faq-copy h2 {
+      font-size: 24px;
+      letter-spacing: -0.05em;
+      margin-bottom: 20px;
+    }
+
+    .faq-choice-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .faq-choice {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.92);
       font-size: 13px;
       font-weight: 850;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .faq-choice.is-selected {
+      border-color: rgba(255, 255, 255, 0.75);
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 10px 24px rgba(76, 6, 24, 0.24);
+    }
+
+    .faq-custom-wrap {
+      margin-top: 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .faq-custom-wrap label {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.86);
     }
 
     .site-footer {
@@ -1135,12 +1161,7 @@
       }
 
       .cta-card {
-        grid-template-columns: 1fr 0.8fr;
-      }
-
-      .cta-benefits {
-        grid-column: 1 / -1;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
       }
     }
 
@@ -2025,7 +2046,7 @@
       <div class="container">
         <div class="cta-card">
           <div class="cta-form-copy">
-            <h2>Para cotizar tu web, escribe:</h2>
+            <h2>Para cotizar tu web</h2>
             <div class="quote-form">
               <label class="quote-field" for="quote-service">
                 <span class="quote-index">1.</span>
@@ -2056,55 +2077,18 @@
             <p>Ahorra tiempo: llena estas preguntas para cotizarte mejor.</p>
           </div>
 
-          <div class="cta-person" role="img" aria-label="Imagen de muestra para cotizacion"></div>
-
-          <div class="cta-benefits">
-            <div>Diseño enfocado en resultados</div>
-            <div>Comunicación clara y honesta</div>
-            <div>Entrega rápida y soporte real</div>
-            <div>Garantía de 30 días</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PREGUNTAS FRECUENTES -->
-    <section class="faq" id="preguntas">
-      <div class="container">
-        <div class="section-heading">
-          <h2>Preguntas frecuentes</h2>
-        </div>
-
-        <div class="faq-list">
-          <details class="faq-item">
-            <summary>¿En cuánto tiempo tengo mi web?</summary>
-            <p>Depende del alcance, pero una landing clara puede estar lista en pocos días si ya tenemos textos, referencias e imágenes.</p>
-          </details>
-
-          <details class="faq-item">
-            <summary>¿Incluye dominio y hosting?</summary>
-            <p>Te puedo orientar para comprarlo o ayudarte a dejarlo configurado. Así no terminas peleándote con DNS como si fuera jefe final.</p>
-          </details>
-
-          <details class="faq-item">
-            <summary>¿Puedo hacer cambios después?</summary>
-            <p>Sí. Podemos hacer ajustes puntuales o manejarlo con soporte/mantenimiento mensual.</p>
-          </details>
-
-          <details class="faq-item">
-            <summary>¿Me enseñan a usarla?</summary>
-            <p>Sí. Te explico cómo funciona y qué debes revisar para recibir mensajes, citas o formularios.</p>
-          </details>
-        </div>
-
-        <div class="mobile-trust-row">
-          <div>
-            <span>🔒</span>
-            <p>Garantía<br>de 30 días</p>
-          </div>
-          <div>
-            <span>💳</span>
-            <p>Pago<br>fraccionado</p>
+          <div class="cta-faq-copy" id="preguntas">
+            <h2>Preguntas Frecuentes</h2>
+            <div class="faq-choice-list" role="radiogroup" aria-label="Preguntas frecuentes para cotización">
+              <button type="button" class="faq-choice" data-faq-value="¿En cuánto tiempo tengo mi web?">¿En cuánto tiempo tengo mi web?</button>
+              <button type="button" class="faq-choice" data-faq-value="¿Incluye dominio y hosting?">¿Incluye dominio y hosting?</button>
+              <button type="button" class="faq-choice" data-faq-value="¿Puedo hacer cambios después?">¿Puedo hacer cambios después?</button>
+              <button type="button" class="faq-choice faq-choice-other" data-faq-value="Otro">Otro</button>
+            </div>
+            <div class="faq-custom-wrap" id="faq-custom-wrap" hidden>
+              <label for="faq-custom-question"><strong>Cuéntame tu duda:</strong></label>
+              <input id="faq-custom-question" class="quote-input" type="text" placeholder="Escribe aquí tu pregunta" />
+            </div>
           </div>
         </div>
       </div>
