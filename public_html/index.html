@@ -3220,6 +3220,7 @@
     function initQuoteWhatsAppCTA() {
       const sendBtn = document.getElementById('send-quote-whatsapp');
       if (!sendBtn) return;
+      const whatsappBaseUrl = 'https://wa.me/message/eah465';
 
       ['quote-service', 'quote-goal', 'quote-ref', 'faq-custom-question'].forEach((fieldId) => {
         const field = document.getElementById(fieldId);
@@ -3234,7 +3235,9 @@
         e.preventDefault();
         const openWhatsApp = () => {
           const message = buildQuoteMessage();
-          window.open(`https://wa.link/eah465?text=${message}`, '_blank', 'noopener,noreferrer');
+          const whatsappUrl = `${whatsappBaseUrl}?text=${message}`;
+          sendBtn.setAttribute('href', whatsappUrl);
+          window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
         };
 
         registerLeadEvent('whatsapp_clicked');
