@@ -432,14 +432,33 @@
     }
 
     .benefit-card {
-      min-height: 205px;
-      padding: 26px 18px;
+      min-height: 150px;
+      padding: 18px 14px;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
+      animation: fadeInUp 0.5s ease-out backwards;
+    }
+
+    .benefit-card:nth-child(1) { animation-delay: 0.1s; }
+    .benefit-card:nth-child(2) { animation-delay: 0.2s; }
+    .benefit-card:nth-child(3) { animation-delay: 0.3s; }
+    .benefit-card:nth-child(4) { animation-delay: 0.4s; }
+    .benefit-card:nth-child(5) { animation-delay: 0.5s; }
+    .benefit-card:nth-child(6) { animation-delay: 0.6s; }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .icon-card {
@@ -475,12 +494,42 @@
 
     .problem-card {
       overflow: hidden;
+      cursor: grab;
+      user-select: none;
+      transition: transform 0.15s ease-out, opacity 0.3s ease;
+    }
+
+    .problem-card.swiped-right {
+      transform: translateX(120%) rotateZ(20deg);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .problem-card.swiped-left {
+      transform: translateX(-120%) rotateZ(-20deg);
+      opacity: 0;
+      pointer-events: none;
     }
 
     .problem-image {
       min-height: 205px;
       border-radius: 0;
       border-width: 0 0 1px;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    .problem-image-1 {
+      background-image: url("car0.png");
+    }
+
+    .problem-image-2 {
+      background-image: url("car1.png");
+    }
+
+    .problem-image-3 {
+      background-image: url("car2.png");
     }
 
     .problem-body {
@@ -547,6 +596,24 @@
       text-align: center;
       position: relative;
       padding: 8px;
+      animation: fadeInDown 0.6s ease-out backwards;
+    }
+
+    .process-step:nth-child(1) { animation-delay: 0.1s; }
+    .process-step:nth-child(2) { animation-delay: 0.2s; }
+    .process-step:nth-child(3) { animation-delay: 0.3s; }
+    .process-step:nth-child(4) { animation-delay: 0.4s; }
+    .process-step:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .process-step:not(:last-child)::after {
@@ -562,11 +629,26 @@
       width: 66px;
       height: 66px;
       margin: 0 auto 12px;
-      border-radius: 999px;
-      background: var(--rose-2);
-      color: var(--wine);
-      font-size: 30px;
-      box-shadow: inset 0 0 0 10px rgba(255, 255, 255, 0.55);
+      display: grid;
+      place-items: center;
+      transition: transform 0.25s ease, filter 0.25s ease;
+    }
+
+    .process-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.25s ease, filter 0.25s ease;
+    }
+
+    .process-step:hover .process-icon {
+      transform: translateY(-4px) scale(1.05);
+      filter: drop-shadow(0 0 14px rgba(143, 20, 56, 0.32));
+    }
+
+    .process-step:hover .process-icon img {
+      transform: rotate(-3deg) scale(1.03);
     }
 
     .process-step h3 {
@@ -580,6 +662,27 @@
       color: var(--muted);
       font-size: 12px;
       line-height: 1.45;
+    }
+
+    .process-step {
+      animation: fadeInDown 0.6s ease-out forwards;
+    }
+
+    .process-step:nth-child(1) { animation-delay: 0.05s; }
+    .process-step:nth-child(2) { animation-delay: 0.15s; }
+    .process-step:nth-child(3) { animation-delay: 0.25s; }
+    .process-step:nth-child(4) { animation-delay: 0.35s; }
+    .process-step:nth-child(5) { animation-delay: 0.45s; }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .case-card {
@@ -636,7 +739,7 @@
       min-height: 270px;
       border-radius: 0;
       border: 0;
-      background-color: #f8f4f5;
+      background: #f8f4f5 url("banner2.png") center/cover no-repeat;
     }
 
     .testimonials-grid {
@@ -736,6 +839,14 @@
       border: 1px solid rgba(255, 255, 255, 0.28);
       background: rgba(255, 255, 255, 0.06);
       font-size: 12px;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
+    }
+
+    .quote-list li:hover {
+      border-color: rgba(255, 255, 255, 0.58);
+      background: rgba(255, 255, 255, 0.13);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.32), 0 0 18px rgba(255, 124, 172, 0.4);
+      transform: translateY(-1px);
     }
 
     .quote-list strong {
@@ -759,8 +870,8 @@
       align-self: stretch;
       border: 0;
       border-radius: 24px;
-      background-color: rgba(255,255,255,0.12);
-      color: rgba(255,255,255,0.75);
+      background: rgba(255,255,255,0.12) url("Thumbn.png") center/cover no-repeat;
+      color: transparent;
     }
 
     .cta-benefits {
@@ -957,15 +1068,15 @@
       }
 
       .header-inner {
-        min-height: 100%;
-        align-self: start;
+        min-height: 76px;
+        align-self: center;
+        gap: 12px;
+      }
 
       .brand {
         font-size: 14px;
-        width: min(100%, 650px);
-        max-height: min(66vh, 540px);
+      }
 
-      .brand-avatar {
       .brand-avatar {
         width: 36px;
         height: 36px;
@@ -1100,9 +1211,8 @@
       }
 
       .benefit-card {
-        min-height: 176px;
-        padding: 20px 12px;
-        border-radius: 13px;
+        min-height: 140px;
+        padding: 16px 12px;
       }
 
       .icon-card {
@@ -1251,7 +1361,9 @@
       }
 
       .case-visual {
-        display: none;
+        display: block;
+        min-height: 220px;
+        border-radius: 0 0 16px 16px;
       }
 
       .testimonials .section-heading {
@@ -1279,7 +1391,6 @@
         text-align: left;
       }
 
-      .testimonial-author .avatar-placeholder {
       .testimonial-avatar {
         width: 46px;
         height: 46px;
@@ -1371,51 +1482,130 @@
         width: min(100% - 28px, 390px);
       }
 
+      .hero {
+        padding: 22px 0 24px;
+      }
+
       .hero h1 {
-        font-size: 38px;
+        font-size: 34px;
+        line-height: 1.06;
+      }
+
+      .hero-description {
+        font-size: 14.5px;
+        line-height: 1.62;
+      }
+
+      .btn {
+        min-height: 56px;
+        font-size: 14px;
       }
 
       .section-heading h2 {
-        font-size: 28px;
+        font-size: 26px;
+      }
+
+      .section-heading p {
+        font-size: 14px;
       }
 
       .benefits-grid {
-        gap: 10px;
+        grid-template-columns: 1fr;
+        gap: 12px;
       }
 
       .benefit-card {
-        min-height: 165px;
-        padding: 18px 10px;
+        min-height: auto;
+        padding: 16px 14px;
+      }
+
+      .problems-grid {
+        gap: 16px;
       }
 
       .problem-image {
-        min-height: 195px;
+        min-height: 180px;
+      }
+
+      .problem-body h3 {
+        font-size: 20px;
       }
 
       .process-box::before {
-        left: 29px;
+        left: 26px;
       }
 
       .process-step {
-        grid-template-columns: 60px 1fr;
+        grid-template-columns: 54px 1fr;
+        gap: 10px;
       }
 
       .process-icon {
-        width: 52px;
-        height: 52px;
-        font-size: 22px;
+        width: 46px;
+        height: 46px;
+      }
+
+      .case-metrics {
+        padding: 22px 18px;
       }
 
       .metrics-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .metrics-grid div:last-child {
+        grid-column: auto;
       }
 
       .metrics-grid strong {
-        font-size: 34px;
+        font-size: 30px;
       }
 
       .cta-card {
-        padding: 22px;
+        padding: 18px;
+      }
+
+      .cta-form-copy h2 {
+        font-size: 22px;
+      }
+
+      .quote-list li {
+        padding: 10px 12px;
+        font-size: 11.5px;
+      }
+
+      .mobile-trust-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .mobile-trust-row div:last-child {
+        grid-column: 1 / -1;
+        justify-self: center;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .container {
+        width: min(100% - 22px, 340px);
+      }
+
+      .hero h1 {
+        font-size: 30px;
+      }
+
+      .hero-description {
+        font-size: 14px;
+      }
+
+      .section-heading h2 {
+        font-size: 24px;
+      }
+
+      .problem-body,
+      .testimonial-card,
+      .case-metrics {
+        padding: 16px;
       }
     }
   </style>
@@ -1439,7 +1629,7 @@
         <a href="#preguntas">Preguntas</a>
       </nav>
 
-      <a href="#cotizar" class="btn btn-primary header-cta">
+      <a href="https://wa.link/eah465" target="_blank" rel="noopener noreferrer" class="btn btn-primary header-cta">
         <img class="cta-whatsapp-icon" src="/whatsapp_white.png" alt="WhatsApp" />
         Quiero cotizar mi web
       </a>
@@ -1488,7 +1678,7 @@
           </div>
 
           <div class="hero-actions">
-            <a href="#cotizar" class="btn btn-primary">
+            <a href="https://wa.link/eah465" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
               <img class="cta-whatsapp-icon" src="/whatsapp_white.png" alt="WhatsApp" />
               Quiero cotizar mi web
             </a>
@@ -1576,7 +1766,7 @@
 
         <div class="problems-grid">
           <article class="problem-card">
-            <div class="problem-image image-placeholder">Ilustración paciente con celular</div>
+            <div class="problem-image problem-image-1" role="img" aria-label="Paciente revisando mensajes en celular"></div>
             <div class="problem-body">
               <span class="problem-label">Problema #1</span>
               <h3>Me escriben, pero no siempre puedo contestar</h3>
@@ -1589,7 +1779,7 @@
           </article>
 
           <article class="problem-card">
-            <div class="problem-image image-placeholder">Ilustración psicóloga saturada</div>
+            <div class="problem-image problem-image-2" role="img" aria-label="Persona con dudas sobre elegir terapeuta"></div>
             <div class="problem-body">
               <span class="problem-label">Problema #2</span>
               <h3>Tengo que explicar lo mismo una y otra vez</h3>
@@ -1602,7 +1792,7 @@
           </article>
 
           <article class="problem-card">
-            <div class="problem-image image-placeholder">Ilustración persona dudando</div>
+            <div class="problem-image problem-image-3" role="img" aria-label="Psicologa saturada de preguntas frecuentes"></div>
             <div class="problem-body">
               <span class="problem-label">Problema #3</span>
               <h3>La gente no sabe si confiar en mí</h3>
@@ -1626,31 +1816,31 @@
 
         <div class="process-box">
           <article class="process-step">
-            <div class="process-icon">💬</div>
+            <div class="process-icon"><img src="l0.png" alt="" loading="lazy"></div>
             <h3>1. Me cuentas tu idea</h3>
             <p>Hablamos de tu servicio, objetivos y lo que necesitas lograr con tu web.</p>
           </article>
 
           <article class="process-step">
-            <div class="process-icon">📄</div>
+            <div class="process-icon"><img src="l2.png" alt="" loading="lazy"></div>
             <h3>2. Te propongo estructura y precio</h3>
             <p>Te envío una propuesta clara con tiempos y lo que incluye tu página.</p>
           </article>
 
           <article class="process-step">
-            <div class="process-icon">🖥</div>
+            <div class="process-icon"><img src="l3.png" alt="" loading="lazy"></div>
             <h3>3. Diseño tu web enfocada en resultados</h3>
             <p>Creamos un sitio profesional, claro y pensado para convertir visitantes en pacientes.</p>
           </article>
 
           <article class="process-step">
-            <div class="process-icon">⚙</div>
+            <div class="process-icon"><img src="l4.png" alt="" loading="lazy"></div>
             <h3>4. Conectamos todo</h3>
             <p>Integramos agenda, WhatsApp, formularios, recordatorios y lo que necesites.</p>
           </article>
 
           <article class="process-step">
-            <div class="process-icon">🚀</div>
+            <div class="process-icon"><img src="l5.png" alt="" loading="lazy"></div>
             <h3>5. Publicamos y te acompaño</h3>
             <p>Tu web en línea y te explico cómo usarla. No te dejo solo.</p>
           </article>
@@ -1682,9 +1872,7 @@
             <p>Resultados en los primeros 60 días con su nueva web + agenda automática.</p>
           </div>
 
-          <div class="case-visual image-placeholder">
-            Mockup caso real / imagen terapeuta
-          </div>
+          <div class="case-visual" role="img" aria-label="Caso real de terapeuta"></div>
         </div>
       </div>
     </section>
@@ -1756,16 +1944,14 @@
               <li><strong>Qué quieres que haga tu web</strong><span>agendar, vender, informar, captar, automatizar, etc.</span></li>
               <li><strong>Referencias que te gustan</strong><span>páginas que te gusten o se parezcan a lo que buscas.</span></li>
             </ul>
-            <a href="https://wa.me/520000000000" class="btn btn-whatsapp">
+            <a href="https://wa.link/eah465" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">
               <img class="cta-whatsapp-icon" src="/whatsapp_white.png" alt="WhatsApp" />
               Quiero cotizar mi web por WhatsApp
             </a>
             <p>Respuesta rápida y personalizada.</p>
           </div>
 
-          <div class="cta-person image-placeholder">
-            Imagen Eder
-          </div>
+          <div class="cta-person" role="img" aria-label="Imagen de muestra para cotizacion"></div>
 
           <div class="cta-benefits">
             <div>Diseño enfocado en resultados</div>
@@ -1830,14 +2016,73 @@
     <div class="container footer-inner">
       <p>© 2025 Eder Crea Webs. Todos los derechos reservados.</p>
       <nav aria-label="Enlaces secundarios">
-        <a href="#">Privacidad</a>
-        <a href="#">Términos</a>
-        <a href="#">Instagram</a>
-        <a href="#">TikTok</a>
+        <a href="politicas">Privacidad</a>
+        <a href="terminos">Términos</a>
+        <a href="https://www.instagram.com/edercreawebs/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://www.tiktok.com/@edercreawebs" target="_blank" rel="noopener noreferrer">TikTok</a>
         <a href="#">YouTube</a>
       </nav>
     </div>
   </footer>
+
+  <script>
+    // Tinder-style swipe for problem cards
+    document.querySelectorAll('.problem-card').forEach(card => {
+      let startX = 0;
+      let currentX = 0;
+
+      card.addEventListener('mousedown', e => {
+        startX = e.clientX;
+        card.style.cursor = 'grabbing';
+      });
+
+      card.addEventListener('mousemove', e => {
+        if (startX === 0) return;
+        currentX = e.clientX - startX;
+      });
+
+      card.addEventListener('mouseup', () => {
+        if (Math.abs(currentX) > 60) {
+          if (currentX > 0) {
+            card.classList.add('swiped-right');
+          } else {
+            card.classList.add('swiped-left');
+          }
+        }
+        startX = 0;
+        currentX = 0;
+        card.style.cursor = 'grab';
+      });
+
+      card.addEventListener('mouseleave', () => {
+        startX = 0;
+        currentX = 0;
+        card.style.cursor = 'grab';
+      });
+
+      // Touch support for mobile
+      card.addEventListener('touchstart', e => {
+        startX = e.touches[0].clientX;
+      });
+
+      card.addEventListener('touchmove', e => {
+        if (startX === 0) return;
+        currentX = e.touches[0].clientX - startX;
+      });
+
+      card.addEventListener('touchend', () => {
+        if (Math.abs(currentX) > 60) {
+          if (currentX > 0) {
+            card.classList.add('swiped-right');
+          } else {
+            card.classList.add('swiped-left');
+          }
+        }
+        startX = 0;
+        currentX = 0;
+      });
+    });
+  </script>
 
 </body>
 </html>
