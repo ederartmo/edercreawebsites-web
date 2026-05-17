@@ -709,6 +709,14 @@
       });
     }
 
+    function resetHorizontalScroll() {
+      document.documentElement.scrollLeft = 0;
+      document.body.scrollLeft = 0;
+      if (window.scrollX !== 0) {
+        window.scrollTo(0, window.scrollY || 0);
+      }
+    }
+
     function scrollToQuoteFormAndFocus() {
       const section = document.getElementById('cotizar');
       const firstInput = document.getElementById('quote-service');
@@ -1125,6 +1133,7 @@
             card.style.transform = '';
           }
           tStartX = 0; tCurrentX = 0;
+          requestAnimationFrame(resetHorizontalScroll);
         };
 
         card.addEventListener('mousedown', e => {
@@ -1233,6 +1242,7 @@
           }
           startX = 0;
           currentX = 0;
+          requestAnimationFrame(resetHorizontalScroll);
         }
 
         // Mouse
