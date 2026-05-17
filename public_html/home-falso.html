@@ -2041,8 +2041,9 @@
       autoScrollOnMobile();
     }
 
-    // Tinder-style swipe for problem cards
-    document.querySelectorAll('.problem-card').forEach(card => {
+    // Tinder-style swipe for problem cards (mobile only)
+    if (window.innerWidth <= 480) {
+      document.querySelectorAll('.problem-card').forEach(card => {
       let startX = 0;
       let currentX = 0;
 
@@ -2096,7 +2097,8 @@
         startX = 0;
         currentX = 0;
       });
-    });
+      });
+    }
   </script>
 
 </body>
