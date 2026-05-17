@@ -1913,6 +1913,21 @@
   </footer>
 
   <script>
+    // Auto-scroll on mobile to show content below nav
+    function autoScrollOnMobile() {
+      if (window.innerWidth <= 820) {
+        // Scroll to show content below nav and social proof on mobile
+        window.scrollTo(0, 380); // Scroll past nav and show complete hero section
+      }
+    }
+    
+    // Execute after DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', autoScrollOnMobile);
+    } else {
+      autoScrollOnMobile();
+    }
+
     // Tinder-style swipe for problem cards
     document.querySelectorAll('.problem-card').forEach(card => {
       let startX = 0;
