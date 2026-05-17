@@ -58,3 +58,28 @@ La app inicia en `http://localhost:3000` (o en el puerto definido por `PORT`).
 
 - El codigo usa `process.env.PORT`, necesario para Hostinger.
 - Si una ruta no existe, se muestra `public_html/default.php` como pagina 404.
+
+## Checklist SEO Tecnico
+
+### Estado actual
+
+- `robots.txt` publicado en `https://edercreawebs.com/robots.txt`.
+- `sitemap.xml` publicado en `https://edercreawebs.com/sitemap.xml`.
+- Landing principal con canonical + Open Graph + Twitter Card + datos estructurados.
+- `home-falso.html` marcado como `noindex` para evitar contenido duplicado.
+- Hreflang agregado (`es-MX`, `es`, `x-default`) apuntando al home principal.
+
+### Validacion rapida desde terminal
+
+```bash
+curl -I https://edercreawebs.com/robots.txt
+curl -I https://edercreawebs.com/sitemap.xml
+```
+
+### Google Search Console (pasos)
+
+1. Ir a la propiedad del dominio en Search Console.
+2. En **Sitemaps**, enviar: `https://edercreawebs.com/sitemap.xml`.
+3. Verificar estado `Success` y que no haya URLs excluidas por `robots` no esperado.
+4. En **Inspeccion de URL**, probar `https://edercreawebs.com/` y solicitar indexacion si aplica.
+5. Revisar reportes de **Core Web Vitals** y **Page indexing** semanalmente.
