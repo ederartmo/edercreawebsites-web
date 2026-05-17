@@ -441,7 +441,36 @@
       justify-content: center;
       gap: 10px;
       animation: fadeInUp 0.5s ease-out backwards;
+      cursor: pointer;
+      position: relative;
       transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+    }
+
+    .benefit-card:focus-visible {
+      outline: 3px solid rgba(143, 20, 56, 0.28);
+      outline-offset: 2px;
+    }
+
+    .benefit-card.is-selected {
+      border-color: rgba(22, 163, 74, 0.58);
+      background: linear-gradient(160deg, rgba(234, 248, 241, 0.92), rgba(255, 255, 255, 0.96));
+      box-shadow: 0 14px 30px rgba(22, 163, 74, 0.22);
+      transform: translateY(-4px);
+    }
+
+    .benefit-card.is-selected::after {
+      content: "Seleccionado";
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: #0f7a35;
+      background: #e6f8ee;
+      border: 1px solid rgba(22, 163, 74, 0.45);
+      border-radius: 999px;
+      padding: 3px 8px;
     }
 
     @media (hover: hover) {
@@ -848,39 +877,73 @@
       margin-bottom: 20px;
     }
 
-    .quote-list {
-      list-style: none;
+    .quote-form {
       display: grid;
       gap: 10px;
       margin-bottom: 18px;
     }
 
-    .quote-list li {
+    .quote-field {
       display: grid;
-      grid-template-columns: 0.75fr 1fr;
-      gap: 12px;
-      align-items: center;
-      padding: 10px 14px;
+      grid-template-columns: 26px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 10px 12px;
       border-radius: 10px;
       border: 1px solid rgba(255, 255, 255, 0.28);
       background: rgba(255, 255, 255, 0.06);
-      font-size: 12px;
-      transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
     }
 
-    .quote-list li:hover {
-      border-color: rgba(255, 255, 255, 0.58);
-      background: rgba(255, 255, 255, 0.13);
-      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.32), 0 0 18px rgba(255, 124, 172, 0.4);
-      transform: translateY(-1px);
-    }
-
-    .quote-list strong {
+    .quote-index {
       color: #fff;
+      font-weight: 900;
+      font-size: 13px;
+      line-height: 36px;
+      text-align: center;
     }
 
-    .quote-list span {
+    .quote-field strong {
+      color: #fff;
+      display: block;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .quote-input {
+      width: 100%;
+      min-height: 36px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      padding: 8px 10px;
+      font-size: 12px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    }
+
+    .quote-input::placeholder {
       color: rgba(255, 255, 255, 0.72);
+    }
+
+    .quote-input:focus {
+      border-color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18), 0 0 22px rgba(255, 124, 172, 0.42);
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .quote-input.glow-focus {
+      animation: focusGlow 1.2s ease-in-out 2;
+    }
+
+    @keyframes focusGlow {
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 124, 172, 0);
+      }
+      50% {
+        box-shadow: 0 0 0 4px rgba(255, 124, 172, 0.22), 0 0 24px rgba(255, 124, 172, 0.45);
+      }
     }
 
     .cta-form-copy > p {
@@ -1695,7 +1758,7 @@
         <a href="#preguntas">Preguntas</a>
       </nav>
 
-      <a href="https://wa.link/eah465" target="_blank" rel="noopener noreferrer" class="btn btn-primary header-cta">
+      <a href="#cotizar" class="btn btn-primary header-cta js-open-quote">
         <img class="cta-whatsapp-icon" src="/whatsapp_white.png" alt="WhatsApp" />
         Quiero cotizar mi web
       </a>
@@ -1744,7 +1807,7 @@
           </div>
 
           <div class="hero-actions">
-            <a href="https://wa.link/eah465" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            <a href="#cotizar" class="btn btn-primary js-open-quote">
               <img class="cta-whatsapp-icon" src="/whatsapp_white.png" alt="WhatsApp" />
               Quiero cotizar mi web
             </a>
@@ -1780,7 +1843,7 @@
       <div class="container">
         <div class="section-heading">
           <h2>Tu web trabaja por ti 24/7</h2>
-          <p>Todo lo que necesitas para atraer, convencer y agendar más pacientes.</p>
+          <p>¿Cuáles son más importantes para ti?</p>
         </div>
 
         <div class="benefits-grid">
@@ -2010,17 +2073,35 @@
       <div class="container">
         <div class="cta-card">
           <div class="cta-form-copy">
-            <h2>Para cotizar tu web, necesito saber:</h2>
-            <ul class="quote-list">
-              <li><strong>Qué servicio ofreces</strong><span>psicología, terapia, talleres, cursos, etc.</span></li>
-              <li><strong>Qué quieres que haga tu web</strong><span>agendar, vender, informar, captar, automatizar, etc.</span></li>
-              <li><strong>Referencias que te gustan</strong><span>páginas que te gusten o se parezcan a lo que buscas.</span></li>
-            </ul>
-            <a href="https://wa.link/eah465" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">
+            <h2>Para cotizar tu web, escribe:</h2>
+            <div class="quote-form">
+              <label class="quote-field" for="quote-service">
+                <span class="quote-index">1.</span>
+                <span>
+                  <strong>Qué servicio ofreces</strong>
+                  <input id="quote-service" class="quote-input" type="text" placeholder="psicología, terapia, talleres, cursos, etc." />
+                </span>
+              </label>
+              <label class="quote-field" for="quote-goal">
+                <span class="quote-index">2.</span>
+                <span>
+                  <strong>Qué quieres que haga tu web</strong>
+                  <input id="quote-goal" class="quote-input" type="text" placeholder="agendar, vender, informar, captar, automatizar, etc." />
+                </span>
+              </label>
+              <label class="quote-field" for="quote-ref">
+                <span class="quote-index">3.</span>
+                <span>
+                  <strong>Referencias que te gustan</strong>
+                  <input id="quote-ref" class="quote-input" type="text" placeholder="páginas que te gusten o se parezcan a lo que buscas." />
+                </span>
+              </label>
+            </div>
+            <a href="https://wa.link/eah465" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp" id="send-quote-whatsapp">
               <img class="cta-whatsapp-icon" src="/whatsapp_white.png" alt="WhatsApp" />
               Quiero cotizar mi web por WhatsApp
             </a>
-            <p>Respuesta rápida y personalizada.</p>
+            <p>Ahorra tiempo: llena estas preguntas para cotizarte mejor.</p>
           </div>
 
           <div class="cta-person" role="img" aria-label="Imagen de muestra para cotizacion"></div>
@@ -2112,6 +2193,91 @@
     } else {
       autoScrollOnMobile();
     }
+
+    function initBenefitMultiSelect() {
+      const cards = document.querySelectorAll('.benefits .benefit-card');
+      cards.forEach(card => {
+        card.setAttribute('role', 'checkbox');
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('aria-checked', 'false');
+
+        function toggleSelect() {
+          const selected = card.classList.toggle('is-selected');
+          card.setAttribute('aria-checked', selected ? 'true' : 'false');
+        }
+
+        card.addEventListener('click', toggleSelect);
+        card.addEventListener('keydown', e => {
+          if (e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault();
+            toggleSelect();
+          }
+        });
+      });
+    }
+
+    initBenefitMultiSelect();
+
+    function scrollToQuoteFormAndFocus() {
+      const section = document.getElementById('cotizar');
+      const firstInput = document.getElementById('quote-service');
+      if (!section || !firstInput) return;
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(() => {
+        firstInput.focus({ preventScroll: true });
+        firstInput.classList.add('glow-focus');
+        setTimeout(() => firstInput.classList.remove('glow-focus'), 2600);
+      }, 420);
+    }
+
+    function initQuoteJumpCTAs() {
+      document.querySelectorAll('a[href="#cotizar"], .js-open-quote').forEach(link => {
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          scrollToQuoteFormAndFocus();
+        });
+      });
+    }
+
+    function buildQuoteMessage() {
+      const selectedBenefits = Array.from(document.querySelectorAll('.benefits .benefit-card.is-selected h3'))
+        .map(node => node.textContent.trim())
+        .filter(Boolean);
+
+      const service = (document.getElementById('quote-service')?.value || '').trim();
+      const goal = (document.getElementById('quote-goal')?.value || '').trim();
+      const ref = (document.getElementById('quote-ref')?.value || '').trim();
+
+      const lines = ['Hola Eder, quiero cotizar mi web.'];
+
+      if (selectedBenefits.length) {
+        lines.push('');
+        lines.push('Lo que más me interesa de la web:');
+        selectedBenefits.forEach(item => lines.push(`- ${item}`));
+      }
+
+      if (service || goal || ref) {
+        lines.push('');
+        if (service) lines.push(`1. Servicio: ${service}`);
+        if (goal) lines.push(`2. Objetivo de la web: ${goal}`);
+        if (ref) lines.push(`3. Referencias: ${ref}`);
+      }
+
+      return encodeURIComponent(lines.join('\n'));
+    }
+
+    function initQuoteWhatsAppCTA() {
+      const sendBtn = document.getElementById('send-quote-whatsapp');
+      if (!sendBtn) return;
+      sendBtn.addEventListener('click', e => {
+        e.preventDefault();
+        const message = buildQuoteMessage();
+        window.open(`https://wa.link/eah465?text=${message}`, '_blank', 'noopener,noreferrer');
+      });
+    }
+
+    initQuoteJumpCTAs();
+    initQuoteWhatsAppCTA();
 
     // Tinder-style swipe for problem cards (mobile only)
     if (window.innerWidth <= 480) {
