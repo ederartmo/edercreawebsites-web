@@ -448,8 +448,14 @@
 
     .benefits-grid {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 26px;
+    }
+
+    .benefit-card:nth-child(5) {
+      grid-column: 1 / -1;
+      max-width: 50%;
+      margin: 0 auto;
     }
 
     .benefit-card,
@@ -1155,6 +1161,11 @@
       .benefits-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
+      }
+
+      .benefit-card:nth-child(5) {
+        grid-column: auto;
+        max-width: 100%;
       }
 
       .benefit-card {
