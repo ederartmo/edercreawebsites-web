@@ -3121,13 +3121,6 @@
         requestAnimationFrame(frame);
       };
 
-      metrics.forEach((el) => {
-        const prefix = el.dataset.prefix || '';
-        const suffix = el.dataset.suffix || '';
-        const decimals = Number(el.dataset.decimals || '0');
-        el.textContent = `${prefix}${(0).toFixed(decimals)}${suffix}`;
-      });
-
       if (prefersReducedMotion) {
         metrics.forEach(setFinalValue);
         return;
@@ -3139,13 +3132,22 @@
         return;
       }
 
+      let hasAnimated = false;
+
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          metrics.forEach(animateValue);
+          if (!entry.isIntersecting || hasAnimated) return;
+          hasAnimated = true;
+          metrics.forEach((el, index) => {
+            const prefix = el.dataset.prefix || '';
+            const suffix = el.dataset.suffix || '';
+            const decimals = Number(el.dataset.decimals || '0');
+            el.textContent = `${prefix}${(0).toFixed(decimals)}${suffix}`;
+            setTimeout(() => animateValue(el), index * 120);
+          });
           observer.disconnect();
         });
-      }, { threshold: 0.35 });
+      }, { threshold: 0.6 });
 
       observer.observe(caseSection);
     }
