@@ -2668,15 +2668,15 @@
             <h2>Psicóloga Clínica - Atención online</h2>
             <div class="metrics-grid">
               <div>
-                <strong>+73%</strong>
+                <strong class="case-metric-number" data-prefix="+" data-value="73" data-suffix="%" data-decimals="0">+73%</strong>
                 <p>más consultas agendadas</p>
               </div>
               <div>
-                <strong>-58%</strong>
+                <strong class="case-metric-number" data-prefix="-" data-value="58" data-suffix="%" data-decimals="0">-58%</strong>
                 <p>menos ausencias a consulta</p>
               </div>
               <div>
-                <strong>+2.7x</strong>
+                <strong class="case-metric-number" data-prefix="+" data-value="2.7" data-suffix="x" data-decimals="1">+2.7x</strong>
                 <p>más mensajes calificados</p>
               </div>
             </div>
@@ -3051,6 +3051,75 @@
       }, 420);
     }
 
+    function initCaseMetricsCounter() {
+      const metrics = Array.from(document.querySelectorAll('.case-metric-number'));
+      if (!metrics.length) return;
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const setFinalValue = (el) => {
+        const prefix = el.dataset.prefix || '';
+        const suffix = el.dataset.suffix || '';
+        const decimals = Number(el.dataset.decimals || '0');
+        const target = Number(el.dataset.value || '0');
+        const safeValue = Number.isFinite(target) ? target : 0;
+        el.textContent = `${prefix}${safeValue.toFixed(decimals)}${suffix}`;
+      };
+
+      const animateValue = (el) => {
+        const prefix = el.dataset.prefix || '';
+        const suffix = el.dataset.suffix || '';
+        const decimals = Number(el.dataset.decimals || '0');
+        const target = Number(el.dataset.value || '0');
+        const safeTarget = Number.isFinite(target) ? target : 0;
+        const duration = 1200;
+        const start = performance.now();
+
+        const frame = (now) => {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = safeTarget * eased;
+          el.textContent = `${prefix}${current.toFixed(decimals)}${suffix}`;
+
+          if (progress < 1) {
+            requestAnimationFrame(frame);
+          } else {
+            setFinalValue(el);
+          }
+        };
+
+        requestAnimationFrame(frame);
+      };
+
+      metrics.forEach((el) => {
+        const prefix = el.dataset.prefix || '';
+        const suffix = el.dataset.suffix || '';
+        const decimals = Number(el.dataset.decimals || '0');
+        el.textContent = `${prefix}${(0).toFixed(decimals)}${suffix}`;
+      });
+
+      if (prefersReducedMotion) {
+        metrics.forEach(setFinalValue);
+        return;
+      }
+
+      const caseSection = document.querySelector('.case-study');
+      if (!caseSection) {
+        metrics.forEach(setFinalValue);
+        return;
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          metrics.forEach(animateValue);
+          observer.disconnect();
+        });
+      }, { threshold: 0.35 });
+
+      observer.observe(caseSection);
+    }
+
     function initQuoteJumpCTAs() {
       document.querySelectorAll('.js-open-quote').forEach(link => {
         link.addEventListener('click', e => {
@@ -3224,6 +3293,7 @@
     initQuoteJumpCTAs();
     initNavSectionScroll();
     initQuoteWhatsAppCTA();
+    initCaseMetricsCounter();
 
     // ── Scroll guiado + fade-in pasos (solo móvil) ──────────────────────────
     if (window.innerWidth <= 480) {
