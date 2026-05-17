@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="EderCreaWebs — Sitios que venden por ti">
+  <meta property="og:description" content="Diseño web enfocado en convertir visitas en clientes. Mira el caso de estudio de 30 segundos.">
+  <meta property="og:image" content="https://assets.zyrosite.com/l8smzuTPzPP1MFNh/tu-imagen-preview.jpg"> 
+  <meta property="og:url" content="https://edercreawebs.com">
+
+  <title>EderCreaWebs — Sitios que solucionan problemas</title>
+  <link rel="icon" href="eder_favicon.png" type="image/png">
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "v21lgoytzu");
+  </script>
+
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+
+    fbq('init', '1641466280624093'); 
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1641466280624093&ev=PageView&noscript=1"/></noscript>
+  
+  <link rel="stylesheet" href="style.css?v=7">
+
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="wrap">
+      <div class="row">
+        <div class="navBrand">
+          <img class="navLogo" src="eder_favicon.png" alt="Eder Crea Webs">
+        </div>
+        <span class="navName">edercreawebs</span>
+        <div class="navMenuWrap">
+          <button class="navHamburger" id="navHamburger" type="button" aria-expanded="false" aria-controls="navMenu" aria-label="Abrir menú">
+            <span></span><span></span><span></span>
+          </button>
+          <div class="navMenu" id="navMenu" role="menu" aria-hidden="true">
+
+            <div class="navToggleRow">
+              <span class="navToggleLabel">Light &amp; Dark</span>
+              <button class="navDarkToggle" id="darkToggle" type="button" role="switch" aria-checked="false">
+                <span class="navDarkToggle-ball"></span>
+              </button>
+            </div>
+
+            <a class="navMenuItem" href="/cursos/" role="menuitem">Ver cursos</a>
+            <a class="navMenuItem" href="https://wa.link/eah465" target="_blank" rel="noopener noreferrer" role="menuitem">Hablar con Eder</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <section class="hero" id="inicio">
+      <div class="heroGrid">
+
+        <div class="heroContent">
+          <div class="pretag"><span class="pin"></span> Sitios web para Psicólogos</div>
+
+          <h1 class="h1">
+            Deja de <span class="accent">perder pacientes</span><br>
+            mientras estás en consulta
+            <span class="case"></span>
+          </h1>
+
+          <div class="credRow">
+            <div class="stars">-65% Menos Ausencias</div>
+            <div class="credTag">+32% Citas Agendadas</div>
+          </div>
+
+          <p class="sub">
+            Sitio web + Agenda automática y recordatorios por WhatsApp que <strong>reducen ausencias y cancelaciones</strong> mientras tú estás en consulta.
+          </p>
+
+          <div class="heroCtaRow">
+            <button class="btn btnPrimary btnLg" type="button" id="btnWatchCase">
+              Ver el caso real (30 seg)
+            </button>
+            <a class="btn btnGreen btnLg" href="https://wa.link/eah465" target="_blank" rel="noopener noreferrer">Lo entiendo, hablar con Eder.</a>
+          </div>
+        </div> 
+
+        <div class="vsl-wrap">
+          <div class="vsl-videoBox" id="vslSection">
+
+            <div class="flip-card-inner" id="flipCard">
+              
+              <div class="flip-card-front">
+                <video id="vslVideo" playsinline preload="metadata" poster="hero1.gif">
+                  <source src="v1_1.mp4" type="video/mp4">
+                  Tu navegador no soporta video HTML5.
+                </video>
+
+                <div class="vsl-overlay" id="vslOverlay">
+                  <div class="vsl-overlayPill">
+                    <div class="vsl-overlayCard">
+                      <div class="vsl-title">Tu video ya empezó</div>
+                      <div class="vsl-sub">Haz clic para escuchar desde el inicio</div>
+                      <button id="vslStartAudio" type="button">▶ Escuchar</button>
+                    </div>
+                  </div>
+                </div>
+
+                <button class="btn-demo-overlay" id="btnDemoOverlay">
+                   🤖 Usar Demo Chatbot
+                </button>
+
+                <div class="vsl-controls">
+                  <button id="vslPlayPause" type="button">⏸</button>
+                  <button id="vslRestart" type="button">↺</button>
+                  <button id="vslMute" type="button">🔇</button>
+                </div>
+
+                <div class="vsl-progress">
+                  <div class="vsl-progress-fill" id="vslProgress"></div>
+                </div>
+              </div>
+
+              <div class="flip-card-back">
+                <button class="btn-flip-back" id="btnFlipBack" title="Volver al video">✕</button>
+                
+                <div class="ew-embedded" id="ewEmbedded">
+                  <div class="ew-head">
+                    <div class="ew-badge">🤖</div>
+                    <div class="ew-title">
+                      <b>Asistente de Eder</b>
+                      <span>Precalificación y Agenda</span>
+                    </div>
+                  </div>
+
+                  <div class="ew-body" id="ewBodyEmbedded"></div>
+                  
+                  <div class="calendly-container" id="calendlyContainer">
+                    <div class="calendly-inline-widget" data-url="https://calendly.com/ederarmo/30min?hide_landing_page_details=1&hide_gdpr_banner=1" style="min-width:320px;height:100%;"></div>
+                    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+                  </div>
+
+                  <div class="ew-foot" id="ewFootEmbedded">
+                    <input class="ew-input" id="ewInputEmbedded" placeholder="Escribe aquí..." />
+                    <button class="ew-send" id="ewSendEmbedded">➜</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="logos-credibilidad">
+      <div class="wrap">
+        <h4>Experto en las mejores plataformas</h4>
+        <div class="logos-container">
+          <img src="wix.png" alt="Wix">
+          <img src="shopify.png" alt="Shopify">
+          <img src="hostinger.png" alt="Hostinger">
+        </div>
+      </div>
+    </section>
+
+    <section class="results" id="resultados">
+    <section class="herramientas" id="herramientas">
+      <div class="wrap">
+        <h2 class="sectionTitle">Lo que puedo integrar en tu <span class="sectionAccent">web</span></h2>
+        <p class="herr-sub">Haz clic en cualquier herramienta para ver el demo.</p>
+
+        <div class="herr-showcase">
+          <div class="herr-row herr-row-top">
+            <button class="herr-tile priority-medium" data-label="Banner de promoción" data-video="">
+              <span class="herr-emoji">📢</span>
+              <span class="herr-name">Banner de<br>promoción</span>
+              <span class="herr-tag">+10% en ventas</span>
+            </button>
+            <button class="herr-tile priority-medium" data-label="Calendario / Agenda" data-video="">
+              <span class="herr-emoji">📅</span>
+              <span class="herr-name">Calendario<br>/ Agenda</span>
+              <span class="herr-tag">Reservas 24/7</span>
+            </button>
+            <button class="herr-tile priority-high" data-label="Login de usuarios" data-video="">
+              <span class="herr-emoji">🔐</span>
+              <span class="herr-name">Login de<br>usuarios</span>
+              <span class="herr-tag">Auth seguro</span>
+            </button>
+            <button class="herr-tile priority-high" data-label="Área de administrador" data-video="">
+              <span class="herr-emoji">⚙️</span>
+              <span class="herr-name">Área de<br>administrador</span>
+              <span class="herr-tag">Panel privado</span>
+            </button>
+          </div>
+
+          <div class="herr-column herr-column-left">
+            <button class="herr-tile priority-medium" data-label="Formularios personalizados" data-video="">
+              <span class="herr-emoji">📝</span>
+              <span class="herr-name">Formularios<br>personalizados</span>
+              <span class="herr-tag">Captura leads</span>
+            </button>
+            <button class="herr-tile priority-medium" data-label="Reproductor de video" data-video="">
+              <span class="herr-emoji">🎬</span>
+              <span class="herr-name">Reproductor<br>de video</span>
+              <span class="herr-tag">Player propio</span>
+            </button>
+            <button class="herr-tile priority-high" data-label="Base de datos · Supabase" data-video="">
+              <span class="herr-emoji">🗄️</span>
+              <span class="herr-name">Base de datos<br>· Supabase</span>
+              <span class="herr-tag">Tiempo real</span>
+            </button>
+            <button class="herr-tile priority-high" data-label="Radio en stream" data-video="">
+              <span class="herr-emoji">📻</span>
+              <span class="herr-name">Radio en<br>stream</span>
+              <span class="herr-tag">Audio en vivo</span>
+            </button>
+          </div>
+
+          <div class="herr-player-card">
+            <div class="herr-player-top">
+              <span class="herr-player-dot"></span>
+              <span class="herr-player-dot"></span>
+              <span class="herr-player-dot"></span>
+              <span class="herr-player-title" id="herrTitle">← Elige una herramienta del grid</span>
+            </div>
+            <div class="herr-player-body" id="herrPlayerBody">
+              <div class="herr-placeholder" id="herrPlaceholder">
+                <div class="herr-placeholder-play">▶</div>
+                <p>Selecciona una herramienta del grid</p>
+              </div>
+              <iframe id="herrIframe" title="Demo de herramienta" frameborder="0"
+                allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"
+                style="display:none; width:100%; height:100%; border-radius:0 0 var(--radius) var(--radius);"></iframe>
+            </div>
+          </div>
+
+          <div class="herr-column herr-column-right">
+            <button class="herr-tile priority-high" data-label="Video en la nube · Cloudflare" data-video="">
+              <span class="herr-emoji">☁️</span>
+              <span class="herr-name">Video en la nube<br>· Cloudflare</span>
+              <span class="herr-tag">Streaming seguro</span>
+            </button>
+            <button class="herr-tile priority-medium" data-label="Botón de llamada" data-video="">
+              <span class="herr-emoji">📞</span>
+              <span class="herr-name">Botón de<br>llamada</span>
+              <span class="herr-tag">1 clic = llamada</span>
+            </button>
+            <button class="herr-tile priority-medium" data-label="Botón de WhatsApp" data-video="">
+              <span class="herr-emoji">💬</span>
+              <span class="herr-name">Botón de<br>WhatsApp</span>
+              <span class="herr-tag">Contacto directo</span>
+            </button>
+            <button class="herr-tile priority-high" data-label="Tienda en línea" data-video="">
+              <span class="herr-emoji">🛍️</span>
+              <span class="herr-name">Tienda en<br>línea</span>
+              <span class="herr-tag">Ecommerce</span>
+            </button>
+          </div>
+
+          <div class="herr-row herr-row-bottom">
+            <button class="herr-tile priority-high" data-label="Pago con tarjeta" data-video="">
+              <span class="herr-emoji">💳</span>
+              <span class="herr-name">Pago con<br>tarjeta</span>
+              <span class="herr-tag">Stripe / MP</span>
+            </button>
+            <button class="herr-tile priority-base" data-label="Correo profesional" data-video="">
+              <span class="herr-emoji">📧</span>
+              <span class="herr-name">Correo<br>profesional</span>
+              <span class="herr-tag">tu@dominio.com</span>
+            </button>
+            <button class="herr-tile priority-base" data-label="Hosting" data-video="">
+              <span class="herr-emoji">🌐</span>
+              <span class="herr-name">Hosting</span>
+              <span class="herr-tag">Siempre online</span>
+            </button>
+            <button class="herr-tile priority-base" data-label="Dominio" data-video="">
+              <span class="herr-emoji">🔗</span>
+              <span class="herr-name">Dominio</span>
+              <span class="herr-tag">tudominio.com</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="problems" id="problemas">
+      <h2 class="sectionTitle">Los problemas que YO <span class="sectionAccent">resuelvo</span></h2>
+
+      <div class="problem-container">
+
+        <div class="problem-item">
+          <div class="problem-trigger" onclick="toggleSolution(1)">
+            <div class="problemHead" style="margin-bottom:0">
+              <div class="pill">#1</div>
+              <h3>Pierdes clientes porque no contestas</h3>
+            </div>
+            <button class="btn-solucion" id="btn-sol-1">Ver Solución #1</button>
+          </div>
+          <div id="sol-1" class="solucion-content">
+            <div class="solucion-grid">
+              <img src="tu-imagen-agenda.png" alt="Agenda Digital">
+              <span class="plus-sign">+</span>
+              <img src="tu-imagen-chatbot4.gif" alt="Chatbot WhatsApp">
+            </div>
+            <p class="sol-footer-text">Permite agendar sin contactarte + Respuesta automática 24/7.</p>
+          </div>
+        </div>
+
+        <div class="problem-item">
+          <div class="problem-trigger" onclick="toggleSolution(2)">
+            <div class="problemHead" style="margin-bottom:0">
+              <div class="pill">#2</div>
+              <h3>Venta lenta y desgastante</h3>
+            </div>
+            <button class="btn-solucion" id="btn-sol-2">Ver Solución #2</button>
+          </div>
+          <div id="sol-2" class="solucion-content">
+            <div class="solucion-grid">
+              <img src="tu-imagen-cta.png" alt="Un solo CTA">
+              <span class="plus-sign">+</span>
+              <img src="tu-imagen-simplificar.png" alt="Simplificar compra">
+            </div>
+            <p class="sol-footer-text">Reducimos los clics para comprarte con un embudo directo.</p>
+          </div>
+        </div>
+
+        <div class="problem-item">
+          <div class="problem-trigger" onclick="toggleSolution(3)">
+            <div class="problemHead" style="margin-bottom:0">
+              <div class="pill">#3</div>
+              <h3>No confían en ti</h3>
+            </div>
+            <button class="btn-solucion" id="btn-sol-3">Ver Solución #3</button>
+          </div>
+          <div id="sol-3" class="solucion-content">
+            <div class="solucion-grid">
+              <img src="tu-imagen-testimonios.png" alt="Testimonios">
+              <span class="plus-sign">+</span>
+              <img src="tu-imagen-rostro1.png" alt="Ver rostro">
+            </div>
+            <p class="sol-footer-text">78% de pacientes eligen por opiniones + Ver tu rostro genera autoridad.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <div class="ctaRow">
+        <a class="btn btnGreen btnWide" href="https://wa.link/eah465" target="_blank">Lo entiendo, hablemos.</a>
+      </div>
+    </section>
+
+    <section class="social-proof-videos" id="videos-sociales">
+      <div class="wrap">
+        <div class="social-proof-head">
+          <h2 class="sectionTitle social-proof-title">+44 mil personas siguen mis <span class="sectionAccent">videos</span></h2>
+          <p class="social-proof-copy">Te invito a verlos. Aquí tienes tres ejemplos rápidos del tipo de contenido con el que explico sistemas, herramientas y decisiones web que sí mueven negocio.</p>
+        </div>
+
+        <div class="social-video-carousel-shell">
+          <div class="social-video-controls" aria-label="Navegar videos">
+            <button type="button" id="videoPrev" aria-label="Ver videos anteriores">←</button>
+            <button type="button" id="videoNext" aria-label="Ver más videos">→</button>
+          </div>
+
+          <div class="social-video-grid" id="videoTrack">
+            <article class="social-video-card">
+              <div class="social-video-shell">
+                <a class="social-watermark-link" href="https://www.tiktok.com/@edercreawebs" target="_blank" rel="noopener noreferrer" aria-label="Ver TikTok de Eder">
+                  <img src="tiktok logo.png" alt="TikTok">
+                </a>
+              <iframe
+                class="social-video-iframe"
+                src="https://customer-hwj8nccxmfdfhkme.cloudflarestream.com/9fe3760fc18a59d105d5004fefd2441f/iframe?muted=true&loop=true&autoplay=true&preload=true&poster=https%3A%2F%2Fcustomer-hwj8nccxmfdfhkme.cloudflarestream.com%2F9fe3760fc18a59d105d5004fefd2441f%2Fthumbnails%2Fthumbnail.jpg"
+                allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
+                allowfullscreen
+                loading="lazy"
+                title="Clase de Canva Para Celular"
+              ></iframe>
+              <div class="social-video-overlay">
+                <span class="social-overlay-pill">Clase de Canva Para Celular</span>
+                <details class="social-video-details">
+                  <summary>Ver más</summary>
+                  <div class="social-video-copy">
+                    <div class="social-video-copy-header">
+                      <img class="social-video-copy-avatar" src="eder_favicon.png" alt="edercreawebs">
+                      <div class="social-video-copy-meta">
+                        <strong>edercreawebs</strong>
+                        <span>EderCrearWebs · 2025-12-27</span>
+                      </div>
+                    </div>
+                    <p class="social-video-copy-title">Clase De Canva Para Celular #1</p>
+                    <p class="social-video-copy-subtitle">Hoy el INTERFAZ ⬇️</p>
+                    <ol>
+                      <li>Menú</li>
+                      <li>Buscador</li>
+                      <li>Noticias</li>
+                      <li>Acceso Rapido</li>
+                      <li>Herramientas AI</li>
+                      <li>Diseños Recientes</li>
+                      <li>Secciones por Formato</li>
+                      <li>Navegador</li>
+                    </ol>
+                    <p class="social-video-tags">#edercreawebs #canva #canvacelular #interfaz #tutorial</p>
+                    <p class="social-video-less">menos</p>
+                    <p class="social-video-sound">♪ sonido original - EderCrearWebs</p>
+                    <div class="social-video-location">📍 Guadalajara Centro · Guadalajara, Jalisco</div>
+                  </div>
+                </details>
+              </div>
+              <div class="social-video-stat" aria-label="205.4 mil visualizaciones">
+                <span class="social-video-play" aria-hidden="true"></span>
+                <span>205.4K</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="social-video-card">
+            <div class="social-video-shell">
+              <a class="social-watermark-link" href="https://www.tiktok.com/@edercreawebs" target="_blank" rel="noopener noreferrer" aria-label="Ver TikTok de Eder">
+                <img src="tiktok logo.png" alt="TikTok">
+              </a>
+              <iframe
+                class="social-video-iframe"
+                src="https://customer-hwj8nccxmfdfhkme.cloudflarestream.com/a0c6d2c778b6593ee261b968919a6885/iframe?muted=true&loop=true&autoplay=true&preload=true&poster=https%3A%2F%2Fcustomer-hwj8nccxmfdfhkme.cloudflarestream.com%2Fa0c6d2c778b6593ee261b968919a6885%2Fthumbnails%2Fthumbnail.jpg"
+                allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
+                allowfullscreen
+                loading="lazy"
+                title="TRUCO DE TEXTO: CAPAS EN CANVA #2"
+              ></iframe>
+              <div class="social-video-overlay">
+                <span class="social-overlay-pill">TRUCO DE TEXTO: CAPAS EN CANVA #2</span>
+                <details class="social-video-details">
+                  <summary>Ver más</summary>
+                  <div class="social-video-copy">
+                    <div class="social-video-copy-header">
+                      <img class="social-video-copy-avatar" src="eder_favicon.png" alt="edercreawebs">
+                      <div class="social-video-copy-meta">
+                        <strong>edercreawebs</strong>
+                        <span>EderCrearWebs · 2025-12-27</span>
+                      </div>
+                    </div>
+                    <p class="social-video-copy-title">Pon las Redes de Tu Negocio Para Darte La Plantilla</p>
+                    <ol>
+                      <li>T para Texto</li>
+                      <li>Posición -&gt; Capas</li>
+                      <li>Mueve su posición: Detrás o Adelante</li>
+                    </ol>
+                    <p class="social-video-tags">#edercreawebs #canva #texto #capas #tutorial</p>
+                    <p class="social-video-less">menos</p>
+                    <p class="social-video-sound">♪ sonido original - EderCrearWebs</p>
+                    <div class="social-video-location">📍 Guadalajara Centro · Guadalajara, Jalisco</div>
+                  </div>
+                </details>
+              </div>
+              <div class="social-video-stat" aria-label="5706 visualizaciones">
+                <span class="social-video-play" aria-hidden="true"></span>
+                <span>5706</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="social-video-card">
+            <div class="social-video-shell">
+              <a class="social-watermark-link" href="https://www.tiktok.com/@edercreawebs" target="_blank" rel="noopener noreferrer" aria-label="Ver TikTok de Eder">
+                <img src="tiktok logo.png" alt="TikTok">
+              </a>
+              <iframe
+                class="social-video-iframe"
+                src="https://customer-hwj8nccxmfdfhkme.cloudflarestream.com/e05f9f3706bbf1178744b4f999576f7b/iframe?muted=true&loop=true&autoplay=true&preload=true&poster=https%3A%2F%2Fcustomer-hwj8nccxmfdfhkme.cloudflarestream.com%2Fe05f9f3706bbf1178744b4f999576f7b%2Fthumbnails%2Fthumbnail.jpg"
+                allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
+                allowfullscreen
+                loading="lazy"
+                title="Cómo consigo clientes"
+              ></iframe>
+              <div class="social-video-overlay">
+                <span class="social-overlay-pill">Cómo consigo clientes</span>
+                <details class="social-video-details">
+                  <summary>Ver más</summary>
+                  <div class="social-video-copy">
+                    <div class="social-video-copy-header">
+                      <img class="social-video-copy-avatar" src="eder_favicon.png" alt="edercreawebs">
+                      <div class="social-video-copy-meta">
+                        <strong>edercreawebs</strong>
+                        <span>EderCrearWebs · 2025-12-27</span>
+                      </div>
+                    </div>
+                    <p class="social-video-copy-title">3 Maneras en las que he conseguido clientes.</p>
+                    <ol>
+                      <li>Ir a Google Maps y comparar quién no sale o quién no tiene web.</li>
+                      <li>Marcar desde casa usando Google Maps para ver los teléfonos.</li>
+                      <li>Crear videos: grabarte ayuda a la credibilidad; en 1 min enseñas que sabes.</li>
+                    </ol>
+                    <p class="social-video-tags">#edercreawebs #hostinger #shopify #wix #sitiosweb</p>
+                    <p class="social-video-less">menos</p>
+                    <p class="social-video-sound">♪ sonido original - EderCrearWebs</p>
+                    <div class="social-video-location">📍 Guadalajara Centro · Guadalajara, Jalisco</div>
+                  </div>
+                </details>
+              </div>
+              <div class="social-video-stat" aria-label="64.8 mil visualizaciones">
+                <span class="social-video-play" aria-hidden="true"></span>
+                <span>64.8K</span>
+              </div>
+            </div>
+          </article>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonios-section">
+      <div class="reviews-carousel-head">
+        <h2 class="sectionTitle"><span class="sectionAccent">Testimonios</span></h2>
+      </div>
+
+      <div class="reviews-carousel-shell">
+        <div class="reviews-controls" aria-label="Navegar testimonios">
+          <button type="button" id="reviewsPrev" aria-label="Ver testimonios anteriores">←</button>
+          <button type="button" id="reviewsNext" aria-label="Ver más testimonios">→</button>
+        </div>
+
+        <div class="reviews-grid" id="reviewsTrack">
+
+        <div class="review-card">
+          <img src="g.png" class="g-icon" alt="Google">
+          <div class="review-header">
+            <img class="review-avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Edgar Razo">
+            <div class="review-info">
+              <b>Edgar Razo</b>
+              <small>15/05/2021</small>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <p>Atento, da seguimiento y es muy claro con el proceso de creación, correcciones y entrega 👍</p>
+        </div>
+
+        <div class="review-card">
+          <img src="g.png" class="g-icon" alt="Google">
+          <div class="review-header">
+            <img class="review-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Carmen Ortega">
+            <div class="review-info">
+              <b>Carmen Ortega</b>
+              <small>21/01/2024</small>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <p>Muy profesional, Eder es muy directo y sabe de lo que habla sobre todo si haces campañas.</p>
+        </div>
+
+        <div class="review-card">
+          <img src="g.png" class="g-icon" alt="Google">
+          <div class="review-header">
+            <img class="review-avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Julia Mercado">
+            <div class="review-info">
+              <b>Julia Mercado</b>
+              <small>15/07/2025</small>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <p>Como Eder ya hace contenido, entiende muy bien el área digital 10/10 🧡</p>
+        </div>
+
+        <div class="review-card">
+          <img src="g.png" class="g-icon" alt="Google">
+          <div class="review-header">
+            <img class="review-avatar" src="https://randomuser.me/api/portraits/women/52.jpg" alt="Mariana López">
+            <div class="review-info">
+              <b>Mariana López</b>
+              <small>08/11/2024</small>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <p>Me ayudó a aterrizar mi idea y el sitio quedó mucho más claro para que la gente sí me escriba.</p>
+        </div>
+
+        <div class="review-card">
+          <img src="g.png" class="g-icon" alt="Google">
+          <div class="review-header">
+            <img class="review-avatar" src="https://randomuser.me/api/portraits/men/54.jpg" alt="Luis Gutiérrez">
+            <div class="review-info">
+              <b>Luis Gutiérrez</b>
+              <small>02/02/2025</small>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <p>Responde rápido, propone mejoras y te dice directo qué funciona y qué no para vender mejor.</p>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="cursos-banner" id="importante">
+      <div class="cursos-banner-inner">
+        <div class="cursos-copy cursos-copy-left">
+          <p class="cursos-banner-label">Nuevo curso de Canva</p>
+          <h3 class="cursos-banner-title">Aprende a Crear Sitios Web en Canva</h3>
+          <p class="cursos-banner-sub">Nivel desde Cero a Canva Creator.</p>
+          <div class="cursos-banner-pills" aria-label="Detalles del curso">
+            <span class="cursos-pill"><span class="cursos-pill-icon">◔</span>55:30 de contenido</span>
+            <span class="cursos-pill"><span class="cursos-pill-icon">▤</span>131 lecciones</span>
+            <span class="cursos-pill"><span class="cursos-pill-icon">★</span>Indice por capitulo</span>
+            <span class="cursos-pill"><span class="cursos-pill-icon">🏆</span>500 XP totales</span>
+          </div>
+        </div>
+
+        <div class="cursos-banner-center" aria-hidden="true"></div>
+
+        <div class="cursos-copy cursos-copy-right">
+          <p class="cursos-price-line">De <span class="old-price">$2,000 MXN</span></p>
+          <p class="cursos-price-line cursos-price-now">Hoy <span class="new-price">$1,200 MXN</span></p>
+          <a class="btn btnPrimary" href="/cursos/">Tomar el curso</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="questions" id="contacto">
+      <h2 class="sectionTitle">Para cotizarte, te <span class="sectionAccent">preguntaré</span>:</h2>
+      <div class="qList">
+        <div class="qItem">
+          <span class="qNum">#1</span>
+          <div><strong>¿Qué vendes?</strong> Producto o servicio.</div>
+        </div>
+        <div class="qItem">
+          <span class="qNum">#2</span>
+          <div><strong>¿Qué esperas recibir?</strong> Resultados, referencias o ejemplos que te gusten.</div>
+        </div>
+      </div>
+
+      <div class="ctaRow">
+        <a class="btn btnWhatsapp" href="https://wa.link/eah465" target="_blank" rel="noopener">
+          <img src="logo%20whatsapp.png" alt="WhatsApp">
+          Hablar con Eder
+        </a>
+      </div>
+
+    </section>
+
+    <footer>
+      <section class="logos-credibilidad">
+        <div class="wrap">
+          <div class="logos-container1">
+            <img class="footer-seal" src="s1.png" alt="Garantía de 30 días">
+            <a class="footer-photo-link" href="/cursos/" aria-label="Ir al área de cursos">
+              <img class="footer-photo" src="eder_favicon.png" alt="Ir al área de cursos">
+            </a>
+            <img class="footer-seal" src="s3.png" alt="Compra segura">
+          </div>
+        </div>
+      </section>
+
+      <div class="foot">
+        <div><strong>Si construyes el camino, ellos vendrán.</strong></div>
+
+        <div class="footLinks">
+          <a href="https://wa.link/eah465" target="_blank">Agendar</a>
+          <a href="https://www.instagram.com/edercreawebs/" target="_blank">Instagram</a>
+          <a href="https://www.tiktok.com/@edercreawebs" target="_blank">TikTok</a>
+          <a href="/cursos/">Cursos</a>
+          <a href="terminos">Condiciones</a>
+          <a href="politicas">Privacidad</a>
+        </div>
+
+        <div>© 2026 Eder Crea Webs. Todos los derechos reservados.</div>
+      </div>
+    </footer>
+
+  </main>
+
+  <div class="ew-fabWrap" aria-label="Widgets de contacto">
+    <a class="ew-fab ew-fabWA" id="ewWA" href="https://wa.link/eah465" target="_blank" rel="noopener">
+      <span class="ew-fabIcon">💬</span>
+      <span>Hablar conmigo</span>
+    </a>
+  </div>
+
+  <div class="ew-panel" id="ewPanel" role="dialog" aria-modal="true" aria-label="Asistente demo">
+    <div class="ew-head">
+      <div class="ew-headLeft">
+        <div class="ew-badge">🤖</div>
+        <div class="ew-title">
+          <b>Asistente de Eder</b>
+          <span>Agenda tu Estrategia</span>
+        </div>
+      </div>
+      <button class="ew-x" id="ewClose" aria-label="Cerrar" type="button">✕</button>
+    </div>
+
+    <div class="ew-body" id="ewBody"></div>
+
+    <div class="ew-foot">
+      <input class="ew-input" id="ewInput" placeholder="Escribe aquí..." />
+      <button class="ew-send" id="ewSend" type="button">Enviar</button>
+    </div>
+  </div>
+
+  <script src="https://embed.cloudflarestream.com/embed/sdk.latest.js"></script>
+  <script src="script.js?v=1.9"></script>
+
+</body>
+</html>

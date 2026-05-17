@@ -1,721 +1,3499 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eder Crea Webs | Webs para Psicólogos</title>
+  <meta name="description" content="Sitios web para psicólogos que ayudan a generar confianza, explicar servicios y agendar pacientes por WhatsApp." />
 
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="EderCreaWebs — Sitios que venden por ti">
-  <meta property="og:description" content="Diseño web enfocado en convertir visitas en clientes. Mira el caso de estudio de 30 segundos.">
-  <meta property="og:image" content="https://assets.zyrosite.com/l8smzuTPzPP1MFNh/tu-imagen-preview.jpg"> 
-  <meta property="og:url" content="https://edercreawebs.com">
+  <!-- Paso 2: CSS base global para acercarnos al diseño original. -->
+  <style>
+    :root {
+      --wine: #8f1438;
+      --wine-dark: #4c0618;
+      --wine-deep: #2b030d;
+      --rose: #fff4f6;
+      --rose-2: #f7e8ec;
+      --mint: #eaf8f1;
+      --green: #22c55e;
+      --text: #171417;
+      --muted: #676067;
+      --border: #eadde1;
+      --card: #ffffff;
+      --shadow: 0 20px 60px rgba(76, 6, 24, 0.08);
+      --shadow-soft: 0 12px 30px rgba(76, 6, 24, 0.07);
+      --radius: 18px;
+      --radius-lg: 26px;
+      --max-width: 1180px;
+      --nav-desktop-offset-y: 0px; /* Offset visual del nav en desktop (0 = sin mover) */
+    }
 
-  <title>EderCreaWebs — Sitios que solucionan problemas</title>
-  <link rel="icon" href="eder_favicon.png" type="image/png">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "v21lgoytzu");
-  </script>
+    html {
+      scroll-behavior: smooth;
+    }
 
-  <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(143, 20, 56, 0.09), transparent 34rem),
+        linear-gradient(180deg, #ffffff 0%, #fffafa 48%, #ffffff 100%);
+      line-height: 1.5;
+    }
 
-    fbq('init', '1641466280624093'); 
-    fbq('track', 'PageView');
-  </script>
-  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1641466280624093&ev=PageView&noscript=1"/></noscript>
-  
-  <link rel="stylesheet" href="style.css?v=7">
+    img {
+      max-width: 100%;
+      display: block;
+    }
 
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    .container {
+      width: min(var(--max-width), calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(234, 221, 225, 0.7);
+    }
+
+    .header-inner {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      font-size: 18px;
+    }
+
+    .brand-avatar,
+    .avatar-placeholder {
+      width: 34px;
+      height: 34px;
+        display: block;
+      border-radius: 999px;
+        background: #fff;
+        object-fit: contain;
+        border: 1px solid rgba(234, 221, 225, 0.9);
+      box-shadow: 0 8px 18px rgba(76, 6, 24, 0.16);
+    }
+
+      .avatar-placeholder,
+      .stack-avatar,
+      .testimonial-avatar {
+        width: 34px;
+        height: 34px;
+        display: block;
+        border-radius: 999px;
+        object-fit: cover;
+        background: #fff;
+        border: 2px solid #fff;
+        box-shadow: 0 8px 18px rgba(76, 6, 24, 0.16);
+      }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .main-nav a {
+      color: #1f151a;
+      transition: color 0.2s ease;
+    }
+
+    .main-nav a:hover {
+      color: var(--wine);
+    }
+
+    @media (min-width: 1101px) {
+      .main-nav {
+        transform: translateY(var(--nav-desktop-offset-y));
+      }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 0 24px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      font-weight: 900;
+      font-size: 15px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--wine), #6e0d2b);
+      color: #fff;
+      box-shadow: 0 15px 30px rgba(143, 20, 56, 0.25);
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: #1d191d;
+      border-color: #2d252a;
+      box-shadow: 0 8px 20px rgba(23, 20, 23, 0.05);
+    }
+
+    .btn-whatsapp {
+      width: 100%;
+      background: linear-gradient(135deg, #28c66f, #18a657);
+      color: #fff;
+      box-shadow: 0 18px 35px rgba(34, 197, 94, 0.24);
+    }
+
+    .cta-whatsapp-icon {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      flex: 0 0 auto;
+    }
+
+    .icon-placeholder,
+    .icon-card,
+    .process-icon {
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+    }
+
+    .hero {
+      min-height: calc(100svh - 76px);
+      padding: 42px 0 30px;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(620px, 1.14fr) minmax(440px, 0.86fr);
+      align-items: start;
+      gap: 24px;
+    }
+
+    .hero-copy {
+      max-width: 690px;
+      padding-top: 10px;
+    }
+
+    .eyebrow {
+      width: fit-content;
+      margin-bottom: 18px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--rose-2);
+      color: var(--wine);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .hero h1 {
+      max-width: 680px;
+      font-size: clamp(42px, 4.7vw, 62px);
+      line-height: 0.98;
+      letter-spacing: -0.07em;
+      font-weight: 950;
+    }
+
+    .hero h1 span {
+      color: var(--wine);
+      white-space: nowrap;
+    }
+
+    .hero-description {
+      max-width: 590px;
+      margin-top: 18px;
+      color: #363136;
+      font-size: 17px;
+      line-height: 1.52;
+    }
+
+    .hero-features {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 16px;
+      color: #4d454d;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .mini-feature {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .feature-icon-image {
+      width: 25px;
+      height: 25px;
+      object-fit: contain;
+      flex: 0 0 auto;
+    }
+
+    .hero-actions {
+      margin-top: 26px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .social-proof {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .social-proof strong {
+      color: var(--wine);
+    }
+
+    .avatar-stack {
+      display: flex;
+    }
+
+    .avatar-stack .stack-avatar + .stack-avatar {
+      margin-left: -10px;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 2px;
+    }
+
+    /* ── Modal de video ── */
+    .video-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .video-modal[hidden] { display: none; }
+
+    .video-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 4, 8, 0.82);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .video-modal-box {
+      position: relative;
+      width: min(100%, 860px);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6);
+      background: #000;
+      animation: modalIn 0.22s ease;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.94) translateY(12px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .video-modal-player {
+      display: block;
+      width: 100%;
+      max-height: 80vh;
+      background: #000;
+    }
+
+    .video-modal-close {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      z-index: 10;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: #fff;
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: background 0.15s;
+    }
+
+    .video-modal-close:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .hero-banner-image {
+      width: min(100%, 720px);
+      max-width: none;
+      max-height: min(72vh, 620px);
+      object-fit: contain;
+      filter: drop-shadow(0 24px 48px rgba(23, 20, 23, 0.16));
+    }
+
+    .image-placeholder {
+      display: grid;
+      place-items: center;
+      min-height: 180px;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(143, 20, 56, 0.10), rgba(255, 255, 255, 0.5)),
+        repeating-linear-gradient(45deg, rgba(143, 20, 56, 0.08) 0 8px, rgba(255, 255, 255, 0.28) 8px 16px);
+      border: 1px dashed rgba(143, 20, 56, 0.25);
+      color: rgba(76, 6, 24, 0.68);
+      text-align: center;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 18px;
+    }
+
+    @media (max-height: 860px) and (min-width: 821px) {
+      .hero {
+        min-height: calc(100svh - 76px);
+        padding: 24px 0 16px;
+      }
+
+      .hero-grid {
+        gap: 28px;
+      }
+
+      .eyebrow {
+        margin-bottom: 14px;
+      }
+
+      .hero h1 {
+        font-size: clamp(34px, 4.1vw, 54px);
+      }
+
+      .hero-description {
+        margin-top: 14px;
+        font-size: 15px;
+        line-height: 1.45;
+      }
+
+      .hero-features {
+        margin-top: 14px;
+        gap: 10px 14px;
+        font-size: 11px;
+      }
+
+      .mini-feature .icon-placeholder {
+        width: 22px;
+        height: 22px;
+      }
+
+      .hero-actions {
+        margin-top: 18px;
+      }
+
+      .btn {
+        min-height: 48px;
+        padding: 0 20px;
+        font-size: 14px;
+      }
+
+      .social-proof {
+        margin-top: 14px;
+        font-size: 13px;
+      }
+
+      .avatar-stack .stack-avatar {
+        width: 32px;
+        height: 32px;
+      }
+
+      .hero-visual {
+        min-height: 318px;
+        align-self: end;
+      }
+
+      .hero-banner-image {
+        max-width: 540px;
+        max-height: min(54vh, 390px);
+      }
+    }
+
+    section:not(.hero) {
+      padding: 42px 0;
+    }
+
+    #servicios {
+      scroll-margin-top: 92px;
+    }
+
+    #problemas {
+      scroll-margin-top: 92px;
+    }
+
+    #proceso {
+      scroll-margin-top: 92px;
+    }
+
+    #testimonios {
+      scroll-margin-top: 92px;
+    }
+
+    #cotizar {
+      scroll-margin-top: 92px;
+    }
+
+    .section-heading {
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(30px, 3vw, 42px);
+      line-height: 1.05;
+      letter-spacing: -0.06em;
+      font-weight: 950;
+    }
+
+    .section-heading p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 26px;
+    }
+
+    .benefit-card,
+    .testimonial-card,
+    .problem-card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+    }
+
+      /* Tarjeta de gracias: oculta en desktop, visible solo en móvil */
+      .problem-card-thanks {
+        display: none;
+      }
+
+    .benefit-card {
+      min-height: 150px;
+      padding: 18px 14px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      animation: fadeInUp 0.5s ease-out backwards;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+    }
+
+    .benefit-card:focus-visible {
+      outline: 3px solid rgba(143, 20, 56, 0.28);
+      outline-offset: 2px;
+    }
+
+    :is(.benefit-card, .problem-card, .testimonial-card).is-selected {
+      border-color: rgba(143, 20, 56, 0.52);
+      background: #fff9fb;
+      box-shadow: 0 18px 36px rgba(76, 6, 24, 0.2);
+      transform: translateY(-4px);
+    }
+
+    :is(.benefit-card, .problem-card, .testimonial-card).is-selected::after {
+      content: "✓";
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+      font-weight: 900;
+      color: #fff;
+      background: var(--wine);
+      box-shadow: 0 8px 18px rgba(76, 6, 24, 0.34);
+    }
+
+    @media (hover: hover) {
+      .benefit-card:hover {
+        transform: translateY(-6px) scale(1.03);
+        box-shadow: 0 12px 32px rgba(143, 20, 56, 0.18);
+        border-color: rgba(143, 20, 56, 0.35);
+      }
+
+      .benefit-card:hover .benefit-icon-image {
+        transform: scale(1.15) rotate(-4deg);
+      }
+    }
+
+    .benefit-icon-image {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      transition: transform 0.22s ease;
+    }
+
+    .benefit-card:nth-child(1) { animation-delay: 0.1s; }
+    .benefit-card:nth-child(2) { animation-delay: 0.2s; }
+    .benefit-card:nth-child(3) { animation-delay: 0.3s; }
+    .benefit-card:nth-child(4) { animation-delay: 0.4s; }
+    .benefit-card:nth-child(5) { animation-delay: 0.5s; }
+    .benefit-card:nth-child(6) { animation-delay: 0.6s; }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .icon-card {
+      width: 48px;
+      height: 48px;
+      color: var(--wine);
+      font-size: 31px;
+    }
+
+    .benefit-card h3 {
+      font-size: 16px;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .benefit-card p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .problems-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .problem-card {
+      position: relative;
+      overflow: hidden;
+      cursor: grab;
+      user-select: none;
+      transition: transform 0.2s ease-out, opacity 0.3s ease, box-shadow 0.15s ease;
+    }
+
+    .problem-card.swiped-right {
+      transform: translateX(120%) rotateZ(20deg);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .problem-card.swiped-left {
+      transform: translateX(-120%) rotateZ(-20deg);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .problem-card.glow-right {
+      box-shadow: 0 0 28px 6px rgba(22, 163, 74, 0.55);
+    }
+
+    .problem-card.glow-left {
+      box-shadow: 0 0 28px 6px rgba(220, 38, 38, 0.55);
+    }
+
+    @media (hover: hover) {
+      .problem-card:hover {
+        transform: translateY(-8px) scale(1.01);
+        border-color: rgba(143, 20, 56, 0.34);
+        box-shadow: 0 18px 38px rgba(76, 6, 24, 0.22);
+      }
+
+      .problem-card:hover .problem-image {
+        background-size: 106%;
+      }
+    }
+
+    .swipe-hint {
+      display: none;
+    }
+
+    .problem-image {
+      min-height: 205px;
+      border-radius: 0;
+      border-width: 0 0 1px;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    .problem-image-1 {
+      background-image: url("car0.png");
+    }
+
+    .problem-image-2 {
+      background-image: url("car1.png");
+    }
+
+    .problem-image-3 {
+      background-image: url("car2.png");
+    }
+
+    .problem-body {
+      padding: 22px;
+    }
+
+    .problem-label,
+    .case-label {
+      display: inline-block;
+      margin-bottom: 8px;
+      color: var(--wine);
+      font-size: 11px;
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .problem-body h3 {
+      font-size: 21px;
+      line-height: 1.12;
+      letter-spacing: -0.045em;
+      margin-bottom: 10px;
+    }
+
+    .problem-body > p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .solution-box {
+      padding: 16px;
+      border-radius: 14px;
+      background: var(--mint);
+      color: #24483a;
+    }
+
+    .solution-box strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #16a35a;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .solution-box p {
+      font-size: 13px;
+      color: #315544;
+    }
+
+    .process-box {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+      padding: 28px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .process-step {
+      text-align: center;
+      position: relative;
+      padding: 8px;
+      animation: fadeInDown 0.6s ease-out backwards;
+    }
+
+    /* Fade-in guiado por IntersectionObserver en móvil */
+    .process-step.step-hidden {
+      opacity: 0;
+      transform: translateY(22px);
+      animation: none;
+    }
+
+    .process-step.step-visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      animation: none;
+    }
+
+    .process-step:nth-child(1) { animation-delay: 0.1s; }
+    .process-step:nth-child(2) { animation-delay: 0.2s; }
+    .process-step:nth-child(3) { animation-delay: 0.3s; }
+    .process-step:nth-child(4) { animation-delay: 0.4s; }
+    .process-step:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .process-step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 42px;
+      right: -28px;
+      width: 56px;
+      border-top: 2px dashed rgba(143, 20, 56, 0.35);
+    }
+
+    .process-icon {
+      width: 66px;
+      height: 66px;
+      margin: 0 auto 12px;
+      display: grid;
+      place-items: center;
+      transition: transform 0.25s ease, filter 0.25s ease;
+    }
+
+    .process-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.25s ease, filter 0.25s ease;
+    }
+
+    .process-step:hover .process-icon {
+      transform: translateY(-4px) scale(1.05);
+      filter: drop-shadow(0 0 14px rgba(143, 20, 56, 0.32));
+    }
+
+    .process-step:hover .process-icon img {
+      transform: rotate(-3deg) scale(1.03);
+    }
+
+    .process-step h3 {
+      font-size: 15px;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+
+    .process-step p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .process-step {
+      animation: fadeInDown 0.6s ease-out forwards;
+    }
+
+    .process-step:nth-child(1) { animation-delay: 0.05s; }
+    .process-step:nth-child(2) { animation-delay: 0.15s; }
+    .process-step:nth-child(3) { animation-delay: 0.25s; }
+    .process-step:nth-child(4) { animation-delay: 0.35s; }
+    .process-step:nth-child(5) { animation-delay: 0.45s; }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .case-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      border: 4px solid var(--wine-dark);
+      background: var(--wine-dark);
+      box-shadow: 0 28px 70px rgba(76, 6, 24, 0.18);
+    }
+
+    .case-metrics {
+      padding: 36px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.13), transparent 18rem),
+        linear-gradient(135deg, #7b0d2c, #3a0514);
+    }
+
+    .case-metrics h2 {
+      font-size: 25px;
+      letter-spacing: -0.05em;
+      margin-bottom: 28px;
+    }
+
+    .case-label {
+      color: #ffdce7;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .metrics-grid strong {
+      display: block;
+      color: #ff6f9a;
+      font-size: 42px;
+      line-height: 1;
+      letter-spacing: -0.06em;
+    }
+
+    .metrics-grid p,
+    .case-metrics > p {
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .case-visual {
+      min-height: 270px;
+      border-radius: 0;
+      border: 0;
+      background: #f8f4f5 url("banner2.png") center/cover no-repeat;
+    }
+
+    .case-doctora-img {
+      display: none;
+    }
+
+    /* Tarjeta resumen testimonios: oculta en desktop */
+    .testimonial-thanks-card {
+      display: none;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+    }
+
+    .testimonial-card {
+      position: relative;
+      padding: 24px;
+      min-height: 205px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+      cursor: pointer;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, background-color 0.22s ease;
+    }
+
+    .testimonial-card:focus-visible {
+      outline: 3px solid rgba(143, 20, 56, 0.24);
+      outline-offset: 2px;
+    }
+
+    @media (hover: hover) {
+      .testimonial-card:hover {
+        transform: translateY(-8px) scale(1.01);
+        border-color: rgba(143, 20, 56, 0.34);
+        box-shadow: 0 18px 38px rgba(76, 6, 24, 0.22);
+      }
+    }
+
+    .testimonial-card.is-selected,
+    .problem-card.is-selected,
+    .benefit-card.is-selected {
+      border-color: rgba(143, 20, 56, 0.52);
+    }
+
+    .stars {
+      color: #f4b342;
+      letter-spacing: 0.12em;
+      font-size: 15px;
+    }
+
+    .testimonial-card p {
+      color: #514a51;
+      font-size: 13px;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .testimonial-avatar {
+      width: 44px;
+      height: 44px;
+      flex: 0 0 auto;
+    }
+
+    .testimonial-author strong,
+    .testimonial-author span {
+      display: block;
+    }
+
+    .testimonial-author strong {
+      font-size: 13px;
+    }
+
+    .testimonial-author span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .final-cta {
+      padding-bottom: 24px !important;
+    }
+
+    .cta-card {
+      display: grid;
+      grid-template-columns: 1.05fr 0.72fr 0.9fr;
+      align-items: start;
+      gap: 28px;
+      overflow: hidden;
+      min-height: 285px;
+      padding: 34px;
+      border-radius: var(--radius-lg);
+      background:
+        radial-gradient(circle at 70% 30%, rgba(255,255,255,0.14), transparent 20rem),
+        linear-gradient(135deg, var(--wine-deep), #6b0a28 52%, #2b030d 100%);
+      color: #fff;
+      box-shadow: 0 28px 70px rgba(76, 6, 24, 0.22);
+    }
+
+    .cta-form-copy h2 {
+      font-size: 24px;
+      letter-spacing: -0.05em;
+      margin-bottom: 20px;
+    }
+
+    .quote-form {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .quote-field {
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .quote-index {
+      color: #fff;
+      font-weight: 900;
+      font-size: 13px;
+      line-height: 36px;
+      text-align: center;
+    }
+
+    .quote-field strong {
+      color: #fff;
+      display: block;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .quote-input {
+      width: 100%;
+      min-height: 36px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      padding: 8px 10px;
+      font-size: 12px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    }
+
+    .quote-input::placeholder {
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .quote-input:focus {
+      border-color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18), 0 0 22px rgba(255, 124, 172, 0.42);
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .quote-input.glow-focus {
+      animation: focusGlow 1.2s ease-in-out 2;
+    }
+
+    @keyframes focusGlow {
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 124, 172, 0);
+      }
+      50% {
+        box-shadow: 0 0 0 4px rgba(255, 124, 172, 0.22), 0 0 24px rgba(255, 124, 172, 0.45);
+      }
+    }
+
+    .cta-form-copy > p {
+      margin-top: 10px;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.74);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .cta-person {
+      min-height: 250px;
+      align-self: stretch;
+      border: 0;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.12) url("Thumbn.png") center/cover no-repeat;
+      color: transparent;
+    }
+
+    .cta-benefits {
+      display: none;
+    }
+
+    .cta-faq-copy h2 {
+      font-size: 24px;
+      letter-spacing: -0.05em;
+      margin-bottom: 20px;
+    }
+
+    .faq-choice-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .faq-choice-item {
+      display: grid;
+      gap: 0;
+    }
+
+    .faq-choice {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 13px;
+      font-weight: 850;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .faq-choice.is-selected {
+      border-color: rgba(255, 255, 255, 0.75);
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 10px 24px rgba(76, 6, 24, 0.24);
+    }
+
+    .faq-choice-answer {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      padding: 0 12px;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 12px;
+      line-height: 1.55;
+      transition: max-height 0.24s ease, opacity 0.24s ease, padding 0.24s ease;
+    }
+
+    .faq-choice-item.is-open .faq-choice-answer {
+      max-height: 180px;
+      opacity: 1;
+      padding: 8px 12px 12px;
+    }
+
+    .faq-custom-wrap {
+      margin-top: 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .faq-custom-wrap label {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    .site-footer {
+      padding: 18px 0 24px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .site-footer nav {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      width: 38px;
+      height: 38px;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      place-items: center;
+      gap: 5px;
+      padding: 8px;
+    }
+
+    .mobile-menu-btn span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      border-radius: 999px;
+      background: #171417;
+    }
+
+    .faq {
+      display: none;
+    }
+
+    .faq-list {
+      display: grid;
+        padding: 20px 0 14px;
+    }
+
+    .faq-item {
+        grid-template-columns: minmax(600px, 1.12fr) minmax(420px, 0.88fr);
+        gap: 20px;
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .faq-item summary {
+        max-width: 650px;
+        font-size: clamp(38px, 4.25vw, 56px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+        max-width: 570px;
+        font-size: 16px;
+        line-height: 1.48;
+      font-size: 14px;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item summary::after {
+      content: "⌄";
+      color: var(--wine);
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .faq-item[open] summary::after {
+      transform: rotate(180deg);
+    }
+
+    .faq-item p {
+      padding: 0 18px 18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .mobile-trust-row {
+      display: none;
+    }
+
+    /* Paso 3: responsive para tablet y celular */
+    @media (max-width: 1100px) {
+      .container {
+        width: min(100% - 36px, var(--max-width));
+      }
+
+      .main-nav {
+        display: none;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 44px;
+      }
+
+      .hero-copy {
+        text-align: center;
+      }
+
+      .hero-copy .eyebrow,
+      .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-features,
+      .hero-actions,
+      .social-proof {
+        justify-content: center;
+      }
+
+      .hero-visual {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      .benefits-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .process-box {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .process-step:not(:last-child)::after {
+        display: none;
+      }
+
+      .testimonials-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cta-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 820px) {
+      body {
+        background:
+          radial-gradient(circle at top left, rgba(143, 20, 56, 0.07), transparent 22rem),
+          #fffdfd;
+      }
+
+      .container {
+        width: min(100% - 32px, 420px);
+      }
+
+      .site-header {
+        position: static;
+        background: #fff;
+        border-bottom: 0;
+        backdrop-filter: none;
+      }
+
+      .header-inner {
+        min-height: 76px;
+        align-self: center;
+        gap: 12px;
+      }
+
+      .brand {
+        font-size: 14px;
+      }
+
+      .brand-avatar {
+        width: 36px;
+        height: 36px;
+      }
+
+      .header-cta,
+      .main-nav {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: grid;
+      }
+
+      .hero {
+        min-height: calc(100svh - 70px);
+        padding: 34px 0 48px;
+      }
+
+      .hero-grid {
+        gap: 40px;
+      }
+
+      .hero-copy {
+        text-align: left;
+      }
+
+      .hero-copy .eyebrow,
+      .hero-description {
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      .eyebrow {
+        margin-bottom: 18px;
+        padding: 8px 13px;
+        font-size: 11px;
+        border-radius: 12px;
+      }
+
+      .hero h1 {
+        font-size: 46px;
+        line-height: 1.08;
+        letter-spacing: -0.065em;
+      }
+
+      .hero-description {
+        margin-top: 18px;
+        font-size: 17px;
+        line-height: 1.76;
+      }
+
+      .hero-features {
+        margin-top: 24px;
+        display: grid;
+        grid-template-columns: 1fr;
+        justify-content: initial;
+        gap: 12px;
+        text-align: left;
+      }
+
+      .mini-feature {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        font-size: 14px;
+        font-weight: 900;
+      }
+
+      .feature-icon-image {
+        width: 26px;
+        height: 26px;
+      }
+
+      .hero-actions {
+        margin-top: 32px;
+        align-items: stretch;
+        justify-content: initial;
+        gap: 14px;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+      }
+
+      .btn {
+        min-height: 66px;
+        border-radius: 13px;
+        font-size: 16px;
+      }
+
+      .social-proof {
+        justify-content: flex-start;
+        margin-top: 30px;
+        gap: 14px;
+        font-size: 14px;
+      }
+
+      .avatar-stack .stack-avatar {
+        width: 37px;
+        height: 37px;
+      }
+
+      .hero-visual {
+        display: none;
+      }
+
+      section:not(.hero) {
+        padding: 34px 0;
+      }
+
+      .section-heading {
+        margin-bottom: 22px;
+        text-align: center;
+      }
+
+      .section-heading h2 {
+        font-size: 30px;
+        line-height: 1.12;
+        letter-spacing: -0.055em;
+      }
+
+      .section-heading p {
+        max-width: 330px;
+        margin: 8px auto 0;
+        font-size: 15px;
+        line-height: 1.55;
+      }
+
+      .benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .benefit-card:nth-child(5) {
+        grid-column: 1 / -1;
+      }
+
+      .benefit-card {
+        min-height: 140px;
+        padding: 16px 12px;
+      }
+
+      .icon-card {
+        width: 44px;
+        height: 44px;
+        font-size: 28px;
+      }
+
+      .benefit-card h3 {
+        font-size: 14px;
+        line-height: 1.15;
+      }
+
+      .benefit-card p {
+        font-size: 11px;
+        line-height: 1.5;
+      }
+
+      .problems-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      /* Tinder stack en mobile */
+      .problems-grid {
+        display: block;
+        position: relative;
+        height: 520px;
+        transition: height 0.4s ease;
+      }
+
+      .problem-card {
+        border-radius: 15px;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+      }
+
+      .problem-card:nth-child(1) { z-index: 3; transform: rotate(0deg); }
+      .problem-card:nth-child(2) { z-index: 2; transform: rotate(2deg) translateY(10px) scale(0.97); }
+      .problem-card:nth-child(3) { z-index: 1; transform: rotate(-2deg) translateY(20px) scale(0.94); }
+
+      /* ── Stack testimonios (igual que problems) ── */
+      .testimonials-grid {
+        display: block;
+        position: relative;
+        height: 310px;
+        transition: height 0.4s ease;
+      }
+
+      .testimonials-grid .testimonial-card {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        border-radius: 15px;
+        overflow: hidden;
+        cursor: grab;
+        user-select: none;
+        transition: transform 0.2s ease-out, opacity 0.3s ease, box-shadow 0.15s ease;
+      }
+
+      .testimonials-grid .testimonial-card:nth-child(1) { z-index: 5; transform: rotate(0deg); }
+      .testimonials-grid .testimonial-card:nth-child(2) { z-index: 4; transform: rotate(1.5deg) translateY(8px) scale(0.98); }
+      .testimonials-grid .testimonial-card:nth-child(3) { z-index: 3; transform: rotate(-1.5deg) translateY(16px) scale(0.96); }
+      .testimonials-grid .testimonial-card:nth-child(4) { z-index: 2; transform: rotate(1deg) translateY(24px) scale(0.94); }
+      .testimonials-grid .testimonial-card:nth-child(5) { z-index: 1; transform: rotate(-1deg) translateY(32px) scale(0.92); }
+
+      .testimonial-card.t-swiped-right {
+        transform: translateX(120%) rotateZ(20deg);
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .testimonial-card.t-swiped-left {
+        transform: translateX(-120%) rotateZ(-20deg);
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .testimonial-card.t-glow-right { box-shadow: 0 0 28px 6px rgba(22, 163, 74, 0.55); }
+      .testimonial-card.t-glow-left  { box-shadow: 0 0 28px 6px rgba(220, 38, 38, 0.55); }
+
+      /* reset is-selected transform dentro del stack */
+      .testimonials-grid .testimonial-card.is-selected {
+        transform: none;
+        box-shadow: none;
+      }
+
+      .problem-card-thanks {
+        z-index: 0;
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.95) translateY(16px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+        cursor: default;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 340px;
+        border-color: rgba(143, 20, 56, 0.3);
+        background: #fff9fb;
+      }
+
+      .problem-card-thanks.is-visible {
+        opacity: 1;
+        pointer-events: auto;
+        transform: scale(1) translateY(0);
+      }
+
+      .thanks-body {
+        text-align: center;
+        padding: 32px 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .thanks-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 999px;
+        background: var(--wine);
+        color: #fff;
+        font-size: 26px;
+        font-weight: 900;
+        display: grid;
+        place-items: center;
+        box-shadow: 0 8px 20px rgba(76, 6, 24, 0.3);
+      }
+
+      .thanks-body h3 {
+        font-size: 24px;
+        color: var(--wine);
+        margin: 0;
+      }
+
+      .thanks-body p {
+        font-size: 15px;
+        color: #514a51;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      .btn-continuar {
+        margin-top: 6px;
+        padding: 14px 36px;
+        background: var(--wine);
+        color: #fff;
+        border: none;
+        border-radius: var(--radius);
+        font-size: 16px;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(76, 6, 24, 0.28);
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+      }
+
+      .btn-continuar:active {
+        transform: scale(0.96);
+        box-shadow: 0 4px 10px rgba(76, 6, 24, 0.22);
+      }
+
+      .testimonial-thanks-card {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 0;
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.95) translateY(16px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+        cursor: default;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 16px;
+        padding: 28px 20px;
+        background: #fff9fb;
+        border: 1.5px solid rgba(143, 20, 56, 0.2);
+        border-radius: 15px;
+        box-shadow: 0 8px 24px rgba(76, 6, 24, 0.1);
+      }
+
+      .testimonial-thanks-card.is-visible {
+        opacity: 1;
+        pointer-events: auto;
+        transform: scale(1) translateY(0);
+      }
+
+      .thanks-icon-wrap {
+        width: 52px;
+        height: 52px;
+        border-radius: 999px;
+        background: var(--wine);
+        color: #fff;
+        font-size: 26px;
+        font-weight: 900;
+        display: grid;
+        place-items: center;
+        box-shadow: 0 8px 20px rgba(76, 6, 24, 0.28);
+      }
+
+      .testimonial-thanks-card h3 {
+        font-size: 22px;
+        color: var(--wine);
+        margin: 0;
+        letter-spacing: -0.04em;
+      }
+
+      .thanks-summary-body {
+        width: 100%;
+        background: rgba(143, 20, 56, 0.06);
+        border-radius: 10px;
+        padding: 12px 16px;
+        text-align: left;
+        min-height: 20px;
+      }
+
+      .thanks-summary-body ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .thanks-summary-body li {
+        font-size: 13px;
+        color: #514a51;
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        line-height: 1.5;
+      }
+
+      .thanks-summary-body li::before {
+        content: "✓";
+        color: var(--wine);
+        font-weight: 900;
+        font-size: 12px;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      .thanks-note {
+        font-size: 14px;
+        color: #514a51;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      .swipe-hint {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(255, 255, 255, 0.92);
+        border-radius: 999px;
+        padding: 6px 6px;
+        margin-bottom: 18px;
+        box-shadow: 0 4px 18px rgba(76, 6, 24, 0.12);
+        border: 1px solid rgba(143, 20, 56, 0.1);
+        animation: hintPulse 2.4s ease-in-out infinite;
+      }
+
+      .hint-chip {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 8px 16px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+        white-space: nowrap;
+      }
+
+      .swipe-hint .hint-left {
+        background: #fef2f2;
+        color: #dc2626;
+      }
+
+      .swipe-hint .hint-right {
+        background: #f0fdf4;
+        color: #16a34a;
+      }
+
+      .hint-center {
+        font-size: 10px;
+        font-weight: 700;
+        color: #9a8a92;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        text-align: center;
+        flex: 1;
+        padding: 0 4px;
+      }
+
+      .hint-arrow {
+        font-size: 16px;
+        line-height: 1;
+      }
+
+      @keyframes hintPulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.65; transform: scale(0.97); }
+      }
+
+      .problem-image {
+        min-height: 212px;
+      }
+
+      .problem-body {
+        padding: 18px;
+      }
+
+      .problem-label,
+      .case-label {
+        font-size: 10px;
+      }
+
+      .problem-body h3 {
+        font-size: 22px;
+        line-height: 1.14;
+      }
+
+      .problem-body > p {
+        font-size: 14px;
+      }
+
+      .solution-box {
+        padding: 15px;
+        border-radius: 12px;
+      }
+
+      .process-box {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0;
+        padding: 0;
+        border: 0;
+        box-shadow: none;
+        background: transparent;
+        position: relative;
+      }
+
+      .process-box::before {
+        content: "";
+        position: absolute;
+        left: 32px;
+        top: 28px;
+        bottom: 28px;
+        width: 2px;
+        background: #ead4da;
+      }
+
+      .process-step {
+        display: grid;
+        grid-template-columns: 66px 1fr;
+        align-items: start;
+        gap: 12px;
+        text-align: left;
+        padding: 0 0 24px;
+        background: transparent;
+        border-radius: 0;
+        position: relative;
+      }
+
+      .process-step:last-child {
+        padding-bottom: 0;
+      }
+
+      .process-step:not(:last-child)::after {
+        display: none;
+      }
+
+      .process-icon {
+        width: 58px;
+        height: 58px;
+        margin: 0;
+        font-size: 25px;
+        z-index: 1;
+      }
+
+      .process-step h3 {
+        padding-top: 4px;
+        font-size: 14px;
+      }
+
+      .process-step p {
+        grid-column: 2;
+        cursor: pointer;
+        transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+        line-height: 1.55;
+
+      .testimonial-picker-subtitle {
+        margin-top: 8px;
+        color: var(--wine);
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+      }
+
+      .testimonial-card:focus-visible {
+        outline: 3px solid rgba(143, 20, 56, 0.24);
+        outline-offset: 2px;
+      }
+
+      .testimonial-card.is-selected {
+        border-color: rgba(143, 20, 56, 0.52);
+        box-shadow: 0 18px 36px rgba(76, 6, 24, 0.2);
+        transform: translateY(-4px);
+      }
+
+      @media (hover: hover) {
+        .testimonial-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 14px 28px rgba(76, 6, 24, 0.16);
+        }
+      }
+      }
+
+      .case-card {
+
+        .testimonial-picker-subtitle {
+          display: none;
+        }
+        grid-template-columns: 1fr;
+        border: 0;
+        border-radius: 16px;
+        background: transparent;
+        box-shadow: 0 24px 48px rgba(76, 6, 24, 0.18);
+      }
+
+      .case-metrics {
+        padding: 26px 24px;
+        border-radius: 16px;
+      }
+
+      .case-metrics h2 {
+        font-size: 24px;
+        line-height: 1.15;
+      }
+
+      .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+
+      .metrics-grid div:last-child {
+        grid-column: 1 / -1;
+      }
+
+      .metrics-grid strong {
+        font-size: 40px;
+      }
+
+      .case-visual {
+        display: none;
+      }
+
+      .case-metrics {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .case-doctora-img {
+        display: block;
+        position: absolute;
+        bottom: 0;
+        right: -8px;
+        height: 94%;
+        width: auto;
+        object-fit: contain;
+        object-position: bottom right;
+        opacity: 0.18;
+        mix-blend-mode: luminosity;
+        pointer-events: none;
+        user-select: none;
+      }
+
+      .testimonial-thanks-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 16px;
+        padding: 28px 20px;
+        background: #fff9fb;
+        border: 1.5px solid rgba(143, 20, 56, 0.2);
+        border-radius: 15px;
+        box-shadow: 0 8px 24px rgba(76, 6, 24, 0.1);
+      }
+
+      .thanks-icon-wrap {
+        width: 52px;
+        height: 52px;
+        border-radius: 999px;
+        background: var(--wine);
+        color: #fff;
+        font-size: 26px;
+        font-weight: 900;
+        display: grid;
+        place-items: center;
+        box-shadow: 0 8px 20px rgba(76, 6, 24, 0.28);
+      }
+
+      .testimonial-thanks-card h3 {
+        font-size: 22px;
+        color: var(--wine);
+        margin: 0;
+        letter-spacing: -0.04em;
+      }
+
+      .thanks-summary-body {
+        width: 100%;
+        background: rgba(143, 20, 56, 0.06);
+        border-radius: 10px;
+        padding: 12px 16px;
+        text-align: left;
+        min-height: 20px;
+      }
+
+      .thanks-summary-body ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .thanks-summary-body li {
+        font-size: 13px;
+        color: #514a51;
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        line-height: 1.5;
+      }
+
+      .thanks-summary-body li::before {
+        content: "✓";
+        color: var(--wine);
+        font-weight: 900;
+        font-size: 12px;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      .thanks-note {
+        font-size: 14px;
+        color: #514a51;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      .testimonial-card {
+        min-height: auto;
+        padding: 28px 22px;
+        text-align: center;
+        border-radius: 15px;
+      }
+
+      .stars {
+        font-size: 17px;
+      }
+
+      .testimonial-card p {
+        font-size: 15px;
+        line-height: 1.65;
+      }
+
+      .testimonial-author {
+        justify-content: center;
+        text-align: left;
+      }
+
+      .testimonial-avatar {
+        width: 46px;
+        height: 46px;
+      }
+
+      .testimonial-author strong {
+        font-size: 15px;
+      }
+
+      .testimonial-author span {
+        font-size: 13px;
+      }
+
+      .cta-card {
+        grid-template-columns: 1fr;
+        padding: 24px;
+        gap: 18px;
+        min-height: auto;
+        border-radius: 16px;
+      }
+
+      .cta-person {
+        display: block;
+        min-height: 210px;
+        border-radius: 16px;
+      }
+
+      .cta-benefits {
+        display: none;
+      }
+
+      .cta-form-copy h2 {
+        font-size: 25px;
+        line-height: 1.12;
+      }
+
+      .quote-list li {
+        grid-template-columns: 1fr;
+        gap: 3px;
+        padding: 11px 14px;
+        font-size: 12px;
+        border-radius: 12px;
+      }
+
+      .btn-whatsapp {
+        min-height: 58px;
+        background: linear-gradient(135deg, #26c766, #18a657);
+      }
+
+      .faq {
+        display: block;
+      }
+
+      .mobile-trust-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 32px;
+        text-align: center;
+      }
+
+      .mobile-trust-row span {
+        width: 58px;
+        height: 58px;
+        display: grid;
+        place-items: center;
+        margin: 0 auto 8px;
+        border-radius: 999px;
+        background: var(--rose);
+        color: var(--wine);
+        font-size: 24px;
+      }
+
+      .mobile-trust-row p {
+        color: #4d454d;
+        font-size: 12px;
+        line-height: 1.25;
+        font-weight: 800;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+      }
+
+      .site-footer nav {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        width: min(100% - 28px, 390px);
+      }
+
+      .hero {
+        padding: 10px 0 12px;
+        min-height: 0;
+      }
+
+      .hero-grid {
+        gap: 0;
+      }
+
+      .hero-copy {
+        text-align: center;
+      }
+
+      .hero-copy .eyebrow,
+      .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .eyebrow {
+        margin-bottom: 8px;
+        padding: 5px 11px;
+        font-size: 10px;
+      }
+
+      .hero h1 {
+        font-size: 42px;
+        line-height: 1.05;
+        letter-spacing: -0.05em;
+      }
+
+      .hero-description {
+        font-size: 13px;
+        line-height: 1.48;
+        margin-top: 9px;
+      }
+
+      .hero-features {
+        grid-template-columns: repeat(2, 1fr);
+        justify-items: start;
+        gap: 7px 12px;
+        margin-top: 11px;
+      }
+
+      .mini-feature {
+        font-size: 12px;
+        gap: 5px;
+      }
+
+      .feature-icon-image {
+        width: 18px;
+        height: 18px;
+      }
+
+      .hero-actions {
+        margin-top: 12px;
+        gap: 8px;
+        justify-content: center;
+      }
+
+      .hero-actions .btn {
+        min-height: 46px;
+        font-size: 13px;
+        padding: 0 14px;
+      }
+
+      .social-proof {
+        margin-top: 10px;
+        font-size: 12px;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      .avatar-stack .stack-avatar {
+        width: 28px;
+        height: 28px;
+      }
+
+      .btn {
+        min-height: 46px;
+        font-size: 14px;
+      }
+
+      .section-heading h2 {
+        font-size: 26px;
+      }
+
+      .section-heading p {
+        font-size: 14px;
+      }
+
+      .benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .benefit-card:nth-child(5) {
+        grid-column: auto;
+      }
+
+      .benefit-card {
+        min-height: auto;
+        padding: 12px 10px;
+        font-size: 13px;
+      }
+
+      .benefit-card h3 {
+        font-size: 13px;
+      }
+
+      .benefit-card p {
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .problems-grid {
+        gap: 16px;
+      }
+
+      .problem-image {
+        min-height: 180px;
+      }
+
+      .problem-body h3 {
+        font-size: 20px;
+      }
+
+      .process-box::before {
+        left: 26px;
+      }
+
+      .process-step {
+        grid-template-columns: 54px 1fr;
+        gap: 10px;
+      }
+
+      .process-icon {
+        width: 46px;
+        height: 46px;
+      }
+
+      .case-metrics {
+        padding: 22px 18px;
+      }
+
+      .metrics-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .metrics-grid div:last-child {
+        grid-column: auto;
+      }
+
+      .metrics-grid strong {
+        font-size: 30px;
+      }
+
+      .cta-card {
+        padding: 18px;
+      }
+
+      .cta-form-copy h2 {
+        font-size: 22px;
+      }
+
+      .quote-list li {
+        padding: 10px 12px;
+        font-size: 11.5px;
+      }
+
+      .mobile-trust-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .mobile-trust-row div:last-child {
+        grid-column: 1 / -1;
+        justify-self: center;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .container {
+        width: min(100% - 22px, 340px);
+      }
+
+      .hero h1 {
+        font-size: 30px;
+      }
+
+      .hero-description {
+        font-size: 14px;
+      }
+
+      .section-heading h2 {
+        font-size: 24px;
+      }
+
+      .problem-body,
+      .testimonial-card,
+      .case-metrics {
+        padding: 16px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-  <header class="topbar">
-    <div class="wrap">
-      <div class="row">
-        <div class="navBrand">
-          <img class="navLogo" src="eder_favicon.png" alt="Eder Crea Webs">
-        </div>
-        <span class="navName">edercreawebs</span>
-        <div class="navMenuWrap">
-          <button class="navHamburger" id="navHamburger" type="button" aria-expanded="false" aria-controls="navMenu" aria-label="Abrir menú">
-            <span></span><span></span><span></span>
-          </button>
-          <div class="navMenu" id="navMenu" role="menu" aria-hidden="true">
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#" class="brand" aria-label="Eder Crea Webs">
+        <img class="brand-avatar" src="/eder_favicon.png" alt="Eder Crea Webs" />
+        <span>edercreawebs</span>
+      </a>
 
-            <div class="navToggleRow">
-              <span class="navToggleLabel">Light &amp; Dark</span>
-              <button class="navDarkToggle" id="darkToggle" type="button" role="switch" aria-checked="false">
-                <span class="navDarkToggle-ball"></span>
-              </button>
-            </div>
+      <nav class="main-nav" aria-label="Navegación principal">
+        <a href="#servicios">Beneficios</a>
+        <a href="#problemas">Problemas</a>
+        <a href="#proceso">Proceso</a>
+        <a href="#testimonios">Testimonios</a>
+        <a href="#cotizar">Preguntas</a>
+      </nav>
 
-            <a class="navMenuItem" href="/cursos/" role="menuitem">Ver cursos</a>
-            <a class="navMenuItem" href="https://wa.link/eah465" target="_blank" rel="noopener noreferrer" role="menuitem">Hablar con Eder</a>
-          </div>
-        </div>
-      </div>
+      <a href="#cotizar" class="btn btn-primary header-cta js-open-quote">
+        <img class="cta-whatsapp-icon" src="/whatsapp_white.png" alt="WhatsApp" />
+        Quiero cotizar mi web
+      </a>
+
+      <button class="mobile-menu-btn" aria-label="Abrir menú">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </header>
 
-  <main class="wrap">
-
+  <main>
+    <!-- HERO -->
     <section class="hero" id="inicio">
-      <div class="heroGrid">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Sitios web para psicólogos</div>
 
-        <div class="heroContent">
-          <div class="pretag"><span class="pin"></span> Sitios web para Psicólogos</div>
-
-          <h1 class="h1">
-            Deja de <span class="accent">perder pacientes</span><br>
+          <h1>
+            Deja de <span>perder pacientes</span><br />
             mientras estás en consulta
-            <span class="case"></span>
           </h1>
 
-          <div class="credRow">
-            <div class="stars">-65% Menos Ausencias</div>
-            <div class="credTag">+32% Citas Agendadas</div>
-          </div>
-
-          <p class="sub">
-            Sitio web + Agenda automática y recordatorios por WhatsApp que <strong>reducen ausencias y cancelaciones</strong> mientras tú estás en consulta.
+          <p class="hero-description">
+            Te creo una web profesional que genera confianza, explica tus servicios y permite agendar o escribirte por WhatsApp <strong>sin que tengas que contestar todo el día.</strong>
           </p>
 
-          <div class="heroCtaRow">
-            <button class="btn btnPrimary btnLg" type="button" id="btnWatchCase">
-              Ver el caso real (30 seg)
-            </button>
-            <a class="btn btnGreen btnLg" href="https://wa.link/eah465" target="_blank" rel="noopener noreferrer">Lo entiendo, hablar con Eder.</a>
-          </div>
-        </div> 
-
-        <div class="vsl-wrap">
-          <div class="vsl-videoBox" id="vslSection">
-
-            <div class="flip-card-inner" id="flipCard">
-              
-              <div class="flip-card-front">
-                <video id="vslVideo" playsinline preload="metadata" poster="hero1.gif">
-                  <source src="v1_1.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5.
-                </video>
-
-                <div class="vsl-overlay" id="vslOverlay">
-                  <div class="vsl-overlayPill">
-                    <div class="vsl-overlayCard">
-                      <div class="vsl-title">Tu video ya empezó</div>
-                      <div class="vsl-sub">Haz clic para escuchar desde el inicio</div>
-                      <button id="vslStartAudio" type="button">▶ Escuchar</button>
-                    </div>
-                  </div>
-                </div>
-
-                <button class="btn-demo-overlay" id="btnDemoOverlay">
-                   🤖 Usar Demo Chatbot
-                </button>
-
-                <div class="vsl-controls">
-                  <button id="vslPlayPause" type="button">⏸</button>
-                  <button id="vslRestart" type="button">↺</button>
-                  <button id="vslMute" type="button">🔇</button>
-                </div>
-
-                <div class="vsl-progress">
-                  <div class="vsl-progress-fill" id="vslProgress"></div>
-                </div>
-              </div>
-
-              <div class="flip-card-back">
-                <button class="btn-flip-back" id="btnFlipBack" title="Volver al video">✕</button>
-                
-                <div class="ew-embedded" id="ewEmbedded">
-                  <div class="ew-head">
-                    <div class="ew-badge">🤖</div>
-                    <div class="ew-title">
-                      <b>Asistente de Eder</b>
-                      <span>Precalificación y Agenda</span>
-                    </div>
-                  </div>
-
-                  <div class="ew-body" id="ewBodyEmbedded"></div>
-                  
-                  <div class="calendly-container" id="calendlyContainer">
-                    <div class="calendly-inline-widget" data-url="https://calendly.com/ederarmo/30min?hide_landing_page_details=1&hide_gdpr_banner=1" style="min-width:320px;height:100%;"></div>
-                    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
-                  </div>
-
-                  <div class="ew-foot" id="ewFootEmbedded">
-                    <input class="ew-input" id="ewInputEmbedded" placeholder="Escribe aquí..." />
-                    <button class="ew-send" id="ewSendEmbedded">➜</button>
-                  </div>
-                </div>
-              </div>
-
+          <div class="hero-features">
+            <div class="mini-feature">
+              <img class="feature-icon-image" src="/i4.png" alt="Icono de monitor" />
+              Sitio web profesional
             </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <section class="logos-credibilidad">
-      <div class="wrap">
-        <h4>Experto en las mejores plataformas</h4>
-        <div class="logos-container">
-          <img src="wix.png" alt="Wix">
-          <img src="shopify.png" alt="Shopify">
-          <img src="hostinger.png" alt="Hostinger">
-        </div>
-      </div>
-    </section>
-
-    <section class="results" id="resultados">
-    <section class="herramientas" id="herramientas">
-      <div class="wrap">
-        <h2 class="sectionTitle">Lo que puedo integrar en tu <span class="sectionAccent">web</span></h2>
-        <p class="herr-sub">Haz clic en cualquier herramienta para ver el demo.</p>
-
-        <div class="herr-showcase">
-          <div class="herr-row herr-row-top">
-            <button class="herr-tile priority-medium" data-label="Banner de promoción" data-video="">
-              <span class="herr-emoji">📢</span>
-              <span class="herr-name">Banner de<br>promoción</span>
-              <span class="herr-tag">+10% en ventas</span>
-            </button>
-            <button class="herr-tile priority-medium" data-label="Calendario / Agenda" data-video="">
-              <span class="herr-emoji">📅</span>
-              <span class="herr-name">Calendario<br>/ Agenda</span>
-              <span class="herr-tag">Reservas 24/7</span>
-            </button>
-            <button class="herr-tile priority-high" data-label="Login de usuarios" data-video="">
-              <span class="herr-emoji">🔐</span>
-              <span class="herr-name">Login de<br>usuarios</span>
-              <span class="herr-tag">Auth seguro</span>
-            </button>
-            <button class="herr-tile priority-high" data-label="Área de administrador" data-video="">
-              <span class="herr-emoji">⚙️</span>
-              <span class="herr-name">Área de<br>administrador</span>
-              <span class="herr-tag">Panel privado</span>
-            </button>
-          </div>
-
-          <div class="herr-column herr-column-left">
-            <button class="herr-tile priority-medium" data-label="Formularios personalizados" data-video="">
-              <span class="herr-emoji">📝</span>
-              <span class="herr-name">Formularios<br>personalizados</span>
-              <span class="herr-tag">Captura leads</span>
-            </button>
-            <button class="herr-tile priority-medium" data-label="Reproductor de video" data-video="">
-              <span class="herr-emoji">🎬</span>
-              <span class="herr-name">Reproductor<br>de video</span>
-              <span class="herr-tag">Player propio</span>
-            </button>
-            <button class="herr-tile priority-high" data-label="Base de datos · Supabase" data-video="">
-              <span class="herr-emoji">🗄️</span>
-              <span class="herr-name">Base de datos<br>· Supabase</span>
-              <span class="herr-tag">Tiempo real</span>
-            </button>
-            <button class="herr-tile priority-high" data-label="Radio en stream" data-video="">
-              <span class="herr-emoji">📻</span>
-              <span class="herr-name">Radio en<br>stream</span>
-              <span class="herr-tag">Audio en vivo</span>
-            </button>
-          </div>
-
-          <div class="herr-player-card">
-            <div class="herr-player-top">
-              <span class="herr-player-dot"></span>
-              <span class="herr-player-dot"></span>
-              <span class="herr-player-dot"></span>
-              <span class="herr-player-title" id="herrTitle">← Elige una herramienta del grid</span>
+            <div class="mini-feature">
+              <img class="feature-icon-image" src="/i3.png" alt="Icono de calendario" />
+              Agenda automática
             </div>
-            <div class="herr-player-body" id="herrPlayerBody">
-              <div class="herr-placeholder" id="herrPlaceholder">
-                <div class="herr-placeholder-play">▶</div>
-                <p>Selecciona una herramienta del grid</p>
-              </div>
-              <iframe id="herrIframe" title="Demo de herramienta" frameborder="0"
-                allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"
-                style="display:none; width:100%; height:100%; border-radius:0 0 var(--radius) var(--radius);"></iframe>
+            <div class="mini-feature">
+              <img class="feature-icon-image" src="/i2.png" alt="Icono de WhatsApp" />
+              WhatsApp conectado
+            </div>
+            <div class="mini-feature">
+              <img class="feature-icon-image" src="/i1.png" alt="Icono de recordatorios" />
+              Recordatorios
             </div>
           </div>
 
-          <div class="herr-column herr-column-right">
-            <button class="herr-tile priority-high" data-label="Video en la nube · Cloudflare" data-video="">
-              <span class="herr-emoji">☁️</span>
-              <span class="herr-name">Video en la nube<br>· Cloudflare</span>
-              <span class="herr-tag">Streaming seguro</span>
-            </button>
-            <button class="herr-tile priority-medium" data-label="Botón de llamada" data-video="">
-              <span class="herr-emoji">📞</span>
-              <span class="herr-name">Botón de<br>llamada</span>
-              <span class="herr-tag">1 clic = llamada</span>
-            </button>
-            <button class="herr-tile priority-medium" data-label="Botón de WhatsApp" data-video="">
-              <span class="herr-emoji">💬</span>
-              <span class="herr-name">Botón de<br>WhatsApp</span>
-              <span class="herr-tag">Contacto directo</span>
-            </button>
-            <button class="herr-tile priority-high" data-label="Tienda en línea" data-video="">
-              <span class="herr-emoji">🛍️</span>
-              <span class="herr-name">Tienda en<br>línea</span>
-              <span class="herr-tag">Ecommerce</span>
-            </button>
-          </div>
-
-          <div class="herr-row herr-row-bottom">
-            <button class="herr-tile priority-high" data-label="Pago con tarjeta" data-video="">
-              <span class="herr-emoji">💳</span>
-              <span class="herr-name">Pago con<br>tarjeta</span>
-              <span class="herr-tag">Stripe / MP</span>
-            </button>
-            <button class="herr-tile priority-base" data-label="Correo profesional" data-video="">
-              <span class="herr-emoji">📧</span>
-              <span class="herr-name">Correo<br>profesional</span>
-              <span class="herr-tag">tu@dominio.com</span>
-            </button>
-            <button class="herr-tile priority-base" data-label="Hosting" data-video="">
-              <span class="herr-emoji">🌐</span>
-              <span class="herr-name">Hosting</span>
-              <span class="herr-tag">Siempre online</span>
-            </button>
-            <button class="herr-tile priority-base" data-label="Dominio" data-video="">
-              <span class="herr-emoji">🔗</span>
-              <span class="herr-name">Dominio</span>
-              <span class="herr-tag">tudominio.com</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="problems" id="problemas">
-      <h2 class="sectionTitle">Los problemas que YO <span class="sectionAccent">resuelvo</span></h2>
-
-      <div class="problem-container">
-
-        <div class="problem-item">
-          <div class="problem-trigger" onclick="toggleSolution(1)">
-            <div class="problemHead" style="margin-bottom:0">
-              <div class="pill">#1</div>
-              <h3>Pierdes clientes porque no contestas</h3>
-            </div>
-            <button class="btn-solucion" id="btn-sol-1">Ver Solución #1</button>
-          </div>
-          <div id="sol-1" class="solucion-content">
-            <div class="solucion-grid">
-              <img src="tu-imagen-agenda.png" alt="Agenda Digital">
-              <span class="plus-sign">+</span>
-              <img src="tu-imagen-chatbot4.gif" alt="Chatbot WhatsApp">
-            </div>
-            <p class="sol-footer-text">Permite agendar sin contactarte + Respuesta automática 24/7.</p>
-          </div>
-        </div>
-
-        <div class="problem-item">
-          <div class="problem-trigger" onclick="toggleSolution(2)">
-            <div class="problemHead" style="margin-bottom:0">
-              <div class="pill">#2</div>
-              <h3>Venta lenta y desgastante</h3>
-            </div>
-            <button class="btn-solucion" id="btn-sol-2">Ver Solución #2</button>
-          </div>
-          <div id="sol-2" class="solucion-content">
-            <div class="solucion-grid">
-              <img src="tu-imagen-cta.png" alt="Un solo CTA">
-              <span class="plus-sign">+</span>
-              <img src="tu-imagen-simplificar.png" alt="Simplificar compra">
-            </div>
-            <p class="sol-footer-text">Reducimos los clics para comprarte con un embudo directo.</p>
-          </div>
-        </div>
-
-        <div class="problem-item">
-          <div class="problem-trigger" onclick="toggleSolution(3)">
-            <div class="problemHead" style="margin-bottom:0">
-              <div class="pill">#3</div>
-              <h3>No confían en ti</h3>
-            </div>
-            <button class="btn-solucion" id="btn-sol-3">Ver Solución #3</button>
-          </div>
-          <div id="sol-3" class="solucion-content">
-            <div class="solucion-grid">
-              <img src="tu-imagen-testimonios.png" alt="Testimonios">
-              <span class="plus-sign">+</span>
-              <img src="tu-imagen-rostro1.png" alt="Ver rostro">
-            </div>
-            <p class="sol-footer-text">78% de pacientes eligen por opiniones + Ver tu rostro genera autoridad.</p>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <section>
-      <div class="ctaRow">
-        <a class="btn btnGreen btnWide" href="https://wa.link/eah465" target="_blank">Lo entiendo, hablemos.</a>
-      </div>
-    </section>
-
-    <section class="social-proof-videos" id="videos-sociales">
-      <div class="wrap">
-        <div class="social-proof-head">
-          <h2 class="sectionTitle social-proof-title">+44 mil personas siguen mis <span class="sectionAccent">videos</span></h2>
-          <p class="social-proof-copy">Te invito a verlos. Aquí tienes tres ejemplos rápidos del tipo de contenido con el que explico sistemas, herramientas y decisiones web que sí mueven negocio.</p>
-        </div>
-
-        <div class="social-video-carousel-shell">
-          <div class="social-video-controls" aria-label="Navegar videos">
-            <button type="button" id="videoPrev" aria-label="Ver videos anteriores">←</button>
-            <button type="button" id="videoNext" aria-label="Ver más videos">→</button>
-          </div>
-
-          <div class="social-video-grid" id="videoTrack">
-            <article class="social-video-card">
-              <div class="social-video-shell">
-                <a class="social-watermark-link" href="https://www.tiktok.com/@edercreawebs" target="_blank" rel="noopener noreferrer" aria-label="Ver TikTok de Eder">
-                  <img src="tiktok logo.png" alt="TikTok">
-                </a>
-              <iframe
-                class="social-video-iframe"
-                src="https://customer-hwj8nccxmfdfhkme.cloudflarestream.com/9fe3760fc18a59d105d5004fefd2441f/iframe?muted=true&loop=true&autoplay=true&preload=true&poster=https%3A%2F%2Fcustomer-hwj8nccxmfdfhkme.cloudflarestream.com%2F9fe3760fc18a59d105d5004fefd2441f%2Fthumbnails%2Fthumbnail.jpg"
-                allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
-                allowfullscreen
-                loading="lazy"
-                title="Clase de Canva Para Celular"
-              ></iframe>
-              <div class="social-video-overlay">
-                <span class="social-overlay-pill">Clase de Canva Para Celular</span>
-                <details class="social-video-details">
-                  <summary>Ver más</summary>
-                  <div class="social-video-copy">
-                    <div class="social-video-copy-header">
-                      <img class="social-video-copy-avatar" src="eder_favicon.png" alt="edercreawebs">
-                      <div class="social-video-copy-meta">
-                        <strong>edercreawebs</strong>
-                        <span>EderCrearWebs · 2025-12-27</span>
-                      </div>
-                    </div>
-                    <p class="social-video-copy-title">Clase De Canva Para Celular #1</p>
-                    <p class="social-video-copy-subtitle">Hoy el INTERFAZ ⬇️</p>
-                    <ol>
-                      <li>Menú</li>
-                      <li>Buscador</li>
-                      <li>Noticias</li>
-                      <li>Acceso Rapido</li>
-                      <li>Herramientas AI</li>
-                      <li>Diseños Recientes</li>
-                      <li>Secciones por Formato</li>
-                      <li>Navegador</li>
-                    </ol>
-                    <p class="social-video-tags">#edercreawebs #canva #canvacelular #interfaz #tutorial</p>
-                    <p class="social-video-less">menos</p>
-                    <p class="social-video-sound">♪ sonido original - EderCrearWebs</p>
-                    <div class="social-video-location">📍 Guadalajara Centro · Guadalajara, Jalisco</div>
-                  </div>
-                </details>
-              </div>
-              <div class="social-video-stat" aria-label="205.4 mil visualizaciones">
-                <span class="social-video-play" aria-hidden="true"></span>
-                <span>205.4K</span>
-              </div>
-            </div>
-          </article>
-
-          <article class="social-video-card">
-            <div class="social-video-shell">
-              <a class="social-watermark-link" href="https://www.tiktok.com/@edercreawebs" target="_blank" rel="noopener noreferrer" aria-label="Ver TikTok de Eder">
-                <img src="tiktok logo.png" alt="TikTok">
-              </a>
-              <iframe
-                class="social-video-iframe"
-                src="https://customer-hwj8nccxmfdfhkme.cloudflarestream.com/a0c6d2c778b6593ee261b968919a6885/iframe?muted=true&loop=true&autoplay=true&preload=true&poster=https%3A%2F%2Fcustomer-hwj8nccxmfdfhkme.cloudflarestream.com%2Fa0c6d2c778b6593ee261b968919a6885%2Fthumbnails%2Fthumbnail.jpg"
-                allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
-                allowfullscreen
-                loading="lazy"
-                title="TRUCO DE TEXTO: CAPAS EN CANVA #2"
-              ></iframe>
-              <div class="social-video-overlay">
-                <span class="social-overlay-pill">TRUCO DE TEXTO: CAPAS EN CANVA #2</span>
-                <details class="social-video-details">
-                  <summary>Ver más</summary>
-                  <div class="social-video-copy">
-                    <div class="social-video-copy-header">
-                      <img class="social-video-copy-avatar" src="eder_favicon.png" alt="edercreawebs">
-                      <div class="social-video-copy-meta">
-                        <strong>edercreawebs</strong>
-                        <span>EderCrearWebs · 2025-12-27</span>
-                      </div>
-                    </div>
-                    <p class="social-video-copy-title">Pon las Redes de Tu Negocio Para Darte La Plantilla</p>
-                    <ol>
-                      <li>T para Texto</li>
-                      <li>Posición -&gt; Capas</li>
-                      <li>Mueve su posición: Detrás o Adelante</li>
-                    </ol>
-                    <p class="social-video-tags">#edercreawebs #canva #texto #capas #tutorial</p>
-                    <p class="social-video-less">menos</p>
-                    <p class="social-video-sound">♪ sonido original - EderCrearWebs</p>
-                    <div class="social-video-location">📍 Guadalajara Centro · Guadalajara, Jalisco</div>
-                  </div>
-                </details>
-              </div>
-              <div class="social-video-stat" aria-label="5706 visualizaciones">
-                <span class="social-video-play" aria-hidden="true"></span>
-                <span>5706</span>
-              </div>
-            </div>
-          </article>
-
-          <article class="social-video-card">
-            <div class="social-video-shell">
-              <a class="social-watermark-link" href="https://www.tiktok.com/@edercreawebs" target="_blank" rel="noopener noreferrer" aria-label="Ver TikTok de Eder">
-                <img src="tiktok logo.png" alt="TikTok">
-              </a>
-              <iframe
-                class="social-video-iframe"
-                src="https://customer-hwj8nccxmfdfhkme.cloudflarestream.com/e05f9f3706bbf1178744b4f999576f7b/iframe?muted=true&loop=true&autoplay=true&preload=true&poster=https%3A%2F%2Fcustomer-hwj8nccxmfdfhkme.cloudflarestream.com%2Fe05f9f3706bbf1178744b4f999576f7b%2Fthumbnails%2Fthumbnail.jpg"
-                allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
-                allowfullscreen
-                loading="lazy"
-                title="Cómo consigo clientes"
-              ></iframe>
-              <div class="social-video-overlay">
-                <span class="social-overlay-pill">Cómo consigo clientes</span>
-                <details class="social-video-details">
-                  <summary>Ver más</summary>
-                  <div class="social-video-copy">
-                    <div class="social-video-copy-header">
-                      <img class="social-video-copy-avatar" src="eder_favicon.png" alt="edercreawebs">
-                      <div class="social-video-copy-meta">
-                        <strong>edercreawebs</strong>
-                        <span>EderCrearWebs · 2025-12-27</span>
-                      </div>
-                    </div>
-                    <p class="social-video-copy-title">3 Maneras en las que he conseguido clientes.</p>
-                    <ol>
-                      <li>Ir a Google Maps y comparar quién no sale o quién no tiene web.</li>
-                      <li>Marcar desde casa usando Google Maps para ver los teléfonos.</li>
-                      <li>Crear videos: grabarte ayuda a la credibilidad; en 1 min enseñas que sabes.</li>
-                    </ol>
-                    <p class="social-video-tags">#edercreawebs #hostinger #shopify #wix #sitiosweb</p>
-                    <p class="social-video-less">menos</p>
-                    <p class="social-video-sound">♪ sonido original - EderCrearWebs</p>
-                    <div class="social-video-location">📍 Guadalajara Centro · Guadalajara, Jalisco</div>
-                  </div>
-                </details>
-              </div>
-              <div class="social-video-stat" aria-label="64.8 mil visualizaciones">
-                <span class="social-video-play" aria-hidden="true"></span>
-                <span>64.8K</span>
-              </div>
-            </div>
-          </article>
-        </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="testimonios-section">
-      <div class="reviews-carousel-head">
-        <h2 class="sectionTitle"><span class="sectionAccent">Testimonios</span></h2>
-      </div>
-
-      <div class="reviews-carousel-shell">
-        <div class="reviews-controls" aria-label="Navegar testimonios">
-          <button type="button" id="reviewsPrev" aria-label="Ver testimonios anteriores">←</button>
-          <button type="button" id="reviewsNext" aria-label="Ver más testimonios">→</button>
-        </div>
-
-        <div class="reviews-grid" id="reviewsTrack">
-
-        <div class="review-card">
-          <img src="g.png" class="g-icon" alt="Google">
-          <div class="review-header">
-            <img class="review-avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Edgar Razo">
-            <div class="review-info">
-              <b>Edgar Razo</b>
-              <small>15/05/2021</small>
-            </div>
-          </div>
-          <div class="review-stars">★★★★★</div>
-          <p>Atento, da seguimiento y es muy claro con el proceso de creación, correcciones y entrega 👍</p>
-        </div>
-
-        <div class="review-card">
-          <img src="g.png" class="g-icon" alt="Google">
-          <div class="review-header">
-            <img class="review-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Carmen Ortega">
-            <div class="review-info">
-              <b>Carmen Ortega</b>
-              <small>21/01/2024</small>
-            </div>
-          </div>
-          <div class="review-stars">★★★★★</div>
-          <p>Muy profesional, Eder es muy directo y sabe de lo que habla sobre todo si haces campañas.</p>
-        </div>
-
-        <div class="review-card">
-          <img src="g.png" class="g-icon" alt="Google">
-          <div class="review-header">
-            <img class="review-avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Julia Mercado">
-            <div class="review-info">
-              <b>Julia Mercado</b>
-              <small>15/07/2025</small>
-            </div>
-          </div>
-          <div class="review-stars">★★★★★</div>
-          <p>Como Eder ya hace contenido, entiende muy bien el área digital 10/10 🧡</p>
-        </div>
-
-        <div class="review-card">
-          <img src="g.png" class="g-icon" alt="Google">
-          <div class="review-header">
-            <img class="review-avatar" src="https://randomuser.me/api/portraits/women/52.jpg" alt="Mariana López">
-            <div class="review-info">
-              <b>Mariana López</b>
-              <small>08/11/2024</small>
-            </div>
-          </div>
-          <div class="review-stars">★★★★★</div>
-          <p>Me ayudó a aterrizar mi idea y el sitio quedó mucho más claro para que la gente sí me escriba.</p>
-        </div>
-
-        <div class="review-card">
-          <img src="g.png" class="g-icon" alt="Google">
-          <div class="review-header">
-            <img class="review-avatar" src="https://randomuser.me/api/portraits/men/54.jpg" alt="Luis Gutiérrez">
-            <div class="review-info">
-              <b>Luis Gutiérrez</b>
-              <small>02/02/2025</small>
-            </div>
-          </div>
-          <div class="review-stars">★★★★★</div>
-          <p>Responde rápido, propone mejoras y te dice directo qué funciona y qué no para vender mejor.</p>
-        </div>
-
-        </div>
-      </div>
-    </section>
-
-    <section class="cursos-banner" id="importante">
-      <div class="cursos-banner-inner">
-        <div class="cursos-copy cursos-copy-left">
-          <p class="cursos-banner-label">Nuevo curso de Canva</p>
-          <h3 class="cursos-banner-title">Aprende a Crear Sitios Web en Canva</h3>
-          <p class="cursos-banner-sub">Nivel desde Cero a Canva Creator.</p>
-          <div class="cursos-banner-pills" aria-label="Detalles del curso">
-            <span class="cursos-pill"><span class="cursos-pill-icon">◔</span>55:30 de contenido</span>
-            <span class="cursos-pill"><span class="cursos-pill-icon">▤</span>131 lecciones</span>
-            <span class="cursos-pill"><span class="cursos-pill-icon">★</span>Indice por capitulo</span>
-            <span class="cursos-pill"><span class="cursos-pill-icon">🏆</span>500 XP totales</span>
-          </div>
-        </div>
-
-        <div class="cursos-banner-center" aria-hidden="true"></div>
-
-        <div class="cursos-copy cursos-copy-right">
-          <p class="cursos-price-line">De <span class="old-price">$2,000 MXN</span></p>
-          <p class="cursos-price-line cursos-price-now">Hoy <span class="new-price">$1,200 MXN</span></p>
-          <a class="btn btnPrimary" href="/cursos/">Tomar el curso</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="questions" id="contacto">
-      <h2 class="sectionTitle">Para cotizarte, te <span class="sectionAccent">preguntaré</span>:</h2>
-      <div class="qList">
-        <div class="qItem">
-          <span class="qNum">#1</span>
-          <div><strong>¿Qué vendes?</strong> Producto o servicio.</div>
-        </div>
-        <div class="qItem">
-          <span class="qNum">#2</span>
-          <div><strong>¿Qué esperas recibir?</strong> Resultados, referencias o ejemplos que te gusten.</div>
-        </div>
-      </div>
-
-      <div class="ctaRow">
-        <a class="btn btnWhatsapp" href="https://wa.link/eah465" target="_blank" rel="noopener">
-          <img src="logo%20whatsapp.png" alt="WhatsApp">
-          Hablar con Eder
-        </a>
-      </div>
-
-    </section>
-
-    <footer>
-      <section class="logos-credibilidad">
-        <div class="wrap">
-          <div class="logos-container1">
-            <img class="footer-seal" src="s1.png" alt="Garantía de 30 días">
-            <a class="footer-photo-link" href="/cursos/" aria-label="Ir al área de cursos">
-              <img class="footer-photo" src="eder_favicon.png" alt="Ir al área de cursos">
+          <div class="hero-actions">
+            <a href="#cotizar" class="btn btn-primary js-open-quote">
+              <img class="cta-whatsapp-icon" src="/whatsapp_white.png" alt="WhatsApp" />
+              Quiero cotizar mi web
             </a>
-            <img class="footer-seal" src="s3.png" alt="Compra segura">
+            <button type="button" class="btn btn-secondary" id="btn-ver-ejemplo">
+              <span class="icon-placeholder">▶</span>
+              Ver ejemplo real
+            </button>
+          </div>
+
+          <div class="social-proof">
+            <div class="avatar-stack">
+              <img class="stack-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Cliente satisfecha" />
+              <img class="stack-avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Cliente satisfecho" />
+              <img class="stack-avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Cliente satisfecha" />
+              <img class="stack-avatar" src="https://randomuser.me/api/portraits/men/75.jpg" alt="Cliente satisfecho" />
+            </div>
+            <p><strong>+44 mil personas</strong> siguen mis consejos en redes</p>
           </div>
         </div>
-      </section>
 
-      <div class="foot">
-        <div><strong>Si construyes el camino, ellos vendrán.</strong></div>
+        <div class="hero-visual" id="ejemplos">
+          <img
+            class="hero-banner-image"
+            src="/img_banner.png"
+            alt="Ejemplo de sitio web para psicólogos mostrado en laptop y celular"
+          />
+        </div>
+      </div>
+    </section>
 
-        <div class="footLinks">
-          <a href="https://wa.link/eah465" target="_blank">Agendar</a>
-          <a href="https://www.instagram.com/edercreawebs/" target="_blank">Instagram</a>
-          <a href="https://www.tiktok.com/@edercreawebs" target="_blank">TikTok</a>
-          <a href="/cursos/">Cursos</a>
-          <a href="terminos">Condiciones</a>
-          <a href="politicas">Privacidad</a>
+    <!-- BENEFICIOS -->
+    <section class="benefits" id="servicios">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Beneficios activos 24/7</h2>
+          <p>Elige cuáles son los más importantes para ti</p>
         </div>
 
-        <div>© 2026 Eder Crea Webs. Todos los derechos reservados.</div>
-      </div>
-    </footer>
+        <div class="benefits-grid">
+          <article class="benefit-card">
+            <img class="benefit-icon-image" src="/e0.png" alt="Icono de agenda" />
+            <h3>Agendar sin fricción</h3>
+            <p>Tus pacientes eligen día y hora sin escribirte constantemente.</p>
+          </article>
 
+          <article class="benefit-card">
+            <img class="benefit-icon-image" src="/wp.png" alt="Icono de WhatsApp" />
+            <h3>WhatsApp directo</h3>
+            <p>Botón flotante para que te escriban al instante desde cualquier página.</p>
+          </article>
+
+          <article class="benefit-card">
+            <img class="benefit-icon-image" src="/e1.png" alt="Icono de recordatorio" />
+            <h3>Menos ausencias</h3>
+            <p>Enviamos recordatorios automáticos para reducir cancelaciones.</p>
+          </article>
+
+          <article class="benefit-card">
+            <img class="benefit-icon-image" src="/e2.png" alt="Icono de mensaje" />
+            <h3>Explica y convence</h3>
+            <p>Servicios, enfoque, proceso y precios claros para generar confianza.</p>
+          </article>
+
+          <article class="benefit-card">
+            <img class="benefit-icon-image" src="/e4.png" alt="Icono de estrella" />
+            <h3>Testimonios que venden</h3>
+            <p>Opiniones reales que ayudan a que nuevos pacientes confíen en ti.</p>
+          </article>
+
+          <article class="benefit-card">
+            <img class="benefit-icon-image" src="/e3.png" alt="Icono de anuncios" />
+            <h3>Optimizada para anuncios</h3>
+            <p>Diseñada para convertir visitas de Facebook, Instagram o Google.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEMAS -->
+    <section class="problems" id="problemas">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Los problemas que resuelvo</h2>
+          <p>Elige 1 o más problemas que tengas</p>
+        </div>
+
+        <div class="swipe-hint" role="note" aria-label="Instrucción de swipe">
+          <span class="hint-chip hint-left">
+            <span class="hint-arrow">&#8592;</span>No es mi caso
+          </span>
+          <span class="hint-center">desliza</span>
+          <span class="hint-chip hint-right">
+            S&iacute; me pasa<span class="hint-arrow">&#8594;</span>
+          </span>
+        </div>
+
+        <div class="problems-grid">
+          <article class="problem-card">
+            <div class="problem-image problem-image-1" role="img" aria-label="Paciente revisando mensajes en celular"></div>
+            <div class="problem-body">
+              <span class="problem-label">Problema #1</span>
+              <h3>Me escriben, pero no siempre puedo contestar</h3>
+              <p>Pierdes pacientes porque no alcanzas a responder.</p>
+              <div class="solution-box">
+                <strong>Solución</strong>
+                <p>Tu web responde por ti, muestra tus servicios y lleva al paciente directo a agendar o escribirte.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="problem-card">
+            <div class="problem-image problem-image-2" role="img" aria-label="Persona con dudas sobre elegir terapeuta"></div>
+            <div class="problem-body">
+              <span class="problem-label">Problema #2</span>
+              <h3>Tengo que explicar lo mismo una y otra vez</h3>
+              <p>Te desgasta y te quita tiempo de lo importante: tus sesiones.</p>
+              <div class="solution-box">
+                <strong>Solución</strong>
+                <p>Creamos una página clara con tus respuestas, proceso, precios y preguntas frecuentes.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="problem-card">
+            <div class="problem-image problem-image-3" role="img" aria-label="Psicologa saturada de preguntas frecuentes"></div>
+            <div class="problem-body">
+              <span class="problem-label">Problema #3</span>
+              <h3>La gente no sabe si confiar en mí</h3>
+              <p>Si no muestras tu experiencia y enfoque, no te eligen.</p>
+              <div class="solution-box">
+                <strong>Solución</strong>
+                <p>Mostramos tu formación, enfoque, testimonios y contenido para que confíen en ti.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="problem-card problem-card-thanks" id="problem-thanks" aria-hidden="true">
+            <div class="problem-body thanks-body">
+              <div class="thanks-icon">✓</div>
+              <h3>¡Gracias!</h3>
+              <p>Tus respuestas ayudan a personalizar tu cotización.<br>Sigue llenando y toca el botón de WhatsApp cuando estés listo.</p>
+              <button id="btn-continuar" class="btn btn-continuar" type="button">Continuar</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESO -->
+    <section class="process" id="proceso">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Así es el proceso para crear tu web</h2>
+        </div>
+
+        <div class="process-box">
+          <article class="process-step">
+            <div class="process-icon"><img src="l0.png" alt="" loading="lazy"></div>
+            <h3>1. Me platicas tu situación</h3>
+            <p>Hablamos de tu servicio, objetivos y lo que necesitas lograr con tu web.</p>
+          </article>
+
+          <article class="process-step">
+            <div class="process-icon"><img src="l2.png" alt="" loading="lazy"></div>
+            <h3>2. Te propongo estructura y precio</h3>
+            <p>Te envío una propuesta clara con tiempos y lo que incluye tu página.</p>
+          </article>
+
+          <article class="process-step">
+            <div class="process-icon"><img src="l3.png" alt="" loading="lazy"></div>
+            <h3>3. Diseño tu web enfocada en resultados</h3>
+            <p>Creamos un sitio profesional, claro y pensado para convertir visitantes en pacientes.</p>
+          </article>
+
+          <article class="process-step">
+            <div class="process-icon"><img src="l4.png" alt="" loading="lazy"></div>
+            <h3>4. Conectamos todo</h3>
+            <p>Integramos agenda, WhatsApp, formularios, recordatorios y lo que necesites.</p>
+          </article>
+
+          <article class="process-step">
+            <div class="process-icon"><img src="l5.png" alt="" loading="lazy"></div>
+            <h3>5. Publicamos y te acompaño</h3>
+            <p>Tu web en línea y te explico cómo usarla. No te dejo solo.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CASO REAL -->
+    <section class="case-study">
+      <div class="container">
+        <div class="case-card">
+          <div class="case-metrics">
+            <img src="doctora_cel.png" class="case-doctora-img" alt="" aria-hidden="true" loading="lazy">
+            <span class="case-label">Caso real</span>
+            <h2>Psicóloga Clínica - Atención online</h2>
+            <div class="metrics-grid">
+              <div>
+                <strong>+73%</strong>
+                <p>más consultas agendadas</p>
+              </div>
+              <div>
+                <strong>-58%</strong>
+                <p>menos ausencias a consulta</p>
+              </div>
+              <div>
+                <strong>+2.7x</strong>
+                <p>más mensajes calificados</p>
+              </div>
+            </div>
+            <p>Resultados en los primeros 60 días con su nueva web + agenda automática.</p>
+          </div>
+
+          <div class="case-visual" role="img" aria-label="Caso real de terapeuta"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIOS -->
+    <section class="testimonials" id="testimonios">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Lo que dicen mis clientes</h2>
+          <p class="testimonial-picker-subtitle">Elige cual situacion se parece mas a la tuya</p>
+        </div>
+
+        <div class="swipe-hint testimonial-swipe-hint" role="note" aria-label="Instrucción de swipe testimonios">
+          <span class="hint-chip hint-left">
+            <span class="hint-arrow">&#8592;</span>No me pasa
+          </span>
+          <span class="hint-center">desliza</span>
+          <span class="hint-chip hint-right">
+            Me identifico<span class="hint-arrow">&#8594;</span>
+          </span>
+        </div>
+
+        <div class="testimonials-grid">
+          <article class="testimonial-card testimonial-choice">
+            <div class="stars">★★★★★</div>
+            <p>“Mi web me ha traído más pacientes de los que esperaba. La agenda automática cambió por completo mi consulta.”</p>
+            <div class="testimonial-author">
+              <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Carmen Ortega" />
+              <div><strong>Carmen Ortega</strong><span>Psicóloga Clínica</span></div>
+            </div>
+          </article>
+
+          <article class="testimonial-card testimonial-choice">
+            <div class="stars">★★★★★</div>
+            <p>“Antes perdía muchos mensajes. Ahora todo llega por WhatsApp y la gente agenda sin tanto ir y venir.”</p>
+            <div class="testimonial-author">
+              <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Edgar Razo" />
+              <div><strong>Edgar Razo</strong><span>Terapeuta Familiar</span></div>
+            </div>
+          </article>
+
+          <article class="testimonial-card testimonial-choice">
+            <div class="stars">★★★★★</div>
+            <p>“El diseño transmite confianza y profesionalismo. Mis pacientes siempre me dicen que mi web se ve increíble.”</p>
+            <div class="testimonial-author">
+              <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Julia Mercado" />
+              <div><strong>Julia Mercado</strong><span>Psicoterapeuta</span></div>
+            </div>
+          </article>
+
+          <article class="testimonial-card testimonial-choice">
+            <div class="stars">★★★★★</div>
+            <p>“Menos ausencias, más orden y más tiempo para mis pacientes. 100% recomendado.”</p>
+            <div class="testimonial-author">
+              <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/women/21.jpg" alt="Mariana López" />
+              <div><strong>Mariana López</strong><span>Psicóloga</span></div>
+            </div>
+          </article>
+
+          <article class="testimonial-card testimonial-choice">
+            <div class="stars">★★★★★</div>
+            <p>“Eder entendió perfecto lo que necesitaba y lo convirtió en una web que realmente vende mi servicio.”</p>
+            <div class="testimonial-author">
+              <img class="testimonial-avatar" src="https://randomuser.me/api/portraits/men/75.jpg" alt="Luis Gutiérrez" />
+              <div><strong>Luis Gutiérrez</strong><span>Psicólogo Clínico</span></div>
+            </div>
+          </article>
+
+          <!-- Tarjeta resumen (solo móvil) -->
+          <div class="testimonial-thanks-card" id="testimonial-thanks">
+            <div class="thanks-icon-wrap"><span>&#10003;</span></div>
+            <h3>¡Ya casi terminas!</h3>
+            <div class="thanks-summary-body" id="thanks-summary-body"></div>
+            <p class="thanks-note">Solo falta un paso: responde 3 preguntas rápidas y te preparo una cotización personalizada para tu web.</p>
+            <button id="btn-ir-cotizar" class="btn btn-continuar" type="button">Cotizar mi web →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="final-cta" id="cotizar">
+      <div class="container">
+        <div class="cta-card">
+          <div class="cta-form-copy">
+            <h2>Para cotizar tu web</h2>
+            <div class="quote-form">
+              <label class="quote-field" for="quote-service">
+                <span class="quote-index">1.</span>
+                <span>
+                  <strong>Qué servicio ofreces</strong>
+                  <input id="quote-service" class="quote-input" type="text" placeholder="psicología, terapia, talleres, cursos, etc." />
+                </span>
+              </label>
+              <label class="quote-field" for="quote-goal">
+                <span class="quote-index">2.</span>
+                <span>
+                  <strong>Qué quieres que haga tu web</strong>
+                  <input id="quote-goal" class="quote-input" type="text" placeholder="agendar, vender, informar, captar, automatizar, etc." />
+                </span>
+              </label>
+              <label class="quote-field" for="quote-ref">
+                <span class="quote-index">3.</span>
+                <span>
+                  <strong>Referencias que te gustan</strong>
+                  <input id="quote-ref" class="quote-input" type="text" placeholder="páginas que te gusten o se parezcan a lo que buscas." />
+                </span>
+              </label>
+            </div>
+            <a href="https://wa.link/eah465" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp" id="send-quote-whatsapp">
+              <img class="cta-whatsapp-icon" src="/whatsapp_white.png" alt="WhatsApp" />
+              Quiero cotizar mi web por WhatsApp
+            </a>
+            <p>Ahorra tiempo: llena estas preguntas para cotizarte mejor.</p>
+          </div>
+
+          <div class="cta-person" role="img" aria-label="Imagen de muestra para cotizacion"></div>
+
+          <div class="cta-faq-copy" id="preguntas">
+            <h2>Preguntas Frecuentes</h2>
+            <div class="faq-choice-list" role="radiogroup" aria-label="Preguntas frecuentes para cotización">
+              <div class="faq-choice-item">
+                <button type="button" class="faq-choice faq-accordion-trigger" data-faq-value="¿Cuánto tarda en estar lista mi web?">¿Cuánto tarda en estar lista mi web?</button>
+                <div class="faq-choice-answer">Depende del alcance, pero una web sencilla puede estar lista en pocos días si ya tenemos textos, imágenes y la idea clara.</div>
+              </div>
+              <div class="faq-choice-item">
+                <button type="button" class="faq-choice faq-accordion-trigger" data-faq-value="¿Puedo pedir cambios después de verla?">¿Puedo pedir cambios después de verla?</button>
+                <div class="faq-choice-answer">Sí. La idea es revisar contigo la estructura y hacer ajustes para que la web comunique mejor lo que vendes.</div>
+              </div>
+              <div class="faq-choice-item">
+                <button type="button" class="faq-choice faq-accordion-trigger" data-faq-value="¿También me ayudas con WhatsApp o formularios?">¿También me ayudas con WhatsApp o formularios?</button>
+                <div class="faq-choice-answer">Sí. Podemos conectar botones, formularios o mensajes prediseñados para que tus prospectos te contacten con menos fricción.</div>
+              </div>
+              <div class="faq-choice-item">
+                <button type="button" class="faq-choice faq-choice-other" data-faq-value="Otra pregunta">Otra pregunta</button>
+              </div>
+            </div>
+            <div class="faq-custom-wrap" id="faq-custom-wrap" hidden>
+              <label for="faq-custom-question"><strong>Escribe tu pregunta:</strong></label>
+              <input id="faq-custom-question" class="quote-input" type="text" placeholder="Escribe aquí tu pregunta" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <div class="ew-fabWrap" aria-label="Widgets de contacto">
-    <a class="ew-fab ew-fabWA" id="ewWA" href="https://wa.link/eah465" target="_blank" rel="noopener">
-      <span class="ew-fabIcon">💬</span>
-      <span>Hablar conmigo</span>
-    </a>
-  </div>
-
-  <div class="ew-panel" id="ewPanel" role="dialog" aria-modal="true" aria-label="Asistente demo">
-    <div class="ew-head">
-      <div class="ew-headLeft">
-        <div class="ew-badge">🤖</div>
-        <div class="ew-title">
-          <b>Asistente de Eder</b>
-          <span>Agenda tu Estrategia</span>
-        </div>
-      </div>
-      <button class="ew-x" id="ewClose" aria-label="Cerrar" type="button">✕</button>
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© 2026 Eder Crea Webs. Todos los derechos reservados.</p>
+      <nav aria-label="Enlaces secundarios">
+        <a href="https://wa.link/eah465" target="_blank" rel="noopener noreferrer">Agendar</a>
+        <a href="https://www.instagram.com/edercreawebs/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://www.tiktok.com/@edercreawebs" target="_blank" rel="noopener noreferrer">TikTok</a>
+        <a href="/cursos/">Cursos</a>
+        <a href="terminos">Condiciones</a>
+        <a href="politicas">Privacidad</a>
+      </nav>
     </div>
+  </footer>
 
-    <div class="ew-body" id="ewBody"></div>
+  <script>
+    // Ocultar header estático en mobile al cargar
+    (function () {
+      function scrollPastHeader() {
+        if (window.innerWidth <= 820) {
+          const header = document.querySelector('.site-header');
+          const h = header ? header.offsetHeight : 70;
+          window.scrollTo(0, h);
+        }
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', scrollPastHeader);
+      } else {
+        scrollPastHeader();
+      }
+    }());
 
-    <div class="ew-foot">
-      <input class="ew-input" id="ewInput" placeholder="Escribe aquí..." />
-      <button class="ew-send" id="ewSend" type="button">Enviar</button>
+    const formState = {
+      businessType: '',
+      websiteGoal: '',
+      selectedServices: [],
+      selectedProblems: [],
+      selectedTestimonials: [],
+      selectedFaqQuestion: '',
+      customQuestion: '',
+      name: '',
+      phone: '',
+      whatsappMessage: '',
+    };
+
+    function syncFormState() {
+      formState.businessType = (document.getElementById('quote-service')?.value || '').trim();
+      formState.websiteGoal = (document.getElementById('quote-goal')?.value || '').trim();
+      formState.selectedServices = Array.from(document.querySelectorAll('.benefits .benefit-card.is-selected h3')).map(el => el.textContent.trim());
+      formState.selectedProblems = Array.from(document.querySelectorAll('.problems .problem-card.is-selected h3')).map(el => el.textContent.trim());
+      formState.selectedTestimonials = Array.from(document.querySelectorAll('.testimonials .testimonial-card.is-selected p')).map(el => (el.textContent || '').replace(/[“”]/g, '').trim());
+      formState.customQuestion = (document.getElementById('faq-custom-question')?.value || '').trim();
+      formState.name = (document.getElementById('quote-name')?.value || '').trim();
+      formState.phone = (document.getElementById('quote-phone')?.value || '').trim();
+      return formState;
+    }
+
+    function initMultiSelectableCards(selector, { eventName = '' } = {}) {
+      const cards = Array.from(document.querySelectorAll(selector));
+      if (!cards.length) return;
+
+      cards.forEach(card => {
+        card.setAttribute('role', 'checkbox');
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('aria-checked', card.classList.contains('is-selected') ? 'true' : 'false');
+
+        const toggleSelect = () => {
+          const selected = card.classList.toggle('is-selected');
+          card.setAttribute('aria-checked', selected ? 'true' : 'false');
+          syncFormState();
+          if (eventName) registerLeadEvent(eventName);
+        };
+
+        card.addEventListener('click', toggleSelect);
+        card.addEventListener('keydown', e => {
+          if (e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault();
+            toggleSelect();
+          }
+        });
+      });
+    }
+
+    function initBenefitMultiSelect() {
+      initMultiSelectableCards('.benefits .benefit-card');
+    }
+
+    function initProblemMultiSelect() {
+      initMultiSelectableCards('.problems .problem-card');
+    }
+
+    function initFaqSelector() {
+      const options = Array.from(document.querySelectorAll('.faq-choice'));
+      const items = Array.from(document.querySelectorAll('.faq-choice-item'));
+      const customWrap = document.getElementById('faq-custom-wrap');
+      const customInput = document.getElementById('faq-custom-question');
+      if (!options.length) return;
+
+      const resetFaqItems = () => {
+        options.forEach(btn => btn.classList.remove('is-selected'));
+        items.forEach(item => item.classList.remove('is-open'));
+      };
+
+      const selectFaq = option => {
+        const value = option.dataset.faqValue || '';
+        const isOther = value === 'Otra pregunta';
+        const item = option.closest('.faq-choice-item');
+        const wasActive = option.classList.contains('is-selected');
+
+        resetFaqItems();
+
+        if (wasActive) {
+          formState.selectedFaqQuestion = '';
+          if (customWrap) customWrap.hidden = true;
+          syncFormState();
+          return;
+        }
+
+        option.classList.add('is-selected');
+        formState.selectedFaqQuestion = value;
+
+        if (!isOther && item) {
+          item.classList.add('is-open');
+        }
+
+        if (customWrap) {
+          customWrap.hidden = !isOther;
+          if (!isOther && customInput) customInput.value = '';
+        }
+
+        syncFormState();
+      };
+
+      options.forEach(option => {
+        option.addEventListener('click', () => selectFaq(option));
+      });
+
+      if (customInput) {
+        customInput.addEventListener('input', () => {
+          if ((customInput.value || '').trim()) {
+            formState.selectedFaqQuestion = 'Otra pregunta';
+          }
+          syncFormState();
+        });
+      }
+    }
+
+    function smoothScrollToSection(target, { extraOffset = 16 } = {}) {
+      if (!target) return;
+      const header = document.querySelector('.site-header');
+      const headerHeight = header ? header.offsetHeight : 0;
+      const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - extraOffset;
+      window.scrollTo({
+        top: Math.max(0, top),
+        behavior: 'smooth',
+      });
+    }
+
+    function scrollToQuoteFormAndFocus() {
+      const section = document.getElementById('cotizar');
+      const firstInput = document.getElementById('quote-service');
+      if (!section || !firstInput) return;
+      smoothScrollToSection(section);
+      setTimeout(() => {
+        firstInput.focus({ preventScroll: true });
+        firstInput.classList.add('glow-focus');
+        setTimeout(() => firstInput.classList.remove('glow-focus'), 2600);
+      }, 420);
+    }
+
+    function initQuoteJumpCTAs() {
+      document.querySelectorAll('.js-open-quote').forEach(link => {
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          scrollToQuoteFormAndFocus();
+        });
+      });
+    }
+
+    function initNavSectionScroll() {
+      const navLinks = Array.from(document.querySelectorAll('.main-nav a[href^="#"]'));
+      if (!navLinks.length) return;
+
+      const NAV_SCROLL_EXTRA_OFFSET = 16; // Ajusta este valor para afinar dónde aterriza cada sección
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', e => {
+          const href = link.getAttribute('href') || '';
+          const targetId = href.replace('#', '');
+          const target = targetId ? document.getElementById(targetId) : null;
+          if (!target) return;
+
+          e.preventDefault();
+          const header = document.querySelector('.site-header');
+          const headerHeight = header ? header.offsetHeight : 0;
+          const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - NAV_SCROLL_EXTRA_OFFSET;
+
+          window.scrollTo({
+            top: Math.max(0, top),
+            behavior: 'smooth',
+          });
+        });
+      });
+    }
+
+    function buildQuoteMessage() {
+      syncFormState();
+      const ref = (document.getElementById('quote-ref')?.value || '').trim();
+      const resolvedQuestion = formState.selectedFaqQuestion === 'Otra pregunta'
+        ? formState.customQuestion
+        : formState.selectedFaqQuestion;
+
+      const lines = ['Hola Eder, me interesa cotizar una web.'];
+      if (formState.businessType) lines.push(`\nTipo de negocio:\n${formState.businessType}`);
+      if (formState.websiteGoal) lines.push(`\nObjetivo de la web:\n${formState.websiteGoal}`);
+      if (formState.selectedServices.length) lines.push(`\nMe interesa que mi web:\n${formState.selectedServices.join(', ')}`);
+      if (formState.selectedProblems.length) lines.push(`\nProblemas que quiero resolver:\n${formState.selectedProblems.join(', ')}`);
+      if (formState.selectedTestimonials.length) lines.push(`\nTestimonios que me llamaron la atención:\n${formState.selectedTestimonials.join(' | ')}`);
+      if (resolvedQuestion) lines.push(`\nPregunta o duda:\n${resolvedQuestion}`);
+      if (ref) lines.push(`\nReferencias:\n${ref}`);
+      if (formState.name) lines.push(`\nNombre:\n${formState.name}`);
+      if (formState.phone) lines.push(`\nTeléfono:\n${formState.phone}`);
+      lines.push('\nMe gustaría recibir más información.');
+
+      const message = lines.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+      formState.whatsappMessage = message;
+      return encodeURIComponent(message);
+    }
+
+    function getLeadPayload() {
+      return {
+        created_at: new Date().toISOString(),
+        page_path: window.location.pathname,
+        business_type: formState.businessType,
+        website_goal: formState.websiteGoal,
+        selected_services: formState.selectedServices,
+        selected_problems: formState.selectedProblems,
+        selected_testimonials: formState.selectedTestimonials,
+        selected_faq_question: formState.selectedFaqQuestion || null,
+        custom_question: formState.customQuestion || null,
+        name: formState.name || null,
+        phone: formState.phone || null,
+        quote_reference: (document.getElementById('quote-ref')?.value || '').trim(),
+        whatsapp_message: formState.whatsappMessage || null,
+      };
+    }
+
+    function saveQuoteLeadToSupabase() {
+      const supabaseUrl = window.__SUPABASE_URL__ || '';
+      const supabaseAnonKey = window.__SUPABASE_ANON_KEY__ || '';
+      if (!supabaseUrl || !supabaseAnonKey) return Promise.resolve();
+
+      syncFormState();
+      buildQuoteMessage();
+
+      return fetch(`${supabaseUrl}/rest/v1/web_quote_leads`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          apikey: supabaseAnonKey,
+          Authorization: `Bearer ${supabaseAnonKey}`,
+          Prefer: 'return=minimal',
+        },
+        body: JSON.stringify(getLeadPayload()),
+      }).catch(error => {
+        console.error('Supabase lead save failed', error);
+      });
+    }
+
+    function registerLeadEvent(eventName) {
+      const payload = { ...getLeadPayload(), event_name: eventName };
+
+      const localKey = 'eder_lead_events';
+      const current = JSON.parse(localStorage.getItem(localKey) || '[]');
+      current.push(payload);
+      localStorage.setItem(localKey, JSON.stringify(current.slice(-40)));
+
+      const supabaseUrl = window.__SUPABASE_URL__ || '';
+      const supabaseAnonKey = window.__SUPABASE_ANON_KEY__ || '';
+      if (!supabaseUrl || !supabaseAnonKey) return;
+
+      fetch(`${supabaseUrl}/rest/v1/web_lead_events`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          apikey: supabaseAnonKey,
+          Authorization: `Bearer ${supabaseAnonKey}`,
+          Prefer: 'return=minimal',
+        },
+        body: JSON.stringify(payload),
+      }).catch(() => {});
+    }
+
+    function initTestimonialSelector() {
+      initMultiSelectableCards('.testimonial-choice', { eventName: 'testimonial_selected' });
+    }
+
+    function initQuoteWhatsAppCTA() {
+      const sendBtn = document.getElementById('send-quote-whatsapp');
+      if (!sendBtn) return;
+      sendBtn.addEventListener('click', e => {
+        e.preventDefault();
+        const openWhatsApp = () => {
+          const message = buildQuoteMessage();
+          window.open(`https://wa.link/eah465?text=${message}`, '_blank', 'noopener,noreferrer');
+        };
+
+        registerLeadEvent('whatsapp_clicked');
+        saveQuoteLeadToSupabase().finally(openWhatsApp);
+      });
+    }
+
+    initBenefitMultiSelect();
+    initProblemMultiSelect();
+    initFaqSelector();
+    if (window.innerWidth > 480) initTestimonialSelector();
+    initQuoteJumpCTAs();
+    initQuoteWhatsAppCTA();
+
+    // ── Scroll guiado + fade-in pasos (solo móvil) ──────────────────────────
+    if (window.innerWidth <= 480) {
+
+      // Fade-in de pasos via IntersectionObserver
+      const processSteps = Array.from(document.querySelectorAll('.process-step'));
+      processSteps.forEach(s => s.classList.add('step-hidden'));
+
+      const stepObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.remove('step-hidden');
+            entry.target.classList.add('step-visible');
+            stepObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      processSteps.forEach(s => stepObserver.observe(s));
+
+      // Scroll guiado al pulsar "Continuar"
+      const btnContinuar = document.getElementById('btn-continuar');
+      const testimoniosSection = document.getElementById('testimonios');
+
+      if (btnContinuar && testimoniosSection) {
+        let scrollRaf = null;
+        let guiding = false;
+
+        const stopGuide = () => {
+          if (!guiding) return;
+          guiding = false;
+          if (scrollRaf) { cancelAnimationFrame(scrollRaf); scrollRaf = null; }
+          ['wheel', 'touchstart', 'touchmove', 'keydown', 'mousedown'].forEach(ev =>
+            window.removeEventListener(ev, stopGuide, { passive: true })
+          );
+        };
+
+        const startGuide = () => {
+          const targetY = testimoniosSection.getBoundingClientRect().top + window.scrollY;
+          const speed = 1.4; // px por frame (~84px/s a 60fps)
+          guiding = true;
+
+          ['wheel', 'touchstart', 'touchmove', 'keydown', 'mousedown'].forEach(ev =>
+            window.addEventListener(ev, stopGuide, { passive: true, once: false })
+          );
+
+          const step = () => {
+            if (!guiding) return;
+            const current = window.scrollY;
+            if (current >= targetY - 4) { stopGuide(); return; }
+            window.scrollBy(0, speed);
+            scrollRaf = requestAnimationFrame(step);
+          };
+
+          scrollRaf = requestAnimationFrame(step);
+        };
+
+        btnContinuar.addEventListener('click', () => {
+          stopGuide();
+          const procesoSection = document.getElementById('proceso');
+          if (!procesoSection) { startGuide(); return; }
+
+          // 1. Salto rápido a #proceso
+          procesoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+          // 2. Cuando el scroll rápido termine, arranca el guide lento a #testimonios
+          let lastY = window.scrollY;
+          let stillCount = 0;
+          const waitStop = () => {
+            const y = window.scrollY;
+            if (y === lastY) {
+              stillCount++;
+              if (stillCount >= 6) { startGuide(); return; }
+            } else {
+              stillCount = 0;
+              lastY = y;
+            }
+            requestAnimationFrame(waitStop);
+          };
+          requestAnimationFrame(waitStop);
+        });
+      }
+
+      // Tinder-style swipe para testimonios
+      const tCards = Array.from(document.querySelectorAll('.testimonial-choice'));
+
+      function getTopTestimonial() {
+        return tCards.find(c => !c.classList.contains('t-swiped-right') && !c.classList.contains('t-swiped-left'));
+      }
+
+      function updateTestimonialStack() {
+        const remaining = tCards.filter(c => !c.classList.contains('t-swiped-right') && !c.classList.contains('t-swiped-left'));
+        remaining.forEach((c, i) => {
+          c.style.zIndex = remaining.length - i + 1;
+          if (i === 0) c.style.transform = 'rotate(0deg) translateY(0) scale(1)';
+          else if (i === 1) c.style.transform = 'rotate(1.5deg) translateY(8px) scale(0.98)';
+          else if (i === 2) c.style.transform = 'rotate(-1.5deg) translateY(16px) scale(0.96)';
+          else if (i === 3) c.style.transform = 'rotate(1deg) translateY(24px) scale(0.94)';
+          else c.style.transform = 'rotate(-1deg) translateY(32px) scale(0.92)';
+        });
+        if (remaining.length === 0) {
+          const tthanks = document.getElementById('testimonial-thanks');
+          if (tthanks) {
+            tthanks.classList.add('is-visible');
+            tthanks.removeAttribute('aria-hidden');
+            const tGrid = tthanks.closest('.testimonials-grid');
+            if (tGrid) requestAnimationFrame(() => { tGrid.style.height = tthanks.offsetHeight + 'px'; });
+            populateSummary();
+          }
+        }
+      }
+
+      tCards.forEach(card => {
+        let tStartX = 0, tCurrentX = 0, tDragging = false;
+
+        const tDragMove = x => {
+          if (!tDragging) return;
+          tCurrentX = x - tStartX;
+          card.style.transform = `translateX(${tCurrentX}px) rotate(${tCurrentX * 0.08}deg)`;
+          card.classList.remove('t-glow-right', 't-glow-left');
+          if (tCurrentX > 30) card.classList.add('t-glow-right');
+          else if (tCurrentX < -30) card.classList.add('t-glow-left');
+        };
+
+        const tDragEnd = () => {
+          if (!tDragging) return;
+          tDragging = false;
+          card.classList.remove('t-glow-right', 't-glow-left');
+          card.style.cursor = 'grab';
+          if (Math.abs(tCurrentX) > 70) {
+            if (tCurrentX > 0) {
+              card.classList.add('t-swiped-right', 'is-selected');
+              card.setAttribute('aria-checked', 'true');
+            } else {
+              card.classList.add('t-swiped-left');
+              card.classList.remove('is-selected');
+              card.setAttribute('aria-checked', 'false');
+            }
+            syncFormState();
+            setTimeout(updateTestimonialStack, 320);
+          } else {
+            card.style.transform = '';
+          }
+          tStartX = 0; tCurrentX = 0;
+        };
+
+        card.addEventListener('mousedown', e => {
+          if (card !== getTopTestimonial()) return;
+          tStartX = e.clientX; tDragging = true; card.style.cursor = 'grabbing';
+        });
+        document.addEventListener('mousemove', e => tDragMove(e.clientX));
+        document.addEventListener('mouseup', tDragEnd);
+        card.addEventListener('touchstart', e => {
+          if (card !== getTopTestimonial()) return;
+          tStartX = e.touches[0].clientX; tDragging = true;
+        }, { passive: true });
+        card.addEventListener('touchmove', e => {
+          if (tDragging) e.preventDefault();
+          tDragMove(e.touches[0].clientX);
+        }, { passive: false });
+        card.addEventListener('touchend', tDragEnd);
+      });
+      const testimonialThanks = document.getElementById('testimonial-thanks');
+      const btnIrCotizar = document.getElementById('btn-ir-cotizar');
+      const cotizarSection = document.getElementById('cotizar');
+
+      if (testimonialThanks && btnIrCotizar && cotizarSection) {
+        function populateSummary() {
+          syncFormState();
+          const body = document.getElementById('thanks-summary-body');
+          if (!body) return;
+          const items = [];
+          if (formState.selectedServices.length)
+            items.push(`${formState.selectedServices.length} servicio${formState.selectedServices.length > 1 ? 's' : ''} que te interesaron`);
+          if (formState.selectedProblems.length)
+            items.push(`${formState.selectedProblems.length} problema${formState.selectedProblems.length > 1 ? 's' : ''} que reconociste`);
+          if (formState.selectedTestimonials.length)
+            items.push(`${formState.selectedTestimonials.length} testimonio${formState.selectedTestimonials.length > 1 ? 's' : ''} que te resonaron`);
+          if (items.length === 0)
+            items.push('Tus respuestas quedarán en la cotización');
+          body.innerHTML = `<ul>${items.map(i => `<li>${i}</li>`).join('')}</ul>`;
+        }
+
+        const summaryObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => { if (entry.isIntersecting) populateSummary(); });
+        }, { threshold: 0.1 });
+        summaryObserver.observe(testimonialThanks);
+
+        btnIrCotizar.addEventListener('click', () => {
+          smoothScrollToSection(cotizarSection);
+        });
+      }
+    }
+
+    // Tinder-style swipe for problem cards (mobile only)
+    if (window.innerWidth <= 480) {
+      const cards = Array.from(document.querySelectorAll('.problem-card:not(.problem-card-thanks)'));
+
+      function getTopCard() {
+        return cards.find(c => !c.classList.contains('swiped-right') && !c.classList.contains('swiped-left'));
+      }
+
+      function updateStack() {
+        const remaining = cards.filter(c => !c.classList.contains('swiped-right') && !c.classList.contains('swiped-left'));
+        remaining.forEach((c, i) => {
+          c.style.zIndex = remaining.length - i;
+          if (i === 0) {
+            c.style.transform = 'rotate(0deg) translateY(0) scale(1)';
+          } else if (i === 1) {
+            c.style.transform = 'rotate(2deg) translateY(10px) scale(0.97)';
+          } else {
+            c.style.transform = 'rotate(-2deg) translateY(20px) scale(0.94)';
+          }
+        });
+
+        if (remaining.length === 0) {
+          const thanks = document.getElementById('problem-thanks');
+          if (thanks) {
+            thanks.classList.add('is-visible');
+            thanks.removeAttribute('aria-hidden');
+            // Reducir altura del grid a la de la tarjeta de gracias
+            const grid = thanks.closest('.problems-grid');
+            if (grid) {
+              requestAnimationFrame(() => {
+                grid.style.height = thanks.offsetHeight + 'px';
+              });
+            }
+          }
+        }
+      }
+
+      cards.forEach(card => {
+        let startX = 0;
+        let currentX = 0;
+        let isDragging = false;
+
+        function onDragMove(x) {
+          if (!isDragging) return;
+          currentX = x - startX;
+          const rotate = currentX * 0.08;
+          card.style.transform = `translateX(${currentX}px) rotate(${rotate}deg)`;
+          card.classList.remove('glow-right', 'glow-left');
+          if (currentX > 30) card.classList.add('glow-right');
+          else if (currentX < -30) card.classList.add('glow-left');
+        }
+
+        function onDragEnd() {
+          if (!isDragging) return;
+          isDragging = false;
+          card.classList.remove('glow-right', 'glow-left');
+          card.style.cursor = 'grab';
+          if (Math.abs(currentX) > 70) {
+            if (currentX > 0) {
+              card.classList.add('swiped-right');
+              card.classList.add('is-selected');
+              card.setAttribute('aria-checked', 'true');
+            } else {
+              card.classList.add('swiped-left');
+              card.classList.remove('is-selected');
+              card.setAttribute('aria-checked', 'false');
+            }
+            syncFormState();
+            setTimeout(updateStack, 320);
+          } else {
+            card.style.transform = '';
+          }
+          startX = 0;
+          currentX = 0;
+        }
+
+        // Mouse
+        card.addEventListener('mousedown', e => {
+          if (card !== getTopCard()) return;
+          startX = e.clientX;
+          isDragging = true;
+          card.style.cursor = 'grabbing';
+        });
+        document.addEventListener('mousemove', e => onDragMove(e.clientX));
+        document.addEventListener('mouseup', onDragEnd);
+
+        // Touch
+        card.addEventListener('touchstart', e => {
+          if (card !== getTopCard()) return;
+          startX = e.touches[0].clientX;
+          isDragging = true;
+        }, { passive: true });
+        card.addEventListener('touchmove', e => {
+          if (isDragging) e.preventDefault();
+          onDragMove(e.touches[0].clientX);
+        }, { passive: false });
+        card.addEventListener('touchend', onDragEnd);
+      });
+    }
+
+    // ── Modal "Ver ejemplo real" ──────────────────────────────────────────
+    (function () {
+      function initVideoModal() {
+        var modal    = document.getElementById('video-modal');
+        var player   = document.getElementById('video-modal-player');
+        var btnOpen  = document.getElementById('btn-ver-ejemplo');
+        var btnClose = document.getElementById('video-modal-close');
+        var backdrop = document.getElementById('video-modal-backdrop');
+
+        if (!modal || !player || !btnOpen || !btnClose || !backdrop) return;
+
+        function openModal() {
+          modal.removeAttribute('hidden');
+          document.body.style.overflow = 'hidden';
+          player.play().catch(function () {});
+        }
+
+        function closeModal() {
+          modal.setAttribute('hidden', '');
+          document.body.style.overflow = '';
+          player.pause();
+          player.currentTime = 0;
+        }
+
+        btnOpen.addEventListener('click', openModal);
+        btnClose.addEventListener('click', closeModal);
+        backdrop.addEventListener('click', closeModal);
+
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && !modal.hasAttribute('hidden')) closeModal();
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initVideoModal);
+      } else {
+        initVideoModal();
+      }
+    }());
+  </script>
+
+  <!-- Modal video ejemplo -->
+  <!-- JS del modal se inicializa en el bloque <script> al final del body -->
+  <div class="video-modal" id="video-modal" role="dialog" aria-modal="true" aria-label="Video ejemplo" hidden>
+    <div class="video-modal-backdrop" id="video-modal-backdrop"></div>
+    <div class="video-modal-box">
+      <button class="video-modal-close" id="video-modal-close" type="button" aria-label="Cerrar">&times;</button>
+      <video class="video-modal-player" id="video-modal-player" controls playsinline preload="none">
+        <source src="v1_1.mp4" type="video/mp4">
+      </video>
     </div>
   </div>
-
-  <script src="https://embed.cloudflarestream.com/embed/sdk.latest.js"></script>
-  <script src="script.js?v=1.9"></script>
 
 </body>
 </html>
