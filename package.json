@@ -10,7 +10,8 @@
     "home:activar-nuevo": "cp public_html/home-falso.html public_html/index.html",
     "home:rollback": "cp public_html/index.backup-pre-home-falso.html public_html/index.html",
     "build:cursos": "cd courses && npm run build && rm -rf ../public_html/cursos && mkdir -p ../public_html/cursos && cp -R out/* ../public_html/cursos/",
-    "build:all": "npm run build:cursos"
+    "build:all": "npm run build:cursos",
+    "seo:check": "node scripts/seo-check.mjs"
   },
   "engines": {
     "node": ">=18"
