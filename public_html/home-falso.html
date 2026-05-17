@@ -496,7 +496,7 @@
       overflow: hidden;
       cursor: grab;
       user-select: none;
-      transition: transform 0.15s ease-out, opacity 0.3s ease;
+      transition: transform 0.2s ease-out, opacity 0.3s ease, box-shadow 0.15s ease;
     }
 
     .problem-card.swiped-right {
@@ -509,6 +509,18 @@
       transform: translateX(-120%) rotateZ(-20deg);
       opacity: 0;
       pointer-events: none;
+    }
+
+    .problem-card.glow-right {
+      box-shadow: 0 0 28px 6px rgba(22, 163, 74, 0.55);
+    }
+
+    .problem-card.glow-left {
+      box-shadow: 0 0 28px 6px rgba(220, 38, 38, 0.55);
+    }
+
+    .swipe-hint {
+      display: none;
     }
 
     .problem-image {
@@ -1241,9 +1253,45 @@
         gap: 20px;
       }
 
+      /* Tinder stack en mobile */
+      .problems-grid {
+        display: block;
+        position: relative;
+        height: 520px;
+      }
+
       .problem-card {
         border-radius: 15px;
         overflow: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+      }
+
+      .problem-card:nth-child(1) { z-index: 3; transform: rotate(0deg); }
+      .problem-card:nth-child(2) { z-index: 2; transform: rotate(2deg) translateY(10px) scale(0.97); }
+      .problem-card:nth-child(3) { z-index: 1; transform: rotate(-2deg) translateY(20px) scale(0.94); }
+
+      .swipe-hint {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--wine);
+        letter-spacing: 0.02em;
+        margin-bottom: 18px;
+        animation: hintPulse 2s ease-in-out infinite;
+      }
+
+      .swipe-hint .hint-left { color: #dc2626; }
+      .swipe-hint .hint-right { color: #16a34a; }
+
+      @keyframes hintPulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.65; transform: scale(0.97); }
       }
 
       .problem-image {
@@ -1768,6 +1816,12 @@
           <h2>Los problemas que resuelvo</h2>
         </div>
 
+        <p class="swipe-hint">
+          <span class="hint-left">&larr; No es mi caso</span>
+          &nbsp;&nbsp;Swipe si es tu caso&nbsp;&nbsp;
+          <span class="hint-right">S&iacute; me pasa &rarr;</span>
+        </p>
+
         <div class="problems-grid">
           <article class="problem-card">
             <div class="problem-image problem-image-1" role="img" aria-label="Paciente revisando mensajes en celular"></div>
@@ -2047,60 +2101,78 @@
 
     // Tinder-style swipe for problem cards (mobile only)
     if (window.innerWidth <= 480) {
-      document.querySelectorAll('.problem-card').forEach(card => {
-      let startX = 0;
-      let currentX = 0;
+      const cards = Array.from(document.querySelectorAll('.problem-card'));
 
-      card.addEventListener('mousedown', e => {
-        startX = e.clientX;
-        card.style.cursor = 'grabbing';
-      });
+      function getTopCard() {
+        return cards.find(c => !c.classList.contains('swiped-right') && !c.classList.contains('swiped-left'));
+      }
 
-      card.addEventListener('mousemove', e => {
-        if (startX === 0) return;
-        currentX = e.clientX - startX;
-      });
-
-      card.addEventListener('mouseup', () => {
-        if (Math.abs(currentX) > 60) {
-          if (currentX > 0) {
-            card.classList.add('swiped-right');
+      function updateStack() {
+        const remaining = cards.filter(c => !c.classList.contains('swiped-right') && !c.classList.contains('swiped-left'));
+        remaining.forEach((c, i) => {
+          c.style.zIndex = remaining.length - i;
+          if (i === 0) {
+            c.style.transform = 'rotate(0deg) translateY(0) scale(1)';
+          } else if (i === 1) {
+            c.style.transform = 'rotate(2deg) translateY(10px) scale(0.97)';
           } else {
-            card.classList.add('swiped-left');
+            c.style.transform = 'rotate(-2deg) translateY(20px) scale(0.94)';
           }
+        });
+      }
+
+      cards.forEach(card => {
+        let startX = 0;
+        let currentX = 0;
+        let isDragging = false;
+
+        function onDragMove(x) {
+          if (!isDragging) return;
+          currentX = x - startX;
+          const rotate = currentX * 0.08;
+          card.style.transform = `translateX(${currentX}px) rotate(${rotate}deg)`;
+          card.classList.remove('glow-right', 'glow-left');
+          if (currentX > 30) card.classList.add('glow-right');
+          else if (currentX < -30) card.classList.add('glow-left');
         }
-        startX = 0;
-        currentX = 0;
-        card.style.cursor = 'grab';
-      });
 
-      card.addEventListener('mouseleave', () => {
-        startX = 0;
-        currentX = 0;
-        card.style.cursor = 'grab';
-      });
-
-      // Touch support for mobile
-      card.addEventListener('touchstart', e => {
-        startX = e.touches[0].clientX;
-      });
-
-      card.addEventListener('touchmove', e => {
-        if (startX === 0) return;
-        currentX = e.touches[0].clientX - startX;
-      });
-
-      card.addEventListener('touchend', () => {
-        if (Math.abs(currentX) > 60) {
-          if (currentX > 0) {
-            card.classList.add('swiped-right');
+        function onDragEnd() {
+          if (!isDragging) return;
+          isDragging = false;
+          card.classList.remove('glow-right', 'glow-left');
+          card.style.cursor = 'grab';
+          if (Math.abs(currentX) > 70) {
+            if (currentX > 0) {
+              card.classList.add('swiped-right');
+            } else {
+              card.classList.add('swiped-left');
+            }
+            setTimeout(updateStack, 320);
           } else {
-            card.classList.add('swiped-left');
+            card.style.transform = '';
           }
+          startX = 0;
+          currentX = 0;
         }
-        startX = 0;
-        currentX = 0;
-      });
+
+        // Mouse
+        card.addEventListener('mousedown', e => {
+          if (card !== getTopCard()) return;
+          startX = e.clientX;
+          isDragging = true;
+          card.style.cursor = 'grabbing';
+        });
+        document.addEventListener('mousemove', e => onDragMove(e.clientX));
+        document.addEventListener('mouseup', onDragEnd);
+
+        // Touch
+        card.addEventListener('touchstart', e => {
+          if (card !== getTopCard()) return;
+          startX = e.touches[0].clientX;
+          isDragging = true;
+        }, { passive: true });
+        card.addEventListener('touchmove', e => onDragMove(e.touches[0].clientX), { passive: true });
+        card.addEventListener('touchend', onDragEnd);
       });
     }
   </script>
