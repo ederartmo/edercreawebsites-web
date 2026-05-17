@@ -23,6 +23,22 @@ npm run build:cursos
 
 Ese comando construye la app Next.js ubicada en `courses/` y copia el export estatico a `public_html/cursos/`.
 
+## Switch del home principal
+
+Para activar la landing nueva como home:
+
+```bash
+npm run home:activar-nuevo
+```
+
+Para regresar al home anterior (rollback rapido):
+
+```bash
+npm run home:rollback
+```
+
+El archivo de respaldo del home anterior queda en `public_html/index.backup-pre-home-falso.html`.
+
 La app inicia en `http://localhost:3000` (o en el puerto definido por `PORT`).
 
 ## Despliegue en Hostinger (Node.js)
