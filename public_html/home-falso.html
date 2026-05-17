@@ -562,6 +562,18 @@
       box-shadow: 0 0 28px 6px rgba(220, 38, 38, 0.55);
     }
 
+    @media (hover: hover) {
+      .problem-card:hover {
+        transform: translateY(-8px) scale(1.01);
+        border-color: rgba(143, 20, 56, 0.34);
+        box-shadow: 0 18px 38px rgba(76, 6, 24, 0.22);
+      }
+
+      .problem-card:hover .problem-image {
+        background-size: 106%;
+      }
+    }
+
     .swipe-hint {
       display: none;
     }
@@ -1454,11 +1466,42 @@
 
       .process-step p {
         grid-column: 2;
-        font-size: 13px;
+        cursor: pointer;
+        transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
         line-height: 1.55;
+
+      .testimonial-picker-subtitle {
+        margin-top: 8px;
+        color: var(--wine);
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+      }
+
+      .testimonial-card:focus-visible {
+        outline: 3px solid rgba(143, 20, 56, 0.24);
+        outline-offset: 2px;
+      }
+
+      .testimonial-card.is-selected {
+        border-color: rgba(143, 20, 56, 0.52);
+        box-shadow: 0 18px 36px rgba(76, 6, 24, 0.2);
+        transform: translateY(-4px);
+      }
+
+      @media (hover: hover) {
+        .testimonial-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 14px 28px rgba(76, 6, 24, 0.16);
+        }
+      }
       }
 
       .case-card {
+
+        .testimonial-picker-subtitle {
+          display: none;
+        }
         grid-template-columns: 1fr;
         border: 0;
         border-radius: 16px;
@@ -2017,10 +2060,11 @@
       <div class="container">
         <div class="section-heading">
           <h2>Lo que dicen mis clientes</h2>
+          <p class="testimonial-picker-subtitle">Eliga cual situacion se parece mas a la tuya</p>
         </div>
 
         <div class="testimonials-grid">
-          <article class="testimonial-card">
+          <article class="testimonial-card testimonial-choice">
             <div class="stars">★★★★★</div>
             <p>“Mi web me ha traído más pacientes de los que esperaba. La agenda automática cambió por completo mi consulta.”</p>
             <div class="testimonial-author">
@@ -2029,7 +2073,7 @@
             </div>
           </article>
 
-          <article class="testimonial-card">
+          <article class="testimonial-card testimonial-choice">
             <div class="stars">★★★★★</div>
             <p>“Antes perdía muchos mensajes. Ahora todo llega por WhatsApp y la gente agenda sin tanto ir y venir.”</p>
             <div class="testimonial-author">
@@ -2038,7 +2082,7 @@
             </div>
           </article>
 
-          <article class="testimonial-card">
+          <article class="testimonial-card testimonial-choice">
             <div class="stars">★★★★★</div>
             <p>“El diseño transmite confianza y profesionalismo. Mis pacientes siempre me dicen que mi web se ve increíble.”</p>
             <div class="testimonial-author">
@@ -2047,7 +2091,7 @@
             </div>
           </article>
 
-          <article class="testimonial-card">
+          <article class="testimonial-card testimonial-choice">
             <div class="stars">★★★★★</div>
             <p>“Menos ausencias, más orden y más tiempo para mis pacientes. 100% recomendado.”</p>
             <div class="testimonial-author">
@@ -2056,7 +2100,7 @@
             </div>
           </article>
 
-          <article class="testimonial-card">
+          <article class="testimonial-card testimonial-choice">
             <div class="stars">★★★★★</div>
             <p>“Eder entendió perfecto lo que necesitaba y lo convirtió en una web que realmente vende mi servicio.”</p>
             <div class="testimonial-author">
@@ -2240,30 +2284,86 @@
     }
 
     function buildQuoteMessage() {
-      const selectedBenefits = Array.from(document.querySelectorAll('.benefits .benefit-card.is-selected h3'))
-        .map(node => node.textContent.trim())
-        .filter(Boolean);
-
       const service = (document.getElementById('quote-service')?.value || '').trim();
       const goal = (document.getElementById('quote-goal')?.value || '').trim();
       const ref = (document.getElementById('quote-ref')?.value || '').trim();
 
-      const lines = ['Hola Eder, quiero cotizar mi web.'];
+      const parts = ['Hola Eder, me interesa cotizar una web.'];
+      if (service) parts.push(`Vendo u ofrezco ${service}.`);
+      if (goal) parts.push(`Quiero que mi web ${goal}.`);
+      if (ref) parts.push(`Estas son mis referencias: ${ref}.`);
 
-      if (selectedBenefits.length) {
-        lines.push('');
-        lines.push('Lo que más me interesa de la web:');
-        selectedBenefits.forEach(item => lines.push(`- ${item}`));
-      }
+      return encodeURIComponent(parts.join(' '));
+    }
 
-      if (service || goal || ref) {
-        lines.push('');
-        if (service) lines.push(`1. Servicio: ${service}`);
-        if (goal) lines.push(`2. Objetivo de la web: ${goal}`);
-        if (ref) lines.push(`3. Referencias: ${ref}`);
-      }
+    const leadState = {
+      selectedTestimonial: '',
+    };
 
-      return encodeURIComponent(lines.join('\n'));
+    function getLeadPayload() {
+      return {
+        created_at: new Date().toISOString(),
+        page_path: window.location.pathname,
+        selected_benefits: Array.from(document.querySelectorAll('.benefits .benefit-card.is-selected h3')).map(el => el.textContent.trim()),
+        selected_testimonial: leadState.selectedTestimonial || null,
+        quote_service: (document.getElementById('quote-service')?.value || '').trim(),
+        quote_goal: (document.getElementById('quote-goal')?.value || '').trim(),
+        quote_reference: (document.getElementById('quote-ref')?.value || '').trim(),
+      };
+    }
+
+    function registerLeadEvent(eventName) {
+      const payload = { ...getLeadPayload(), event_name: eventName };
+
+      const localKey = 'eder_lead_events';
+      const current = JSON.parse(localStorage.getItem(localKey) || '[]');
+      current.push(payload);
+      localStorage.setItem(localKey, JSON.stringify(current.slice(-40)));
+
+      const supabaseUrl = window.__SUPABASE_URL__ || '';
+      const supabaseAnonKey = window.__SUPABASE_ANON_KEY__ || '';
+      if (!supabaseUrl || !supabaseAnonKey) return;
+
+      fetch(`${supabaseUrl}/rest/v1/web_lead_events`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          apikey: supabaseAnonKey,
+          Authorization: `Bearer ${supabaseAnonKey}`,
+          Prefer: 'return=minimal',
+        },
+        body: JSON.stringify(payload),
+      }).catch(() => {});
+    }
+
+    function initTestimonialSelector() {
+      const options = Array.from(document.querySelectorAll('.testimonial-choice'));
+      if (!options.length) return;
+
+      const selectOption = option => {
+        options.forEach(card => {
+          const active = card === option;
+          card.classList.toggle('is-selected', active);
+          card.setAttribute('aria-checked', active ? 'true' : 'false');
+        });
+        const choice = option.querySelector('p')?.textContent?.replace(/[“”]/g, '').trim() || '';
+        leadState.selectedTestimonial = choice;
+        registerLeadEvent('testimonial_selected');
+      };
+
+      options.forEach((option, index) => {
+        option.setAttribute('role', 'radio');
+        option.setAttribute('tabindex', index === 0 ? '0' : '-1');
+        option.setAttribute('aria-checked', 'false');
+
+        option.addEventListener('click', () => selectOption(option));
+        option.addEventListener('keydown', e => {
+          if (e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault();
+            selectOption(option);
+          }
+        });
+      });
     }
 
     function initQuoteWhatsAppCTA() {
@@ -2271,11 +2371,13 @@
       if (!sendBtn) return;
       sendBtn.addEventListener('click', e => {
         e.preventDefault();
+        registerLeadEvent('whatsapp_clicked');
         const message = buildQuoteMessage();
         window.open(`https://wa.link/eah465?text=${message}`, '_blank', 'noopener,noreferrer');
       });
     }
 
+    initTestimonialSelector();
     initQuoteJumpCTAs();
     initQuoteWhatsAppCTA();
 
