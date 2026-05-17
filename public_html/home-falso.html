@@ -3093,15 +3093,19 @@
       const resolvedQuestion = formState.selectedFaqQuestion === 'Otra pregunta'
         ? formState.customQuestion
         : formState.selectedFaqQuestion;
-      const generatedSummary = buildQuoteSummary();
+      buildQuoteSummary();
 
-      const lines = ['Hola Eder, me interesa cotizar una web.'];
-      if (generatedSummary) lines.push(`\nResumen de lo que busco:\n${generatedSummary}`);
+      const businessType = formState.businessType || 'sin especificar';
+      const websiteGoal = formState.websiteGoal || 'sin especificar';
+      const quoteReference = formState.quoteReference || 'sin ejemplos';
+
+      const lines = [
+        `Hola Eder, me interesa cotizar una web para: ${businessType}, enfocada en: ${websiteGoal}. Referencias: ${quoteReference}.`
+      ];
       if (formState.selectedServices.length) lines.push(`\nMe interesa que mi web:\n${formState.selectedServices.join(', ')}`);
       if (formState.selectedProblems.length) lines.push(`\nProblemas que quiero resolver:\n${formState.selectedProblems.join(', ')}`);
       if (formState.selectedTestimonials.length) lines.push(`\nTestimonios que me llamaron la atención:\n${formState.selectedTestimonials.join(' | ')}`);
       if (resolvedQuestion) lines.push(`\nPregunta o duda:\n${resolvedQuestion}`);
-      if (formState.quoteReference) lines.push(`\nReferencias:\n${formState.quoteReference}`);
       if (formState.name) lines.push(`\nNombre:\n${formState.name}`);
       if (formState.phone) lines.push(`\nTeléfono:\n${formState.phone}`);
       lines.push('\nMe gustaría recibir más información.');
