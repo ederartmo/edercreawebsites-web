@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Eder Crea Webs | Webs para Psicólogos</title>
   <meta name="description" content="Sitios web para psicólogos que ayudan a generar confianza, explicar servicios y agendar pacientes por WhatsApp." />
+  <script src="/landing-config.js"></script>
 
   <!-- Paso 2: CSS base global para acercarnos al diseño original. -->
   <style>
@@ -1551,6 +1552,7 @@
         top: 0;
         left: 0;
         width: 100%;
+        touch-action: pan-y;
       }
 
       .problem-card:nth-child(1) { z-index: 3; transform: rotate(0deg); }
@@ -1573,6 +1575,7 @@
         border-radius: 15px;
         overflow: hidden;
         cursor: grab;
+        touch-action: pan-y;
         user-select: none;
         transition: transform 0.2s ease-out, opacity 0.3s ease, box-shadow 0.15s ease;
       }
@@ -2865,6 +2868,7 @@
     const formState = {
       businessType: '',
       websiteGoal: '',
+      quoteReference: '',
       selectedServices: [],
       selectedProblems: [],
       selectedTestimonials: [],
@@ -2872,12 +2876,14 @@
       customQuestion: '',
       name: '',
       phone: '',
+      generatedSummary: '',
       whatsappMessage: '',
     };
 
     function syncFormState() {
       formState.businessType = (document.getElementById('quote-service')?.value || '').trim();
       formState.websiteGoal = (document.getElementById('quote-goal')?.value || '').trim();
+      formState.quoteReference = (document.getElementById('quote-ref')?.value || '').trim();
       formState.selectedServices = Array.from(document.querySelectorAll('.benefits .benefit-card.is-selected h3')).map(el => el.textContent.trim());
       formState.selectedProblems = Array.from(document.querySelectorAll('.problems .problem-card.is-selected h3')).map(el => el.textContent.trim());
       formState.selectedTestimonials = Array.from(document.querySelectorAll('.testimonials .testimonial-card.is-selected p')).map(el => (el.textContent || '').replace(/[“”]/g, '').trim());
@@ -2885,6 +2891,52 @@
       formState.name = (document.getElementById('quote-name')?.value || '').trim();
       formState.phone = (document.getElementById('quote-phone')?.value || '').trim();
       return formState;
+    }
+
+    function joinSpanishList(items) {
+      if (!items.length) return '';
+      if (items.length === 1) return items[0];
+      if (items.length === 2) return `${items[0]} y ${items[1]}`;
+      return `${items.slice(0, -1).join(', ')} y ${items[items.length - 1]}`;
+    }
+
+    function buildQuoteSummary() {
+      syncFormState();
+
+      const summaryLines = [];
+      let intro = 'Quiero cotizar una web';
+      const resolvedQuestion = formState.selectedFaqQuestion === 'Otra pregunta'
+        ? formState.customQuestion
+        : formState.selectedFaqQuestion;
+
+      if (formState.businessType) {
+        intro += ` para ${formState.businessType}`;
+      }
+
+      if (formState.websiteGoal) {
+        intro += `${formState.businessType ? ',' : ''} enfocada en ${formState.websiteGoal}`;
+      }
+
+      summaryLines.push(`${intro}.`);
+
+      if (formState.quoteReference) {
+        summaryLines.push(`Como referencia visual o funcional, me gustan sitios como ${formState.quoteReference}.`);
+      }
+
+      if (formState.selectedProblems.length) {
+        summaryLines.push(`Me interesa resolver sobre todo ${joinSpanishList(formState.selectedProblems)}.`);
+      }
+
+      if (formState.selectedServices.length) {
+        summaryLines.push(`Tambien me gustaria incluir ${joinSpanishList(formState.selectedServices)}.`);
+      }
+
+      if (resolvedQuestion) {
+        summaryLines.push(`Tambien quiero resolver esta duda: ${resolvedQuestion}.`);
+      }
+
+      formState.generatedSummary = summaryLines.join(' ').trim();
+      return formState.generatedSummary;
     }
 
     function initMultiSelectableCards(selector, { eventName = '' } = {}) {
@@ -2918,7 +2970,8 @@
     }
 
     function initProblemMultiSelect() {
-      initMultiSelectableCards('.problems .problem-card');
+      if (window.innerWidth <= 480) return;
+      initMultiSelectableCards('.problems .problem-card:not(.problem-card-thanks)');
     }
 
     function initFaqSelector() {
@@ -3037,19 +3090,18 @@
 
     function buildQuoteMessage() {
       syncFormState();
-      const ref = (document.getElementById('quote-ref')?.value || '').trim();
       const resolvedQuestion = formState.selectedFaqQuestion === 'Otra pregunta'
         ? formState.customQuestion
         : formState.selectedFaqQuestion;
+      const generatedSummary = buildQuoteSummary();
 
       const lines = ['Hola Eder, me interesa cotizar una web.'];
-      if (formState.businessType) lines.push(`\nTipo de negocio:\n${formState.businessType}`);
-      if (formState.websiteGoal) lines.push(`\nObjetivo de la web:\n${formState.websiteGoal}`);
+      if (generatedSummary) lines.push(`\nResumen de lo que busco:\n${generatedSummary}`);
       if (formState.selectedServices.length) lines.push(`\nMe interesa que mi web:\n${formState.selectedServices.join(', ')}`);
       if (formState.selectedProblems.length) lines.push(`\nProblemas que quiero resolver:\n${formState.selectedProblems.join(', ')}`);
       if (formState.selectedTestimonials.length) lines.push(`\nTestimonios que me llamaron la atención:\n${formState.selectedTestimonials.join(' | ')}`);
       if (resolvedQuestion) lines.push(`\nPregunta o duda:\n${resolvedQuestion}`);
-      if (ref) lines.push(`\nReferencias:\n${ref}`);
+      if (formState.quoteReference) lines.push(`\nReferencias:\n${formState.quoteReference}`);
       if (formState.name) lines.push(`\nNombre:\n${formState.name}`);
       if (formState.phone) lines.push(`\nTeléfono:\n${formState.phone}`);
       lines.push('\nMe gustaría recibir más información.');
@@ -3072,7 +3124,8 @@
         custom_question: formState.customQuestion || null,
         name: formState.name || null,
         phone: formState.phone || null,
-        quote_reference: (document.getElementById('quote-ref')?.value || '').trim(),
+        quote_reference: formState.quoteReference || null,
+        generated_summary: formState.generatedSummary || buildQuoteSummary(),
         whatsapp_message: formState.whatsappMessage || null,
       };
     }
@@ -3100,7 +3153,13 @@
     }
 
     function registerLeadEvent(eventName) {
+      syncFormState();
+      buildQuoteMessage();
       const payload = { ...getLeadPayload(), event_name: eventName };
+
+      if (!eventName || eventName === 'whatsapp_clicked') {
+        payload.is_final_submission = true;
+      }
 
       const localKey = 'eder_lead_events';
       const current = JSON.parse(localStorage.getItem(localKey) || '[]');
@@ -3124,12 +3183,23 @@
     }
 
     function initTestimonialSelector() {
+      if (window.innerWidth <= 480) return;
       initMultiSelectableCards('.testimonial-choice', { eventName: 'testimonial_selected' });
     }
 
     function initQuoteWhatsAppCTA() {
       const sendBtn = document.getElementById('send-quote-whatsapp');
       if (!sendBtn) return;
+
+      ['quote-service', 'quote-goal', 'quote-ref', 'faq-custom-question'].forEach((fieldId) => {
+        const field = document.getElementById(fieldId);
+        if (!field) return;
+        field.addEventListener('input', () => {
+          syncFormState();
+          buildQuoteSummary();
+        });
+      });
+
       sendBtn.addEventListener('click', e => {
         e.preventDefault();
         const openWhatsApp = () => {
@@ -3145,12 +3215,28 @@
     initBenefitMultiSelect();
     initProblemMultiSelect();
     initFaqSelector();
-    if (window.innerWidth > 480) initTestimonialSelector();
+    initTestimonialSelector();
     initQuoteJumpCTAs();
+    initNavSectionScroll();
     initQuoteWhatsAppCTA();
 
     // ── Scroll guiado + fade-in pasos (solo móvil) ──────────────────────────
     if (window.innerWidth <= 480) {
+      function populateSummary() {
+        syncFormState();
+        const body = document.getElementById('thanks-summary-body');
+        if (!body) return;
+        const items = [];
+        if (formState.selectedServices.length)
+          items.push(`${formState.selectedServices.length} servicio${formState.selectedServices.length > 1 ? 's' : ''} que te interesaron`);
+        if (formState.selectedProblems.length)
+          items.push(`${formState.selectedProblems.length} problema${formState.selectedProblems.length > 1 ? 's' : ''} que reconociste`);
+        if (formState.selectedTestimonials.length)
+          items.push(`${formState.selectedTestimonials.length} testimonio${formState.selectedTestimonials.length > 1 ? 's' : ''} que te resonaron`);
+        if (items.length === 0)
+          items.push('Tus respuestas quedaron en la cotizacion');
+        body.innerHTML = `<ul>${items.map(i => `<li>${i}</li>`).join('')}</ul>`;
+      }
 
       // Fade-in de pasos via IntersectionObserver
       const processSteps = Array.from(document.querySelectorAll('.process-step'));
@@ -3315,22 +3401,6 @@
       const cotizarSection = document.getElementById('cotizar');
 
       if (testimonialThanks && btnIrCotizar && cotizarSection) {
-        function populateSummary() {
-          syncFormState();
-          const body = document.getElementById('thanks-summary-body');
-          if (!body) return;
-          const items = [];
-          if (formState.selectedServices.length)
-            items.push(`${formState.selectedServices.length} servicio${formState.selectedServices.length > 1 ? 's' : ''} que te interesaron`);
-          if (formState.selectedProblems.length)
-            items.push(`${formState.selectedProblems.length} problema${formState.selectedProblems.length > 1 ? 's' : ''} que reconociste`);
-          if (formState.selectedTestimonials.length)
-            items.push(`${formState.selectedTestimonials.length} testimonio${formState.selectedTestimonials.length > 1 ? 's' : ''} que te resonaron`);
-          if (items.length === 0)
-            items.push('Tus respuestas quedarán en la cotización');
-          body.innerHTML = `<ul>${items.map(i => `<li>${i}</li>`).join('')}</ul>`;
-        }
-
         const summaryObserver = new IntersectionObserver((entries) => {
           entries.forEach(entry => { if (entry.isIntersecting) populateSummary(); });
         }, { threshold: 0.1 });
