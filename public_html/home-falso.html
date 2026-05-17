@@ -1362,11 +1362,12 @@
       }
 
       .hero {
-        padding: 28px 0 28px;
+        min-height: calc(100svh - 70px);
+        padding: 34px 0 48px;
       }
 
       .hero-grid {
-        gap: 34px;
+        gap: 40px;
       }
 
       .hero-copy {
@@ -1387,23 +1388,23 @@
       }
 
       .hero h1 {
-        font-size: 42px;
+        font-size: 46px;
         line-height: 1.08;
         letter-spacing: -0.065em;
       }
 
       .hero-description {
         margin-top: 18px;
-        font-size: 16px;
-        line-height: 1.72;
+        font-size: 17px;
+        line-height: 1.76;
       }
 
       .hero-features {
-        margin-top: 22px;
+        margin-top: 24px;
         display: grid;
         grid-template-columns: 1fr;
         justify-content: initial;
-        gap: 10px;
+        gap: 12px;
         text-align: left;
       }
 
@@ -1411,20 +1412,20 @@
         padding: 0;
         border: 0;
         background: transparent;
-        font-size: 13px;
+        font-size: 14px;
         font-weight: 900;
       }
 
       .feature-icon-image {
-        width: 24px;
-        height: 24px;
+        width: 26px;
+        height: 26px;
       }
 
       .hero-actions {
-        margin-top: 28px;
+        margin-top: 32px;
         align-items: stretch;
         justify-content: initial;
-        gap: 12px;
+        gap: 14px;
       }
 
       .hero-actions .btn {
@@ -1432,16 +1433,16 @@
       }
 
       .btn {
-        min-height: 62px;
+        min-height: 66px;
         border-radius: 13px;
-        font-size: 15px;
+        font-size: 16px;
       }
 
       .social-proof {
         justify-content: flex-start;
-        margin-top: 26px;
+        margin-top: 30px;
         gap: 14px;
-        font-size: 13px;
+        font-size: 14px;
       }
 
       .avatar-stack .stack-avatar {
@@ -2194,7 +2195,7 @@
       }
 
       .hero h1 {
-        font-size: 33px;
+        font-size: 42px;
         line-height: 1.05;
         letter-spacing: -0.05em;
       }
@@ -2807,32 +2808,34 @@
   <!-- FOOTER -->
   <footer class="site-footer">
     <div class="container footer-inner">
-      <p>© 2025 Eder Crea Webs. Todos los derechos reservados.</p>
+      <p>© 2026 Eder Crea Webs. Todos los derechos reservados.</p>
       <nav aria-label="Enlaces secundarios">
-        <a href="politicas">Privacidad</a>
-        <a href="terminos">Términos</a>
+        <a href="https://wa.link/eah465" target="_blank" rel="noopener noreferrer">Agendar</a>
         <a href="https://www.instagram.com/edercreawebs/" target="_blank" rel="noopener noreferrer">Instagram</a>
         <a href="https://www.tiktok.com/@edercreawebs" target="_blank" rel="noopener noreferrer">TikTok</a>
-        <a href="#">YouTube</a>
+        <a href="/cursos/">Cursos</a>
+        <a href="terminos">Condiciones</a>
+        <a href="politicas">Privacidad</a>
       </nav>
     </div>
   </footer>
 
   <script>
-    // Auto-scroll on mobile to show content below nav
-    function autoScrollOnMobile() {
-      if (window.innerWidth <= 480) {
-        // Scroll to show content below nav on mobile only
-        window.scrollTo(0, 150); // Moderate scroll for mobile
+    // Ocultar header estático en mobile al cargar
+    (function () {
+      function scrollPastHeader() {
+        if (window.innerWidth <= 820) {
+          const header = document.querySelector('.site-header');
+          const h = header ? header.offsetHeight : 70;
+          window.scrollTo(0, h);
+        }
       }
-    }
-    
-    // Execute after DOM is ready
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', autoScrollOnMobile);
-    } else {
-      autoScrollOnMobile();
-    }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', scrollPastHeader);
+      } else {
+        scrollPastHeader();
+      }
+    }());
 
     const formState = {
       businessType: '',
@@ -3405,32 +3408,42 @@
 
     // ── Modal "Ver ejemplo real" ──────────────────────────────────────────
     (function () {
-      var modal   = document.getElementById('video-modal');
-      var player  = document.getElementById('video-modal-player');
-      var btnOpen = document.getElementById('btn-ver-ejemplo');
-      var btnClose = document.getElementById('video-modal-close');
-      var backdrop = document.getElementById('video-modal-backdrop');
+      function initVideoModal() {
+        var modal    = document.getElementById('video-modal');
+        var player   = document.getElementById('video-modal-player');
+        var btnOpen  = document.getElementById('btn-ver-ejemplo');
+        var btnClose = document.getElementById('video-modal-close');
+        var backdrop = document.getElementById('video-modal-backdrop');
 
-      function openModal() {
-        modal.removeAttribute('hidden');
-        document.body.style.overflow = 'hidden';
-        player.play().catch(function () {});
+        if (!modal || !player || !btnOpen || !btnClose || !backdrop) return;
+
+        function openModal() {
+          modal.removeAttribute('hidden');
+          document.body.style.overflow = 'hidden';
+          player.play().catch(function () {});
+        }
+
+        function closeModal() {
+          modal.setAttribute('hidden', '');
+          document.body.style.overflow = '';
+          player.pause();
+          player.currentTime = 0;
+        }
+
+        btnOpen.addEventListener('click', openModal);
+        btnClose.addEventListener('click', closeModal);
+        backdrop.addEventListener('click', closeModal);
+
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && !modal.hasAttribute('hidden')) closeModal();
+        });
       }
 
-      function closeModal() {
-        modal.setAttribute('hidden', '');
-        document.body.style.overflow = '';
-        player.pause();
-        player.currentTime = 0;
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initVideoModal);
+      } else {
+        initVideoModal();
       }
-
-      if (btnOpen) btnOpen.addEventListener('click', openModal);
-      if (btnClose) btnClose.addEventListener('click', closeModal);
-      if (backdrop) backdrop.addEventListener('click', closeModal);
-
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && !modal.hasAttribute('hidden')) closeModal();
-      });
     }());
   </script>
 
