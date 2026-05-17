@@ -858,7 +858,31 @@
 
     .testimonial-card.is-selected {
       border-color: rgba(143, 20, 56, 0.52);
+      background: #fff9fb;
       box-shadow: 0 18px 36px rgba(76, 6, 24, 0.2);
+      transform: translateY(-4px);
+    }
+
+    .testimonial-card.is-selected::after {
+      content: "✓";
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+      font-weight: 900;
+      color: #fff;
+      background: var(--wine);
+      box-shadow: 0 8px 18px rgba(76, 6, 24, 0.34);
+    }
+
+    .problem-card.is-selected {
+      border-color: rgba(143, 20, 56, 0.45);
+      box-shadow: 0 18px 36px rgba(76, 6, 24, 0.18);
       transform: translateY(-4px);
     }
 
@@ -2125,6 +2149,31 @@
       autoScrollOnMobile();
     }
 
+    const formState = {
+      businessType: '',
+      websiteGoal: '',
+      selectedServices: [],
+      selectedProblems: [],
+      selectedTestimonials: [],
+      selectedFaqQuestion: '',
+      customQuestion: '',
+      name: '',
+      phone: '',
+      whatsappMessage: '',
+    };
+
+    function syncFormState() {
+      formState.businessType = (document.getElementById('quote-service')?.value || '').trim();
+      formState.websiteGoal = (document.getElementById('quote-goal')?.value || '').trim();
+      formState.selectedServices = Array.from(document.querySelectorAll('.benefits .benefit-card.is-selected h3')).map(el => el.textContent.trim());
+      formState.selectedProblems = Array.from(document.querySelectorAll('.problems .problem-card.is-selected h3')).map(el => el.textContent.trim());
+      formState.selectedTestimonials = Array.from(document.querySelectorAll('.testimonials .testimonial-card.is-selected p')).map(el => (el.textContent || '').replace(/[“”]/g, '').trim());
+      formState.customQuestion = (document.getElementById('faq-custom-question')?.value || '').trim();
+      formState.name = (document.getElementById('quote-name')?.value || '').trim();
+      formState.phone = (document.getElementById('quote-phone')?.value || '').trim();
+      return formState;
+    }
+
     function initBenefitMultiSelect() {
       const cards = document.querySelectorAll('.benefits .benefit-card');
       cards.forEach(card => {
@@ -2135,6 +2184,7 @@
         function toggleSelect() {
           const selected = card.classList.toggle('is-selected');
           card.setAttribute('aria-checked', selected ? 'true' : 'false');
+          syncFormState();
         }
 
         card.addEventListener('click', toggleSelect);
@@ -2147,7 +2197,58 @@
       });
     }
 
-    initBenefitMultiSelect();
+    function initProblemMultiSelect() {
+      const cards = document.querySelectorAll('.problems .problem-card');
+      cards.forEach(card => {
+        card.setAttribute('role', 'checkbox');
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('aria-checked', 'false');
+
+        function toggleSelect(forceValue) {
+          const selected = typeof forceValue === 'boolean' ? forceValue : !card.classList.contains('is-selected');
+          card.classList.toggle('is-selected', selected);
+          card.setAttribute('aria-checked', selected ? 'true' : 'false');
+          syncFormState();
+        }
+
+        card.addEventListener('click', () => toggleSelect());
+        card.addEventListener('keydown', e => {
+          if (e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault();
+            toggleSelect();
+          }
+        });
+
+        card.dataset.toggleSelect = '1';
+      });
+    }
+
+    function initFaqSelector() {
+      const options = Array.from(document.querySelectorAll('.faq-choice'));
+      const customWrap = document.getElementById('faq-custom-wrap');
+      const customInput = document.getElementById('faq-custom-question');
+      if (!options.length) return;
+
+      const selectFaq = option => {
+        options.forEach(btn => btn.classList.toggle('is-selected', btn === option));
+        formState.selectedFaqQuestion = option.dataset.faqValue || '';
+
+        const isOther = formState.selectedFaqQuestion === 'Otro';
+        if (customWrap) customWrap.hidden = !isOther;
+        if (!isOther && customInput) customInput.value = '';
+        syncFormState();
+      };
+
+      options.forEach(option => {
+        option.addEventListener('click', () => selectFaq(option));
+      });
+
+      if (customInput) {
+        customInput.addEventListener('input', () => {
+          syncFormState();
+        });
+      }
+    }
 
     function scrollToQuoteFormAndFocus() {
       const section = document.getElementById('cotizar');
@@ -2171,32 +2272,67 @@
     }
 
     function buildQuoteMessage() {
-      const service = (document.getElementById('quote-service')?.value || '').trim();
-      const goal = (document.getElementById('quote-goal')?.value || '').trim();
+      syncFormState();
       const ref = (document.getElementById('quote-ref')?.value || '').trim();
+      const resolvedQuestion = formState.selectedFaqQuestion === 'Otro'
+        ? formState.customQuestion
+        : formState.selectedFaqQuestion;
 
-      const parts = ['Hola Eder, me interesa cotizar una web.'];
-      if (service) parts.push(`Vendo u ofrezco ${service}.`);
-      if (goal) parts.push(`Quiero que mi web ${goal}.`);
-      if (ref) parts.push(`Estas son mis referencias: ${ref}.`);
+      const lines = ['Hola Eder, me interesa cotizar una web.'];
+      if (formState.businessType) lines.push(`\nTipo de negocio:\n${formState.businessType}`);
+      if (formState.websiteGoal) lines.push(`\nObjetivo de la web:\n${formState.websiteGoal}`);
+      if (formState.selectedServices.length) lines.push(`\nServicios que me interesan:\n${formState.selectedServices.join(', ')}`);
+      if (formState.selectedProblems.length) lines.push(`\nProblemas que quiero resolver:\n${formState.selectedProblems.join(', ')}`);
+      if (formState.selectedTestimonials.length) lines.push(`\nTestimonios que me llamaron la atención:\n${formState.selectedTestimonials.join(' | ')}`);
+      if (resolvedQuestion) lines.push(`\nPregunta o duda:\n${resolvedQuestion}`);
+      if (ref) lines.push(`\nReferencias:\n${ref}`);
+      if (formState.name) lines.push(`\nNombre:\n${formState.name}`);
+      if (formState.phone) lines.push(`\nTeléfono:\n${formState.phone}`);
+      lines.push('\nMe gustaría recibir más información.');
 
-      return encodeURIComponent(parts.join(' '));
+      const message = lines.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+      formState.whatsappMessage = message;
+      return encodeURIComponent(message);
     }
-
-    const leadState = {
-      selectedTestimonial: '',
-    };
 
     function getLeadPayload() {
       return {
         created_at: new Date().toISOString(),
         page_path: window.location.pathname,
-        selected_benefits: Array.from(document.querySelectorAll('.benefits .benefit-card.is-selected h3')).map(el => el.textContent.trim()),
-        selected_testimonial: leadState.selectedTestimonial || null,
-        quote_service: (document.getElementById('quote-service')?.value || '').trim(),
-        quote_goal: (document.getElementById('quote-goal')?.value || '').trim(),
+        business_type: formState.businessType,
+        website_goal: formState.websiteGoal,
+        selected_services: formState.selectedServices,
+        selected_problems: formState.selectedProblems,
+        selected_testimonials: formState.selectedTestimonials,
+        selected_faq_question: formState.selectedFaqQuestion || null,
+        custom_question: formState.customQuestion || null,
+        name: formState.name || null,
+        phone: formState.phone || null,
         quote_reference: (document.getElementById('quote-ref')?.value || '').trim(),
+        whatsapp_message: formState.whatsappMessage || null,
       };
+    }
+
+    function saveQuoteLeadToSupabase() {
+      const supabaseUrl = window.__SUPABASE_URL__ || '';
+      const supabaseAnonKey = window.__SUPABASE_ANON_KEY__ || '';
+      if (!supabaseUrl || !supabaseAnonKey) return Promise.resolve();
+
+      syncFormState();
+      buildQuoteMessage();
+
+      return fetch(`${supabaseUrl}/rest/v1/web_quote_leads`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          apikey: supabaseAnonKey,
+          Authorization: `Bearer ${supabaseAnonKey}`,
+          Prefer: 'return=minimal',
+        },
+        body: JSON.stringify(getLeadPayload()),
+      }).catch(error => {
+        console.error('Supabase lead save failed', error);
+      });
     }
 
     function registerLeadEvent(eventName) {
@@ -2227,27 +2363,23 @@
       const options = Array.from(document.querySelectorAll('.testimonial-choice'));
       if (!options.length) return;
 
-      const selectOption = option => {
-        options.forEach(card => {
-          const active = card === option;
-          card.classList.toggle('is-selected', active);
-          card.setAttribute('aria-checked', active ? 'true' : 'false');
-        });
-        const choice = option.querySelector('p')?.textContent?.replace(/[“”]/g, '').trim() || '';
-        leadState.selectedTestimonial = choice;
+      const toggleOption = option => {
+        const active = option.classList.toggle('is-selected');
+        option.setAttribute('aria-checked', active ? 'true' : 'false');
+        syncFormState();
         registerLeadEvent('testimonial_selected');
       };
 
-      options.forEach((option, index) => {
-        option.setAttribute('role', 'radio');
-        option.setAttribute('tabindex', index === 0 ? '0' : '-1');
+      options.forEach(option => {
+        option.setAttribute('role', 'checkbox');
+        option.setAttribute('tabindex', '0');
         option.setAttribute('aria-checked', 'false');
 
-        option.addEventListener('click', () => selectOption(option));
+        option.addEventListener('click', () => toggleOption(option));
         option.addEventListener('keydown', e => {
           if (e.key === ' ' || e.key === 'Enter') {
             e.preventDefault();
-            selectOption(option);
+            toggleOption(option);
           }
         });
       });
@@ -2258,12 +2390,19 @@
       if (!sendBtn) return;
       sendBtn.addEventListener('click', e => {
         e.preventDefault();
+        const openWhatsApp = () => {
+          const message = buildQuoteMessage();
+          window.open(`https://wa.link/eah465?text=${message}`, '_blank', 'noopener,noreferrer');
+        };
+
         registerLeadEvent('whatsapp_clicked');
-        const message = buildQuoteMessage();
-        window.open(`https://wa.link/eah465?text=${message}`, '_blank', 'noopener,noreferrer');
+        saveQuoteLeadToSupabase().finally(openWhatsApp);
       });
     }
 
+    initBenefitMultiSelect();
+    initProblemMultiSelect();
+    initFaqSelector();
     initTestimonialSelector();
     initQuoteJumpCTAs();
     initQuoteWhatsAppCTA();
@@ -2313,9 +2452,14 @@
           if (Math.abs(currentX) > 70) {
             if (currentX > 0) {
               card.classList.add('swiped-right');
+              card.classList.add('is-selected');
+              card.setAttribute('aria-checked', 'true');
             } else {
               card.classList.add('swiped-left');
+              card.classList.remove('is-selected');
+              card.setAttribute('aria-checked', 'false');
             }
+            syncFormState();
             setTimeout(updateStack, 320);
           } else {
             card.style.transform = '';
