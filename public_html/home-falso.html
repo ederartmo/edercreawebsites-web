@@ -471,6 +471,26 @@
       padding: 42px 0;
     }
 
+    #servicios {
+      scroll-margin-top: 92px;
+    }
+
+    #problemas {
+      scroll-margin-top: 92px;
+    }
+
+    #proceso {
+      scroll-margin-top: 92px;
+    }
+
+    #testimonios {
+      scroll-margin-top: 92px;
+    }
+
+    #cotizar {
+      scroll-margin-top: 92px;
+    }
+
     .section-heading {
       margin-bottom: 32px;
       text-align: center;
@@ -503,6 +523,11 @@
       border-radius: var(--radius);
       box-shadow: var(--shadow-soft);
     }
+
+      /* Tarjeta de gracias: oculta en desktop, visible solo en móvil */
+      .problem-card-thanks {
+        display: none;
+      }
 
     .benefit-card {
       min-height: 150px;
@@ -2952,11 +2977,22 @@
       }
     }
 
+    function smoothScrollToSection(target, { extraOffset = 16 } = {}) {
+      if (!target) return;
+      const header = document.querySelector('.site-header');
+      const headerHeight = header ? header.offsetHeight : 0;
+      const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - extraOffset;
+      window.scrollTo({
+        top: Math.max(0, top),
+        behavior: 'smooth',
+      });
+    }
+
     function scrollToQuoteFormAndFocus() {
       const section = document.getElementById('cotizar');
       const firstInput = document.getElementById('quote-service');
       if (!section || !firstInput) return;
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      smoothScrollToSection(section);
       setTimeout(() => {
         firstInput.focus({ preventScroll: true });
         firstInput.classList.add('glow-focus');
@@ -3301,7 +3337,7 @@
         summaryObserver.observe(testimonialThanks);
 
         btnIrCotizar.addEventListener('click', () => {
-          cotizarSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          smoothScrollToSection(cotizarSection);
         });
       }
     }
