@@ -117,15 +117,15 @@
         <div class="hero-visual" id="ejemplos">
           <div class="sites-marquee" aria-label="Muestra de sitios web realizados">
             <div class="sites-track">
-              <figure class="site-shot js-project-shot" data-project="proyecto-1" role="button" tabindex="0" aria-label="Ver proyecto 1 en grande"><img src="/projects/proyecto-1/cover.png" alt="Sitio web realizado - ejemplo 1" loading="lazy" /></figure>
-              <figure class="site-shot js-project-shot" data-project="proyecto-2" role="button" tabindex="0" aria-label="Ver proyecto 2 en grande"><img src="/projects/proyecto-2/cover.png" alt="Sitio web realizado - ejemplo 2" loading="lazy" /></figure>
-              <figure class="site-shot js-project-shot" data-project="proyecto-3" role="button" tabindex="0" aria-label="Ver proyecto 3 en grande"><img src="/projects/proyecto-3/cover.png" alt="Sitio web realizado - ejemplo 3" loading="lazy" /></figure>
-              <figure class="site-shot js-project-shot" data-project="proyecto-4" role="button" tabindex="0" aria-label="Ver proyecto 4 en grande"><img src="/projects/proyecto-4/cover.png" alt="Sitio web realizado - ejemplo 4" loading="lazy" /></figure>
+              <figure class="site-shot js-project-shot" data-project="proyecto-1" role="button" tabindex="0" aria-label="Ver proyecto 1 en grande"><img src="/projects/proyecto-1/proyecto-1-01.webp?v=20260522" alt="Sitio web realizado - ejemplo 1" loading="lazy" /></figure>
+              <figure class="site-shot js-project-shot" data-project="proyecto-2" role="button" tabindex="0" aria-label="Ver proyecto 2 en grande"><img src="/projects/proyecto-2/proyecto-2-01.webp?v=20260522" alt="Sitio web realizado - ejemplo 2" loading="lazy" /></figure>
+              <figure class="site-shot js-project-shot" data-project="proyecto-3" role="button" tabindex="0" aria-label="Ver proyecto 3 en grande"><img src="/projects/proyecto-3/proyecto-3-01.webp?v=20260522" alt="Sitio web realizado - ejemplo 3" loading="lazy" /></figure>
+              <figure class="site-shot js-project-shot" data-project="proyecto-4" role="button" tabindex="0" aria-label="Ver proyecto 4 en grande"><img src="/projects/proyecto-4/proyecto-4-01.webp?v=20260522" alt="Sitio web realizado - ejemplo 4" loading="lazy" /></figure>
 
-              <figure class="site-shot" aria-hidden="true"><img src="/projects/proyecto-1/cover.png" alt="" loading="lazy" /></figure>
-              <figure class="site-shot" aria-hidden="true"><img src="/projects/proyecto-2/cover.png" alt="" loading="lazy" /></figure>
-              <figure class="site-shot" aria-hidden="true"><img src="/projects/proyecto-3/cover.png" alt="" loading="lazy" /></figure>
-              <figure class="site-shot" aria-hidden="true"><img src="/projects/proyecto-4/cover.png" alt="" loading="lazy" /></figure>
+              <figure class="site-shot" aria-hidden="true"><img src="/projects/proyecto-1/proyecto-1-01.webp?v=20260522" alt="" loading="lazy" /></figure>
+              <figure class="site-shot" aria-hidden="true"><img src="/projects/proyecto-2/proyecto-2-01.webp?v=20260522" alt="" loading="lazy" /></figure>
+              <figure class="site-shot" aria-hidden="true"><img src="/projects/proyecto-3/proyecto-3-01.webp?v=20260522" alt="" loading="lazy" /></figure>
+              <figure class="site-shot" aria-hidden="true"><img src="/projects/proyecto-4/proyecto-4-01.webp?v=20260522" alt="" loading="lazy" /></figure>
             </div>
           </div>
         </div>
@@ -602,40 +602,38 @@
       'proyecto-1': {
         title: 'Proyecto 1',
         images: [
-          '/projects/proyecto-1/cover.png',
-          // '/projects/proyecto-1/screen-2.png',
-          // '/projects/proyecto-1/screen-3.png',
+          '/projects/proyecto-1/proyecto-1-01.webp?v=20260522',
+          '/projects/proyecto-1/proyecto-1-02.webp?v=20260522',
+          '/projects/proyecto-1/proyecto-1-03.webp?v=20260522',
+          '/projects/proyecto-1/proyecto-1-04.webp?v=20260522',
         ],
       },
       'proyecto-2': {
         title: 'Proyecto 2',
         images: [
-          '/projects/proyecto-2/cover.png',
-          '/projects/proyecto-2/2.png',
-          '/projects/proyecto-2/3.png',
-          '/projects/proyecto-2/4.png',
-          // '/projects/proyecto-2/screen-5.png',
+          '/projects/proyecto-2/proyecto-2-01.webp?v=20260522',
+          '/projects/proyecto-2/proyecto-2-02.webp?v=20260522',
+          '/projects/proyecto-2/proyecto-2-03.webp?v=20260522',
+          '/projects/proyecto-2/proyecto-2-04.webp?v=20260522',
         ],
       },
       'proyecto-3': {
         title: 'Proyecto 3',
         images: [
-          '/projects/proyecto-3/cover.png',
-          '/projects/proyecto-3/2.png',
-          '/projects/proyecto-3/3.png',
-          '/projects/proyecto-3/4.png',
-          // '/projects/proyecto-3/screen-5.png',
+          '/projects/proyecto-3/proyecto-3-01.webp?v=20260522',
+          '/projects/proyecto-3/proyecto-3-02.webp?v=20260522',
+          '/projects/proyecto-3/proyecto-3-03.webp?v=20260522',
+          '/projects/proyecto-3/proyecto-3-04.webp?v=20260522',
         ],
       },
       'proyecto-4': {
         title: 'Proyecto 4',
         images: [
-          '/projects/proyecto-4/cover.png',
-          '/projects/proyecto-4/2.png',
-          '/projects/proyecto-4/3.png',
-          '/projects/proyecto-4/4.png',
-          '/projects/proyecto-4/5.png',
-          // '/projects/proyecto-4/screen-6.png',
+          '/projects/proyecto-4/proyecto-4-01.webp?v=20260522',
+          '/projects/proyecto-4/proyecto-4-02.webp?v=20260522',
+          '/projects/proyecto-4/proyecto-4-03.webp?v=20260522',
+          '/projects/proyecto-4/proyecto-4-04.webp?v=20260522',
+          '/projects/proyecto-4/proyecto-4-05.webp?v=20260522',
         ],
       },
     };
@@ -712,12 +710,14 @@
         activeIndex = 0;
         render();
         modal.removeAttribute('hidden');
+        document.documentElement.style.overflow = 'hidden';
         document.body.style.overflow = 'hidden';
         closeBtn.focus();
       }
 
       function close() {
         modal.setAttribute('hidden', '');
+        document.documentElement.style.overflow = '';
         document.body.style.overflow = '';
       }
 
