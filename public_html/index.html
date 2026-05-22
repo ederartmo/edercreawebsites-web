@@ -104,8 +104,7 @@
           <div class="eyebrow">Sitios web para psicólogos</div>
 
           <h1>
-            Deja de <span>perder pacientes</span><br />
-            mientras estás en consulta
+            Llena tu agenda con pacientes más calificados en 30 días usando una web que responde, agenda y genera confianza por ti
           </h1>
 
           <p class="hero-description">
@@ -338,16 +337,16 @@
             <h2>Psicóloga Clínica - Atención online</h2>
             <div class="metrics-grid">
               <div>
-                <strong class="case-metric-number" data-prefix="+" data-value="73" data-suffix="%" data-decimals="0">+73%</strong>
-                <p>más consultas agendadas</p>
+                <strong class="case-metric-number" data-prefix="+" data-value="50" data-suffix="%" data-decimals="0">+50%</strong>
+                <p>citas agendadas</p>
               </div>
               <div>
-                <strong class="case-metric-number" data-prefix="-" data-value="58" data-suffix="%" data-decimals="0">-58%</strong>
-                <p>menos ausencias a consulta</p>
+                <strong class="case-metric-number" data-prefix="-" data-value="25" data-suffix="%" data-decimals="0">-25%</strong>
+                <p>ausencias</p>
               </div>
               <div>
-                <strong class="case-metric-number" data-prefix="+" data-value="2.7" data-suffix="x" data-decimals="1">+2.7x</strong>
-                <p>más mensajes calificados</p>
+                <strong class="case-metric-number" data-prefix="+" data-value="75" data-suffix="%" data-decimals="0">+75%</strong>
+                <p>reagendan</p>
               </div>
             </div>
             <p>Resultados en los primeros 60 días con su nueva web + agenda automática.</p>
@@ -548,6 +547,29 @@
       whatsappMessage: '',
     };
 
+    const metaTrackState = {
+      formStartTracked: false,
+    };
+
+    function trackMeta(eventName, params = {}) {
+      if (typeof window.fbq !== 'function') return;
+      try {
+        window.fbq('track', eventName, params);
+      } catch (_) {}
+    }
+
+    function trackMetaCustom(eventName, params = {}) {
+      if (typeof window.fbq !== 'function') return;
+      try {
+        window.fbq('trackCustom', eventName, params);
+      } catch (_) {}
+    }
+
+    trackMeta('ViewContent', {
+      content_name: 'landing_principal',
+      content_category: 'sitio_web_psicologos',
+    });
+
     function syncFormState() {
       formState.businessType = (document.getElementById('quote-service')?.value || '').trim();
       formState.websiteGoal = (document.getElementById('quote-goal')?.value || '').trim();
@@ -659,6 +681,11 @@
         const isOther = value === 'Otra pregunta';
         const item = option.closest('.faq-choice-item');
         const wasActive = option.classList.contains('is-selected');
+
+        trackMetaCustom('FaqInteraction', {
+          faq_value: value || 'sin_valor',
+          interaction_type: 'click',
+        });
 
         resetFaqItems();
 
@@ -804,7 +831,24 @@
       document.querySelectorAll('.js-open-quote').forEach(link => {
         link.addEventListener('click', e => {
           e.preventDefault();
+          trackMeta('Lead', {
+            content_name: 'cta_cotizar_web',
+            source: 'hero_or_header',
+          });
           scrollToQuoteFormAndFocus();
+        });
+      });
+    }
+
+    function initFooterWhatsAppTracking() {
+      const footerLinks = Array.from(document.querySelectorAll('.site-footer a[href*="wa.link"], .site-footer a[href*="api.whatsapp.com/send"]'));
+      if (!footerLinks.length) return;
+
+      footerLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          trackMeta('Contact', {
+            content_name: 'footer_whatsapp',
+          });
         });
       });
     }
@@ -946,6 +990,14 @@
       ['quote-service', 'quote-goal', 'quote-ref', 'faq-custom-question'].forEach((fieldId) => {
         const field = document.getElementById(fieldId);
         if (!field) return;
+        field.addEventListener('focus', () => {
+          if (metaTrackState.formStartTracked) return;
+          metaTrackState.formStartTracked = true;
+          trackMetaCustom('QuoteFormStart', {
+            first_field: fieldId,
+          });
+        }, { once: true });
+
         field.addEventListener('input', () => {
           syncFormState();
           buildQuoteSummary();
@@ -961,6 +1013,10 @@
           window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
         };
 
+        trackMeta('Lead', {
+          content_name: 'cotizacion_whatsapp',
+          channel: 'whatsapp',
+        });
         registerLeadEvent('whatsapp_clicked');
         saveQuoteLeadToSupabase().finally(openWhatsApp);
       });
@@ -971,6 +1027,7 @@
     initFaqSelector();
     initTestimonialSelector();
     initQuoteJumpCTAs();
+    initFooterWhatsAppTracking();
     initNavSectionScroll();
     initQuoteWhatsAppCTA();
     initCaseMetricsCounter();
@@ -1283,6 +1340,10 @@
         function openModal() {
           modal.removeAttribute('hidden');
           document.body.style.overflow = 'hidden';
+          trackMeta('ViewContent', {
+            content_name: 'video_ejemplo_real',
+            content_type: 'video',
+          });
           player.play().catch(function () {});
         }
 

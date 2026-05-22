@@ -1115,8 +1115,7 @@
       align-self: stretch;
       border: 0;
       border-radius: 24px;
-      background: rgba(255,255,255,0.12) url("Thumbn.png") center/cover no-repeat;
-      background-image: image-set(url("Thumbn.webp") type("image/webp"), url("Thumbn.png") type("image/png"));
+      background: rgba(255,255,255,0.12) url("edertrabajando5.png") center/cover no-repeat;
       color: transparent;
     }
 
@@ -1340,6 +1339,14 @@
 
       .cta-card {
         grid-template-columns: 1fr;
+      }
+    }
+
+    @media (min-width: 821px) and (max-width: 1100px) {
+      .hero-copy,
+      .hero h1,
+      .hero-description {
+        text-align: center;
       }
     }
 
@@ -2126,6 +2133,7 @@
         display: block;
         min-height: 210px;
         border-radius: 16px;
+        background-position: center center;
       }
 
       .cta-benefits {
