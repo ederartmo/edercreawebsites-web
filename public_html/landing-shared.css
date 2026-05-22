@@ -2442,3 +2442,17 @@
         padding: 16px;
       }
     }
+
+    @media (min-width: 1101px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .hero-visual {
+        grid-column: 1;
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+    }
