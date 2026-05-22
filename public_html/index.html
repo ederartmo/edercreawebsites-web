@@ -522,13 +522,68 @@
 
     const metaTrackState = {
       formStartTracked: false,
+      suppressAutoFocusTrack: false,
+      formCompletedTracked: false,
     };
 
-    function trackMeta(eventName, params = {}) {
+    const uiAudio = {
+      click: '/click.MP3',
+      swipe: '/swipe.MP3',
+    };
+
+    /*
+      Mapa de tracking Meta (Landing Psicologos)
+
+      Eventos custom (prefijo LP_):
+      - LP_LANDING_VIEW: visita a la landing principal.
+      - LP_CTA_TOP_CLICK: clic en CTA visible al entrar (hero/header).
+      - LP_FORM_START: primer foco real en campos del formulario.
+      - LP_FORM_COMPLETED: formulario con senales claras de intencion.
+      - LP_CTA_FORM_WHATSAPP_CLICK: clic en CTA de WhatsApp del formulario.
+      - LP_FOOTER_LINK_CLICK: clic en enlaces del footer.
+        destination esperado: agendar_whatsapp | instagram | tiktok | cursos | condiciones | privacidad | otro
+      - LP_FAQ_INTERACTION: interaccion con preguntas frecuentes.
+
+      Eventos estandar Meta (optimizacion/reportes):
+      - ViewContent: vista de contenido de landing.
+      - InitiateCheckout: clic en CTA superior para iniciar cotizacion.
+      - Lead: clic en CTA final de WhatsApp (formulario).
+      - Contact: clic de contacto por WhatsApp (formulario/footer).
+    */
+
+    const META_EVENTS = {
+      landingView: 'LP_LANDING_VIEW',
+      ctaTopClick: 'LP_CTA_TOP_CLICK',
+      formStart: 'LP_FORM_START',
+      formCompleted: 'LP_FORM_COMPLETED',
+      ctaFormWhatsappClick: 'LP_CTA_FORM_WHATSAPP_CLICK',
+      footerLinkClick: 'LP_FOOTER_LINK_CLICK',
+      faqInteraction: 'LP_FAQ_INTERACTION',
+    };
+
+    function trackMeta(eventName, params = {}, options = {}) {
       if (typeof window.fbq !== 'function') return;
       try {
-        window.fbq('track', eventName, params);
+        if (options.userData) {
+          window.fbq('track', eventName, params, { userData: options.userData });
+        } else {
+          window.fbq('track', eventName, params);
+        }
       } catch (_) {}
+    }
+
+    async function sha256hex(str) {
+      if (!str) return undefined;
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str.toLowerCase().trim()));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function normalizePhone(phone) {
+      const digits = phone.replace(/\D/g, '');
+      if (!digits) return undefined;
+      // Si ya empieza con 52 y tiene 12 digitos (Mexico) lo dejamos; si tiene 10 digitos le agregamos 52
+      if (digits.length === 10) return '52' + digits;
+      return digits;
     }
 
     function trackMetaCustom(eventName, params = {}) {
@@ -538,9 +593,23 @@
       } catch (_) {}
     }
 
+    function playUiSound(type) {
+      const src = uiAudio[type];
+      if (!src) return;
+      try {
+        const audio = new Audio(src);
+        audio.preload = 'auto';
+        audio.currentTime = 0;
+        void audio.play();
+      } catch (_) {}
+    }
+
     trackMeta('ViewContent', {
       content_name: 'landing_principal',
       content_category: 'sitio_web_psicologos',
+    });
+    trackMetaCustom(META_EVENTS.landingView, {
+      page_type: 'landing_principal',
     });
 
     function syncFormState() {
@@ -554,6 +623,27 @@
       formState.name = (document.getElementById('quote-name')?.value || '').trim();
       formState.phone = (document.getElementById('quote-phone')?.value || '').trim();
       return formState;
+    }
+
+    function maybeTrackQuoteFormCompleted() {
+      if (metaTrackState.formCompletedTracked) return;
+
+      const hasCoreIntent = Boolean(formState.businessType) && Boolean(formState.websiteGoal);
+      const hasDetail = Boolean(formState.quoteReference)
+        || Boolean(formState.customQuestion)
+        || Boolean(formState.selectedFaqQuestion)
+        || formState.selectedServices.length > 0
+        || formState.selectedProblems.length > 0;
+
+      if (!hasCoreIntent || !hasDetail) return;
+
+      metaTrackState.formCompletedTracked = true;
+      trackMetaCustom(META_EVENTS.formCompleted, {
+        has_reference: Boolean(formState.quoteReference),
+        has_custom_question: Boolean(formState.customQuestion),
+        selected_services_count: formState.selectedServices.length,
+        selected_problems_count: formState.selectedProblems.length,
+      });
     }
 
     function joinSpanishList(items) {
@@ -602,7 +692,7 @@
       return formState.generatedSummary;
     }
 
-    function initMultiSelectableCards(selector, { eventName = '' } = {}) {
+    function initMultiSelectableCards(selector, { eventName = '', soundType = 'swipe' } = {}) {
       const cards = Array.from(document.querySelectorAll(selector));
       if (!cards.length) return;
 
@@ -614,7 +704,9 @@
         const toggleSelect = () => {
           const selected = card.classList.toggle('is-selected');
           card.setAttribute('aria-checked', selected ? 'true' : 'false');
+          playUiSound(soundType);
           syncFormState();
+          maybeTrackQuoteFormCompleted();
           if (eventName) registerLeadEvent(eventName);
         };
 
@@ -629,12 +721,12 @@
     }
 
     function initBenefitMultiSelect() {
-      initMultiSelectableCards('.benefits .benefit-card');
+      initMultiSelectableCards('.benefits .benefit-card', { soundType: 'click' });
     }
 
     function initProblemMultiSelect() {
       if (window.innerWidth <= 480) return;
-      initMultiSelectableCards('.problems .problem-card:not(.problem-card-thanks)');
+      initMultiSelectableCards('.problems .problem-card:not(.problem-card-thanks)', { soundType: 'click' });
     }
 
     function initFaqSelector() {
@@ -655,10 +747,11 @@
         const item = option.closest('.faq-choice-item');
         const wasActive = option.classList.contains('is-selected');
 
-        trackMetaCustom('FaqInteraction', {
+        trackMetaCustom(META_EVENTS.faqInteraction, {
           faq_value: value || 'sin_valor',
           interaction_type: 'click',
         });
+        playUiSound('swipe');
 
         resetFaqItems();
 
@@ -666,6 +759,7 @@
           formState.selectedFaqQuestion = '';
           if (customWrap) customWrap.hidden = true;
           syncFormState();
+          maybeTrackQuoteFormCompleted();
           return;
         }
 
@@ -682,6 +776,7 @@
         }
 
         syncFormState();
+        maybeTrackQuoteFormCompleted();
       };
 
       options.forEach(option => {
@@ -694,6 +789,7 @@
             formState.selectedFaqQuestion = 'Otra pregunta';
           }
           syncFormState();
+          maybeTrackQuoteFormCompleted();
         });
       }
     }
@@ -727,6 +823,7 @@
       if (!section || !firstInput) return;
       smoothScrollToSection(section, { extraOffset: getQuoteScrollOffset() });
       setTimeout(() => {
+        metaTrackState.suppressAutoFocusTrack = true;
         firstInput.focus({ preventScroll: true });
         firstInput.classList.add('glow-focus');
         setTimeout(() => firstInput.classList.remove('glow-focus'), 2600);
@@ -812,20 +909,53 @@
             content_name: 'cta_cotizar_web',
             source: 'hero_or_header',
           });
+          trackMetaCustom(META_EVENTS.ctaTopClick, {
+            source: 'hero_or_header',
+          });
           scrollToQuoteFormAndFocus();
         });
       });
     }
 
-    function initFooterWhatsAppTracking() {
-      const footerLinks = Array.from(document.querySelectorAll('.site-footer a[href*="wa.link"], .site-footer a[href*="api.whatsapp.com/send"]'));
+    function initCtaClickSound() {
+      const ctaLinks = Array.from(document.querySelectorAll('.js-open-quote, #send-quote-whatsapp, .site-footer a[href*="wa.link"], .site-footer a[href*="api.whatsapp.com/send"]'));
+      if (!ctaLinks.length) return;
+
+      ctaLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          playUiSound('click');
+        });
+      });
+    }
+
+    function initFooterLinkTracking() {
+      const footerLinks = Array.from(document.querySelectorAll('.site-footer a'));
       if (!footerLinks.length) return;
 
       footerLinks.forEach(link => {
+        const href = (link.getAttribute('href') || '').trim();
+        const label = (link.textContent || '').trim().toLowerCase();
+        const isWhatsApp = href.includes('wa.link') || href.includes('api.whatsapp.com/send');
+        const destination =
+          label.includes('agendar') ? 'agendar_whatsapp'
+            : label.includes('instagram') ? 'instagram'
+              : label.includes('tiktok') ? 'tiktok'
+                : label.includes('cursos') ? 'cursos'
+                  : label.includes('condiciones') ? 'condiciones'
+                    : label.includes('privacidad') ? 'privacidad'
+                      : 'otro';
+
         link.addEventListener('click', () => {
-          trackMeta('Contact', {
-            content_name: 'footer_whatsapp',
+          trackMetaCustom(META_EVENTS.footerLinkClick, {
+            destination,
+            href,
           });
+
+          if (isWhatsApp) {
+            trackMeta('Contact', {
+              content_name: 'footer_whatsapp',
+            });
+          }
         });
       });
     }
@@ -956,7 +1086,7 @@
 
     function initTestimonialSelector() {
       if (window.innerWidth <= 480) return;
-      initMultiSelectableCards('.testimonial-choice', { eventName: 'testimonial_selected' });
+      initMultiSelectableCards('.testimonial-choice', { eventName: 'testimonial_selected', soundType: 'click' });
     }
 
     function initQuoteWhatsAppCTA() {
@@ -968,46 +1098,80 @@
         const field = document.getElementById(fieldId);
         if (!field) return;
         field.addEventListener('focus', () => {
+          if (metaTrackState.suppressAutoFocusTrack) {
+            metaTrackState.suppressAutoFocusTrack = false;
+            return;
+          }
           if (metaTrackState.formStartTracked) return;
           metaTrackState.formStartTracked = true;
-          trackMetaCustom('QuoteFormStart', {
+          trackMetaCustom(META_EVENTS.formStart, {
             first_field: fieldId,
           });
-        }, { once: true });
+        });
 
         field.addEventListener('input', () => {
           syncFormState();
+          maybeTrackQuoteFormCompleted();
           buildQuoteSummary();
         });
       });
 
-      sendBtn.addEventListener('click', e => {
+      sendBtn.addEventListener('click', async e => {
+        syncFormState();
+        maybeTrackQuoteFormCompleted();
         const message = buildQuoteMessage();
         const whatsappUrl = `${whatsappBaseUrl}&text=${message}`;
         sendBtn.setAttribute('href', whatsappUrl);
 
+        const nameParts = (formState.name || '').trim().split(/\s+/);
+        const fn = nameParts[0] || '';
+        const ln = nameParts.slice(1).join(' ');
+        const ph = normalizePhone(formState.phone || '');
+        const [hashedFn, hashedLn, hashedPh] = await Promise.all([
+          sha256hex(fn),
+          sha256hex(ln),
+          sha256hex(ph),
+        ]);
+        const userData = {};
+        if (hashedFn) userData.fn = hashedFn;
+        if (hashedLn) userData.ln = hashedLn;
+        if (hashedPh) userData.ph = hashedPh;
+
         trackMeta('Lead', {
           content_name: 'cotizacion_whatsapp',
           channel: 'whatsapp',
-        });
+        }, { userData });
         trackMeta('Contact', {
           content_name: 'cotizacion_whatsapp',
           channel: 'whatsapp',
+        }, { userData });
+        trackMetaCustom(META_EVENTS.ctaFormWhatsappClick, {
+          channel: 'whatsapp',
+          source: 'form_cta',
         });
         registerLeadEvent('whatsapp_clicked');
         saveQuoteLeadToSupabase();
       });
     }
 
-    initBenefitMultiSelect();
-    initProblemMultiSelect();
-    initFaqSelector();
-    initTestimonialSelector();
-    initQuoteJumpCTAs();
-    initFooterWhatsAppTracking();
-    initNavSectionScroll();
-    initQuoteWhatsAppCTA();
-    initCaseMetricsCounter();
+    function safeInit(name, fn) {
+      try {
+        fn();
+      } catch (error) {
+        console.error(`[init] ${name} failed`, error);
+      }
+    }
+
+    safeInit('quote-jump-ctas', initQuoteJumpCTAs);
+    safeInit('cta-click-sound', initCtaClickSound);
+    safeInit('quote-whatsapp-cta', initQuoteWhatsAppCTA);
+    safeInit('footer-link-tracking', initFooterLinkTracking);
+    safeInit('nav-section-scroll', initNavSectionScroll);
+    safeInit('benefit-multi-select', initBenefitMultiSelect);
+    safeInit('problem-multi-select', initProblemMultiSelect);
+    safeInit('faq-selector', initFaqSelector);
+    safeInit('testimonial-selector', initTestimonialSelector);
+    safeInit('case-metrics-counter', initCaseMetricsCounter);
 
     // ── Scroll guiado + fade-in pasos (solo móvil) ──────────────────────────
     if (window.innerWidth <= 480) {
@@ -1161,6 +1325,7 @@
               card.classList.remove('is-selected');
               card.setAttribute('aria-checked', 'false');
             }
+            playUiSound('swipe');
             syncFormState();
             setTimeout(updateTestimonialStack, 320);
           } else {
@@ -1197,6 +1362,7 @@
         summaryObserver.observe(testimonialThanks);
 
         btnIrCotizar.addEventListener('click', () => {
+          playUiSound('click');
           smoothScrollToSection(cotizarSection, { extraOffset: getQuoteScrollOffset() });
         });
       }
@@ -1269,6 +1435,7 @@
               card.classList.remove('is-selected');
               card.setAttribute('aria-checked', 'false');
             }
+            playUiSound('swipe');
             syncFormState();
             setTimeout(updateStack, 320);
           } else {
