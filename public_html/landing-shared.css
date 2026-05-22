@@ -76,8 +76,40 @@
       min-height: 76px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 28px;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .header-live-pill {
+      min-height: 40px;
+      padding: 0 16px;
+      border-radius: 8px;
+      border: 1px solid #dcd4d8;
+      background: #ffffff;
+      color: #161216;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 6px 18px rgba(26, 16, 23, 0.1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .header-live-pill:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(26, 16, 23, 0.14);
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #ef4444;
+      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.14);
+      flex: 0 0 auto;
     }
 
     .brand {
@@ -166,6 +198,10 @@
         max-width: 900px;
         margin: 0 auto;
       }
+    }
+
+    .hero-actions .btn-whatsapp {
+      width: auto;
     }
 
     .btn {
@@ -277,6 +313,10 @@
       line-height: 1.52;
     }
 
+    .hero-description-secondary {
+      margin-top: 12px;
+    }
+
     .hero-features {
       margin-top: 18px;
       display: flex;
@@ -293,6 +333,78 @@
       gap: 8px;
     }
 
+    .how-inline {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .how-plus {
+      color: #8d8390;
+      font-weight: 700;
+    }
+
+    .wiki-term {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #2f2a30;
+      border-bottom: 1px dotted rgba(76, 6, 24, 0.35);
+      cursor: help;
+      outline: none;
+    }
+
+    .wiki-term:focus-visible {
+      box-shadow: 0 0 0 2px rgba(143, 20, 56, 0.2);
+      border-radius: 4px;
+    }
+
+    .wiki-i {
+      width: 15px;
+      height: 15px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 999px;
+      background: #f5e8ec;
+      color: var(--wine);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .wiki-tooltip {
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 10px);
+      transform: translateX(-50%) translateY(6px);
+      width: min(260px, 72vw);
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #e8d6dd;
+      background: #fff;
+      color: #3b323b;
+      font-size: 12px;
+      line-height: 1.4;
+      font-weight: 600;
+      box-shadow: 0 12px 28px rgba(39, 20, 31, 0.16);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s ease;
+      z-index: 6;
+      text-align: left;
+    }
+
+    .wiki-term:hover .wiki-tooltip,
+    .wiki-term:focus .wiki-tooltip,
+    .wiki-term:focus-visible .wiki-tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
     .feature-icon-image {
       width: 25px;
       height: 25px;
@@ -306,6 +418,12 @@
       align-items: center;
       gap: 16px;
       flex-wrap: wrap;
+    }
+
+    .hero-actions .btn-primary {
+      background: #32D951;
+      box-shadow: 0 15px 30px rgba(50, 217, 81, 0.35);
+      color: #ffffff;
     }
 
     .social-proof {
@@ -336,6 +454,76 @@
       align-items: flex-start;
       justify-content: center;
       padding-top: 2px;
+    }
+
+    .sites-marquee {
+      position: relative;
+      width: min(100%, 940px);
+      overflow: hidden;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #fff 0%, #fff7fa 100%);
+      border: 1px solid #ecdde3;
+      box-shadow: 0 20px 46px rgba(44, 18, 31, 0.12);
+      padding: 14px 0;
+    }
+
+    .sites-marquee::before,
+    .sites-marquee::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 70px;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .sites-marquee::before {
+      left: 0;
+      background: linear-gradient(90deg, #fff9fb 0%, rgba(255, 249, 251, 0) 100%);
+    }
+
+    .sites-marquee::after {
+      right: 0;
+      background: linear-gradient(270deg, #fff9fb 0%, rgba(255, 249, 251, 0) 100%);
+    }
+
+    .sites-track {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: max-content;
+      animation: sites-scroll 34s linear infinite;
+      padding: 0 14px;
+    }
+
+    .site-shot {
+      flex: 0 0 auto;
+      width: clamp(240px, 27vw, 340px);
+      margin: 0;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #efe1e6;
+      background: #fff;
+      box-shadow: 0 10px 22px rgba(34, 18, 27, 0.12);
+    }
+
+    .site-shot img {
+      width: 100%;
+      height: clamp(150px, 18vw, 210px);
+      object-fit: cover;
+      display: block;
+    }
+
+    @keyframes sites-scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sites-track {
+        animation: none;
+      }
     }
 
     /* ── Modal de video ── */
@@ -515,7 +703,7 @@
     }
 
     #cotizar {
-      scroll-margin-top: 92px;
+      scroll-margin-top: 0;
     }
 
     .section-heading {
@@ -1041,7 +1229,16 @@
     }
 
     .final-cta {
-      padding-bottom: 24px !important;
+      padding: 0 !important;
+      margin-top: -24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .final-cta .container {
+      width: 100%;
+      max-width: none;
+      padding: 0;
     }
 
     .cta-card {
@@ -1051,8 +1248,8 @@
       gap: 28px;
       overflow: hidden;
       min-height: 285px;
-      padding: 34px;
-      border-radius: var(--radius-lg);
+      padding: clamp(28px, 4vw, 56px);
+      border-radius: 0;
       background:
         radial-gradient(circle at 70% 30%, rgba(255,255,255,0.14), transparent 20rem),
         linear-gradient(135deg, var(--wine-deep), #6b0a28 52%, #2b030d 100%);
@@ -1064,6 +1261,7 @@
       font-size: 24px;
       letter-spacing: -0.05em;
       margin-bottom: 20px;
+      text-align: center;
     }
 
     .quote-form {
@@ -1391,7 +1589,7 @@
       }
 
       .container {
-        width: min(100% - 32px, 420px);
+        width: min(100% - 16px, 420px);
       }
 
       .site-header {
@@ -1416,9 +1614,15 @@
         height: 36px;
       }
 
-      .header-cta,
       .main-nav {
         display: none;
+      }
+
+      .header-live-pill {
+        min-height: 38px;
+        padding: 0 14px;
+        font-size: 11px;
+        letter-spacing: 0.06em;
       }
 
       .mobile-menu-btn {
@@ -1957,6 +2161,7 @@
         cursor: pointer;
         transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
         line-height: 1.55;
+      }
 
       .testimonial-picker-subtitle {
         margin-top: 8px;
@@ -1983,18 +2188,17 @@
           box-shadow: 0 14px 28px rgba(76, 6, 24, 0.16);
         }
       }
-      }
 
       .case-card {
-
-        .testimonial-picker-subtitle {
-          display: none;
-        }
         grid-template-columns: 1fr;
         border: 0;
         border-radius: 16px;
         background: transparent;
         box-shadow: 0 24px 48px rgba(76, 6, 24, 0.18);
+      }
+
+      .case-card .testimonial-picker-subtitle {
+        display: none;
       }
 
       .case-metrics {
@@ -2156,10 +2360,14 @@
 
       .cta-card {
         grid-template-columns: 1fr;
-        padding: 24px;
+        padding: 24px 14px;
         gap: 18px;
         min-height: auto;
-        border-radius: 16px;
+        border-radius: 0;
+      }
+
+      .final-cta {
+        margin-top: -28px;
       }
 
       .cta-person {
@@ -2167,32 +2375,6 @@
         min-height: 210px;
         border-radius: 16px;
         background-position: center center;
-      }
-
-      .cta-benefits {
-        display: none;
-      }
-
-      .cta-form-copy h2 {
-        font-size: 25px;
-        line-height: 1.12;
-      }
-
-      .quote-list li {
-        grid-template-columns: 1fr;
-        gap: 3px;
-        padding: 11px 14px;
-        font-size: 12px;
-        border-radius: 12px;
-      }
-
-      .btn-whatsapp {
-        min-height: 58px;
-        background: linear-gradient(135deg, #26c766, #18a657);
-      }
-
-      .faq {
-        display: block;
       }
 
       .mobile-trust-row {
@@ -2235,7 +2417,7 @@
 
     @media (max-width: 480px) {
       .container {
-        width: min(100% - 28px, 390px);
+        width: min(100% - 10px, 390px);
       }
 
       .hero {
@@ -2285,6 +2467,22 @@
       .mini-feature {
         font-size: 12px;
         gap: 5px;
+      }
+
+      .how-inline {
+        gap: 4px;
+      }
+
+      .wiki-i {
+        width: 13px;
+        height: 13px;
+        font-size: 9px;
+      }
+
+      .wiki-tooltip {
+        width: min(230px, 78vw);
+        font-size: 11px;
+        padding: 8px 10px;
       }
 
       .feature-icon-image {
@@ -2397,7 +2595,11 @@
       }
 
       .cta-card {
-        padding: 18px;
+        padding: 18px 12px;
+      }
+
+      .final-cta {
+        margin-top: -24px;
       }
 
       .cta-form-copy h2 {

@@ -70,29 +70,10 @@
   <!-- HEADER -->
   <header class="site-header">
     <div class="container header-inner">
-      <a href="#" class="brand" aria-label="Eder Crea Webs">
-        <img class="brand-avatar" src="/eder_favicon.png" alt="Eder Crea Webs" />
-        <span>edercreawebs</span>
+      <a href="#cotizar" class="header-cta header-live-pill js-open-quote" aria-label="Cotizar tu sistema web">
+        <span class="live-dot" aria-hidden="true"></span>
+        Cotizar tu sistema web
       </a>
-
-      <nav class="main-nav" aria-label="Navegación principal">
-        <a href="#servicios">Beneficios</a>
-        <a href="#problemas">Problemas</a>
-        <a href="#proceso">Proceso</a>
-        <a href="#testimonios">Testimonios</a>
-        <a href="#cotizar">Preguntas</a>
-      </nav>
-
-      <a href="#cotizar" class="btn btn-primary header-cta js-open-quote">
-        <img class="cta-whatsapp-icon" src="/whatsapp_white.png" alt="WhatsApp" />
-        Quiero cotizar mi web
-      </a>
-
-      <button class="mobile-menu-btn" aria-label="Abrir menú">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
     </div>
   </header>
 
@@ -101,44 +82,27 @@
     <section class="hero" id="inicio">
       <div class="container hero-grid">
         <div class="hero-copy">
-          <div class="eyebrow">Sitios web para psicólogos</div>
+          <div class="eyebrow">Sistemas web para consultorios</div>
 
           <h1>
-            Llena tu agenda con pacientes más calificados en 30 días usando una web que responde, agenda y genera confianza por ti
+            ¿El cuello de botella<br />
+            de tu consultorio<br />
+            eres tú?
           </h1>
 
           <p class="hero-description">
-            Te creo una web profesional que genera confianza, explica tus servicios y permite agendar o escribirte por WhatsApp <strong>sin que tengas que contestar todo el día.</strong>
+            Recordar citas, evitar ausencias, responder dudas y no perder pacientes no debería depender solo de ti.
           </p>
 
-          <div class="hero-features">
-            <div class="mini-feature">
-              <img class="feature-icon-image" src="/i4.png" alt="Icono de monitor" />
-              Sitio web profesional
-            </div>
-            <div class="mini-feature">
-              <img class="feature-icon-image" src="/i3.png" alt="Icono de calendario" />
-              Agenda automática
-            </div>
-            <div class="mini-feature">
-              <img class="feature-icon-image" src="/i2.png" alt="Icono de WhatsApp" />
-              WhatsApp conectado
-            </div>
-            <div class="mini-feature">
-              <img class="feature-icon-image" src="/i1.png" alt="Icono de recordatorios" />
-              Recordatorios
-            </div>
-          </div>
+          <p class="hero-description hero-description-secondary">
+            Creamos un sistema web conectado a WhatsApp, agenda, Pixel y CRM para que tus pacientes puedan entender, confiar y agendar sin que tengas que contestar todo el día.
+          </p>
 
           <div class="hero-actions">
-            <a href="#cotizar" class="btn btn-primary js-open-quote">
+            <a href="#cotizar" class="btn btn-whatsapp js-open-quote">
               <img class="cta-whatsapp-icon" src="/whatsapp_white.png" alt="WhatsApp" />
-              Quiero cotizar mi web
+              Cotizar sistema web
             </a>
-            <button type="button" class="btn btn-secondary" id="btn-ver-ejemplo">
-              <span class="icon-placeholder">▶</span>
-              Ver ejemplo real
-            </button>
           </div>
 
           <div class="social-proof">
@@ -153,14 +117,23 @@
         </div>
 
         <div class="hero-visual" id="ejemplos">
-          <picture>
-            <source srcset="/img_banner.webp" type="image/webp" />
-            <img
-              class="hero-banner-image"
-              src="/img_banner.png"
-              alt="Ejemplo de sitio web para psicólogos mostrado en laptop y celular"
-            />
-          </picture>
+          <div class="sites-marquee" aria-label="Muestra de sitios web realizados">
+            <div class="sites-track">
+              <figure class="site-shot"><img src="/banner0.webp" alt="Sitio web realizado - ejemplo 1" loading="lazy" /></figure>
+              <figure class="site-shot"><img src="/banner2.webp" alt="Sitio web realizado - ejemplo 2" loading="lazy" /></figure>
+              <figure class="site-shot"><img src="/car0.webp" alt="Sitio web realizado - ejemplo 3" loading="lazy" /></figure>
+              <figure class="site-shot"><img src="/car1.webp" alt="Sitio web realizado - ejemplo 4" loading="lazy" /></figure>
+              <figure class="site-shot"><img src="/car2.webp" alt="Sitio web realizado - ejemplo 5" loading="lazy" /></figure>
+              <figure class="site-shot"><img src="/img_banner.webp" alt="Sitio web realizado - ejemplo 6" loading="lazy" /></figure>
+
+              <figure class="site-shot" aria-hidden="true"><img src="/banner0.webp" alt="" loading="lazy" /></figure>
+              <figure class="site-shot" aria-hidden="true"><img src="/banner2.webp" alt="" loading="lazy" /></figure>
+              <figure class="site-shot" aria-hidden="true"><img src="/car0.webp" alt="" loading="lazy" /></figure>
+              <figure class="site-shot" aria-hidden="true"><img src="/car1.webp" alt="" loading="lazy" /></figure>
+              <figure class="site-shot" aria-hidden="true"><img src="/car2.webp" alt="" loading="lazy" /></figure>
+              <figure class="site-shot" aria-hidden="true"><img src="/img_banner.webp" alt="" loading="lazy" /></figure>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -438,7 +411,7 @@
       <div class="container">
         <div class="cta-card">
           <div class="cta-form-copy">
-            <h2>Para cotizar tu web</h2>
+            <h2>Formulario para Cotizar</h2>
             <div class="quote-form">
               <label class="quote-field" for="quote-service">
                 <span class="quote-index">1.</span>
@@ -464,9 +437,9 @@
             </div>
             <a href="https://wa.link/eah465" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp" id="send-quote-whatsapp">
               <img class="cta-whatsapp-icon" src="/whatsapp_white.png" alt="WhatsApp" />
-              Quiero cotizar mi web por WhatsApp
+              Cotizar sistema web
             </a>
-            <p>Ahorra tiempo: llena estas preguntas para cotizarte mejor.</p>
+            <p>Este formulario modifica el mensaje con el que te llegan a WhatsApp. Pruébalo.</p>
           </div>
 
           <div class="cta-person" role="img" aria-label="Imagen de muestra para cotizacion"></div>
@@ -744,11 +717,15 @@
       }
     }
 
+    function getQuoteScrollOffset() {
+      return window.innerWidth <= 820 ? -120 : -40;
+    }
+
     function scrollToQuoteFormAndFocus() {
       const section = document.getElementById('cotizar');
       const firstInput = document.getElementById('quote-service');
       if (!section || !firstInput) return;
-      smoothScrollToSection(section);
+      smoothScrollToSection(section, { extraOffset: getQuoteScrollOffset() });
       setTimeout(() => {
         firstInput.focus({ preventScroll: true });
         firstInput.classList.add('glow-focus');
@@ -831,7 +808,7 @@
       document.querySelectorAll('.js-open-quote').forEach(link => {
         link.addEventListener('click', e => {
           e.preventDefault();
-          trackMeta('Lead', {
+          trackMeta('InitiateCheckout', {
             content_name: 'cta_cotizar_web',
             source: 'hero_or_header',
           });
@@ -1005,20 +982,20 @@
       });
 
       sendBtn.addEventListener('click', e => {
-        e.preventDefault();
-        const openWhatsApp = () => {
-          const message = buildQuoteMessage();
-          const whatsappUrl = `${whatsappBaseUrl}&text=${message}`;
-          sendBtn.setAttribute('href', whatsappUrl);
-          window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-        };
+        const message = buildQuoteMessage();
+        const whatsappUrl = `${whatsappBaseUrl}&text=${message}`;
+        sendBtn.setAttribute('href', whatsappUrl);
 
         trackMeta('Lead', {
           content_name: 'cotizacion_whatsapp',
           channel: 'whatsapp',
         });
+        trackMeta('Contact', {
+          content_name: 'cotizacion_whatsapp',
+          channel: 'whatsapp',
+        });
         registerLeadEvent('whatsapp_clicked');
-        saveQuoteLeadToSupabase().finally(openWhatsApp);
+        saveQuoteLeadToSupabase();
       });
     }
 
@@ -1220,7 +1197,7 @@
         summaryObserver.observe(testimonialThanks);
 
         btnIrCotizar.addEventListener('click', () => {
-          smoothScrollToSection(cotizarSection);
+          smoothScrollToSection(cotizarSection, { extraOffset: getQuoteScrollOffset() });
         });
       }
     }
