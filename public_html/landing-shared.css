@@ -786,6 +786,7 @@
       color: #fff;
       background: var(--wine);
       box-shadow: 0 8px 18px rgba(76, 6, 24, 0.34);
+      z-index: 5;
     }
 
     @media (hover: hover) {
@@ -1635,17 +1636,22 @@
       }
 
       .hero-grid {
+        grid-template-columns: minmax(0, 1fr);
         gap: 40px;
       }
 
       .hero-copy {
-        text-align: left;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        text-align: center;
       }
 
       .hero-copy .eyebrow,
+      .hero h1,
       .hero-description {
-        margin-left: 0;
-        margin-right: 0;
+        margin-left: auto;
+        margin-right: auto;
       }
 
       .eyebrow {
@@ -1656,9 +1662,15 @@
       }
 
       .hero h1 {
-        font-size: 46px;
+        max-width: 100%;
+        font-size: clamp(34px, 10.8vw, 46px);
         line-height: 1.08;
-        letter-spacing: -0.065em;
+        letter-spacing: -0.045em;
+        overflow-wrap: anywhere;
+      }
+
+      .hero h1 br {
+        display: none;
       }
 
       .hero-description {
@@ -1719,7 +1731,36 @@
       }
 
       .hero-visual {
-        display: none;
+        display: flex;
+        max-width: 100%;
+        margin: 4px auto 0;
+        padding-top: 0;
+      }
+
+      .sites-marquee {
+        width: 100%;
+        border-radius: 16px;
+        padding: 10px 0;
+      }
+
+      .sites-marquee::before,
+      .sites-marquee::after {
+        width: 42px;
+      }
+
+      .sites-track {
+        gap: 10px;
+        padding: 0 10px;
+        animation-duration: 28s;
+      }
+
+      .site-shot {
+        width: clamp(170px, 64vw, 250px);
+        border-radius: 12px;
+      }
+
+      .site-shot img {
+        height: clamp(108px, 40vw, 160px);
       }
 
       section:not(.hero) {
@@ -2507,6 +2548,35 @@
         font-size: 12px;
         gap: 10px;
         justify-content: center;
+      }
+
+      .hero-visual {
+        margin-top: 10px;
+      }
+
+      .sites-marquee {
+        border-radius: 12px;
+        padding: 8px 0;
+      }
+
+      .sites-marquee::before,
+      .sites-marquee::after {
+        width: 26px;
+      }
+
+      .sites-track {
+        gap: 8px;
+        padding: 0 8px;
+        animation-duration: 24s;
+      }
+
+      .site-shot {
+        width: clamp(146px, 74vw, 208px);
+        border-radius: 10px;
+      }
+
+      .site-shot img {
+        height: clamp(96px, 44vw, 132px);
       }
 
       .avatar-stack .stack-avatar {
