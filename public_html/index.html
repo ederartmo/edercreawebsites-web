@@ -117,15 +117,15 @@
         <div class="hero-visual" id="ejemplos">
           <div class="sites-marquee" aria-label="Muestra de sitios web realizados">
             <div class="sites-track">
-              <figure class="site-shot"><img src="/1_m1.png" alt="Sitio web realizado - ejemplo 1" loading="lazy" /></figure>
-              <figure class="site-shot"><img src="/1_m2.png" alt="Sitio web realizado - ejemplo 2" loading="lazy" /></figure>
-              <figure class="site-shot"><img src="/1_m3.png" alt="Sitio web realizado - ejemplo 3" loading="lazy" /></figure>
-              <figure class="site-shot"><img src="/1_m4.png" alt="Sitio web realizado - ejemplo 4" loading="lazy" /></figure>
+              <figure class="site-shot js-project-shot" data-project="proyecto-1" role="button" tabindex="0" aria-label="Ver proyecto 1 en grande"><img src="/projects/proyecto-1/cover.png" alt="Sitio web realizado - ejemplo 1" loading="lazy" /></figure>
+              <figure class="site-shot js-project-shot" data-project="proyecto-2" role="button" tabindex="0" aria-label="Ver proyecto 2 en grande"><img src="/projects/proyecto-2/cover.png" alt="Sitio web realizado - ejemplo 2" loading="lazy" /></figure>
+              <figure class="site-shot js-project-shot" data-project="proyecto-3" role="button" tabindex="0" aria-label="Ver proyecto 3 en grande"><img src="/projects/proyecto-3/cover.png" alt="Sitio web realizado - ejemplo 3" loading="lazy" /></figure>
+              <figure class="site-shot js-project-shot" data-project="proyecto-4" role="button" tabindex="0" aria-label="Ver proyecto 4 en grande"><img src="/projects/proyecto-4/cover.png" alt="Sitio web realizado - ejemplo 4" loading="lazy" /></figure>
 
-              <figure class="site-shot" aria-hidden="true"><img src="/1_m1.png" alt="" loading="lazy" /></figure>
-              <figure class="site-shot" aria-hidden="true"><img src="/1_m2.png" alt="" loading="lazy" /></figure>
-              <figure class="site-shot" aria-hidden="true"><img src="/1_m3.png" alt="" loading="lazy" /></figure>
-              <figure class="site-shot" aria-hidden="true"><img src="/1_m4.png" alt="" loading="lazy" /></figure>
+              <figure class="site-shot" aria-hidden="true"><img src="/projects/proyecto-1/cover.png" alt="" loading="lazy" /></figure>
+              <figure class="site-shot" aria-hidden="true"><img src="/projects/proyecto-2/cover.png" alt="" loading="lazy" /></figure>
+              <figure class="site-shot" aria-hidden="true"><img src="/projects/proyecto-3/cover.png" alt="" loading="lazy" /></figure>
+              <figure class="site-shot" aria-hidden="true"><img src="/projects/proyecto-4/cover.png" alt="" loading="lazy" /></figure>
             </div>
           </div>
         </div>
@@ -596,6 +596,161 @@
         audio.currentTime = 0;
         void audio.play();
       } catch (_) {}
+    }
+
+    const PROJECT_GALLERIES = {
+      'proyecto-1': {
+        title: 'Proyecto 1',
+        images: [
+          '/projects/proyecto-1/cover.png',
+          // '/projects/proyecto-1/screen-2.png',
+          // '/projects/proyecto-1/screen-3.png',
+        ],
+      },
+      'proyecto-2': {
+        title: 'Proyecto 2',
+        images: [
+          '/projects/proyecto-2/cover.png',
+          '/projects/proyecto-2/2.png',
+          '/projects/proyecto-2/3.png',
+          '/projects/proyecto-2/4.png',
+          // '/projects/proyecto-2/screen-5.png',
+        ],
+      },
+      'proyecto-3': {
+        title: 'Proyecto 3',
+        images: [
+          '/projects/proyecto-3/cover.png',
+          '/projects/proyecto-3/2.png',
+          '/projects/proyecto-3/3.png',
+          '/projects/proyecto-3/4.png',
+          // '/projects/proyecto-3/screen-5.png',
+        ],
+      },
+      'proyecto-4': {
+        title: 'Proyecto 4',
+        images: [
+          '/projects/proyecto-4/cover.png',
+          '/projects/proyecto-4/2.png',
+          '/projects/proyecto-4/3.png',
+          '/projects/proyecto-4/4.png',
+          '/projects/proyecto-4/5.png',
+          // '/projects/proyecto-4/screen-6.png',
+        ],
+      },
+    };
+
+    function initProjectGalleryModal() {
+      const shots = Array.from(document.querySelectorAll('.js-project-shot[data-project]'));
+      if (!shots.length) return;
+
+      const modal = document.getElementById('project-gallery-modal');
+      const backdrop = document.getElementById('project-gallery-backdrop');
+      const closeBtn = document.getElementById('project-gallery-close');
+      const prevBtn = document.getElementById('project-gallery-prev');
+      const nextBtn = document.getElementById('project-gallery-next');
+      const title = document.getElementById('project-gallery-title');
+      const mainImage = document.getElementById('project-gallery-main-image');
+      const thumbs = document.getElementById('project-gallery-thumbs');
+
+      if (!modal || !backdrop || !closeBtn || !prevBtn || !nextBtn || !title || !mainImage || !thumbs) return;
+
+      let activeProjectKey = '';
+      let activeIndex = 0;
+
+      function getGallery(projectKey) {
+        const project = PROJECT_GALLERIES[projectKey];
+        if (!project || !Array.isArray(project.images)) return [];
+        return project.images.filter(Boolean);
+      }
+
+      function renderThumbs(images) {
+        thumbs.innerHTML = '';
+        images.forEach((imageSrc, index) => {
+          const thumbBtn = document.createElement('button');
+          thumbBtn.type = 'button';
+          thumbBtn.className = 'project-gallery-thumb';
+          thumbBtn.setAttribute('aria-label', `Ver imagen ${index + 1}`);
+          if (index === activeIndex) thumbBtn.classList.add('is-active');
+
+          const img = document.createElement('img');
+          img.src = imageSrc;
+          img.alt = '';
+          img.loading = 'lazy';
+          thumbBtn.appendChild(img);
+
+          thumbBtn.addEventListener('click', () => {
+            activeIndex = index;
+            render();
+          });
+
+          thumbs.appendChild(thumbBtn);
+        });
+      }
+
+      function render() {
+        const project = PROJECT_GALLERIES[activeProjectKey];
+        const images = getGallery(activeProjectKey);
+        if (!project || !images.length) return;
+
+        title.textContent = project.title;
+        mainImage.src = images[activeIndex];
+        mainImage.alt = `${project.title} - vista ${activeIndex + 1}`;
+        renderThumbs(images);
+
+        const shouldEnableNav = images.length > 1;
+        prevBtn.disabled = !shouldEnableNav;
+        nextBtn.disabled = !shouldEnableNav;
+      }
+
+      function open(projectKey) {
+        const images = getGallery(projectKey);
+        if (!images.length) return;
+
+        playUiSound('click');
+        activeProjectKey = projectKey;
+        activeIndex = 0;
+        render();
+        modal.removeAttribute('hidden');
+        document.body.style.overflow = 'hidden';
+        closeBtn.focus();
+      }
+
+      function close() {
+        modal.setAttribute('hidden', '');
+        document.body.style.overflow = '';
+      }
+
+      function go(step) {
+        const images = getGallery(activeProjectKey);
+        if (images.length <= 1) return;
+        activeIndex = (activeIndex + step + images.length) % images.length;
+        render();
+      }
+
+      shots.forEach((shot) => {
+        const projectKey = shot.dataset.project;
+        if (!projectKey) return;
+
+        shot.addEventListener('click', () => open(projectKey));
+        shot.addEventListener('keydown', (e) => {
+          if (e.key !== 'Enter' && e.key !== ' ') return;
+          e.preventDefault();
+          open(projectKey);
+        });
+      });
+
+      closeBtn.addEventListener('click', close);
+      backdrop.addEventListener('click', close);
+      prevBtn.addEventListener('click', () => go(-1));
+      nextBtn.addEventListener('click', () => go(1));
+
+      document.addEventListener('keydown', (e) => {
+        if (modal.hasAttribute('hidden')) return;
+        if (e.key === 'Escape') close();
+        if (e.key === 'ArrowLeft') go(-1);
+        if (e.key === 'ArrowRight') go(1);
+      });
     }
 
     trackMeta('ViewContent', {
@@ -1166,6 +1321,13 @@
     safeInit('faq-selector', initFaqSelector);
     safeInit('testimonial-selector', initTestimonialSelector);
     safeInit('case-metrics-counter', initCaseMetricsCounter);
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        safeInit('project-gallery-modal', initProjectGalleryModal);
+      }, { once: true });
+    } else {
+      safeInit('project-gallery-modal', initProjectGalleryModal);
+    }
 
     // ── Scroll guiado + fade-in pasos (solo móvil) ──────────────────────────
     if (window.innerWidth <= 480) {
@@ -1518,6 +1680,25 @@
       <video class="video-modal-player" id="video-modal-player" controls playsinline preload="none">
         <source src="v1_1.mp4" type="video/mp4">
       </video>
+    </div>
+  </div>
+
+  <!-- Modal galeria de proyectos -->
+  <div class="project-gallery-modal" id="project-gallery-modal" role="dialog" aria-modal="true" aria-label="Galeria de proyectos" hidden>
+    <div class="project-gallery-backdrop" id="project-gallery-backdrop"></div>
+    <div class="project-gallery-box">
+      <button class="project-gallery-close" id="project-gallery-close" type="button" aria-label="Cerrar">&times;</button>
+      <div class="project-gallery-header">
+        <p class="project-gallery-title" id="project-gallery-title">Proyecto</p>
+      </div>
+      <div class="project-gallery-content">
+        <div class="project-gallery-stage">
+          <button class="project-gallery-nav project-gallery-prev" id="project-gallery-prev" type="button" aria-label="Imagen anterior">&#10094;</button>
+          <img class="project-gallery-main-image" id="project-gallery-main-image" src="" alt="" />
+          <button class="project-gallery-nav project-gallery-next" id="project-gallery-next" type="button" aria-label="Imagen siguiente">&#10095;</button>
+        </div>
+        <div class="project-gallery-thumbs" id="project-gallery-thumbs"></div>
+      </div>
     </div>
   </div>
 
