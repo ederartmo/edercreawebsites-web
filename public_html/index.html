@@ -648,10 +648,11 @@
       const prevBtn = document.getElementById('project-gallery-prev');
       const nextBtn = document.getElementById('project-gallery-next');
       const title = document.getElementById('project-gallery-title');
+      const stage = document.querySelector('.project-gallery-stage');
       const mainImage = document.getElementById('project-gallery-main-image');
       const thumbs = document.getElementById('project-gallery-thumbs');
 
-      if (!modal || !backdrop || !closeBtn || !prevBtn || !nextBtn || !title || !mainImage || !thumbs) return;
+      if (!modal || !backdrop || !closeBtn || !prevBtn || !nextBtn || !title || !stage || !mainImage || !thumbs) return;
 
       let activeProjectKey = '';
       let activeIndex = 0;
@@ -694,6 +695,7 @@
         title.textContent = project.title;
         mainImage.src = images[activeIndex];
         mainImage.alt = `${project.title} - vista ${activeIndex + 1}`;
+        stage.scrollTop = 0;
         renderThumbs(images);
 
         const shouldEnableNav = images.length > 1;

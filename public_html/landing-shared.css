@@ -637,7 +637,7 @@
     .project-gallery-box {
       position: relative;
       width: min(100%, 1080px);
-      max-height: calc(100vh - 32px);
+      max-height: calc(100vh - 8px);
       border-radius: 18px;
       border: 1px solid rgba(255, 255, 255, 0.14);
       background: rgba(14, 16, 22, 0.95);
@@ -693,20 +693,20 @@
 
     .project-gallery-stage {
       position: relative;
-      height: min(83vh, 774px);
+      height: min(99vh, 930px);
       border-radius: 14px;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
       border: 1px solid rgba(255, 255, 255, 0.16);
       background: #0d1119;
       min-height: 0;
-      display: grid;
-      place-items: center;
+      display: block;
+      overscroll-behavior: contain;
     }
 
     .project-gallery-main-image {
       width: 100%;
-      height: 100%;
-      object-fit: contain;
+      height: auto;
       display: block;
       background: #0d1119;
     }
@@ -746,7 +746,7 @@
       grid-auto-rows: 88px;
       gap: 8px;
       overflow-y: auto;
-      max-height: min(83vh, 774px);
+      max-height: min(99vh, 930px);
       padding-right: 4px;
     }
 
@@ -865,12 +865,12 @@
       }
 
       .project-gallery-stage {
-        height: min(70vh, 605px);
+        height: min(84vh, 726px);
       }
 
       .project-gallery-thumbs {
         grid-auto-rows: 88px;
-        max-height: min(70vh, 605px);
+        max-height: min(84vh, 726px);
       }
     }
 
