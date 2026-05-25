@@ -495,6 +495,7 @@
       width: max-content;
       animation: sites-scroll 34s linear infinite;
       padding: 0 14px;
+      pointer-events: auto;
     }
 
     .site-shot {
@@ -512,6 +513,8 @@
     .site-shot.js-project-shot {
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      pointer-events: auto;
+      touch-action: manipulation;
     }
 
     .site-shot.js-project-shot:hover {
@@ -528,9 +531,9 @@
     .site-shot img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       display: block;
-      background: transparent;
+      background: #f3f6fb;
     }
 
     @keyframes sites-scroll {
@@ -685,7 +688,7 @@
 
     .project-gallery-content {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 110px;
+      grid-template-columns: minmax(0, 1fr);
       gap: 12px;
       align-items: stretch;
       min-height: 0;
@@ -709,6 +712,7 @@
       height: auto;
       display: block;
       background: #0d1119;
+      object-fit: contain;
     }
 
     .project-gallery-nav {
@@ -743,11 +747,12 @@
 
     .project-gallery-thumbs {
       display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
       grid-auto-rows: 88px;
       gap: 8px;
-      overflow-y: auto;
-      max-height: min(99vh, 930px);
-      padding-right: 4px;
+      overflow: visible;
+      max-height: none;
+      padding-right: 0;
     }
 
     .project-gallery-thumb {
@@ -861,7 +866,7 @@
       }
 
       .project-gallery-content {
-        grid-template-columns: minmax(0, 1fr) 110px;
+        grid-template-columns: minmax(0, 1fr);
       }
 
       .project-gallery-stage {
@@ -869,8 +874,9 @@
       }
 
       .project-gallery-thumbs {
+        grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
         grid-auto-rows: 88px;
-        max-height: min(84vh, 726px);
+        max-height: none;
       }
     }
 
@@ -1436,7 +1442,7 @@
 
     .cta-card {
       display: grid;
-      grid-template-columns: 1.05fr 0.72fr 0.9fr;
+      grid-template-columns: 1.15fr 0.85fr;
       align-items: start;
       gap: 28px;
       overflow: hidden;
@@ -1453,8 +1459,16 @@
     .cta-form-copy h2 {
       font-size: 24px;
       letter-spacing: -0.05em;
-      margin-bottom: 20px;
-      text-align: center;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+
+    .cta-form-subtitle {
+      margin: 0 0 18px;
+      color: rgba(255, 255, 255, 0.84);
+      font-size: 13px;
+      line-height: 1.55;
+      font-weight: 650;
     }
 
     .quote-form {
@@ -1528,7 +1542,7 @@
 
     .cta-form-copy > p {
       margin-top: 10px;
-      text-align: center;
+      text-align: left;
       color: rgba(255, 255, 255, 0.74);
       font-size: 12px;
       font-weight: 700;
@@ -1539,7 +1553,13 @@
       align-self: stretch;
       border: 0;
       border-radius: 24px;
-      background: rgba(255,255,255,0.12) url("edertrabajando5.png") center/cover no-repeat;
+      background-color: rgba(255, 255, 255, 0.12);
+      background-image:
+        linear-gradient(180deg, rgba(12, 9, 12, 0.06) 0%, rgba(12, 9, 12, 0.24) 100%),
+        url("/projects/proyecto-3/proyecto-3-01.webp?v=20260522");
+      background-position: center center, center center;
+      background-repeat: no-repeat, no-repeat;
+      background-size: 100% 100%, contain;
       color: transparent;
     }
 
@@ -1551,6 +1571,68 @@
       font-size: 24px;
       letter-spacing: -0.05em;
       margin-bottom: 20px;
+    }
+
+    .faq-audit {
+      padding: 62px 0 78px;
+      background: linear-gradient(180deg, #fffefe 0%, #fcf5f8 100%);
+    }
+
+    .faq-audit-card {
+      max-width: 940px;
+      margin: 0 auto;
+      padding: clamp(20px, 3vw, 34px);
+      border-radius: 20px;
+      border: 1px solid #efdee4;
+      background: #fff;
+      box-shadow: 0 20px 48px rgba(44, 18, 31, 0.1);
+    }
+
+    .faq-audit .section-heading {
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .faq-audit .section-heading p {
+      max-width: 620px;
+      margin: 10px auto 0;
+    }
+
+    .faq-audit .faq-choice {
+      border-color: #e6d6de;
+      background: #fff;
+      color: #2f2430;
+    }
+
+    .faq-audit .faq-choice.is-selected {
+      border-color: rgba(143, 20, 56, 0.42);
+      background: #fff4f8;
+      box-shadow: 0 10px 24px rgba(76, 6, 24, 0.12);
+    }
+
+    .faq-audit .faq-choice-answer {
+      color: #544654;
+      font-size: 13px;
+    }
+
+    .faq-audit .faq-custom-wrap label {
+      color: #4a3e48;
+    }
+
+    .faq-audit .quote-input {
+      border: 1px solid #dfcfd7;
+      background: #fff;
+      color: #2f2430;
+    }
+
+    .faq-audit .quote-input::placeholder {
+      color: #8e7d8b;
+    }
+
+    .faq-audit .quote-input:focus {
+      border-color: rgba(143, 20, 56, 0.55);
+      box-shadow: 0 0 0 3px rgba(143, 20, 56, 0.12), 0 0 20px rgba(143, 20, 56, 0.1);
+      background: #fff;
     }
 
     .faq-choice-list {
@@ -1952,7 +2034,7 @@
       }
 
       .site-shot img {
-        height: clamp(108px, 40vw, 160px);
+        height: 100%;
       }
 
       .project-gallery-box {
@@ -1973,10 +2055,13 @@
         min-height: max-content;
       }
 
-      .project-gallery-stage,
-      .project-gallery-main-image {
+      .project-gallery-stage {
         min-height: 0;
         height: min(56vh, 380px);
+      }
+
+      .project-gallery-main-image {
+        height: auto;
       }
 
       .project-gallery-thumbs {
@@ -1984,6 +2069,20 @@
         grid-auto-rows: 92px;
         max-height: none;
         overflow: visible;
+      }
+
+      .cta-form-copy h2,
+      .cta-form-subtitle,
+      .cta-form-copy > p {
+        text-align: center;
+      }
+
+      .faq-audit {
+        padding: 46px 0 54px;
+      }
+
+      .faq-audit-card {
+        border-radius: 16px;
       }
 
       section:not(.hero) {
@@ -2799,7 +2898,7 @@
       }
 
       .site-shot img {
-        height: clamp(96px, 44vw, 132px);
+        height: 100%;
       }
 
       .project-gallery-nav {
