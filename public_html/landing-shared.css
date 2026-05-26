@@ -1624,10 +1624,10 @@
       background-color: rgba(255, 255, 255, 0.12);
       background-image:
         linear-gradient(180deg, rgba(12, 9, 12, 0.06) 0%, rgba(12, 9, 12, 0.24) 100%),
-        url("/projects/proyecto-3/proyecto-3-01.webp?v=20260522");
-      background-position: center center, center center;
+        url("/foto_formulario.png");
+      background-position: center center, right center;
       background-repeat: no-repeat, no-repeat;
-      background-size: 100% 100%, contain;
+      background-size: 100% 100%, cover;
       color: transparent;
     }
 
@@ -2544,17 +2544,26 @@
       }
 
       .problem-body h3 {
-        font-size: 22px;
-        line-height: 1.14;
+        font-size: clamp(20px, 5.2vw, 22px);
+        line-height: 1.18;
+        letter-spacing: -0.03em;
+        text-wrap: balance;
       }
 
       .problem-body > p {
         font-size: 14px;
+        line-height: 1.55;
+        text-wrap: pretty;
       }
 
       .solution-box {
         padding: 15px;
         border-radius: 12px;
+      }
+
+      .solution-box p {
+        line-height: 1.5;
+        text-wrap: pretty;
       }
 
       .process-box {
@@ -2829,7 +2838,7 @@
         display: block;
         min-height: 210px;
         border-radius: 16px;
-        background-position: center center;
+        background-position: center center, right center;
       }
 
       .mobile-trust-row {
@@ -3077,6 +3086,13 @@
 
       .problem-body h3 {
         font-size: 20px;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        text-wrap: balance;
+      }
+
+      .problem-body > p {
+        line-height: 1.52;
       }
 
       .process-box::before {
@@ -3158,6 +3174,16 @@
       .testimonial-card,
       .case-metrics {
         padding: 16px;
+      }
+
+      .problem-body h3 {
+        font-size: 18px;
+        line-height: 1.22;
+      }
+
+      .problem-body > p,
+      .solution-box p {
+        font-size: 13px;
       }
     }
 
