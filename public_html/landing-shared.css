@@ -1171,15 +1171,15 @@
     }
 
     .problem-image-1 {
-      background-image: url("c1.png");
+      background-image: url("car0.webp");
     }
 
     .problem-image-2 {
-      background-image: url("c2.png");
+      background-image: url("car1.webp");
     }
 
     .problem-image-3 {
-      background-image: url("c3.png");
+      background-image: url("car2.webp");
     }
 
     .problem-body {
@@ -1621,7 +1621,7 @@
       background-color: rgba(255, 255, 255, 0.12);
       background-image:
         linear-gradient(180deg, rgba(12, 9, 12, 0.06) 0%, rgba(12, 9, 12, 0.24) 100%),
-        url("/foto_formulario.png");
+        url("/foto_forms.png");
       background-position: center center, right center;
       background-repeat: no-repeat, no-repeat;
       background-size: 100% 100%, cover;
