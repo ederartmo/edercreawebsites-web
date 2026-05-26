@@ -1171,18 +1171,15 @@
     }
 
     .problem-image-1 {
-      background-image: url("car0.png");
-      background-image: image-set(url("car0.webp") type("image/webp"), url("car0.png") type("image/png"));
+      background-image: url("c1.png");
     }
 
     .problem-image-2 {
-      background-image: url("car1.png");
-      background-image: image-set(url("car1.webp") type("image/webp"), url("car1.png") type("image/png"));
+      background-image: url("c2.png");
     }
 
     .problem-image-3 {
-      background-image: url("car2.png");
-      background-image: image-set(url("car2.webp") type("image/webp"), url("car2.png") type("image/png"));
+      background-image: url("c3.png");
     }
 
     .problem-body {
