@@ -89,13 +89,20 @@
       color: #161216;
       font-size: 12px;
       font-weight: 900;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      text-transform: none;
       box-shadow: 0 6px 18px rgba(26, 16, 23, 0.1);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
+      max-width: 100%;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .pill-text-mobile {
+      display: none;
     }
 
     .header-live-pill:hover {
@@ -182,7 +189,8 @@
 
       .hero-copy .eyebrow,
       .hero h1,
-      .hero-description {
+      .hero-description,
+      .hero-bullets {
         margin-left: auto;
         margin-right: auto;
       }
@@ -301,8 +309,15 @@
     }
 
     .hero h1 span {
-      color: var(--wine);
-      white-space: nowrap;
+      white-space: normal;
+    }
+
+    .hero-positive {
+      color: #17a34a;
+    }
+
+    .hero-negative {
+      color: #8f1438;
     }
 
     .hero-description {
@@ -315,6 +330,59 @@
 
     .hero-description-secondary {
       margin-top: 12px;
+    }
+
+    .hero-bullets {
+      margin: 18px auto 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* centrar cada línea compuesta (check + texto) */
+      gap: 12px;
+      max-width: 720px;
+      text-align: left;
+    }
+
+    .hero-bullets li {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center; /* centra la composición interna */
+      gap: 12px;
+      width: auto;
+      color: #3a353a;
+      font-size: 15px;
+      line-height: 1.45;
+      font-weight: 700;
+      text-align: left; /* si la línea se parte, mantener lectura natural */
+    }
+
+    .hero-bullets li::before {
+      content: "✓";
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      color: #18a957;
+      font-weight: 900;
+      font-size: 14px;
+      margin: 0; /* separación controlada por gap */
+    }
+
+    /* Comportamiento en móviles: si se ve raro, alinear al inicio y evitar cortes */
+    @media (max-width: 640px) {
+      .hero-bullets {
+        align-items: flex-start;
+        max-width: 100%;
+        padding: 0 12px;
+      }
+      .hero-bullets li {
+        justify-content: flex-start;
+        width: auto;
+      }
+      .hero-bullets li::before {
+        margin-right: 8px;
+      }
     }
 
     .hero-features {
@@ -943,7 +1011,7 @@
       }
 
     .benefit-card {
-      min-height: 150px;
+      min-height: 190px;
       padding: 18px 14px;
       text-align: center;
       display: flex;
@@ -1040,7 +1108,7 @@
     .benefit-card p {
       color: var(--muted);
       font-size: 13px;
-      line-height: 1.45;
+      line-height: 1.5;
     }
 
     .problems-grid {
@@ -1811,7 +1879,8 @@
       }
 
       .hero-copy .eyebrow,
-      .hero-description {
+      .hero-description,
+      .hero-bullets {
         margin-left: auto;
         margin-right: auto;
       }
@@ -1895,9 +1964,19 @@
 
       .header-live-pill {
         min-height: 38px;
-        padding: 0 14px;
-        font-size: 11px;
-        letter-spacing: 0.06em;
+        padding: 6px 12px;
+        font-size: 10px;
+        letter-spacing: 0;
+        width: 100%;
+        gap: 6px;
+      }
+
+      .pill-text-desktop {
+        display: none;
+      }
+
+      .pill-text-mobile {
+        display: inline;
       }
 
       .mobile-menu-btn {
@@ -1923,7 +2002,8 @@
 
       .hero-copy .eyebrow,
       .hero h1,
-      .hero-description {
+      .hero-description,
+      .hero-bullets {
         margin-left: auto;
         margin-right: auto;
       }
@@ -1949,8 +2029,20 @@
 
       .hero-description {
         margin-top: 18px;
-        font-size: 17px;
-        line-height: 1.76;
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      .hero-bullets {
+        max-width: 360px;
+        margin: 14px auto 0;
+        gap: 8px;
+      }
+
+      .hero-bullets li {
+        font-size: 14px;
+        line-height: 1.45;
+        padding-left: 22px;
       }
 
       .hero-features {
@@ -2117,7 +2209,7 @@
       }
 
       .benefit-card {
-        min-height: 140px;
+        min-height: 210px;
         padding: 16px 12px;
       }
 
@@ -2133,8 +2225,8 @@
       }
 
       .benefit-card p {
-        font-size: 11px;
-        line-height: 1.5;
+        font-size: 12px;
+        line-height: 1.45;
       }
 
       .problems-grid {
@@ -2779,6 +2871,12 @@
     }
 
     @media (max-width: 480px) {
+      .header-live-pill {
+        min-height: 36px;
+        font-size: 9px;
+        padding: 6px 10px;
+      }
+
       .container {
         width: min(100% - 10px, 390px);
       }
@@ -2809,15 +2907,26 @@
       }
 
       .hero h1 {
-        font-size: 42px;
-        line-height: 1.05;
+        font-size: 34px;
+        line-height: 1.08;
         letter-spacing: -0.05em;
       }
 
       .hero-description {
-        font-size: 13px;
-        line-height: 1.48;
+        font-size: 14px;
+        line-height: 1.55;
         margin-top: 9px;
+      }
+
+      .hero-bullets {
+        margin-top: 10px;
+        gap: 7px;
+      }
+
+      .hero-bullets li {
+        font-size: 13px;
+        line-height: 1.4;
+        padding-left: 20px;
       }
 
       .hero-features {
@@ -2944,7 +3053,7 @@
       }
 
       .benefit-card {
-        min-height: auto;
+        min-height: 210px;
         padding: 12px 10px;
         font-size: 13px;
       }
