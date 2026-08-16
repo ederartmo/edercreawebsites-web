@@ -194,7 +194,7 @@
     .niche-list{margin-top:44px;border-top:1px solid #cfd5ce}.niche-row{display:grid;grid-template-columns:70px 1fr 1fr 30px;gap:18px;align-items:center;padding:24px 0;border-bottom:1px solid #cfd5ce;transition:.2s ease}.niche-row:hover{padding-left:10px}.niche-no{font-size:11px;font-weight:950;color:var(--accent-2);letter-spacing:.12em}.niche-name{font-size:clamp(22px,2.2vw,34px);font-weight:950;letter-spacing:-.04em}.niche-desc{font-size:13px;color:var(--muted);max-width:360px}.niche-go{font-size:18px;color:var(--accent-2)}.niche-foot{display:flex;justify-content:space-between;gap:30px;align-items:end;margin-top:32px}.niche-foot p{max-width:660px;margin:0;color:#444a45}.niche-foot a{font-size:13px;font-weight:900}
 
     /* ABOUT */
-    .about-strip{background:#111;color:#fff;padding:78px 0}.about-grid{display:grid;grid-template-columns:minmax(390px,426px) minmax(0,1fr);gap:50px;align-items:start}.about-grid>div:last-child{min-width:0}.about-portrait{width:100%;aspect-ratio:4/3;border-radius:30px;overflow:hidden;border:1px solid #303230;background:radial-gradient(circle at 70% 20%,rgba(102,194,173,.22),transparent 38%),linear-gradient(135deg,#1a1c1a,#101110);display:grid;place-items:center;position:relative;isolation:isolate;min-height:320px}.about-portrait:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 68% 24%,rgba(102,194,173,.18),transparent 34%);z-index:0;pointer-events:none}.about-video-wrap{position:absolute;inset:0;display:grid;place-items:center;z-index:1}.about-video{display:block;width:100%;height:100%;max-width:none;border-radius:20px;object-fit:cover;filter:drop-shadow(0 18px 35px rgba(0,0,0,.28));transform:scaleX(-1) scale(1.05) translateY(-4%);transform-origin:center center}.about-grid h2{max-width:700px}.about-grid .lead{color:#bec3bf}.about-points{display:flex;gap:8px;flex-wrap:nowrap;margin-top:18px}.about-chip{flex:1 1 0;border:1px solid #323532;border-radius:999px;padding:10px 8px;font-size:11px;font-weight:800;color:#f3f5f3;background:#171917;text-align:center;white-space:nowrap}.process-audio-wrap{margin-top:34px}
+    .about-strip{background:#111;color:#fff;padding:78px 0}.about-grid{display:grid;grid-template-columns:minmax(390px,426px) minmax(0,1fr);gap:50px;align-items:start}.about-grid>div:last-child{min-width:0}.about-portrait{width:100%;aspect-ratio:4/3;border-radius:30px;overflow:hidden;border:1px solid #303230;background:radial-gradient(circle at 70% 20%,rgba(102,194,173,.22),transparent 38%),linear-gradient(135deg,#1a1c1a,#101110);display:grid;place-items:center;position:relative;isolation:isolate;min-height:320px;cursor:pointer}.about-portrait:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 68% 24%,rgba(102,194,173,.18),transparent 34%);z-index:0;pointer-events:none}.about-video-wrap{position:absolute;inset:0;display:grid;place-items:center;z-index:1}.about-video{display:block;width:100%;height:100%;max-width:none;border-radius:20px;object-fit:cover;filter:drop-shadow(0 18px 35px rgba(0,0,0,.28));transform:scaleX(-1) scale(1.05) translateY(-4%);transform-origin:center center}.about-audio-toggle{position:absolute;left:16px;bottom:16px;z-index:3;width:46px;height:46px;border:1px solid rgba(255,255,255,.82);border-radius:50%;background:rgba(18,20,18,.46);backdrop-filter:blur(7px);color:#fff;display:grid;place-items:center;cursor:pointer;font-size:17px;line-height:1;transition:background .2s ease,transform .2s ease}.about-audio-toggle:hover{background:rgba(102,194,173,.7);transform:scale(1.05)}.about-grid h2{max-width:700px}.about-grid .lead{color:#bec3bf}.about-points{display:flex;gap:8px;flex-wrap:nowrap;margin-top:18px}.about-chip{flex:1 1 0;border:1px solid #323532;border-radius:999px;padding:10px 8px;font-size:11px;font-weight:800;color:#f3f5f3;background:#171917;text-align:center;white-space:nowrap}.process-audio-wrap{margin-top:34px}
     .process-audio-list{display:flex;gap:10px;margin-top:24px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;scrollbar-width:thin}
     .process-audio-card{border:1px solid #303531;border-radius:16px;background:#171917;padding:12px;display:grid;gap:8px;flex:0 0 235px;scroll-snap-align:start}
     .process-audio-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
@@ -704,6 +704,7 @@
               <source src="sobremi_loop.mp4" type="video/mp4">
             </video>
           </div>
+          <button class="about-audio-toggle" id="aboutAudioToggle" type="button" aria-label="Reproducir los pasos" aria-pressed="false">▶</button>
         </div>
         <div>
           <div class="kicker" style="color:#8ee0cc"><span class="section-no" style="color:#777">03</span>Cómo es trabajar conmigo</div>
@@ -1073,7 +1074,27 @@
     (() => {
       const audios = Array.from(document.querySelectorAll('.process-audio-card audio'));
       const videos = Array.from(document.querySelectorAll('video'));
-      if (!audios.length) return;
+      const portrait = document.querySelector('.about-portrait');
+      const toggle = document.getElementById('aboutAudioToggle');
+      if (!audios.length || !portrait || !toggle) return;
+
+      const activeAudio = () => audios.find((audio) => !audio.paused) || audios.find((audio) => audio.currentTime > 0 && !audio.ended) || audios[0];
+      const updateToggle = () => {
+        const isPlaying = audios.some((audio) => !audio.paused);
+        toggle.textContent = isPlaying ? '❚❚' : '▶';
+        toggle.setAttribute('aria-pressed', String(isPlaying));
+        toggle.setAttribute('aria-label', isPlaying ? 'Pausar los pasos' : 'Reproducir los pasos');
+      };
+      const toggleSequence = async () => {
+        const audio = activeAudio();
+        if (!audio) return;
+        if (audio.paused) {
+          if (audio.ended) audio.currentTime = 0;
+          try { await audio.play(); } catch (error) {}
+        } else {
+          audio.pause();
+        }
+      };
 
       audios.forEach((audio, index) => {
         audio.addEventListener('play', () => {
@@ -1083,15 +1104,17 @@
           videos.forEach((video) => {
             if (!video.paused && !video.muted && video.volume > 0) video.pause();
           });
+          updateToggle();
         });
+
+        audio.addEventListener('pause', updateToggle);
 
         audio.addEventListener('ended', async () => {
           const next = audios[index + 1];
-          if (!next) return;
+          if (!next) { updateToggle(); return; }
           try {
             next.currentTime = 0;
             await next.play();
-            next.closest('.process-audio-card')?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
           } catch (error) {
             // Browser autoplay rules can block this if the first play was not user initiated.
           }
@@ -1104,6 +1127,13 @@
           audios.forEach((audio) => audio.pause());
         });
       });
+
+      portrait.addEventListener('click', (event) => {
+        if (event.target.closest('#aboutAudioToggle')) return;
+        toggleSequence();
+      });
+      toggle.addEventListener('click', toggleSequence);
+      updateToggle();
     })();
 
     (() => {
