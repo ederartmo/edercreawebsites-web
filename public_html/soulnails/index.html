@@ -1,0 +1,1713 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EderCreaWebs — Sistemas web para negocios de servicios</title>
+  <meta name="description" content="Sistemas web para agenda, pagos, clientes y operación. Caso real: Soul Nails Mobile." />
+  <style>
+    :root{
+      --bg:#f6f6f1;
+      --surface:#fff;
+      --surface-2:#eef1ea;
+      --ink:#0c0d0c;
+      --muted:#5f665f;
+      --line:#dfe3dc;
+      --accent:#66c2ad;
+      --accent-2:#3c947f;
+      --soft:#e7f5f1;
+      --danger:#d86d61;
+      --max:1180px;
+      --radius:28px;
+      --shadow:0 30px 80px rgba(24,31,27,.10);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;overflow-x:hidden}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.48;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%}
+    .wrap{width:min(calc(100% - 36px),var(--max));margin:auto}
+    .section{padding:104px 0}
+    .kicker{font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-2)}
+    .section-no{font-size:11px;font-weight:900;letter-spacing:.14em;color:#8a908a;margin-right:8px}
+    h1,h2,h3,p{margin-top:0}
+    h1{font-size:clamp(52px,7.3vw,90px);line-height:.91;letter-spacing:-.065em;margin-bottom:28px;max-width:760px}
+    h2{font-size:clamp(38px,5vw,62px);line-height:.96;letter-spacing:-.052em;margin-bottom:18px;max-width:880px}
+    h3{font-size:22px;line-height:1.04;letter-spacing:-.03em}
+    .accent{color:var(--accent-2)}
+    .lead{font-size:clamp(18px,1.7vw,22px);color:#444a45;max-width:720px;line-height:1.52}
+    .muted{color:var(--muted)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 22px;border-radius:999px;border:1px solid var(--ink);background:var(--ink);color:white;font-size:14px;font-weight:850;transition:.2s ease;cursor:pointer;text-align:center;line-height:1.15}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(0,0,0,.14)}
+    .btn.secondary{background:transparent;color:var(--ink)}
+
+    /* NAV */
+    nav{position:sticky;top:0;z-index:30;background:rgba(246,246,241,.84);backdrop-filter:blur(18px);border-bottom:1px solid rgba(223,227,220,.72)}
+    .nav-inner{height:78px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{font-weight:950;line-height:.78;letter-spacing:-.045em;font-size:22px}
+    .brand small{display:block;color:var(--accent-2);font-size:9px;letter-spacing:.14em;margin-top:8px}
+    .nav-links{display:flex;gap:28px;font-size:13px;font-weight:760;color:#424843}
+
+    /* HERO */
+    .hero{padding:78px 0 34px;overflow:hidden}
+    .hero-grid{display:grid;grid-template-columns:1.03fr .97fr;align-items:center;gap:48px}
+    .hero .lead{max-width:650px}
+    .hero-meta{display:flex;gap:24px;flex-wrap:wrap;margin:30px 0 28px}
+    .meta-item{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:800;color:#2f3430}
+    .meta-icon{width:30px;height:30px;border:1px solid #c7ded6;border-radius:999px;display:grid;place-items:center;color:var(--accent-2);background:#f9fffd;font-size:12px}
+    .hero-visual{min-height:640px;position:relative;display:grid;place-items:center}
+    .hero-visual:before{content:"";position:absolute;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(102,194,173,.28),rgba(102,194,173,.08) 48%,transparent 72%)}
+    .hero-grid-lines{position:absolute;inset:8% 2% 3% 6%;background-image:linear-gradient(rgba(14,37,31,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(14,37,31,.055) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(to bottom,transparent,#000 18%,#000 80%,transparent);border-radius:40px}
+    .hero-phone-float{position:relative;z-index:2;display:grid;place-items:center;width:min(82%,460px);animation:heroFloat 5.2s ease-in-out infinite;will-change:transform}
+    .hero-phone{width:100%;max-height:610px;object-fit:contain;filter:drop-shadow(0 34px 36px rgba(21,29,25,.20));transform:perspective(1100px) rotateX(var(--phone-rx,0deg)) rotateY(var(--phone-ry,0deg)) rotateZ(2deg) translate3d(var(--phone-x,0px),var(--phone-y,0px),0);transform-style:preserve-3d;transition:transform .18s ease-out,filter .25s ease;will-change:transform;mix-blend-mode:normal}
+    .hero-visual:hover .hero-phone{filter:drop-shadow(0 42px 44px rgba(21,29,25,.24))}
+    @keyframes heroFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+    @media (prefers-reduced-motion:reduce){.hero-phone-float{animation:none}.hero-phone{transition:none}}
+    .hero-tag{position:absolute;z-index:3;left:0;bottom:90px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px 15px;box-shadow:var(--shadow);font-size:13px;font-weight:850;cursor:pointer;display:flex;align-items:center;gap:12px;transition:.2s ease;text-align:left}
+    .hero-tag:hover{transform:translateY(-2px);box-shadow:0 18px 48px rgba(24,31,27,.16);border-color:#cdd7d1}
+    .hero-tag:focus-visible{outline:3px solid rgba(60,148,127,.25);outline-offset:3px}
+    .hero-tag-icon{width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;flex:0 0 auto;font-size:12px;padding-left:2px}
+    .hero-tag-copy{display:block;line-height:1.15}
+    .hero-tag small{display:block;color:var(--muted);font-weight:650;margin-top:5px}
+
+    /* VIDEO CASE MODAL */
+    .case-modal{position:fixed;inset:0;z-index:200;background:rgba(7,9,8,.78);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:26px}
+    .case-modal.is-open{display:flex}
+    .case-modal-card{position:relative;width:min(430px,92vw);height:min(820px,90vh);background:#080908;border-radius:30px;box-shadow:0 40px 120px rgba(0,0,0,.48);overflow:hidden;display:flex;flex-direction:column}
+    .case-video-wrap{position:relative;flex:1;min-height:0;background:#000;display:grid;place-items:center;cursor:pointer}
+    .case-video{width:100%;height:100%;object-fit:contain;background:#000;display:block}
+    .case-close{position:absolute;top:14px;right:14px;z-index:4;width:42px;height:42px;border:0;border-radius:50%;background:rgba(10,11,10,.72);backdrop-filter:blur(8px);color:#fff;font-size:24px;line-height:1;cursor:pointer;display:grid;place-items:center}
+    .case-close:hover{background:#fff;color:#111}
+    .case-play-state{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;opacity:0;transition:.18s ease}
+    .case-play-state span{width:68px;height:68px;border-radius:50%;background:rgba(0,0,0,.62);color:#fff;display:grid;place-items:center;font-size:24px;padding-left:4px}
+    .case-video-wrap.is-paused .case-play-state{opacity:1}
+    .video-controls{flex:0 0 auto;background:#0d0f0e;color:#fff;padding:16px 16px 18px;border-top:1px solid #252825;display:grid;gap:12px}
+    .video-seek{width:100%;height:9px;accent-color:#66c2ad;cursor:pointer}
+    .video-controls-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px}
+    .video-control-btn{border:0;background:#202320;color:#fff;width:42px;height:42px;border-radius:12px;font-size:17px;cursor:pointer}
+    .video-time{font-size:11px;color:#aeb4af;white-space:nowrap}
+    .volume-wrap{display:flex;align-items:center;gap:9px;justify-self:end}
+    .volume-wrap span{font-size:15px}
+    .video-volume{width:105px;height:7px;accent-color:#66c2ad;cursor:pointer}
+    body.modal-open{overflow:hidden}
+    .client-row{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;margin-top:30px;padding-top:26px;border-top:1px solid var(--line)}
+    .client-row .label{font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#858b85}
+    .logos{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .logo{height:46px;display:grid;place-items:center;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.66);font-size:12px;font-weight:900}
+
+    /* CASE FLOW — 3 video cards */
+    .case{background:#fff;border-block:1px solid var(--line)}
+    .case-head{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:48px}
+    .case-note{max-width:310px;color:var(--muted);font-size:14px}
+    .case-videos{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
+    .case-video-card{position:relative;border:1px solid #ece8e3;border-radius:30px;background:linear-gradient(180deg,#fff9f8 0%,#f7f6f2 100%);overflow:hidden;min-height:690px;display:flex;flex-direction:column;transition:.22s ease}
+    .case-video-card:hover{transform:translateY(-5px);box-shadow:0 24px 60px rgba(26,31,28,.10)}
+    .case-video-stage{position:relative;min-height:570px;display:grid;place-items:center;padding:28px 18px 0;overflow:hidden}
+    .case-video-stage:before{content:"";position:absolute;width:390px;height:390px;border-radius:50%;background:radial-gradient(circle,rgba(102,194,173,.18),rgba(102,194,173,.06) 58%,transparent 72%)}
+    .case-mini-phone{position:relative;z-index:2;width:min(92%,320px);aspect-ratio:9/18.7;border:9px solid #111;border-radius:42px;background:#111;overflow:hidden;box-shadow:0 26px 44px rgba(16,20,18,.18)}
+    .case-mini-phone video{width:100%;height:100%;display:block;object-fit:cover;background:#f8f6f3}
+    .case-card-copy{position:relative;z-index:3;padding:22px 24px 26px;border-top:1px solid rgba(223,227,220,.9);background:rgba(255,255,255,.78);backdrop-filter:blur(10px);margin-top:auto}
+    .case-card-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+    .case-card-num{width:36px;height:36px;border-radius:999px;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:950;flex:0 0 auto}
+    .case-card-copy h3{margin:0;font-size:23px;letter-spacing:-.035em}
+    .case-card-copy p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+    .case-loop-pill{position:absolute;z-index:4;right:18px;top:18px;background:#111;color:#fff;border-radius:999px;padding:8px 11px;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+    .case-full-link{display:flex;align-items:center;justify-content:center;margin-top:28px}
+    .case-full-link button{border:0;background:transparent;font:inherit;font-size:13px;font-weight:900;text-decoration:underline;text-underline-offset:4px;cursor:pointer;color:#252925}
+
+    /* BEFORE / AFTER */
+    .transform{position:relative}
+    .transform-grid{display:grid;grid-template-columns:1fr .9fr 1fr;gap:38px;align-items:center;margin-top:52px}
+    .compare-side{padding:8px 0}
+    .compare-title{font-size:12px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;margin-bottom:24px}
+    .compare-title.before{color:var(--danger)}.compare-title.after{color:var(--accent-2)}
+    .compare-list{display:grid;gap:0;border-top:1px solid var(--line)}
+    .compare-item{display:grid;grid-template-columns:32px 1fr;gap:10px;padding:16px 0;border-bottom:1px solid var(--line);font-size:14px;color:#444944}
+    .compare-mark{font-weight:950}.compare-side:first-child .compare-mark{color:var(--danger)}.compare-side:last-child .compare-mark{color:var(--accent-2)}
+    .whatsapp-wrap{position:relative;display:grid;place-items:center;min-height:590px}
+    .whatsapp-wrap:before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:#e8eee8;transition:background .45s ease,transform .45s ease}
+    .whatsapp-wrap.is-waiting:before{background:#efe6df;animation:waitPulse 1.2s ease-in-out infinite}
+    .whatsapp-wrap.is-automated:before{background:#dff3ed;transform:scale(1.06)}
+    .chat-phone{position:relative;width:280px;height:560px;border:10px solid #111;border-radius:42px;background:#f2eee6;box-shadow:0 30px 60px rgba(0,0,0,.18);overflow:hidden;z-index:1}
+    .chat-top{height:64px;background:#0d5d4f;color:#fff;display:flex;align-items:center;padding:0 14px;gap:10px;font-size:12px;font-weight:800}
+    .avatar{width:34px;height:34px;border-radius:50%;background:#d6efe7;display:grid;place-items:center;color:#0d5d4f;font-weight:950;overflow:hidden;flex:0 0 auto}
+    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+    .chat-body{padding:12px;background:linear-gradient(rgba(255,255,255,.44),rgba(255,255,255,.44)),radial-gradient(#d6cbbb 1px,transparent 1px);background-size:auto,18px 18px;height:calc(100% - 64px);display:flex;flex-direction:column;gap:9px;overflow:hidden}
+    .bubble{max-width:78%;padding:9px 11px;border-radius:10px;font-size:11px;line-height:1.35;box-shadow:0 1px 1px rgba(0,0,0,.05)}
+    .bubble.in{background:#fff;align-self:flex-start}.bubble.out{background:#d9fdd3;align-self:flex-end}
+    .bubble.is-frustrated{background:#fff4f1;color:#7a3028}
+    .chat-status{align-self:center;background:rgba(255,255,255,.72);border:1px solid rgba(0,0,0,.05);border-radius:999px;padding:5px 9px;color:#6f766f;font-size:9px;font-weight:850;letter-spacing:.03em;text-transform:uppercase}
+    .typing{align-self:flex-start;display:inline-flex;gap:4px;background:#fff;border-radius:10px;padding:9px 11px;box-shadow:0 1px 1px rgba(0,0,0,.05)}
+    .typing span{width:5px;height:5px;border-radius:50%;background:#8d958d;animation:typingDot 1s ease-in-out infinite}
+    .typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
+    .chat-phone.is-angry{animation:chatNudge .42s ease}
+    .chat-phone.is-waiting .chat-top{background:#7b443b}
+    .chat-phone.is-automated .chat-top{background:#0d5d4f}
+    .chat-phone.is-waiting .avatar{background:#fff4f1;color:#7b443b}
+    .chat-phone.is-automated .avatar{background:#d6efe7;color:#0d5d4f}
+    @keyframes typingDot{0%,80%,100%{transform:translateY(0);opacity:.38}40%{transform:translateY(-3px);opacity:1}}
+    @keyframes chatNudge{0%,100%{transform:translateX(0)}35%{transform:translateX(-3px)}70%{transform:translateX(3px)}}
+    @keyframes waitPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+    .flow-pill{position:absolute;z-index:2;bottom:42px;background:#111;color:#fff;border-radius:999px;padding:9px 14px;font-size:11px;font-weight:850;letter-spacing:.02em}
+
+    /* SYSTEM INSIDE */
+    .inside{background:#0f100f;color:#fff;overflow:hidden}
+    .inside .kicker{color:#8ee0cc}.inside .lead{color:#bdc2be}
+    .inside .wrap{width:min(calc(100% - 36px),var(--max))}
+    .inside-grid{display:grid;grid-template-columns:1.14fr .86fr;gap:36px;align-items:stretch}
+    .inside-copy{display:flex;flex-direction:column}
+    .laptop-frame{position:relative;border-radius:30px;overflow:hidden;background:#1a1c1a;box-shadow:0 30px 80px rgba(0,0,0,.35);width:100%;height:100%;min-height:0}
+    .laptop-frame img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+    .inside-list{margin-top:34px;border-top:1px solid #313431}
+    .inside-row{display:grid;grid-template-columns:42px 1fr;gap:14px;padding:18px 0;border-bottom:1px solid #313431}
+    .inside-row .num{font-size:11px;color:#8ee0cc;font-weight:900;letter-spacing:.1em;padding-top:4px}.inside-row strong{font-size:16px}.inside-row p{font-size:13px;color:#9fa5a0;margin:5px 0 0}
+
+    /* FEATURES EDITORIAL */
+    .features-head{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:end}
+    .features-list{border-top:1px solid var(--line)}
+    .feature-line{display:grid;grid-template-columns:44px 1fr minmax(220px,.8fr);gap:14px;padding:22px 0;border-bottom:1px solid var(--line);align-items:start}
+    .feature-line .idx{color:var(--accent-2);font-size:11px;font-weight:900;letter-spacing:.1em;padding-top:3px}.feature-line strong{font-size:17px}.feature-line p{margin:0;color:var(--muted);font-size:14px}
+    .feature-line{width:100%;border-left:0;border-right:0;border-top:0;background:transparent;text-align:left;font:inherit;color:inherit;cursor:pointer}
+    .feature-line:hover{background:rgba(102,194,173,.06)}
+
+    .demo-modal{position:fixed;inset:0;z-index:240;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(11,13,12,.72);backdrop-filter:blur(10px)}
+    .demo-modal.is-open{display:flex}
+    .demo-card{position:relative;width:min(760px,94vw);max-height:88vh;overflow:auto;border-radius:24px;background:#fbfaf6;color:#111;padding:26px;border:1px solid rgba(255,255,255,.72);box-shadow:0 34px 100px rgba(0,0,0,.32)}
+    .demo-close{position:absolute;right:18px;top:16px;width:38px;height:38px;border-radius:50%;border:1px solid #ddd;background:#fff;cursor:pointer;font-size:22px;display:grid;place-items:center}
+    .demo-kicker{font-size:10px;font-weight:950;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-2);margin-bottom:10px}
+    .demo-title{font-size:clamp(28px,4vw,44px);line-height:1;letter-spacing:-.045em;margin:0 48px 18px 0}
+    .demo-surface{border:1px solid #e1e3dd;border-radius:18px;background:#fff;padding:18px;overflow:hidden}
+    .demo-calendar-head,.demo-checkout-row,.demo-dash-head,.demo-mail-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px}
+    .demo-pill{display:inline-flex;align-items:center;border-radius:999px;background:#e7f6f1;color:#237761;padding:7px 10px;font-size:11px;font-weight:850}
+    .demo-calendar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .demo-slot{border:1px solid #dde2dc;border-radius:13px;padding:12px;background:#fafbf8}
+    .demo-slot strong{display:block;font-size:13px}.demo-slot span{display:block;margin-top:5px;color:#5f665f;font-size:11px}
+    .demo-slot.is-on{background:#e7f6f1;border-color:#94d7c7;color:#174d40}
+    .demo-checkout{display:grid;grid-template-columns:1fr .75fr;gap:16px}
+    .demo-cart{display:grid;gap:10px}.demo-cart-item{display:flex;justify-content:space-between;border-bottom:1px solid #e7e8e2;padding-bottom:10px;font-size:13px}
+    .demo-paybox{border-radius:16px;background:#111;color:#fff;padding:16px;display:grid;gap:10px}.demo-paybox input{width:100%;border:0;border-radius:10px;padding:11px;background:#fff;color:#111}.demo-paybox button{border:0;border-radius:999px;padding:12px;background:#8ee0cc;font-weight:900}
+    .demo-dashboard{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.demo-metric{border:1px solid #e2e4df;border-radius:16px;padding:14px;background:#fbfcf9}.demo-metric strong{font-size:25px;letter-spacing:-.04em}.demo-metric span{display:block;color:#687068;font-size:11px}.demo-table{grid-column:1/-1;border:1px solid #e2e4df;border-radius:16px;overflow:hidden}.demo-table div{display:grid;grid-template-columns:1fr auto auto;gap:12px;padding:11px 13px;border-bottom:1px solid #eceee9;font-size:12px}.demo-table div:last-child{border-bottom:0}
+    .demo-mail{max-width:520px;margin:auto;border:1px solid #dde2dc;border-radius:18px;overflow:hidden;background:#fff}.demo-mail-head{background:#0d5d4f;color:#fff;padding:14px 16px;margin:0}.demo-mail-body{padding:18px;display:grid;gap:12px}.demo-mail-code{font-size:30px;font-weight:950;letter-spacing:.08em;color:#237761}.demo-mail-body p{margin:0;color:#4f554f}
+
+    /* NICHES — editorial selector */
+    .niche-section{background:var(--surface-2);border-block:1px solid var(--line)}
+    .niche-list{margin-top:44px;border-top:1px solid #cfd5ce}.niche-row{display:grid;grid-template-columns:70px 1fr 1fr 30px;gap:18px;align-items:center;padding:24px 0;border-bottom:1px solid #cfd5ce;transition:.2s ease}.niche-row:hover{padding-left:10px}.niche-no{font-size:11px;font-weight:950;color:var(--accent-2);letter-spacing:.12em}.niche-name{font-size:clamp(22px,2.2vw,34px);font-weight:950;letter-spacing:-.04em}.niche-desc{font-size:13px;color:var(--muted);max-width:360px}.niche-go{font-size:18px;color:var(--accent-2)}.niche-foot{display:flex;justify-content:space-between;gap:30px;align-items:end;margin-top:32px}.niche-foot p{max-width:660px;margin:0;color:#444a45}.niche-foot a{font-size:13px;font-weight:900}
+
+    /* ABOUT */
+    .about-strip{background:#111;color:#fff;padding:78px 0}.about-grid{display:grid;grid-template-columns:minmax(390px,426px) minmax(0,1fr);gap:50px;align-items:start}.about-grid>div:last-child{min-width:0}.about-portrait{width:100%;aspect-ratio:4/3;border-radius:30px;overflow:hidden;border:1px solid #303230;background:radial-gradient(circle at 70% 20%,rgba(102,194,173,.22),transparent 38%),linear-gradient(135deg,#1a1c1a,#101110);display:grid;place-items:center;position:relative;isolation:isolate;min-height:320px}.about-portrait:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 68% 24%,rgba(102,194,173,.18),transparent 34%);z-index:0;pointer-events:none}.about-video-wrap{position:absolute;inset:0;display:grid;place-items:center;z-index:1}.about-video{display:block;width:100%;height:100%;max-width:none;border-radius:20px;object-fit:cover;filter:drop-shadow(0 18px 35px rgba(0,0,0,.28));transform:scaleX(-1) scale(1.05) translateY(-4%);transform-origin:center center}.about-grid h2{max-width:700px}.about-grid .lead{color:#bec3bf}.about-points{display:flex;gap:8px;flex-wrap:nowrap;margin-top:18px}.about-chip{flex:1 1 0;border:1px solid #323532;border-radius:999px;padding:10px 8px;font-size:11px;font-weight:800;color:#f3f5f3;background:#171917;text-align:center;white-space:nowrap}.process-audio-wrap{margin-top:34px}
+    .process-audio-list{display:flex;gap:10px;margin-top:24px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;scrollbar-width:thin}
+    .process-audio-card{border:1px solid #303531;border-radius:16px;background:#171917;padding:12px;display:grid;gap:8px;flex:0 0 235px;scroll-snap-align:start}
+    .process-audio-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+    .process-audio-no{width:30px;height:30px;border-radius:999px;background:#8ee0cc;color:#10211c;display:grid;place-items:center;font-size:10px;font-weight:950}
+    .process-audio-card strong{font-size:13px;line-height:1.15}
+    .process-audio-card p{margin:3px 0 0;color:#aab1ac;font-size:10px;line-height:1.35}
+    .process-audio-card audio{width:100%;height:32px;filter:invert(1) hue-rotate(145deg) saturate(.75)}
+
+    /* PRICING — popup proposal builder */
+    .pricing{background:#fff;border-block:1px solid var(--line)}
+    .pricing-head{display:flex;justify-content:space-between;gap:42px;align-items:end}
+    .pricing-head .lead{max-width:520px}
+    .price-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:52px;align-items:stretch}
+    .price{position:relative;border:1px solid var(--line);border-radius:28px;padding:30px;background:#fff;display:flex;flex-direction:column;min-height:500px;transition:.28s ease;overflow:hidden}
+    .price:hover{transform:translateY(-4px);box-shadow:0 18px 50px rgba(18,24,20,.08)}
+    .price.featured{border:1.5px solid #79cdb9;background:linear-gradient(180deg,#eaf8f4 0%,#f9fffd 54%,#fff 100%);box-shadow:0 28px 70px rgba(53,120,103,.16);transform:translateY(-14px)}
+    .price.featured:hover{transform:translateY(-18px)}
+    .price.advanced{background:#111;color:#fff;border-color:#111;box-shadow:0 20px 50px rgba(0,0,0,.08)}
+    .price.advanced:hover{box-shadow:0 26px 65px rgba(0,0,0,.14)}
+    .recommended{position:absolute;top:0;left:50%;transform:translateX(-50%);padding:9px 16px;border-radius:0 0 14px 14px;background:var(--accent-2);color:#fff;font-size:9px;font-weight:950;letter-spacing:.13em;text-transform:uppercase;white-space:nowrap}
+    .price.featured .price-top{padding-top:20px}
+    .price .tag{font-size:10px;font-weight:950;letter-spacing:.12em;text-transform:uppercase;color:#777;margin-bottom:14px}
+    .price.featured .tag{color:var(--accent-2)}
+    .price.advanced .tag{color:#8ee0cc}
+    .amount{font-size:36px;font-weight:950;letter-spacing:-.055em;margin:8px 0 12px;line-height:1}.amount small{font-size:12px;letter-spacing:0}
+    .price-sub{font-size:14px;color:var(--muted);min-height:64px;line-height:1.5}
+    .price.advanced .price-sub{color:#adb3ae}
+    .mail-perk{display:inline-flex;align-items:center;width:max-content;max-width:100%;padding:7px 10px;border-radius:999px;background:#e7f6f1;color:#237761;font-size:11px;font-weight:850;margin:2px 0 8px}
+    .advanced .mail-perk{background:#17322a;color:#9ce3d2;border:1px solid #31594d}
+    .price-divider{height:1px;background:var(--line);margin:22px 0}
+    .price.advanced .price-divider{background:#303330}
+    .price ul{list-style:none;padding:0;margin:0 0 28px;display:grid;gap:13px;color:#4f554f;font-size:13px;line-height:1.45}
+    .price li{position:relative;padding-left:25px}.price li:before{content:"✓";position:absolute;left:0;top:0;color:var(--accent-2);font-weight:950}
+    .price.advanced ul{color:#d4d8d5}.price.advanced li:before{color:#8ee0cc}
+    .price .plan-jump{margin-top:auto;width:100%}
+    .price.advanced .plan-jump{background:#fff;color:#111;border-color:#fff}
+    .price-note{font-size:11px;color:#858b85;margin-top:14px;text-align:center}
+    .price.featured .price-note{color:#5e766f}.price.advanced .price-note{color:#777d78}
+    .pricing-bottom-note{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px;padding-top:24px;border-top:1px solid var(--line)}
+    .pricing-bottom-note div{display:flex;gap:10px;align-items:flex-start;font-size:11px;color:#697069}.pricing-bottom-note strong{display:block;color:#2d7766;font-size:12px;margin-bottom:2px}
+
+    /* PROPOSAL MODAL — compact + progressive disclosure */
+    .proposal-modal{
+      position:fixed;inset:0;z-index:260;display:none;align-items:center;justify-content:center;
+      padding:26px;background:rgba(25,25,22,.54);backdrop-filter:blur(9px)
+    }
+    .proposal-modal.is-open{display:flex}
+    .proposal-card{
+      --p-ivory:#fbfaf6;--p-paper:#fffefb;--p-ink:#151713;--p-muted:#747a74;
+      --p-line:#e4e2dc;--p-mint:#66c2ad;--p-mint-dark:#358d77;--p-mint-soft:#edf8f4;
+      --p-coral:#e78d84;--p-coral-soft:#fff2ef;
+      width:min(740px,94vw);max-height:90vh;overflow:auto;position:relative;
+      padding:30px 32px 26px;border:1px solid rgba(255,255,255,.75);border-radius:24px;
+      background:var(--p-ivory);color:var(--p-ink);
+      box-shadow:0 34px 100px rgba(22,25,22,.23);scrollbar-width:thin
+    }
+    .proposal-close{
+      position:absolute;right:20px;top:18px;width:38px;height:38px;border:1px solid var(--p-line);
+      border-radius:50%;background:rgba(255,255,255,.72);color:#444;font-size:23px;cursor:pointer;
+      display:grid;place-items:center;transition:.18s ease
+    }
+    .proposal-close:hover{background:#fff;transform:rotate(4deg)}
+    .proposal-head{text-align:left;padding:2px 46px 0 0;margin-bottom:14px}
+    .proposal-title{
+      margin:0 0 6px;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;font-weight:950;
+      font-size:clamp(24px,3.2vw,34px);line-height:1;letter-spacing:-.045em
+    }
+    .proposal-title em{font-style:normal;color:var(--p-mint-dark);font-weight:950}
+    .proposal-sub{margin:0;color:var(--p-muted);font-size:11px;line-height:1.45;max-width:520px}
+    .proposal-plan{
+      display:flex;align-items:center;justify-content:space-between;gap:20px;
+      padding:10px 12px;margin-bottom:14px;border:1px solid var(--p-line);border-radius:12px;
+      background:rgba(255,255,255,.55)
+    }
+    .proposal-plan-left{font-size:10px;color:#646a64}
+    .proposal-plan-left strong{color:var(--p-mint-dark);font-weight:850;margin-left:4px}
+    .proposal-plan-price{display:flex;align-items:baseline;gap:5px;color:#777;font-size:10px;white-space:nowrap}
+    .proposal-plan-price strong{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;font-weight:900;font-size:20px;color:#151713;letter-spacing:-.03em}
+    .proposal-plan-price span:last-child{font-size:9px}
+
+    .proposal-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .p-group{display:grid;gap:6px;align-content:start}
+    .p-label{font-size:10px;font-weight:900;color:#20251f;letter-spacing:-.01em}
+    .p-input,.p-area,.p-select{
+      width:100%;border:1px solid #dedfd9;background:rgba(255,255,255,.78);border-radius:11px;
+      padding:10px 12px;font:inherit;font-size:11px;color:#20231f;outline:none;transition:.18s ease
+    }
+    .p-input:focus,.p-area:focus,.p-select:focus{
+      border-color:#8dcebe;box-shadow:0 0 0 3px rgba(102,194,173,.08);background:#fff
+    }
+    .p-area{min-height:70px;resize:vertical}
+
+    .refs-list{display:grid;gap:7px}
+    .ref-row{display:grid;grid-template-columns:1fr 32px;gap:6px;align-items:center}
+    .ref-row:first-child{grid-template-columns:1fr}
+    .ref-remove{
+      width:32px;height:32px;border:1px solid #e1e2dd;background:#fff;border-radius:9px;color:#888;
+      cursor:pointer;font-size:16px;display:grid;place-items:center
+    }
+    .ref-add{
+      display:none;width:max-content;border:0;background:transparent;padding:2px 0;color:var(--p-mint-dark);
+      font:inherit;font-size:10px;font-weight:850;cursor:pointer
+    }
+    .ref-add.is-visible{display:inline-flex;gap:5px;align-items:center}
+    .ref-helper{font-size:8px;color:#969a95;line-height:1.35}
+
+    .tool-block{margin-top:14px}
+    .tool-title{
+      position:relative;display:flex;align-items:center;justify-content:center;gap:10px;
+      margin-bottom:9px;font-size:10px;font-weight:900
+    }
+    .tool-title:before,.tool-title:after{content:"";height:1px;flex:1;background:var(--p-line)}
+    .tool-chips{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
+    .tool-chip{
+      border:1px solid #dfdfda;background:#f4f4f1;color:#777c77;border-radius:10px;
+      padding:9px 12px;font:inherit;font-size:11px;font-weight:650;cursor:pointer;
+      display:inline-flex;align-items:center;gap:7px;transition:background .2s,border-color .2s,color .2s,transform .2s
+    }
+    .tool-chip>span:first-child{display:inline-grid;place-items:center;width:17px;height:17px;font-size:10px;color:#9ba09b}
+    .tool-icon,.reward-icon-svg{width:22px;height:22px;flex:0 0 auto;color:#a0a49f;--icon-accent:#cfd2cf;transition:color .2s ease,transform .2s ease,opacity .2s ease}
+    .tool-chip.is-on .tool-icon{color:var(--p-mint-dark);--icon-accent:var(--p-coral);transform:scale(1.04)}
+    .reward-line .reward-icon-svg{opacity:.42;color:#a2a6a1;--icon-accent:#c8cbc8}
+    .reward-line.is-unlocked .reward-icon-svg{opacity:1;color:var(--p-mint-dark);--icon-accent:var(--p-coral);transform:scale(1.03)}
+    .tool-chip .tick{display:none;font-size:9px}
+    .tool-chip:hover{border-color:#c7cbc6;transform:translateY(-1px)}
+    .tool-chip.is-on{background:var(--p-mint-soft);border-color:#a8dbcf;color:#255f51}
+    .tool-chip.is-on>span:first-child{color:var(--p-mint-dark)}
+    .tool-chip.is-on .tick{display:inline;color:var(--p-mint-dark)}
+    .tool-chip:nth-child(2).is-on,.tool-chip:nth-child(4).is-on,.tool-chip:nth-child(6).is-on{
+      background:var(--p-coral-soft);border-color:#f0cbc6;color:#8d4e49
+    }
+    .tool-chip:nth-child(2).is-on>span:first-child,
+    .tool-chip:nth-child(4).is-on>span:first-child,
+    .tool-chip:nth-child(6).is-on .tick{color:#c96f67}
+
+    /* Compact reward invitation */
+    .reward-disclosure{
+      width:100%;margin-top:14px;padding:11px 12px;border:1px solid var(--p-line);border-radius:13px;
+      background:rgba(255,255,255,.58);text-align:left;cursor:pointer;transition:.2s ease;color:inherit
+    }
+    .reward-disclosure:hover{background:#fff;border-color:#d5d5cf}
+    .reward-disclosure-top{display:flex;align-items:center;gap:10px}
+    .reward-gift{display:none}
+    .reward-disclosure-copy{flex:1}
+    .reward-disclosure-copy strong{display:block;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:11px}
+    .reward-disclosure-copy span{display:block;margin-top:2px;color:#7c817c;font-size:8px;line-height:1.35}
+    .reward-chevron{font-size:18px;color:#888;transition:transform .3s ease}
+    .proposal-card.is-expanded .reward-chevron{transform:rotate(180deg)}
+    .reward-preview{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 0;font-size:8px;color:#969b96}
+    .reward-preview .preview-on{color:#397c6b;font-weight:750}
+
+    /* Expandable advanced area */
+    .advanced-panel{
+      max-height:0;opacity:0;overflow:hidden;transform:translateY(-5px);
+      transition:max-height .32s ease,opacity .25s ease,transform .3s ease
+    }
+    .proposal-card.is-expanded .advanced-panel{max-height:980px;opacity:1;transform:none}
+    .advanced-inner{padding-top:12px}
+    .progress-wrap{padding:0 2px 12px}
+    .progress-row{display:flex;justify-content:space-between;gap:12px;margin-bottom:7px;font-size:9px;color:#818681}
+    .progress-track{height:4px;border-radius:999px;background:#e8e8e3;overflow:hidden}
+    .progress-fill{height:100%;width:28%;border-radius:inherit;background:var(--p-mint);transition:width .3s ease}
+
+    .dynamic-question{
+      display:none;margin:0 0 8px;padding:11px;border:1px solid #e2e2dd;border-radius:12px;background:#fffefb
+    }
+    .dynamic-question.is-visible{display:grid;animation:questionIn .28s ease both}
+    @keyframes questionIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+    .new-badge{
+      display:inline-block;width:max-content;margin-bottom:5px;padding:4px 7px;border-radius:999px;
+      background:var(--p-mint-soft);color:#4c7f70;font-size:8px;font-weight:850;letter-spacing:.04em;text-transform:uppercase
+    }
+    .unlock-cta{
+      width:100%;padding:12px 13px;border:1px solid #dedfd9;border-radius:11px;background:#fff;cursor:pointer;
+      display:flex;align-items:center;gap:10px;text-align:left;color:#262a26;transition:.18s ease
+    }
+    .unlock-cta:hover{border-color:#bfc5c0;background:#fdfdfb}
+    .unlock-plus{
+      width:27px;height:27px;border-radius:50%;display:grid;place-items:center;border:1px solid #cad0cb;
+      background:#fafbf9;color:#555;font-size:16px;flex:0 0 auto
+    }
+    .unlock-copy{flex:1}.unlock-copy strong{display:block;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:12px}.unlock-copy span{display:block;color:#858a85;font-size:9px;margin-top:2px}
+    .unlock-arrow{font-size:17px;color:#777}
+
+    .rewards{margin-top:15px;padding-top:14px;border-top:1px solid var(--p-line)}
+    .reward-title{font-size:11px;font-weight:900;margin-bottom:3px}
+    .reward-sub{font-size:9px;color:#868b86;margin-bottom:9px}
+    .reward-list{display:grid;gap:5px}
+    .reward-line{
+      display:flex;align-items:center;gap:7px;padding:7px 9px;border-radius:9px;color:#9da19d;
+      font-size:9px;transition:.3s ease
+    }
+    .reward-line:before{content:"";display:none}
+    .reward-line.is-unlocked{background:var(--p-mint-soft);color:#276250;font-weight:780}
+    .reward-line.is-unlocked:before{content:"";display:none}
+    .reward-line.just-unlocked{animation:rewardUnlock .6s ease}
+    @keyframes rewardUnlock{
+      0%{transform:scale(.98);background:#fff}
+      45%{transform:scale(1.025);box-shadow:0 0 0 4px rgba(102,194,173,.09)}
+      100%{transform:none}
+    }
+
+    .proposal-send{
+      margin-top:14px;width:100%;min-height:49px;border:0;border-radius:12px;background:#121411;color:#fff;
+      font:inherit;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:14px;font-weight:700;letter-spacing:-.01em;cursor:pointer;transition:.18s ease
+    }
+    .proposal-send:hover{transform:translateY(-1px);box-shadow:0 9px 20px rgba(0,0,0,.10)}
+    .proposal-note{text-align:center;margin:8px 0 0;color:#929792;font-size:9px}
+    body.proposal-open{overflow:hidden}
+
+    @media(max-width:980px){
+      .pricing-bottom-note{grid-template-columns:1fr}
+      .proposal-modal{padding:0;align-items:flex-end}
+      .proposal-card{
+        width:100%;max-height:92vh;border-radius:22px 22px 0 0;padding:22px 17px 18px
+      }
+      .proposal-card:before{
+        content:"";display:block;width:42px;height:4px;border-radius:999px;background:#d7d8d3;margin:-8px auto 13px
+      }
+      .proposal-head{padding:0 42px 0 0;text-align:left}
+      .proposal-title{font-size:24px;line-height:1.02}
+      .proposal-sub{margin:0;max-width:none}
+      .proposal-grid{grid-template-columns:1fr}
+      .proposal-plan{align-items:flex-start}
+      .proposal-plan-price{flex-direction:column;align-items:flex-end;gap:0}
+      .proposal-plan-price strong{font-size:20px}
+      .tool-chips{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding-bottom:3px;scrollbar-width:none}
+      .tool-chips::-webkit-scrollbar{display:none}
+      .tool-chip{flex:0 0 auto}
+      .reward-preview{margin-left:0}
+    }
+    footer{padding:0 0 50px;color:#757b75;font-size:12px}.footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:28px}
+
+    @media(max-width:980px){
+      .nav-links{display:none}
+      .hero-grid,.inside-grid,.features-head{grid-template-columns:1fr}
+      .pricing-head{display:block}
+      .pricing-head .lead{margin-top:18px}
+      .hero{padding-bottom:24px}
+      .hero-grid{gap:26px}
+      .hero-visual{min-height:540px}
+      .client-row{grid-template-columns:1fr}
+      .case-videos{grid-template-columns:1fr}
+      .case-video-card{min-height:auto}
+      .case-video-stage{min-height:560px}
+      .transform-grid{grid-template-columns:1fr}
+      .whatsapp-wrap{order:-1;min-height:520px}
+      .inside .wrap{width:min(calc(100% - 36px),var(--max))}
+      .laptop-frame{height:auto;aspect-ratio:16/9}
+      .laptop-frame img{height:100%}
+      .about-grid{grid-template-columns:1fr;gap:42px}
+      .niche-row{grid-template-columns:60px 1fr 1fr 24px}
+      .price-grid{grid-template-columns:1fr}
+      .price.featured{transform:none;min-height:500px}
+      .price.featured:hover{transform:translateY(-4px)}
+      .contact-head{grid-template-columns:1fr;gap:18px}
+      .quote-shell{grid-template-columns:1fr}
+      .quote-summary{position:static}
+      .starter-grid{grid-template-columns:1fr}
+      .form-footer{align-items:flex-start}
+      .feature-line{grid-template-columns:40px 1fr}
+      .feature-line p{grid-column:2}
+    }
+    @media(max-width:640px){
+      .wrap,.inside .wrap{width:min(calc(100% - 28px),var(--max))}
+      .section{padding:72px 0}
+      .hero{padding:42px 0 22px}
+      .nav-inner{height:auto;min-height:68px;gap:14px;padding:10px 0}
+      .brand{font-size:20px;flex:0 0 auto}
+      .brand small{font-size:8px}
+      .nav-inner>.btn{min-height:40px;max-width:178px;padding:0 12px;font-size:11px}
+      h1{font-size:clamp(40px,11vw,48px);line-height:.96;letter-spacing:-.052em;margin-bottom:20px}
+      h2{font-size:clamp(32px,9vw,42px);line-height:1;letter-spacing:-.045em}
+      h3{font-size:20px}
+      .lead{font-size:17px;line-height:1.5}
+      .kicker,.section-no{letter-spacing:.09em}
+      .hero-meta{display:grid;gap:10px;margin:24px 0 22px}
+      .meta-item{font-size:12px}
+      .hero .btn{width:100%;min-height:50px;padding:0 16px}
+      .hero-grid{gap:14px}
+      .hero-visual{min-height:390px;margin-top:8px;overflow:visible}
+      .hero-visual:before{width:360px;height:360px}
+      .hero-grid-lines{inset:4% -8% 2%;background-size:34px 34px;border-radius:28px}
+      .hero-phone-float{width:min(86vw,340px)}
+      .hero-phone{max-height:390px;width:100%;filter:drop-shadow(0 24px 26px rgba(21,29,25,.18))}
+      .hero-tag{left:50%;bottom:6px;width:min(100%,330px);transform:translateX(-50%);padding:11px 12px;border-radius:16px;font-size:12px}
+      .hero-tag:hover{transform:translateX(-50%) translateY(-2px)}
+      .hero-tag-icon{width:31px;height:31px}
+      .logos{grid-template-columns:repeat(2,1fr)}
+      .case-head{display:block;margin-bottom:32px}
+      .case-note{margin-top:16px;max-width:none}
+      .case-videos{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 14px 14px;margin:0 -14px;scrollbar-width:none}
+      .case-videos::-webkit-scrollbar{display:none}
+      .case-video-card{border-radius:24px;flex:0 0 min(82vw,320px);scroll-snap-align:center}
+      .case-video-stage{min-height:430px;padding:22px 14px 0}
+      .case-video-stage:before{width:310px;height:310px}
+      .case-mini-phone{width:min(82%,260px);border-width:8px;border-radius:34px}
+      .case-card-copy{padding:18px 18px 22px}
+      .transform-grid{gap:26px;margin-top:34px}
+      .compare-title{margin-bottom:16px}
+      .compare-item{grid-template-columns:26px 1fr;font-size:13px;padding:14px 0}
+      .chat-phone{width:min(74vw,250px);height:auto;aspect-ratio:1/2.04;border-width:8px;border-radius:36px}
+      .whatsapp-wrap{min-height:430px}
+      .whatsapp-wrap:before{width:310px;height:310px}
+      .flow-pill{bottom:22px;max-width:92%;text-align:center;white-space:normal}
+      .inside-grid{gap:32px}
+      .inside-row{grid-template-columns:34px 1fr}
+      #incluye{padding:50px 0 58px}
+      #incluye .features-head{gap:18px}
+      #incluye .features-list{margin-top:24px!important}
+      .feature-line{grid-template-columns:34px 1fr;padding:18px 0}
+      .feature-line p{display:none}
+      .demo-modal{padding:0;align-items:flex-end}
+      .demo-card{width:100%;max-height:88vh;border-radius:22px 22px 0 0;padding:22px 14px 16px}
+      .demo-title{font-size:30px;margin-right:44px}
+      .demo-calendar-grid,.demo-checkout,.demo-dashboard{grid-template-columns:1fr}
+      .demo-table div{grid-template-columns:1fr;gap:3px}
+      .niche-list{margin-top:34px}
+      .niche-row{grid-template-columns:42px 1fr 22px;gap:12px;padding:20px 0}
+      .niche-name{font-size:24px}
+      .niche-desc{grid-column:2/4;max-width:none}
+      .niche-foot{display:block}
+      .niche-foot a{display:inline-block;margin-top:18px}
+      .about-strip{padding:64px 0}
+      .about-portrait{border-radius:24px}
+      .about-video-wrap{padding:12px}
+      .about-points{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+      .about-chip{padding:9px 10px;font-size:11px;white-space:normal}
+      .process-audio-list{gap:10px;margin-top:20px;padding-bottom:10px}
+      .process-audio-card{padding:11px;flex-basis:min(76vw,250px)}
+      .price-grid{margin-top:34px}
+      .price{min-height:auto;padding:24px;border-radius:24px}
+      .price.featured{min-height:auto}
+      .amount{font-size:32px}
+      .price-sub{min-height:auto}
+      .pricing-bottom-note{gap:14px}
+      .case-modal{padding:12px}
+      .case-modal-card{width:min(100%,390px);height:min(760px,92vh);border-radius:24px}
+      .video-controls{padding:12px}
+      .video-controls-row{grid-template-columns:auto 1fr;gap:10px}
+      .volume-wrap{grid-column:1/3;justify-self:stretch}
+      .video-volume{width:100%}
+      .proposal-modal{align-items:flex-end}
+      .proposal-card{max-height:94vh;padding:20px 14px 16px}
+      .proposal-head{margin-bottom:12px}
+      .proposal-sub{font-size:10px}
+      .proposal-plan{gap:8px;padding:9px 10px;margin-bottom:12px;flex-wrap:nowrap}
+      .proposal-plan-price{align-items:flex-end}
+      .proposal-plan-price strong{font-size:17px}
+      .p-label{font-size:9px}
+      .p-input,.p-area,.p-select{padding:9px 10px;font-size:10px}
+      .p-area{min-height:58px}
+      .ref-helper{display:none}
+      .tool-chip{padding:8px 10px;font-size:10px}
+      .tool-icon,.reward-icon-svg{width:19px;height:19px}
+      .reward-disclosure{margin-top:12px;padding:10px 11px}
+      .reward-preview span:not(.preview-on){display:none}
+      .proposal-send{margin-top:12px;min-height:47px}
+      .unlock-cta{align-items:flex-start}
+      .cta{padding:30px 18px;border-radius:24px}
+      .quote-form,.quote-summary{padding:18px}
+      .starter-grid{grid-template-columns:1fr}
+      .form-footer{display:grid}
+      .send-btn{width:100%}
+    }
+
+    @media(max-width:980px){.pricing-bottom-note{grid-template-columns:1fr}.price.is-open,.price.featured.is-open{transform:none;min-height:auto}.reward-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:640px){.reward-grid{grid-template-columns:1fr}.price{padding:24px}.inline-builder{margin-top:16px;padding-top:16px}}
+    @media(max-width:430px){
+      .wrap,.inside .wrap{width:min(calc(100% - 24px),var(--max))}
+      .nav-inner>.btn{max-width:156px;font-size:10px;padding:0 10px}
+      .hero-visual{min-height:372px}
+      .hero-phone{max-height:364px}
+      .hero-tag{width:calc(100% - 4px);bottom:0}
+      .case-video-stage{min-height:400px}
+      .case-mini-phone{width:min(84%,238px)}
+      .whatsapp-wrap{min-height:408px}
+      .chat-phone{width:min(76vw,232px)}
+      .proposal-title{font-size:23px}
+      .proposal-close{right:14px;top:16px}
+      #incluye{padding-top:42px}
+      #incluye .features-head{gap:14px}
+      #incluye .features-list{margin-top:18px!important}
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="wrap nav-inner">
+      <div class="brand">EDER<small>CREAWEBS</small></div>
+      <div class="nav-links">
+        <a href="#caso">Caso real</a>
+        <a href="#sistema">El sistema</a>
+        <a href="#para-quien">Para quién</a>
+        <a href="#precios">Precios</a>
+      </div>
+      <a class="btn" href="#contacto">Quiero uno para mi negocio</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div>
+            <div class="kicker"><span class="section-no">01</span>Sistema de citas + pagos</div>
+            <h1>Tus clientes también podrían <span class="accent">agendar y pagarte así.</span></h1>
+            <p class="lead">Creamos sistemas web para negocios de servicios: agenda, cobros, clientes y seguimiento en un solo lugar, adaptados a cómo ya funciona tu negocio.</p>
+            <div class="hero-meta">
+              <div class="meta-item"><span class="meta-icon">01</span>Agenda automática</div>
+              <div class="meta-item"><span class="meta-icon">02</span>Pago integrado</div>
+              <div class="meta-item"><span class="meta-icon">03</span>Confirmación inmediata</div>
+            </div>
+            <a class="btn" href="#contacto">Quiero adaptar este sistema →</a>
+            <p class="muted" style="font-size:12px;margin-top:13px">Primero entendemos tu operación. Después diseñamos el sistema.</p>
+          </div>
+          <div class="hero-visual">
+            <div class="hero-grid-lines"></div>
+            <div class="hero-phone-float">
+              <img class="hero-phone" src="mockup_cel1.png" alt="Soul Nails: sistema de reservas, pagos y confirmación">
+            </div>
+            <button class="hero-tag" id="openCaseVideo" type="button" aria-haspopup="dialog" aria-controls="caseVideoModal">
+              <span class="hero-tag-icon">▶</span>
+              <span class="hero-tag-copy">Ver caso real: Soul Nails Mobile<small>Video · reserva · pago · confirmación</small></span>
+            </button>
+          </div>
+        </div>
+        <div class="client-row">
+          <div class="label">Negocios / proyectos</div>
+          <div class="logos">
+            <div class="logo">Soul Nails</div><div class="logo">KINETIC HUB</div><div class="logo">Cleazzi</div><div class="logo">CLTS</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section case" id="caso">
+      <div class="wrap">
+        <div class="case-head">
+          <div>
+            <div class="kicker"><span class="section-no">02</span>Caso real</div>
+            <h2>Esto fue lo que hicimos para <span class="accent">Soul Nails Mobile.</span></h2>
+          </div>
+        </div>
+
+        <div class="case-videos">
+          <article class="case-video-card">
+            <div class="case-video-stage">
+              <span class="case-loop-pill">Loop</span>
+              <div class="case-mini-phone">
+                <video class="case-loop-video" muted autoplay loop playsinline preload="metadata" poster="paso1.png" aria-label="Demo: elegir servicio">
+                  <source src="loop1.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <div class="case-card-copy">
+              <div class="case-card-top"><span class="case-card-num">01</span><h3>Elige</h3></div>
+              <p>La clienta explora servicios, extras y precios sin tener que preguntar por mensaje.</p>
+            </div>
+          </article>
+
+          <article class="case-video-card">
+            <div class="case-video-stage">
+              <span class="case-loop-pill">Loop</span>
+              <div class="case-mini-phone">
+                <video class="case-loop-video" muted autoplay loop playsinline preload="metadata" poster="paso2.png" aria-label="Demo: reservar fecha y hora">
+                  <source src="loop2.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <div class="case-card-copy">
+              <div class="case-card-top"><span class="case-card-num">02</span><h3>Reserva</h3></div>
+              <p>Solo aparecen fechas y horarios disponibles, así que la agenda se ordena sola.</p>
+            </div>
+          </article>
+
+          <article class="case-video-card">
+            <div class="case-video-stage">
+              <span class="case-loop-pill">Loop</span>
+              <div class="case-mini-phone">
+                <video class="case-loop-video" muted autoplay loop playsinline preload="metadata" poster="paso5.png" aria-label="Demo: pagar y confirmar">
+                  <source src="loop3.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <div class="case-card-copy">
+              <div class="case-card-top"><span class="case-card-num">03</span><h3>Confirma</h3></div>
+              <p>Pago, confirmación y datos quedan dentro del mismo recorrido, sin brincos entre chats.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="case-full-link">
+          <button type="button" id="openCaseVideoSecondary">Ver el caso completo en video →</button>
+        </div>
+      </div>
+    </section>
+
+
+
+    <section class="about-strip">
+      <div class="wrap about-grid">
+        <div class="about-portrait">
+          <div class="about-video-wrap">
+            <video class="about-video" autoplay muted loop playsinline preload="metadata">
+              <source src="sobremi_loop.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+        <div>
+          <div class="kicker" style="color:#8ee0cc"><span class="section-no" style="color:#777">03</span>Cómo es trabajar conmigo</div>
+          <h2>Hola, soy Eder Arteaga. <span style="color:#8ee0cc">Estos son los siguientes pasos.</span></h2>
+          <p class="lead">Trabajo contigo con comunicación clara: primero entiendo tu operación, después preparo una propuesta visual y corregible, y avanzamos solo si realmente tiene sentido para tu negocio.</p>
+          <div class="about-points">
+            <span class="about-chip">Comunicación clara</span>
+            <span class="about-chip">Propuesta visual</span>
+            <span class="about-chip">Criterio honesto</span>
+            <span class="about-chip">Operación + ventas</span>
+          </div>
+        </div>
+      </div>
+      <div class="wrap process-audio-wrap">
+        <div class="process-audio-list">
+            <div class="process-audio-card">
+              <div class="process-audio-top"><span class="process-audio-no">01</span><div><strong>Diagnóstico</strong><p>Entendemos cómo trabajas y dónde está el mayor cuello de botella.</p></div></div>
+              <audio controls preload="none" src="audio/proceso/01-diagnostico.mp3"></audio>
+            </div>
+            <div class="process-audio-card">
+              <div class="process-audio-top"><span class="process-audio-no">02</span><div><strong>Propuesta visual</strong><p>Te muestro una idea clara para corregir expectativas antes de construir.</p></div></div>
+              <audio controls preload="none" src="audio/proceso/02-propuesta.mp3"></audio>
+            </div>
+            <div class="process-audio-card">
+              <div class="process-audio-top"><span class="process-audio-no">03</span><div><strong>Contenido y accesos</strong><p>Reunimos lo necesario para no frenar el proyecto a medio camino.</p></div></div>
+              <audio controls preload="none" src="audio/proceso/03-contenido-y-accesos.mp3"></audio>
+            </div>
+            <div class="process-audio-card">
+              <div class="process-audio-top"><span class="process-audio-no">04</span><div><strong>Desarrollo</strong><p>Construyo la herramienta cuidando diseño, operación y flujo real.</p></div></div>
+              <audio controls preload="none" src="audio/proceso/04-desarrollo.mp3"></audio>
+            </div>
+            <div class="process-audio-card">
+              <div class="process-audio-top"><span class="process-audio-no">05</span><div><strong>Revisión</strong><p>Probamos, corregimos y dejamos claro qué falta ajustar.</p></div></div>
+              <audio controls preload="none" src="audio/proceso/05-revision.mp3"></audio>
+            </div>
+            <div class="process-audio-card">
+              <div class="process-audio-top"><span class="process-audio-no">06</span><div><strong>Entrega y acompañamiento</strong><p>Te explico cómo usarlo y dejo una base lista para operar.</p></div></div>
+              <audio controls preload="none" src="audio/proceso/06-entrega-y-acompanamiento.mp3"></audio>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section inside" id="sistema">
+      <div class="wrap inside-grid">
+        <div class="laptop-frame"><img src="admin_mockup_pc.png" alt="Panel administrativo de Soul Nails en laptop"></div>
+        <div class="inside-copy">
+          <div class="kicker"><span class="section-no">04</span>El sistema por dentro</div>
+          <h2>Tú administras el negocio. <span style="color:#8ee0cc">Tu cliente solo ve lo necesario.</span></h2>
+          <p class="lead">Mientras el cliente ve una experiencia simple para reservar y pagar, tú tienes un panel para editar servicios, precios, citas y operación.</p>
+          <div class="inside-list">
+            <div class="inside-row"><div class="num">01</div><div><strong>Control sin tocar código</strong><p>Edita catálogo, precios, tiempos y contenido desde tu panel.</p></div></div>
+            <div class="inside-row"><div class="num">02</div><div><strong>Todo centralizado</strong><p>Citas, clientes y pagos dejan de vivir repartidos entre mensajes.</p></div></div>
+            <div class="inside-row"><div class="num">03</div><div><strong>Hecho para tu operación</strong><p>No copiamos Soul Nails: usamos la lógica y la adaptamos a tu negocio.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section niche-section" id="para-quien">
+      <div class="wrap">
+        <div class="kicker"><span class="section-no">05</span>Se adapta a tu servicio</div>
+        <h2>No todos necesitan lo mismo. <span class="accent">La lógica cambia según el negocio.</span></h2>
+        <div class="niche-list">
+          <a class="niche-row" href="#contacto"><span class="niche-no">01</span><span class="niche-name">Estética</span><span class="niche-desc">Servicios, extras, disponibilidad, anticipos y citas.</span><span class="niche-go">↗</span></a>
+          <a class="niche-row" href="#contacto"><span class="niche-no">02</span><span class="niche-name">Psicología</span><span class="niche-desc">Sesiones, agenda, cobro, recordatorios y seguimiento.</span><span class="niche-go">↗</span></a>
+          <a class="niche-row" href="#contacto"><span class="niche-no">03</span><span class="niche-name">Barberías</span><span class="niche-desc">Equipo, horarios, servicios, disponibilidad y pagos.</span><span class="niche-go">↗</span></a>
+          <a class="niche-row" href="#contacto"><span class="niche-no">04</span><span class="niche-name">A domicilio</span><span class="niche-desc">Zonas, horarios, solicitudes, anticipos y datos del cliente.</span><span class="niche-go">↗</span></a>
+        </div>
+        <div class="niche-foot">
+          <p>La interfaz puede cambiar mucho. El principio es el mismo: <strong>menos trabajo manual, menos información perdida y una experiencia más clara para tu cliente.</strong></p>
+          <a href="#contacto">Cuéntame cómo funciona el tuyo →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="incluye">
+      <div class="wrap">
+        <div class="features-head">
+          <div>
+            <div class="kicker"><span class="section-no">06</span>Lo que puede incluir</div>
+            <h2>No son sitios web. <span class="accent">Son herramientas para operar tu negocio.</span></h2>
+          </div>
+        </div>
+        <div class="features-list" style="margin-top:48px">
+          <button class="feature-line" type="button" data-demo="agenda"><span class="idx">01</span><strong>Agenda</strong><p>Disponibilidad, horarios, bloqueos, reagendas y citas en un solo flujo.</p></button>
+          <button class="feature-line" type="button" data-demo="cobros"><span class="idx">02</span><strong>Cobros</strong><p>Anticipos o pago completo con tarjeta según cómo funciona tu negocio.</p></button>
+          <button class="feature-line" type="button" data-demo="operacion"><span class="idx">03</span><strong>Operación</strong><p>Clientes, servicios, citas y administración organizados desde tu panel.</p></button>
+          <button class="feature-line" type="button" data-demo="automatizacion"><span class="idx">04</span><strong>Automatización</strong><p>Confirmaciones, recordatorios e integraciones para quitar trabajo manual.</p></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section transform" id="chatbots">
+      <div class="wrap">
+        <div class="kicker"><span class="section-no">07</span>También hacemos chatbots</div>
+        <h2>Conversaciones que <span class="accent">atienden y avanzan.</span></h2>
+        <p class="lead">Un chatbot responde lo básico, guía a cada persona y evita que una conversación con intención se quede sin seguimiento.</p>
+        <div class="transform-grid">
+          <div class="compare-side">
+            <div class="compare-title before">Antes</div>
+            <div class="compare-list">
+              <div class="compare-item"><span class="compare-mark">×</span><span>Agendas por mensajes que se pierden.</span></div>
+              <div class="compare-item"><span class="compare-mark">×</span><span>Confirmaciones y reagendas manuales.</span></div>
+              <div class="compare-item"><span class="compare-mark">×</span><span>Pagos por transferencia sin orden.</span></div>
+              <div class="compare-item"><span class="compare-mark">×</span><span>Datos repartidos entre chats, notas y hojas.</span></div>
+            </div>
+          </div>
+          <div class="whatsapp-wrap" id="chatDemo">
+            <div class="chat-phone" id="chatPhoneDemo">
+              <div class="chat-top"><div class="avatar"><img src="soulnails_avatar.png" alt="Soul Nails"></div><div>Soul Nails<br><span id="chatDemoStatus" style="font-weight:500;opacity:.75">esperando respuesta</span></div></div>
+              <div class="chat-body" id="chatDemoBody" aria-live="polite"></div>
+            </div>
+            <div class="flow-pill" id="chatLesson">La atención también vende</div>
+          </div>
+          <div class="compare-side">
+            <div class="compare-title after">Después</div>
+            <div class="compare-list">
+              <div class="compare-item"><span class="compare-mark">✓</span><span>Clientes reservan 24/7 sin escribirte.</span></div>
+              <div class="compare-item"><span class="compare-mark">✓</span><span>Pago y confirmación en el mismo flujo.</span></div>
+              <div class="compare-item"><span class="compare-mark">✓</span><span>Citas y datos quedan centralizados.</span></div>
+              <div class="compare-item"><span class="compare-mark">✓</span><span>Tú te enfocas en prestar el servicio.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section pricing" id="precios">
+      <div class="wrap" id="contacto">
+        <div class="pricing-head">
+          <div>
+            <div class="kicker"><span class="section-no">08</span>Inversión</div>
+            <h2>Elige el plan y <span class="accent">arma tu propuesta.</span></h2>
+          </div>
+          <p class="lead">Selecciona una opción y completa solo lo que quieras. Mientras avanzas, se muestran beneficios que ya puedo incluir en tu proyecto.</p>
+        </div>
+
+        <div class="price-grid" id="priceGrid">
+          <article class="price basic" data-plan="informativo" data-mail="20" data-name="Sitio informativo" data-price="Desde $10,000 + IVA">
+            <div class="price-top">
+              <div class="tag">Sitio informativo</div>
+              <div class="amount">Desde $10,000 <small>+ IVA</small></div>
+              <p class="price-sub">Para presentar tu negocio, explicar lo que haces y generar confianza profesional.</p>
+              <div class="mail-perk">20 correos gratis el primer año</div>
+            </div>
+            <div class="price-divider"></div>
+            <ul>
+              <li>Diseño profesional y responsive</li>
+              <li>Información de servicios</li>
+              <li>Formulario o contacto</li>
+              <li>SEO y estructura básica</li>
+            </ul>
+            <button class="btn secondary plan-jump" type="button">Seleccionar este plan</button>
+            <div class="price-note">Desbloquea más beneficios al avanzar</div>
+          </article>
+
+          <article class="price featured" data-plan="sistema" data-mail="50" data-name="Sistema web" data-price="Desde $15,000 + IVA">
+            <div class="recommended">Más elegido</div>
+            <div class="price-top">
+              <div class="tag">Sistema web</div>
+              <div class="amount">Desde $15,000 <small>+ IVA</small></div>
+              <p class="price-sub">Para convertir citas, cobros, clientes y seguimiento en un solo flujo.</p>
+              <div class="mail-perk">50 correos gratis el primer año</div>
+            </div>
+            <div class="price-divider"></div>
+            <ul>
+              <li>Agenda y disponibilidad</li>
+              <li>Pagos en línea</li>
+              <li>Panel administrativo</li>
+              <li>Clientes y datos centralizados</li>
+              <li>Integraciones y automatizaciones</li>
+            </ul>
+            <button class="btn plan-jump" type="button">Seleccionar este plan</button>
+            <div class="price-note">La opción principal para negocios de servicios</div>
+          </article>
+
+          <article class="price advanced" data-plan="personalizado" data-mail="100" data-name="Personalizado" data-price="Desde $20,000 + IVA">
+            <div class="price-top">
+              <div class="tag">Personalizado</div>
+              <div class="amount">Desde $20,000 <small>+ IVA</small></div>
+              <p class="price-sub">Cuando tu operación necesita lógica propia, más integraciones o procesos especiales.</p>
+              <div class="mail-perk">100 correos gratis el primer año</div>
+            </div>
+            <div class="price-divider"></div>
+            <ul>
+              <li>Todo lo necesario del sistema base</li>
+              <li>Flujos y lógica personalizada</li>
+              <li>Integraciones especiales</li>
+              <li>Automatizaciones avanzadas</li>
+              <li>Funciones a medida</li>
+            </ul>
+            <button class="btn plan-jump" type="button">Seleccionar este plan</button>
+            <div class="price-note">Desbloquea más beneficios al avanzar</div>
+          </article>
+        </div>
+
+        <div class="pricing-bottom-note">
+          <div><span>✓</span><span><strong>Sin compromiso</strong>Puedes enviar la propuesta con solo dos respuestas.</span></div>
+          <div><span>+</span><span><strong>Beneficios del primer año</strong>Correo, dominio y hosting se muestran conforme avanzas.</span></div>
+          <div><span>↗</span><span><strong>Listo para WhatsApp</strong>Yo recibo el plan y las respuestas en un solo mensaje.</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <div><strong style="color:#111">EDER CREAWEBS</strong><br>Sistemas web para negocios reales.</div>
+      <div>Citas y servicios · Tiendas en línea · Eventos · Sistemas personalizados</div>
+      <div>© 2026 EderCreaWebs</div>
+    </div>
+  </footer>
+
+  <div class="demo-modal" id="toolDemoModal" role="dialog" aria-modal="true" aria-labelledby="toolDemoTitle" aria-hidden="true">
+    <div class="demo-card" role="document">
+      <button class="demo-close" id="toolDemoClose" type="button" aria-label="Cerrar">×</button>
+      <div class="demo-kicker" id="toolDemoKicker">Herramienta</div>
+      <h3 class="demo-title" id="toolDemoTitle">Agenda</h3>
+      <div class="demo-surface" id="toolDemoSurface"></div>
+    </div>
+  </div>
+
+  <div class="proposal-modal" id="proposalModal" role="dialog" aria-modal="true" aria-labelledby="proposalTitle" aria-hidden="true">
+    <div class="proposal-card" id="proposalCard" role="document">
+      <button class="proposal-close" id="proposalClose" type="button" aria-label="Cerrar">×</button>
+
+      <div class="proposal-head">
+        <h3 class="proposal-title" id="proposalTitle">Cotiza en <em>2 preguntas.</em></h3>
+        <p class="proposal-sub">Mándame lo básico y te digo qué conviene construir.</p>
+      </div>
+
+      <div class="proposal-plan">
+        <div class="proposal-plan-left">Paquete elegido: <strong id="pPlanName">Sistema web</strong></div>
+        <div class="proposal-plan-price"><span>Desde</span><strong id="pPlanPrice">$15,000</strong><span>+ IVA</span></div>
+      </div>
+
+      <div class="proposal-grid">
+        <div class="p-group">
+          <label class="p-label">1. Enlace o referencia</label>
+          <div class="refs-list" id="refsList">
+            <div class="ref-row">
+              <input class="p-input ref-input" type="url" inputmode="url" placeholder="Instagram, Facebook o web">
+            </div>
+          </div>
+          <button class="ref-add" id="refAdd" type="button">+ Agregar otro enlace</button>
+          <div class="ref-helper">Puedes agregar más si hace falta.</div>
+        </div>
+
+        <div class="p-group">
+          <label class="p-label">2. ¿Qué vendes y cómo compran?</label>
+          <textarea class="p-area" id="pBusiness" placeholder="Ej. Me escriben por WhatsApp y pagan por transferencia."></textarea>
+        </div>
+      </div>
+
+      <div class="tool-block">
+        <div class="tool-title">Qué quieres incluir</div>
+        <div class="tool-chips" id="toolChips">
+          <button class="tool-chip" type="button" data-tool="Sitio web"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9h17" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="6.5" cy="7" r=".7" fill="currentColor"/><circle cx="9" cy="7" r=".7" fill="currentColor"/><circle cx="11.5" cy="7" r=".7" fill="var(--icon-accent)"/><rect x="6" y="11.5" width="6.3" height="4.6" rx="1" fill="currentColor" opacity=".16"/><rect x="14.1" y="11.5" width="3.6" height="1.6" rx=".8" fill="currentColor" opacity=".18"/><rect x="14.1" y="14.3" width="3.6" height="1.6" rx=".8" fill="currentColor" opacity=".18"/></svg><span>Sitio web</span><span class="tick">✓</span></button>
+          <button class="tool-chip" type="button" data-tool="Agenda"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 3.5v4M16 3.5v4M4 9h16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><rect x="7" y="11.5" width="2.2" height="2.2" rx=".5" fill="currentColor" opacity=".18"/><rect x="10.9" y="11.5" width="2.2" height="2.2" rx=".5" fill="currentColor" opacity=".18"/><rect x="14.8" y="11.5" width="2.2" height="2.2" rx=".5" fill="currentColor" opacity=".18"/><circle cx="13.2" cy="16.2" r="2.2" fill="var(--icon-accent)"/><path d="M12.2 16.2l.7.7 1.4-1.6" fill="none" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Agenda</span><span class="tick">✓</span></button>
+          <button class="tool-chip" type="button" data-tool="Cobro en línea"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.8" y="6.2" width="16.4" height="11.6" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.8 10h16.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M6.5 14.2h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="16.5" cy="15.4" r="2.6" fill="var(--icon-accent)"/><path d="M15.4 15.4l.8.8 1.6-1.8" fill="none" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Cobro</span><span class="tick">✓</span></button>
+          <button class="tool-chip" type="button" data-tool="Login"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4.8 17.8c.5-3 2.4-4.8 4.2-4.8s3.7 1.8 4.2 4.8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M14.5 15.5h4.8M17.4 12.8l2.8 2.7-2.8 2.7" fill="none" stroke="var(--icon-accent)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Login</span><span class="tick">✓</span></button>
+          <button class="tool-chip" type="button" data-tool="Panel admin"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.8" y="5.2" width="16.4" height="13.6" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="6.8" cy="7.7" r=".7" fill="currentColor"/><circle cx="9.1" cy="7.7" r=".7" fill="var(--icon-accent)"/><path d="M14.5 7.7h2.8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><rect x="6" y="10.5" width="3.1" height="2.2" rx=".6" fill="currentColor" opacity=".17"/><rect x="6" y="13.7" width="3.1" height="2.2" rx=".6" fill="currentColor" opacity=".17"/><rect x="11" y="10.5" width="6.8" height="5.4" rx="1" fill="currentColor" opacity=".16"/></svg><span>Panel</span><span class="tick">✓</span></button>
+          <button class="tool-chip" type="button" data-tool="Pixel / Ads"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5.5h7.5M5.5 7v9.5A2.5 2.5 0 0 0 8 19h8a2.5 2.5 0 0 0 2.5-2.5V9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><rect x="15.2" y="4" width="3.2" height="3.2" rx=".8" fill="var(--icon-accent)"/><text x="8" y="14.1" font-size="4.1" font-family="Arial, sans-serif" font-weight="700" fill="currentColor">ADS</text></svg><span>Pixel</span><span class="tick">✓</span></button>
+        </div>
+      </div>
+
+      <button class="reward-disclosure" id="rewardDisclosure" type="button" aria-expanded="false" aria-controls="advancedPanel">
+        <span class="reward-disclosure-top">
+          <span class="reward-gift"></span>
+          <span class="reward-disclosure-copy">
+            <strong>Extras opcionales</strong>
+            <span>Responde un poco más y puedo incluir beneficios.</span>
+          </span>
+          <span class="reward-chevron">⌄</span>
+        </span>
+        <span class="reward-preview">
+          <span class="preview-on" id="rewardPreviewMail">✓ 50 correos gratis el primer año</span>
+          <span>Dominio, hosting o Pixel según el proyecto.</span>
+        </span>
+      </button>
+
+      <div class="advanced-panel" id="advancedPanel">
+        <div class="advanced-inner">
+          <div class="progress-wrap">
+            <div class="progress-row">
+              <span id="progressLabel">Datos básicos</span>
+              <span id="rewardLabel">1 beneficio incluido</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+          </div>
+
+          <div id="dynamicQuestions"></div>
+
+          <button class="unlock-cta" id="unlockNext" type="button">
+            <span class="unlock-plus">+</span>
+            <span class="unlock-copy">
+              <strong>Responder una pregunta extra</strong>
+              <span>Te tomará menos de 30 segundos.</span>
+            </span>
+            <span class="unlock-arrow">→</span>
+          </button>
+
+          <div class="rewards">
+            <div class="reward-title">Extras gratis que vas ganando</div>
+            <div class="reward-sub">Entre más contexto me das, más extras puedo incluir sin costo en tu propuesta.</div>
+            <div class="reward-list">
+              <div class="reward-line is-unlocked" id="rMail"><svg class="reward-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6" width="17" height="12" rx="2.7" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4.5 7.5l7.5 6 7.5-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="17.2" cy="15.5" r="2.4" fill="var(--icon-accent)"/><path d="M16.5 14.4l.7 1.1 1.1-1.8.8 1.1" fill="none" stroke="white" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="rMailTitle">50 correos gratis el primer año</span></div>
+              <div class="reward-line" id="rDomain"><svg class="reward-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="12" r="6.7" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4.6 12h12.8M11 5.3c2 2.1 2.9 4.2 2.9 6.7s-.9 4.6-2.9 6.7M11 5.3C9 7.4 8.1 9.5 8.1 12s.9 4.6 2.9 6.7" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="17.2" cy="16.6" r="2.1" fill="var(--icon-accent)"/></svg><span>Dominio gratis el primer año</span></div>
+              <div class="reward-line" id="rHosting"><svg class="reward-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.3 15.7H5.4a3.7 3.7 0 0 1-.6-7.3A5.3 5.3 0 0 1 15 7.6a4.2 4.2 0 0 1 4 4.1 4 4 0 0 1-4 4h-.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><rect x="7.4" y="12.6" width="8" height="5.1" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="9.4" cy="14.6" r=".6" fill="currentColor"/><circle cx="9.4" cy="16.4" r=".6" fill="currentColor"/><circle cx="15.9" cy="17.3" r="1.7" fill="none" stroke="var(--icon-accent)" stroke-width="1.4"/></svg><span>Hosting gratis el primer año</span></div>
+              <div class="reward-line" id="rPixel"><svg class="reward-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.8 10.4l6.4-6.4h6.4l2.4 2.4v6.4l-6.4 6.4a2.1 2.1 0 0 1-3 0l-5.8-5.8a2.1 2.1 0 0 1 0-3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="15.8" cy="8.1" r="1.1" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="15.8" cy="16.3" r="2.5" fill="var(--icon-accent)"/><path d="M14.8 16.3l.8.8 1.6-1.8" fill="none" stroke="white" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Instalación de Pixel / Tag gratis si haces anuncios</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="proposal-send" id="proposalSend" type="button">Enviar por WhatsApp →</button>
+      <p class="proposal-note">Las preguntas extra son opcionales.</p>
+    </div>
+  </div>
+
+  <div class="case-modal" id="caseVideoModal" role="dialog" aria-modal="true" aria-label="Caso real Soul Nails Mobile" aria-hidden="true">
+    <div class="case-modal-card" role="document">
+      <button class="case-close" id="closeCaseVideo" type="button" aria-label="Cerrar video">×</button>
+      <div class="case-video-wrap" id="caseVideoWrap">
+        <video class="case-video" id="caseVideo" preload="metadata" playsinline>
+          <source src="soul_caso.mp4" type="video/mp4">
+          Tu navegador no puede reproducir este video.
+        </video>
+        <div class="case-play-state" aria-hidden="true"><span>▶</span></div>
+      </div>
+      <div class="video-controls" aria-label="Controles de video">
+        <input class="video-seek" id="caseSeek" type="range" min="0" max="1000" value="0" aria-label="Posición del video">
+        <div class="video-controls-row">
+          <button class="video-control-btn" id="casePlayPause" type="button" aria-label="Pausar">❚❚</button>
+          <div class="video-time"><span id="caseCurrent">0:00</span> / <span id="caseDuration">0:00</span></div>
+          <label class="volume-wrap" aria-label="Volumen">
+            <span>🔊</span>
+            <input class="video-volume" id="caseVolume" type="range" min="0" max="1" step="0.01" value="1" aria-label="Volumen">
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="uiClickSound" preload="auto" aria-hidden="true">
+    <source src="ui-click.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    (() => {
+      const clickSound = document.getElementById('uiClickSound');
+      if (!clickSound) return;
+
+      clickSound.volume = 0.32;
+      document.addEventListener('click', (event) => {
+        if (!event.target.closest('button')) return;
+        clickSound.currentTime = 0;
+        clickSound.play().catch(() => {});
+      });
+    })();
+
+    (() => {
+      const audios = Array.from(document.querySelectorAll('.process-audio-card audio'));
+      if (!audios.length) return;
+
+      audios.forEach((audio, index) => {
+        audio.addEventListener('play', () => {
+          audios.forEach((other) => {
+            if (other !== audio) other.pause();
+          });
+        });
+
+        audio.addEventListener('ended', async () => {
+          const next = audios[index + 1];
+          if (!next) return;
+          try {
+            next.currentTime = 0;
+            await next.play();
+            next.closest('.process-audio-card')?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+          } catch (error) {
+            // Browser autoplay rules can block this if the first play was not user initiated.
+          }
+        });
+      });
+    })();
+
+    (() => {
+      const modal = document.getElementById('toolDemoModal');
+      const closeBtn = document.getElementById('toolDemoClose');
+      const title = document.getElementById('toolDemoTitle');
+      const kicker = document.getElementById('toolDemoKicker');
+      const surface = document.getElementById('toolDemoSurface');
+      const triggers = document.querySelectorAll('[data-demo]');
+      if (!modal || !closeBtn || !title || !kicker || !surface || !triggers.length) return;
+
+      const demos = {
+        agenda: {
+          kicker: 'Agenda interactiva',
+          title: 'Tus horarios disponibles, sin mensajes eternos.',
+          html: `
+            <div class="demo-calendar-head"><strong>Agosto 2026</strong><span class="demo-pill">Gel X · 90 min</span></div>
+            <div class="demo-calendar-grid">
+              <div class="demo-slot"><strong>Lun 17</strong><span>Sin espacios</span></div>
+              <div class="demo-slot is-on"><strong>Mar 18</strong><span>11:00 · 4:30</span></div>
+              <div class="demo-slot"><strong>Mié 19</strong><span>2:00 disponible</span></div>
+              <div class="demo-slot is-on"><strong>Jue 20</strong><span>10:30 · 1:30</span></div>
+            </div>`
+        },
+        cobros: {
+          kicker: 'Checkout',
+          title: 'Anticipo o pago completo en el mismo flujo.',
+          html: `
+            <div class="demo-checkout">
+              <div class="demo-cart">
+                <div class="demo-checkout-row"><strong>Resumen</strong><span class="demo-pill">Seguro</span></div>
+                <div class="demo-cart-item"><span>Gel X</span><strong>$650</strong></div>
+                <div class="demo-cart-item"><span>Diseño sencillo</span><strong>$120</strong></div>
+                <div class="demo-cart-item"><span>Anticipo requerido</span><strong>$250</strong></div>
+              </div>
+              <div class="demo-paybox">
+                <strong>Pago en línea</strong>
+                <input value="4242 4242 4242 4242" aria-label="Tarjeta demo">
+                <button type="button">Apartar cita</button>
+              </div>
+            </div>`
+        },
+        operacion: {
+          kicker: 'Panel de operación',
+          title: 'Todo lo importante en un solo tablero.',
+          html: `
+            <div class="demo-dashboard">
+              <div class="demo-metric"><strong>18</strong><span>Citas esta semana</span></div>
+              <div class="demo-metric"><strong>$7.8k</strong><span>Pagos registrados</span></div>
+              <div class="demo-metric"><strong>4</strong><span>Reagendas pendientes</span></div>
+              <div class="demo-table">
+                <div><strong>Ana López</strong><span>Gel X</span><span>Mar 11:00</span></div>
+                <div><strong>Mariana Ruiz</strong><span>Retoque</span><span>Jue 1:30</span></div>
+                <div><strong>Camila Soto</strong><span>Diseño</span><span>Vie 4:00</span></div>
+              </div>
+            </div>`
+        },
+        automatizacion: {
+          kicker: 'Automatización',
+          title: 'Confirmación automática después de comprar.',
+          html: `
+            <div class="demo-mail">
+              <div class="demo-mail-head"><strong>Soul Nails</strong><span>Confirmación</span></div>
+              <div class="demo-mail-body">
+                <span class="demo-pill">Compra confirmada</span>
+                <p>Hola Ana, tu cita quedó agendada para el martes 18 a las 11:00.</p>
+                <div class="demo-mail-code">SN-1842</div>
+                <p>Te enviamos ubicación, preparación previa y opción para reagendar si lo necesitas.</p>
+              </div>
+            </div>`
+        }
+      };
+
+      const open = (key) => {
+        const demo = demos[key];
+        if (!demo) return;
+        kicker.textContent = demo.kicker;
+        title.textContent = demo.title;
+        surface.innerHTML = demo.html;
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+        closeBtn.focus();
+      };
+
+      const close = () => {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+      };
+
+      triggers.forEach((trigger) => {
+        trigger.addEventListener('click', () => open(trigger.dataset.demo));
+      });
+      closeBtn.addEventListener('click', close);
+      modal.addEventListener('click', (event) => { if (event.target === modal) close(); });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modal.classList.contains('is-open')) close();
+      });
+    })();
+
+    (() => {
+      const wrap = document.getElementById('chatDemo');
+      const phone = document.getElementById('chatPhoneDemo');
+      const body = document.getElementById('chatDemoBody');
+      const status = document.getElementById('chatDemoStatus');
+      const lesson = document.getElementById('chatLesson');
+      if (!wrap || !phone || !body || !status || !lesson) return;
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const wait = (ms) => new Promise((resolve) => setTimeout(resolve, reduceMotion ? 0 : ms));
+      let runId = 0;
+      let hasStarted = false;
+
+      const setMode = (mode, label) => {
+        wrap.classList.toggle('is-waiting', mode === 'waiting');
+        wrap.classList.toggle('is-automated', mode === 'automated');
+        phone.classList.toggle('is-waiting', mode === 'waiting');
+        phone.classList.toggle('is-automated', mode === 'automated');
+        status.textContent = label;
+      };
+
+      const setLesson = (text) => {
+        lesson.textContent = text;
+      };
+
+      const clearChat = () => {
+        body.innerHTML = '';
+      };
+
+      const addBubble = async (side, text, options = {}) => {
+        const bubble = document.createElement('div');
+        bubble.className = `bubble ${side}${options.frustrated ? ' is-frustrated' : ''}`;
+        bubble.textContent = text;
+        body.appendChild(bubble);
+        if (options.shake) {
+          phone.classList.remove('is-angry');
+          void phone.offsetWidth;
+          phone.classList.add('is-angry');
+        }
+        await wait(options.pause ?? 1240);
+      };
+
+      const addStatus = async (text, pause = 680) => {
+        const item = document.createElement('div');
+        item.className = 'chat-status';
+        item.textContent = text;
+        body.appendChild(item);
+        await wait(pause);
+      };
+
+      const addTyping = async (pause = 520) => {
+        const typing = document.createElement('div');
+        typing.className = 'typing';
+        typing.innerHTML = '<span></span><span></span><span></span>';
+        body.appendChild(typing);
+        await wait(pause);
+        typing.remove();
+      };
+
+      const play = async () => {
+        const id = ++runId;
+        while (id === runId) {
+          clearChat();
+          setMode('waiting', 'sin responder');
+          setLesson('La atención también vende');
+          await addStatus('ANTES', 900);
+          await addBubble('out', 'Hola, buenas tardes.', { pause: 1050 });
+          await addTyping(900);
+          await addBubble('in', 'Hola, ¿cómo estás?', { pause: 1150 });
+          await addBubble('out', 'Pues fíjate que estoy interesado en esto.', { pause: 1700 });
+          await addStatus('Sin respuesta', 1200);
+          setLesson('Lección: si tardas, se enfría el interés');
+          await addBubble('out', '¿?', { frustrated: true, shake: true, pause: 1150 });
+          await addBubble('out', '???', { frustrated: true, shake: true, pause: 1150 });
+          await addBubble('out', '😠', { frustrated: true, shake: true, pause: 1800 });
+
+          if (id !== runId) return;
+          clearChat();
+          setMode('automated', 'responde al instante');
+          setLesson('Conversaciones fluidas');
+          await addStatus('DESPUÉS', 860);
+          await addBubble('out', 'Hola, quiero generar una cita.', { pause: 900 });
+          await addTyping(920);
+          await addBubble('in', 'Claro, sí. Elige tu servicio.', { pause: 1240 });
+          await addBubble('out', 'Sábado.', { pause: 900 });
+          await addTyping(840);
+          await addBubble('in', 'Perfecto. Tengo 1:30 disponible.', { pause: 1280 });
+          await addBubble('out', 'Listo, confirmar.', { pause: 900 });
+          await addTyping(760);
+          await addBubble('in', 'Cita confirmada. Te esperamos.', { pause: 3400 });
+          setLesson('Conversaciones fluidas');
+        }
+      };
+
+      const start = () => {
+        if (hasStarted) return;
+        hasStarted = true;
+        play();
+      };
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          if (entries.some((entry) => entry.isIntersecting)) start();
+        }, { threshold: 0.35 });
+        observer.observe(wrap);
+      } else {
+        start();
+      }
+    })();
+
+    (() => {
+      const stage = document.querySelector('.hero-visual');
+      const phone = document.querySelector('.hero-phone');
+      if (!stage || !phone || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const reset = () => {
+        phone.style.setProperty('--phone-rx', '0deg');
+        phone.style.setProperty('--phone-ry', '0deg');
+        phone.style.setProperty('--phone-x', '0px');
+        phone.style.setProperty('--phone-y', '0px');
+      };
+
+      stage.addEventListener('pointermove', (event) => {
+        if (event.pointerType === 'touch') return;
+        const rect = stage.getBoundingClientRect();
+        const nx = (event.clientX - rect.left) / rect.width - 0.5;
+        const ny = (event.clientY - rect.top) / rect.height - 0.5;
+
+        phone.style.setProperty('--phone-ry', `${nx * 9}deg`);
+        phone.style.setProperty('--phone-rx', `${ny * -7}deg`);
+        phone.style.setProperty('--phone-x', `${nx * 10}px`);
+        phone.style.setProperty('--phone-y', `${ny * 7}px`);
+      });
+
+      stage.addEventListener('pointerleave', reset);
+    })();
+
+    (() => {
+      const openBtn = document.getElementById('openCaseVideo');
+      const modal = document.getElementById('caseVideoModal');
+      const closeBtn = document.getElementById('closeCaseVideo');
+      const card = modal.querySelector('.case-modal-card');
+      const video = document.getElementById('caseVideo');
+      const videoWrap = document.getElementById('caseVideoWrap');
+      const playPause = document.getElementById('casePlayPause');
+      const seek = document.getElementById('caseSeek');
+      const volume = document.getElementById('caseVolume');
+      const current = document.getElementById('caseCurrent');
+      const duration = document.getElementById('caseDuration');
+
+      const formatTime = (seconds) => {
+        if (!Number.isFinite(seconds)) return '0:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
+        return `${mins}:${secs}`;
+      };
+
+      const syncPlayUI = () => {
+        const paused = video.paused;
+        videoWrap.classList.toggle('is-paused', paused);
+        playPause.textContent = paused ? '▶' : '❚❚';
+        playPause.setAttribute('aria-label', paused ? 'Reproducir' : 'Pausar');
+      };
+
+      const openModal = async () => {
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+        video.volume = Number(volume.value);
+        try {
+          video.muted = false;
+          await video.play();
+        } catch (e) {
+          syncPlayUI();
+        }
+        closeBtn.focus();
+      };
+
+      const closeModal = () => {
+        video.pause();
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+        syncPlayUI();
+        openBtn.focus();
+      };
+
+      const togglePlay = () => video.paused ? video.play() : video.pause();
+
+      openBtn.addEventListener('click', openModal);
+      closeBtn.addEventListener('click', closeModal);
+      videoWrap.addEventListener('click', togglePlay);
+      playPause.addEventListener('click', togglePlay);
+
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) closeModal();
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+      });
+
+      video.addEventListener('loadedmetadata', () => {
+        duration.textContent = formatTime(video.duration);
+      });
+
+      video.addEventListener('timeupdate', () => {
+        current.textContent = formatTime(video.currentTime);
+        if (video.duration) seek.value = Math.round((video.currentTime / video.duration) * 1000);
+      });
+
+      seek.addEventListener('input', () => {
+        if (video.duration) video.currentTime = (Number(seek.value) / 1000) * video.duration;
+      });
+
+      volume.addEventListener('input', () => {
+        video.volume = Number(volume.value);
+        video.muted = video.volume === 0;
+      });
+
+      video.addEventListener('play', syncPlayUI);
+      video.addEventListener('pause', syncPlayUI);
+      video.addEventListener('ended', syncPlayUI);
+      syncPlayUI();
+    })();
+
+    (() => {
+      const plans=[...document.querySelectorAll('.price[data-plan]')];
+      const modal=document.getElementById('proposalModal');
+      const card=document.getElementById('proposalCard');
+      const closeBtn=document.getElementById('proposalClose');
+      const planName=document.getElementById('pPlanName');
+      const planPrice=document.getElementById('pPlanPrice');
+      const refsList=document.getElementById('refsList');
+      const refAdd=document.getElementById('refAdd');
+      const business=document.getElementById('pBusiness');
+      const chips=[...document.querySelectorAll('#toolChips .tool-chip')];
+      const rewardDisclosure=document.getElementById('rewardDisclosure');
+      const advancedPanel=document.getElementById('advancedPanel');
+      const rewardPreviewMail=document.getElementById('rewardPreviewMail');
+      const progressFill=document.getElementById('progressFill');
+      const progressLabel=document.getElementById('progressLabel');
+      const rewardLabel=document.getElementById('rewardLabel');
+      const unlockBtn=document.getElementById('unlockNext');
+      const dynamic=document.getElementById('dynamicQuestions');
+      const rMail=document.getElementById('rMail');
+      const rMailTitle=document.getElementById('rMailTitle');
+      const rDomain=document.getElementById('rDomain');
+      const rHosting=document.getElementById('rHosting');
+      const rPixel=document.getElementById('rPixel');
+      const send=document.getElementById('proposalSend');
+
+      let activePlan=null;
+      let shown=0;
+      const selectedTools=new Set();
+      const answers={goal:'',ads:'',infra:''};
+      const earned={domain:false,hosting:false,pixel:false};
+
+      const questions=[
+        {
+          key:'goal',
+          label:'¿Qué quieres que pueda hacer un cliente desde tu web?',
+          html:'<select class="p-select"><option value="">Selecciona</option><option>Ver información</option><option>Pedir cotización</option><option>Agendar</option><option>Pagar</option><option>Comprar</option></select>'
+        },
+        {
+          key:'ads',
+          label:'¿Haces anuncios actualmente?',
+          html:'<select class="p-select"><option value="">Selecciona</option><option>Meta Ads</option><option>Google Ads</option><option>Ambos</option><option>No</option></select>'
+        },
+        {
+          key:'infra',
+          label:'¿Ya tienes dominio y hosting?',
+          html:'<select class="p-select"><option value="">Selecciona</option><option>Tengo ambos</option><option>Solo dominio</option><option>Solo hosting</option><option>No tengo ninguno</option><option>No sé</option></select>'
+        }
+      ];
+
+      function getRefs(){
+        return [...refsList.querySelectorAll('.ref-input')]
+          .map(input=>input.value.trim()).filter(Boolean);
+      }
+
+      function createRefRow(value=''){
+        const row=document.createElement('div');
+        row.className='ref-row';
+        row.innerHTML=`
+          <input class="p-input ref-input" type="url" inputmode="url" placeholder="Instagram, Facebook, sitio web o referencia" value="${value.replace(/"/g,'&quot;')}">
+          <button class="ref-remove" type="button" aria-label="Quitar enlace">×</button>
+        `;
+        const input=row.querySelector('.ref-input');
+        input.addEventListener('input',syncRefAdd);
+        row.querySelector('.ref-remove').addEventListener('click',()=>{
+          row.remove();syncRefAdd();
+        });
+        return row;
+      }
+
+      function resetRefs(){
+        refsList.innerHTML=`
+          <div class="ref-row">
+            <input class="p-input ref-input" type="url" inputmode="url" placeholder="Instagram, Facebook o web">
+          </div>`;
+        refsList.querySelector('.ref-input').addEventListener('input',syncRefAdd);
+        syncRefAdd();
+      }
+
+      function syncRefAdd(){
+        const inputs=[...refsList.querySelectorAll('.ref-input')];
+        const last=inputs.at(-1);
+        refAdd.classList.toggle('is-visible',Boolean(last&&last.value.trim()));
+      }
+
+      refAdd.addEventListener('click',()=>{
+        const row=createRefRow();
+        refsList.appendChild(row);
+        refAdd.classList.remove('is-visible');
+        setTimeout(()=>row.querySelector('.ref-input').focus(),40);
+      });
+
+      function setExpanded(on){
+        card.classList.toggle('is-expanded',on);
+        rewardDisclosure.setAttribute('aria-expanded',String(on));
+        if(on && shown===0){
+          // Open the advanced area, but keep the first extra question opt-in.
+          setTimeout(()=>unlockBtn.focus({preventScroll:true}),260);
+        }
+      }
+
+      rewardDisclosure.addEventListener('click',()=>setExpanded(!card.classList.contains('is-expanded')));
+
+      function lineOn(el,on){
+        const was=el.classList.contains('is-unlocked');
+        el.classList.toggle('is-unlocked',on);
+        if(on&&!was){
+          el.classList.remove('just-unlocked');
+          void el.offsetWidth;
+          el.classList.add('just-unlocked');
+          setTimeout(()=>el.classList.remove('just-unlocked'),650);
+        }
+      }
+
+      function update(){
+        const extraAnswered=[answers.goal,answers.ads,answers.infra].filter(Boolean).length;
+
+        // Rewards never disappear after they have been earned.
+        if(extraAnswered>=1) earned.domain=true;
+        if(extraAnswered>=2) earned.hosting=true;
+        if(['Meta Ads','Google Ads','Ambos'].includes(answers.ads)) earned.pixel=true;
+
+        lineOn(rDomain,earned.domain);
+        lineOn(rHosting,earned.hosting);
+        lineOn(rPixel,earned.pixel);
+
+        const total=1+Number(earned.domain)+Number(earned.hosting)+Number(earned.pixel);
+        progressLabel.textContent=extraAnswered===0?'Datos básicos':`${extraAnswered} de 3 extras respondidos`;
+        rewardLabel.textContent=`${total} beneficio${total===1?'':'s'} incluido${total===1?'':'s'}`;
+        progressFill.style.width=`${extraAnswered===0?24:24+(extraAnswered*25)}%`;
+
+        if(shown>=questions.length){
+          unlockBtn.style.display='none';
+        }else{
+          unlockBtn.style.display='flex';
+          unlockBtn.querySelector('strong').textContent=shown===0
+            ? 'Responder una pregunta extra'
+            : `Responder otra pregunta (${shown+1} de ${questions.length})`;
+        }
+      }
+
+      function collapseQuestion(wrap,key){
+        if(!answers[key]) return false;
+        wrap.innerHTML=`
+          <div style="display:flex;justify-content:space-between;gap:12px;align-items:center">
+            <span style="font-size:10px;color:#777">${wrap.dataset.label}</span>
+            <strong style="font-size:10px">${answers[key]}</strong>
+          </div>`;
+        wrap.dataset.collapsed='1';
+        return true;
+      }
+
+      function revealNext(){
+        const previous=[...dynamic.querySelectorAll('.dynamic-question.is-visible')].at(-1);
+        if(previous && !previous.dataset.collapsed){
+          if(!collapseQuestion(previous,previous.dataset.key)){
+            previous.querySelector('select')?.focus();
+            return;
+          }
+        }
+        if(shown>=questions.length)return;
+
+        const q=questions[shown];
+        const wrap=document.createElement('div');
+        wrap.className='dynamic-question is-visible p-group';
+        wrap.dataset.label=q.label;
+        wrap.dataset.key=q.key;
+        wrap.innerHTML=`<span class="new-badge">Pregunta extra ${shown+1} de ${questions.length}</span><label class="p-label">${q.label}</label>${q.html}`;
+        dynamic.appendChild(wrap);
+        shown++;
+
+        const select=wrap.querySelector('select');
+        select.value=answers[q.key]||'';
+        select.addEventListener('change',()=>{
+          answers[q.key]=select.value;
+          update();
+          if(select.value){
+            setTimeout(()=>unlockBtn.scrollIntoView({behavior:'smooth',block:'nearest'}),120);
+          }
+        });
+
+        update();
+        setTimeout(()=>wrap.scrollIntoView({behavior:'smooth',block:'nearest'}),60);
+      }
+
+      unlockBtn.addEventListener('click',revealNext);
+
+      function open(planCard){
+        activePlan=planCard;
+        shown=0;
+        dynamic.innerHTML='';
+        setExpanded(false);
+
+        selectedTools.clear();
+        chips.forEach(chip=>chip.classList.remove('is-on'));
+        business.value='';
+        answers.goal='';answers.ads='';answers.infra='';
+        earned.domain=false;earned.hosting=false;earned.pixel=false;
+        resetRefs();
+
+        const name=planCard.dataset.name;
+        const price=planCard.dataset.price;
+        const mail=planCard.dataset.mail;
+
+        planName.textContent=name;
+        planPrice.textContent=price.replace(' + IVA','').replace('+ IVA','').trim();
+        rMailTitle.textContent=`${mail} correos gratis el primer año`;
+        rewardPreviewMail.textContent=`✓ ${mail} correos gratis el primer año`;
+        send.textContent='Enviar por WhatsApp →';
+
+        [rDomain,rHosting,rPixel].forEach(el=>el.classList.remove('is-unlocked','just-unlocked'));
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden','false');
+        document.body.classList.add('proposal-open');
+        update();
+
+        setTimeout(()=>refsList.querySelector('.ref-input')?.focus(),180);
+      }
+
+      function close(){
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden','true');
+        document.body.classList.remove('proposal-open');
+      }
+
+      plans.forEach(planCard=>{
+        const btn=planCard.querySelector('.plan-jump');
+        if(btn) btn.addEventListener('click',()=>open(planCard));
+      });
+
+      closeBtn.addEventListener('click',close);
+      modal.addEventListener('click',event=>{if(event.target===modal)close()});
+      document.addEventListener('keydown',event=>{
+        if(event.key==='Escape'&&modal.classList.contains('is-open'))close();
+      });
+
+      chips.forEach(chip=>chip.addEventListener('click',()=>{
+        chip.classList.toggle('is-on');
+        const tool=chip.dataset.tool;
+        chip.classList.contains('is-on')?selectedTools.add(tool):selectedTools.delete(tool);
+      }));
+
+      send.addEventListener('click',()=>{
+        if(!activePlan)return;
+
+        const refs=getRefs();
+        const rewards=[`${activePlan.dataset.mail} correos gratis el primer año`];
+        if(earned.domain) rewards.push('Dominio gratis el primer año');
+        if(earned.hosting) rewards.push('Hosting gratis el primer año');
+        if(earned.pixel) rewards.push('Instalación de Pixel / Google Tag gratis');
+
+        const lines=[
+          'Hola Eder, me interesa cotizar un proyecto web.',
+          '',
+          `Plan seleccionado: ${activePlan.dataset.name} — ${activePlan.dataset.price}`,
+          refs.length?'Enlaces / referencias:':'',
+          ...refs.map((ref,index)=>`  ${index+1}. ${ref}`),
+          business.value.trim()?`Qué vendo / cómo me compran: ${business.value.trim()}`:'',
+          selectedTools.size?`Me interesa incluir: ${[...selectedTools].join(', ')}`:'',
+          answers.goal?`Quiero que el cliente pueda: ${answers.goal}`:'',
+          answers.ads?`Anuncios actuales: ${answers.ads}`:'',
+          answers.infra?`Dominio / hosting: ${answers.infra}`:'',
+          `Extras gratis: ${rewards.join(', ')}`
+        ].filter(Boolean);
+
+        window.open(`https://wa.me/523314609228?text=${encodeURIComponent(lines.join('\n'))}`,'_blank','noopener,noreferrer');
+      });
+
+      resetRefs();
+      update();
+    })();;
+
+    (() => {
+      const loops = document.querySelectorAll('.case-loop-video');
+      const fullBtn = document.getElementById('openCaseVideoSecondary');
+      const heroBtn = document.getElementById('openCaseVideo');
+
+      loops.forEach((video) => {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) video.play().catch(() => {});
+            else video.pause();
+          });
+        }, { threshold: .35 });
+        observer.observe(video);
+      });
+
+      if (fullBtn && heroBtn) fullBtn.addEventListener('click', () => heroBtn.click());
+    })();
+  </script>
+
+</body>
+</html>
+
+
+
