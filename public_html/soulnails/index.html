@@ -167,8 +167,8 @@
     .features-list{border-top:1px solid var(--line)}
     .feature-line{display:grid;grid-template-columns:44px 1fr minmax(220px,.8fr);gap:14px;padding:22px 0;border-bottom:1px solid var(--line);align-items:start}
     .feature-line .idx{color:var(--accent-2);font-size:11px;font-weight:900;letter-spacing:.1em;padding-top:3px}.feature-line strong{font-size:17px}.feature-line p{margin:0;color:var(--muted);font-size:14px}
-    .feature-line{width:100%;border-left:0;border-right:0;border-top:0;background:transparent;text-align:left;font:inherit;color:inherit;cursor:pointer}
-    .feature-line:hover{background:rgba(102,194,173,.06)}
+    .feature-line{width:100%;border-left:0;border-right:0;border-top:0;background:transparent;text-align:left;font:inherit;color:inherit}
+    .whatsapp-float{position:fixed;right:22px;bottom:22px;z-index:220;width:62px;height:62px;border-radius:50%;display:grid;place-items:center;background:#121412;border:2px solid #8ee0cc;box-shadow:0 14px 34px rgba(0,0,0,.26);transition:transform .2s ease,box-shadow .2s ease}.whatsapp-float:hover{transform:translateY(-3px);box-shadow:0 20px 42px rgba(0,0,0,.34)}.whatsapp-float img{width:43px;height:43px;object-fit:contain;border-radius:50%}
 
     .demo-modal{position:fixed;inset:0;z-index:240;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(11,13,12,.72);backdrop-filter:blur(10px)}
     .demo-modal.is-open{display:flex}
@@ -523,6 +523,7 @@
       .about-video-wrap{padding:12px}
       .about-points{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
       .about-chip{padding:9px 10px;font-size:11px;white-space:normal}
+      .whatsapp-float{right:16px;bottom:16px;width:56px;height:56px}.whatsapp-float img{width:39px;height:39px}
       .process-audio-list{gap:10px;margin-top:20px;padding-bottom:10px}
       .process-audio-card{padding:11px;flex-basis:min(76vw,250px)}
       .price-grid{margin-top:34px}
@@ -788,10 +789,10 @@
           </div>
         </div>
         <div class="features-list" style="margin-top:48px">
-          <button class="feature-line" type="button" data-demo="agenda"><span class="idx">01</span><strong>Agenda</strong><p>Disponibilidad, horarios, bloqueos, reagendas y citas en un solo flujo.</p></button>
-          <button class="feature-line" type="button" data-demo="cobros"><span class="idx">02</span><strong>Cobros</strong><p>Anticipos o pago completo con tarjeta según cómo funciona tu negocio.</p></button>
-          <button class="feature-line" type="button" data-demo="operacion"><span class="idx">03</span><strong>Operación</strong><p>Clientes, servicios, citas y administración organizados desde tu panel.</p></button>
-          <button class="feature-line" type="button" data-demo="automatizacion"><span class="idx">04</span><strong>Automatización</strong><p>Confirmaciones, recordatorios e integraciones para quitar trabajo manual.</p></button>
+          <div class="feature-line"><span class="idx">01</span><strong>Agenda</strong><p>Disponibilidad, horarios, bloqueos, reagendas y citas en un solo flujo.</p></div>
+          <div class="feature-line"><span class="idx">02</span><strong>Cobros</strong><p>Anticipos o pago completo con tarjeta según cómo funciona tu negocio.</p></div>
+          <div class="feature-line"><span class="idx">03</span><strong>Operación</strong><p>Clientes, servicios, citas y administración organizados desde tu panel.</p></div>
+          <div class="feature-line"><span class="idx">04</span><strong>Automatización</strong><p>Confirmaciones, recordatorios e integraciones para quitar trabajo manual.</p></div>
         </div>
       </div>
     </section>
@@ -1048,6 +1049,10 @@
     </div>
   </div>
 
+  <a class="whatsapp-float" href="https://wa.me/523314609228?text=Hola%20Eder%2C%20quiero%20platicar%20sobre%20mi%20negocio." target="_blank" rel="noopener" aria-label="Escribir a Eder por WhatsApp">
+    <img src="whatsapp-logo.png" alt="WhatsApp">
+  </a>
+
   <audio id="uiClickSound" preload="auto" aria-hidden="true">
     <source src="ui-click.mp3" type="audio/mpeg">
   </audio>
@@ -1059,7 +1064,7 @@
 
       clickSound.volume = 0.32;
       document.addEventListener('click', (event) => {
-        if (!event.target.closest('button')) return;
+        if (!event.target.closest('button, a[href], [role="button"]')) return;
         clickSound.currentTime = 0;
         clickSound.play().catch(() => {});
       });
@@ -1067,12 +1072,16 @@
 
     (() => {
       const audios = Array.from(document.querySelectorAll('.process-audio-card audio'));
+      const videos = Array.from(document.querySelectorAll('video'));
       if (!audios.length) return;
 
       audios.forEach((audio, index) => {
         audio.addEventListener('play', () => {
           audios.forEach((other) => {
             if (other !== audio) other.pause();
+          });
+          videos.forEach((video) => {
+            if (!video.paused && !video.muted && video.volume > 0) video.pause();
           });
         });
 
@@ -1086,6 +1095,13 @@
           } catch (error) {
             // Browser autoplay rules can block this if the first play was not user initiated.
           }
+        });
+      });
+
+      videos.forEach((video) => {
+        video.addEventListener('play', () => {
+          if (video.muted || video.volume === 0) return;
+          audios.forEach((audio) => audio.pause());
         });
       });
     })();
